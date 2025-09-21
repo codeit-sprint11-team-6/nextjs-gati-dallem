@@ -1,1 +1,9 @@
-// # /signup (이름/회사/이메일 중복/비번/비번확인)
+// src/app/(auth)/signup/page.tsx
+
+export default function Page() {
+  return (
+    <main className="p-6">
+      <h1 className="text-xl font-semibold">회원가입</h1>
+    </main>
+  );
+}
