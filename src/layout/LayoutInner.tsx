@@ -1,4 +1,3 @@
-import "./globals.css";
 import MainNav from "./Header";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
