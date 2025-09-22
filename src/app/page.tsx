@@ -15,54 +15,84 @@ export default function Home() {
         {/* 타이포그래피 시스템 */}
         <div className="card p-8 mb-8">
           <h2 className="heading-2 mb-6">타이포그래피 시스템</h2>
+          <p className="body-regular text-gray-600 mb-8">
+            Figma 디자인 시스템과 정확히 일치하는 타이포그래피 스펙
+          </p>
           
-          <div className="space-y-6">
+          <div className="space-y-8">
+            {/* Pretendard 폰트 시스템 */}
             <div>
-              <h1 className="heading-1 mb-2">Heading 1 - Main Title</h1>
-              <p className="caption">heading-1 class</p>
+              <h3 className="heading-3 mb-4 text-purple-700">Pretendard 폰트 시스템</h3>
+              <div className="space-y-6">
+                <div>
+                  <h1 className="heading-1 mb-2">Heading 1 - Main Title</h1>
+                  <p className="caption">heading-1 class • 30px / 36px • font-extrabold</p>
+                </div>
+                
+                <div>
+                  <h2 className="heading-2 mb-2">Heading 2 - Section Title</h2>
+                  <p className="caption">heading-2 class • 24px / 32px • font-bold</p>
+                </div>
+                
+                <div>
+                  <h3 className="heading-3 mb-2">Heading 3 - Subsection</h3>
+                  <p className="caption">heading-3 class • 20px / 28px • font-semibold</p>
+                </div>
+                
+                <div>
+                  <h4 className="heading-4 mb-2">Heading 4 - Card Title</h4>
+                  <p className="caption">heading-4 class • 18px / 28px • font-semibold</p>
+                </div>
+                
+                <div>
+                  <p className="body-large mb-2">Body Large - Important content with medium weight</p>
+                  <p className="caption">body-large class • 18px / 28px • font-medium</p>
+                </div>
+                
+                <div>
+                  <p className="body-regular mb-2">Body Regular - Standard paragraph text with normal weight</p>
+                  <p className="caption">body-regular class • 16px / 24px • font-normal</p>
+                </div>
+                
+                <div>
+                  <p className="body-small mb-2">Body Small - Secondary information</p>
+                  <p className="caption">body-small class • 14px / 20px • font-normal</p>
+                </div>
+                
+                <div>
+                  <p className="caption">Caption - Small helper text</p>
+                  <p className="caption">caption class • 12px / 16px • font-normal</p>
+                </div>
+              </div>
             </div>
-            
+
+            {/* Tenada 폰트 시스템 */}
             <div>
-              <h2 className="heading-2 mb-2">Heading 2 - Section Title</h2>
-              <p className="caption">heading-2 class</p>
+              <h3 className="heading-3 mb-4 text-pink-700">Tenada 폰트 시스템</h3>
+              <div className="space-y-6">
+                <div>
+                  <p className="tenada mb-2">Tenada</p>
+                  <p className="caption">tenada class • 24px / 30px • font-extrabold • letter-spacing: -1.44px</p>
+                </div>
+              </div>
             </div>
-            
+
+            {/* 폰트 비교 */}
             <div>
-              <h3 className="heading-3 mb-2">Heading 3 - Subsection</h3>
-              <p className="caption">heading-3 class</p>
-            </div>
-            
-            <div>
-              <h4 className="heading-4 mb-2">Heading 4 - Small Title</h4>
-              <p className="caption">heading-4 class</p>
-            </div>
-            
-            <div>
-              <p className="body-large mb-2">
-                Body Large - Large body text for important content.
-              </p>
-              <p className="caption">body-large class</p>
-            </div>
-            
-            <div>
-              <p className="body-regular mb-2">
-                Body Regular - Standard body text for most content.
-              </p>
-              <p className="caption">body-regular class</p>
-      </div>
-      
-            <div>
-              <p className="body-small mb-2">
-                Body Small - Small body text for additional information.
-              </p>
-              <p className="caption">body-small class</p>
-            </div>
-            
-            <div>
-              <p className="caption">
-                Caption - Caption text for image descriptions or small labels.
-              </p>
-              <p className="caption">caption class</p>
+              <h3 className="heading-3 mb-4 text-green-700">폰트 비교</h3>
+              <div className="space-y-4">
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <p className="heading-2 mb-2">Pretendard Heading 2</p>
+                  <p className="tenada mb-2">Tenada</p>
+                  <p className="caption">비슷한 크기 (24px vs 24px), 다른 폰트 패밀리와 스타일</p>
+                </div>
+                
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <p className="heading-4 mb-2">Pretendard Heading 4</p>
+                  <p className="tenada mb-2">Tenada</p>
+                  <p className="caption">다른 크기 (18px vs 24px), 다른 폰트 패밀리와 웨이트</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
