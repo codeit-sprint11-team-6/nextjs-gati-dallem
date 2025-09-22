@@ -133,8 +133,8 @@ export default function Home() {
         {/* OKLCH vs HEX 비교 */}
         <div className="card p-8 mb-8">
           <h2 className="heading-2 mb-6">OKLCH vs HEX 컬러 비교</h2>
-          
-          <div className="mb-8">
+        
+        <div className="mb-8">
             <h3 className="heading-3 mb-4">컬러 시스템 비교</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-gray-50 p-6 rounded-lg">
@@ -183,146 +183,150 @@ export default function Home() {
             </div>
           </div>
         </div>
-
+        
         {/* 컬러 팔레트 테스트 */}
         <div className="card p-8 mb-8">
-          <h2 className="heading-2 mb-6">Figma 기준 HEX 컬러 팔레트</h2>
+          <h2 className="heading-2 mb-6">OKLCH 컬러 팔레트 (인지적 균일성)</h2>
           
-          {/* 메인 브랜드 컬러 - Green (Figma 기준) */}
+          {/* 메인 브랜드 컬러 - Purple (OKLCH) */}
         <div className="mb-8">
-            <h3 className="heading-3 mb-4 text-green-700">Green (메인 브랜드 - Figma 기준)</h3>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-              <div className="bg-green-50 p-3 rounded-lg text-center border border-green-100">
-                <div className="text-green-900 font-bold text-sm mb-1">50</div>
-                <div className="text-green-600 caption text-xs">#DFFAEB</div>
-              </div>
-              <div className="bg-green-100 p-3 rounded-lg text-center border border-green-200">
-                <div className="text-green-900 font-bold text-sm mb-1">100</div>
-                <div className="text-green-600 caption text-xs">#C5F1D9</div>
-              </div>
-              <div className="bg-green-300 p-3 rounded-lg text-center border border-green-400">
-                <div className="text-green-900 font-bold text-sm mb-1">300</div>
-                <div className="text-green-600 caption text-xs">#8D96F6</div>
-              </div>
-              <div className="bg-green-500 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">500</div>
-                <div className="caption opacity-80 text-xs">#00BB86</div>
-              </div>
-              <div className="bg-green-700 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">700</div>
-                <div className="caption opacity-80 text-xs">#0C7665</div>
-          </div>
-        </div>
-      </div>
-      
-          {/* 보조 브랜드 컬러 - Blue (Figma 기준) */}
-          <div className="mb-8">
-            <h3 className="heading-3 mb-4 text-blue-700">Blue (보조 브랜드 - Figma 기준)</h3>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-              <div className="bg-blue-50 p-3 rounded-lg text-center border border-blue-100">
-                <div className="text-blue-900 font-bold text-sm mb-1">50</div>
-                <div className="text-blue-600 caption text-xs">#D6F9FF</div>
-              </div>
-              <div className="bg-blue-100 p-3 rounded-lg text-center border border-blue-200">
-                <div className="text-blue-900 font-bold text-sm mb-1">100</div>
-                <div className="text-blue-600 caption text-xs">#D6F9FF</div>
-              </div>
-              <div className="bg-blue-300 p-3 rounded-lg text-center border border-blue-400">
-                <div className="text-blue-900 font-bold text-sm mb-1">300</div>
-                <div className="text-blue-600 caption text-xs">#D6F9FF</div>
-              </div>
-              <div className="bg-blue-500 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">500</div>
-                <div className="caption opacity-80 text-xs">#2099FD</div>
-              </div>
-              <div className="bg-blue-700 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">700</div>
-                <div className="caption opacity-80 text-xs">#337AFF</div>
-              </div>
-            </div>
-          </div>
-
-          {/* 특별 컬러 - Purple (Figma 기준) */}
-          <div className="mb-8">
-            <h3 className="heading-3 mb-4 text-purple-700">Purple (특별 컬러 - Figma 기준)</h3>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-              <div className="bg-purple-50 p-3 rounded-lg text-center border border-purple-100">
-                <div className="text-purple-900 font-bold text-sm mb-1">50</div>
-                <div className="text-purple-600 caption text-xs">#C3C8FA</div>
-              </div>
+            <h3 className="heading-3 mb-4 text-purple-700">Purple (메인 브랜드 - OKLCH)</h3>
+            <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
               <div className="bg-purple-100 p-3 rounded-lg text-center border border-purple-200">
                 <div className="text-purple-900 font-bold text-sm mb-1">100</div>
-                <div className="text-purple-600 caption text-xs">#A8AFF8</div>
+                <div className="text-purple-600 caption text-xs">oklch(0.946 0.033 307.174)</div>
+              </div>
+              <div className="bg-purple-200 p-3 rounded-lg text-center border border-purple-300">
+                <div className="text-purple-900 font-bold text-sm mb-1">200</div>
+                <div className="text-purple-600 caption text-xs">oklch(0.902 0.063 306.703)</div>
               </div>
               <div className="bg-purple-300 p-3 rounded-lg text-center border border-purple-400">
                 <div className="text-purple-900 font-bold text-sm mb-1">300</div>
-                <div className="text-purple-600 caption text-xs">#8D96F6</div>
+                <div className="text-purple-600 caption text-xs">oklch(0.827 0.119 306.383)</div>
               </div>
               <div className="bg-purple-500 p-3 rounded-lg text-center text-white">
                 <div className="font-bold text-sm mb-1">500</div>
-                <div className="caption opacity-80 text-xs">#5865F2</div>
+                <div className="caption opacity-80 text-xs">oklch(0.714 0.203 305.504)</div>
               </div>
-              <div className="bg-purple-700 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">700</div>
-                <div className="caption opacity-80 text-xs">#38419B</div>
+              <div className="bg-purple-600 p-3 rounded-lg text-center text-white">
+                <div className="font-bold text-sm mb-1">600</div>
+                <div className="caption opacity-80 text-xs">oklch(0.651 0.215 304.123)</div>
               </div>
-            </div>
-          </div>
-
-          {/* 특별 컬러 - Pink (Figma 기준) */}
-          <div className="mb-8">
-            <h3 className="heading-3 mb-4 text-pink-700">Pink (특별 컬러 - Figma 기준)</h3>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-              <div className="bg-pink-50 p-3 rounded-lg text-center border border-pink-100">
-                <div className="text-pink-900 font-bold text-sm mb-1">50</div>
-                <div className="text-pink-600 caption text-xs">#FFBFEF</div>
-              </div>
-              <div className="bg-pink-100 p-3 rounded-lg text-center border border-pink-200">
-                <div className="text-pink-900 font-bold text-sm mb-1">100</div>
-                <div className="text-pink-600 caption text-xs">#FFBFEF</div>
-              </div>
-              <div className="bg-pink-300 p-3 rounded-lg text-center border border-pink-400">
-                <div className="text-pink-900 font-bold text-sm mb-1">300</div>
-                <div className="text-pink-600 caption text-xs">#FF4CD2</div>
-              </div>
-              <div className="bg-pink-500 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">500</div>
-                <div className="caption opacity-80 text-xs">#FF4CD2</div>
-              </div>
-              <div className="bg-pink-700 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">700</div>
-                <div className="caption opacity-80 text-xs">#E043B9</div>
+              <div className="bg-purple-800 p-3 rounded-lg text-center text-white">
+                <div className="font-bold text-sm mb-1">800</div>
+                <div className="caption opacity-80 text-xs">oklch(0.438 0.218 303.724)</div>
           </div>
         </div>
       </div>
       
-          {/* 그레이 스케일 (Figma 기준) */}
+          {/* 메인 브랜드 컬러 - Pink (OKLCH) */}
           <div className="mb-8">
-            <h3 className="heading-3 mb-4 text-gray-700">Gray (중성 컬러 - Figma 기준)</h3>
-            <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
+            <h3 className="heading-3 mb-4 text-pink-700">Pink (메인 브랜드 - OKLCH)</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <div className="bg-pink-100 p-3 rounded-lg text-center border border-pink-200">
+                <div className="text-pink-900 font-bold text-sm mb-1">100</div>
+                <div className="text-pink-600 caption text-xs">oklch(0.948 0.028 342.258)</div>
+              </div>
+              <div className="bg-pink-500 p-3 rounded-lg text-center text-white">
+                <div className="font-bold text-sm mb-1">500</div>
+                <div className="caption opacity-80 text-xs">oklch(0.718 0.202 349.761)</div>
+              </div>
+              <div className="bg-pink-600 p-3 rounded-lg text-center text-white">
+                <div className="font-bold text-sm mb-1">600</div>
+                <div className="caption opacity-80 text-xs">oklch(0.651 0.215 350.123)</div>
+              </div>
+            </div>
+          </div>
+
+          {/* 보조 컬러 - Green (OKLCH) */}
+          <div className="mb-8">
+            <h3 className="heading-3 mb-4 text-green-700">Green (보조 컬러 - OKLCH)</h3>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+              <div className="bg-green-50 p-3 rounded-lg text-center border border-green-100">
+                <div className="text-green-900 font-bold text-sm mb-1">50</div>
+                <div className="text-green-600 caption text-xs">oklch(0.982 0.018 155.826)</div>
+              </div>
+              <div className="bg-green-100 p-3 rounded-lg text-center border border-green-200">
+                <div className="text-green-900 font-bold text-sm mb-1">100</div>
+                <div className="text-green-600 caption text-xs">oklch(0.962 0.044 156.743)</div>
+              </div>
+              <div className="bg-green-300 p-3 rounded-lg text-center border border-green-400">
+                <div className="text-green-900 font-bold text-sm mb-1">300</div>
+                <div className="text-green-600 caption text-xs">oklch(0.871 0.15 154.449)</div>
+              </div>
+              <div className="bg-green-500 p-3 rounded-lg text-center text-white">
+                <div className="font-bold text-sm mb-1">500</div>
+                <div className="caption opacity-80 text-xs">oklch(0.707 0.209 151.711)</div>
+              </div>
+              <div className="bg-green-700 p-3 rounded-lg text-center text-white">
+                <div className="font-bold text-sm mb-1">700</div>
+                <div className="caption opacity-80 text-xs">oklch(0.527 0.154 150.069)</div>
+              </div>
+            </div>
+          </div>
+
+          {/* 보조 컬러 - Blue (OKLCH) */}
+          <div className="mb-8">
+            <h3 className="heading-3 mb-4 text-blue-700">Blue (보조 컬러 - OKLCH)</h3>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+              <div className="bg-blue-50 p-3 rounded-lg text-center border border-blue-100">
+                <div className="text-blue-900 font-bold text-sm mb-1">50</div>
+                <div className="text-blue-600 caption text-xs">oklch(0.97 0.014 254.604)</div>
+              </div>
+              <div className="bg-blue-100 p-3 rounded-lg text-center border border-blue-200">
+                <div className="text-blue-900 font-bold text-sm mb-1">100</div>
+                <div className="text-blue-600 caption text-xs">oklch(0.932 0.032 255.585)</div>
+              </div>
+              <div className="bg-blue-300 p-3 rounded-lg text-center border border-blue-400">
+                <div className="text-blue-900 font-bold text-sm mb-1">300</div>
+                <div className="text-blue-600 caption text-xs">oklch(0.809 0.105 251.813)</div>
+              </div>
+              <div className="bg-blue-500 p-3 rounded-lg text-center text-white">
+                <div className="font-bold text-sm mb-1">500</div>
+                <div className="caption opacity-80 text-xs">oklch(0.651 0.215 254.123)</div>
+              </div>
+              <div className="bg-blue-700 p-3 rounded-lg text-center text-white">
+                <div className="font-bold text-sm mb-1">700</div>
+                <div className="caption opacity-80 text-xs">oklch(0.488 0.243 264.376)</div>
+          </div>
+        </div>
+      </div>
+      
+          {/* 그레이 스케일 (OKLCH) */}
+          <div className="mb-8">
+            <h3 className="heading-3 mb-4 text-gray-700">Gray (중성 컬러 - OKLCH)</h3>
+            <div className="grid grid-cols-2 md:grid-cols-8 gap-3">
               <div className="bg-gray-50 p-3 rounded-lg text-center border border-gray-100">
                 <div className="text-gray-900 font-bold text-sm mb-1">50</div>
-                <div className="text-gray-600 caption text-xs">#EEEEEE</div>
+                <div className="text-gray-600 caption text-xs">oklch(0.985 0.002 247.839)</div>
               </div>
               <div className="bg-gray-100 p-3 rounded-lg text-center border border-gray-200">
                 <div className="text-gray-900 font-bold text-sm mb-1">100</div>
-                <div className="text-gray-600 caption text-xs">#DDDDDD</div>
+                <div className="text-gray-600 caption text-xs">oklch(0.967 0.003 264.542)</div>
+              </div>
+              <div className="bg-gray-200 p-3 rounded-lg text-center border border-gray-300">
+                <div className="text-gray-900 font-bold text-sm mb-1">200</div>
+                <div className="text-gray-600 caption text-xs">oklch(0.928 0.006 264.531)</div>
               </div>
               <div className="bg-gray-300 p-3 rounded-lg text-center border border-gray-400">
                 <div className="text-gray-900 font-bold text-sm mb-1">300</div>
-                <div className="text-gray-600 caption text-xs">#BBBBBB</div>
+                <div className="text-gray-600 caption text-xs">oklch(0.872 0.01 258.338)</div>
               </div>
               <div className="bg-gray-500 p-3 rounded-lg text-center text-white">
                 <div className="font-bold text-sm mb-1">500</div>
-                <div className="caption opacity-80 text-xs">#737373</div>
+                <div className="caption opacity-80 text-xs">oklch(0.551 0.027 264.364)</div>
+              </div>
+              <div className="bg-gray-600 p-3 rounded-lg text-center text-white">
+                <div className="font-bold text-sm mb-1">600</div>
+                <div className="caption opacity-80 text-xs">oklch(0.446 0.03 256.802)</div>
               </div>
               <div className="bg-gray-700 p-3 rounded-lg text-center text-white">
                 <div className="font-bold text-sm mb-1">700</div>
-                <div className="caption opacity-80 text-xs">#333333</div>
+                <div className="caption opacity-80 text-xs">oklch(0.373 0.034 259.733)</div>
               </div>
-              <div className="bg-gray-900 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">900</div>
-                <div className="caption opacity-80 text-xs">#191919</div>
+              <div className="bg-gray-800 p-3 rounded-lg text-center text-white">
+                <div className="font-bold text-sm mb-1">800</div>
+                <div className="caption opacity-80 text-xs">oklch(0.278 0.033 256.848)</div>
               </div>
         </div>
       </div>
