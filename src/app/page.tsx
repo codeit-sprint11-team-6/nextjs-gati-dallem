@@ -2,511 +2,665 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-green p-8">
       <div className="container-custom">
-        {/* 메인 헤더 */}
+        {/* Main Header */}
         <div className="text-center mb-12">
           <h1 className="heading-1 text-gradient-purple-pink mb-4">
-            11기 6조 디자인 시스템
+            Design System
           </h1>
           <p className="body-large text-gray-600">
-            Tailwind CSS v4 + OKLCH 컬러 + 완전한 컴포넌트 시스템
+            Tailwind CSS v4 + OKLCH Colors + Complete Component System
           </p>
         </div>
 
-        {/* 타이포그래피 시스템 테스트 */}
+        {/* 타이포그래피 시스템 */}
         <div className="card p-8 mb-8">
           <h2 className="heading-2 mb-6">타이포그래피 시스템</h2>
           
           <div className="space-y-6">
             <div>
-              <h1 className="heading-1 mb-2">Heading 1 - 가장 큰 제목</h1>
-              <p className="caption">heading-1 클래스 사용</p>
+              <h1 className="heading-1 mb-2">Heading 1 - Main Title</h1>
+              <p className="caption">heading-1 class</p>
             </div>
             
             <div>
-              <h2 className="heading-2 mb-2">Heading 2 - 섹션 제목</h2>
-              <p className="caption">heading-2 클래스 사용</p>
+              <h2 className="heading-2 mb-2">Heading 2 - Section Title</h2>
+              <p className="caption">heading-2 class</p>
             </div>
             
             <div>
-              <h3 className="heading-3 mb-2">Heading 3 - 서브 섹션</h3>
-              <p className="caption">heading-3 클래스 사용</p>
+              <h3 className="heading-3 mb-2">Heading 3 - Subsection</h3>
+              <p className="caption">heading-3 class</p>
             </div>
             
             <div>
-              <h4 className="heading-4 mb-2">Heading 4 - 작은 제목</h4>
-              <p className="caption">heading-4 클래스 사용</p>
+              <h4 className="heading-4 mb-2">Heading 4 - Small Title</h4>
+              <p className="caption">heading-4 class</p>
             </div>
             
             <div>
               <p className="body-large mb-2">
-                Body Large - 큰 본문 텍스트입니다. 중요한 내용을 강조할 때 사용합니다.
+                Body Large - Large body text for important content.
               </p>
-              <p className="caption">body-large 클래스 사용</p>
+              <p className="caption">body-large class</p>
             </div>
             
             <div>
               <p className="body-regular mb-2">
-                Body Regular - 일반적인 본문 텍스트입니다. 대부분의 내용에 사용하는 기본 텍스트입니다.
+                Body Regular - Standard body text for most content.
               </p>
-              <p className="caption">body-regular 클래스 사용</p>
+              <p className="caption">body-regular class</p>
       </div>
       
             <div>
               <p className="body-small mb-2">
-                Body Small - 작은 본문 텍스트입니다. 부가 정보나 설명에 사용합니다.
+                Body Small - Small body text for additional information.
               </p>
-              <p className="caption">body-small 클래스 사용</p>
+              <p className="caption">body-small class</p>
             </div>
             
             <div>
               <p className="caption">
-                Caption - 캡션 텍스트입니다. 이미지 설명이나 작은 라벨에 사용합니다.
+                Caption - Caption text for image descriptions or small labels.
               </p>
-              <p className="caption">caption 클래스 사용</p>
+              <p className="caption">caption class</p>
             </div>
           </div>
         </div>
         
-        {/* 버튼 시스템 테스트 */}
+        {/* 버튼 시스템 */}
         <div className="card p-8 mb-8">
           <h2 className="heading-2 mb-6">버튼 시스템</h2>
           
-          <div className="space-y-6">
+          <div className="space-y-8">
+            {/* 기본 버튼들 */}
             <div>
-              <h3 className="heading-3 mb-4">기본 버튼들</h3>
+              <h3 className="heading-3 mb-4">기본 버튼 스타일</h3>
               <div className="flex gap-4 flex-wrap">
-                <button className="btn-primary">Primary Button</button>
-                <button className="btn-secondary">Secondary Button</button>
-                <button className="btn-gradient">Gradient Button</button>
-                <button className="btn-outline">Outline Button</button>
+                <button className="btn-primary">Primary</button>
+                <button className="btn-secondary">Secondary</button>
+                <button className="btn-gradient">Gradient</button>
+                <button className="btn-outline">Outline</button>
               </div>
             </div>
             
+            {/* 버튼 크기 */}
             <div>
-              <h3 className="heading-3 mb-4">버튼 크기 변형</h3>
+              <h3 className="heading-3 mb-4">버튼 크기</h3>
               <div className="flex gap-4 items-center flex-wrap">
+                <button className="btn-primary text-xs px-2 py-1">XS</button>
                 <button className="btn-primary text-sm px-3 py-1.5">Small</button>
                 <button className="btn-primary">Medium</button>
                 <button className="btn-primary text-lg px-6 py-3">Large</button>
+                <button className="btn-primary text-xl px-8 py-4">XL</button>
+              </div>
+            </div>
+
+            {/* 컬러 변형 */}
+            <div>
+              <h3 className="heading-3 mb-4">컬러 변형</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <button className="btn bg-purple-500 hover:bg-purple-600 text-white">Purple</button>
+                <button className="btn bg-pink-500 hover:bg-pink-600 text-white">Pink</button>
+                <button className="btn bg-green-500 hover:bg-green-600 text-white">Green</button>
+                <button className="btn bg-blue-500 hover:bg-blue-600 text-white">Blue</button>
+              </div>
+            </div>
+
+            {/* 상태별 버튼 */}
+            <div>
+              <h3 className="heading-3 mb-4">상태별 버튼</h3>
+              <div className="flex gap-4 flex-wrap">
+                <button className="btn-primary">Normal</button>
+                <button className="btn-primary hover:scale-105 transition-transform">Hover</button>
+                <button className="btn-primary opacity-50 cursor-not-allowed" disabled>Disabled</button>
+                <button className="btn-primary animate-pulse">Loading</button>
+              </div>
+            </div>
+
+            {/* 아이콘 버튼 */}
+            <div>
+              <h3 className="heading-3 mb-4">아이콘 버튼</h3>
+              <div className="flex gap-4 flex-wrap">
+                <button className="btn-primary flex items-center gap-2">
+                  <span>+</span> Add Item
+                </button>
+                <button className="btn-secondary flex items-center gap-2">
+                  <span>→</span> Continue
+                </button>
+                <button className="btn-outline flex items-center gap-2">
+                  <span>×</span> Cancel
+                </button>
+                <button className="btn-gradient flex items-center gap-2">
+                  <span>★</span> Favorite
+                </button>
+              </div>
+            </div>
+
+            {/* 그라데이션 버튼 */}
+            <div>
+              <h3 className="heading-3 mb-4">그라데이션 버튼</h3>
+              <div className="flex gap-4 flex-wrap">
+                <button className="btn bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600">
+                  Purple-Pink
+                </button>
+                <button className="btn bg-gradient-to-r from-green-400 to-blue-500 text-white hover:from-green-500 hover:to-blue-600">
+                  Green-Blue
+                </button>
+                <button className="btn bg-gradient-to-r from-blue-400 to-purple-500 text-white hover:from-blue-500 hover:to-purple-600">
+                  Blue-Purple
+                </button>
+                <button className="btn bg-gradient-to-r from-pink-400 to-purple-500 text-white hover:from-pink-500 hover:to-purple-600">
+                  Pink-Purple
+                </button>
+              </div>
+            </div>
+
+            {/* 특수 효과 버튼 */}
+            <div>
+              <h3 className="heading-3 mb-4">특수 효과 버튼</h3>
+              <div className="flex gap-4 flex-wrap">
+                <button className="btn-primary shadow-lg hover:shadow-xl transition-shadow">
+                  Shadow
+                </button>
+                <button className="btn-secondary border-2 border-transparent hover:border-pink-300 transition-colors">
+                  Border
+                </button>
+                <button className="btn-outline hover:bg-gray-50 transition-colors">
+                  Smooth
+                </button>
+                <button className="btn-gradient hover:scale-105 transition-transform shadow-glow">
+                  Glow
+                </button>
+              </div>
+            </div>
+
+            {/* 버튼 그룹 */}
+            <div>
+              <h3 className="heading-3 mb-4">버튼 그룹</h3>
+              <div className="flex gap-0">
+                <button className="btn-outline rounded-l-lg rounded-r-none border-r-0">Left</button>
+                <button className="btn-outline rounded-none border-r-0">Middle</button>
+                <button className="btn-outline rounded-r-lg rounded-l-none">Right</button>
               </div>
             </div>
           </div>
         </div>
         
-        {/* 카드 시스템 테스트 */}
+        {/* 카드 시스템 */}
         <div className="mb-8">
           <h2 className="heading-2 mb-6">카드 시스템</h2>
           
           <div className="grid grid-auto-fit gap-6">
             <div className="card p-6">
-              <h3 className="heading-3 mb-3">기본 카드</h3>
+              <h3 className="heading-3 mb-3">Basic Card</h3>
               <p className="body-regular mb-4">
-                기본 카드 컴포넌트입니다. 깔끔한 그림자와 테두리가 적용되어 있습니다.
+                Basic card component with clean shadow and border styling.
               </p>
               <div className="flex-end">
-                <button className="btn-primary">액션</button>
+                <button className="btn-primary">Action</button>
               </div>
             </div>
             
             <div className="card-hover p-6">
-              <h3 className="heading-3 mb-3">호버 카드</h3>
+              <h3 className="heading-3 mb-3">Hover Card</h3>
               <p className="body-regular mb-4">
-                마우스를 올리면 부드러운 애니메이션이 적용됩니다. 위로 살짝 떠오르는 효과를 확인해보세요.
+                Card with smooth hover animation and lift effect.
               </p>
               <div className="flex-end">
-                <button className="btn-secondary">액션</button>
+                <button className="btn-secondary">Action</button>
               </div>
             </div>
             
             <div className="card-gradient p-6">
-              <h3 className="heading-3 mb-3">그라데이션 카드</h3>
+              <h3 className="heading-3 mb-3">Gradient Card</h3>
               <p className="body-regular mb-4">
-                브랜드 그라데이션이 적용된 카드입니다. 호버 시 더욱 역동적인 효과를 보여줍니다.
+                Card with brand gradient background and dynamic hover effects.
               </p>
               <div className="flex-end">
-                <button className="btn-outline">액션</button>
+                <button className="btn-outline">Action</button>
               </div>
             </div>
           </div>
         </div>
         
-        {/* OKLCH vs HEX 비교 */}
+        {/* 컬러 시스템 */}
         <div className="card p-8 mb-8">
-          <h2 className="heading-2 mb-6">OKLCH vs HEX 컬러 비교</h2>
-        
-        <div className="mb-8">
-            <h3 className="heading-3 mb-4">컬러 시스템 비교</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <h4 className="font-semibold text-gray-800 mb-3">HEX 컬러 (현재 사용)</h4>
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gray-100 rounded border"></div>
-                    <code className="text-gray-600">#DDDDDD</code>
+          <h2 className="heading-2 mb-6">컬러 시스템</h2>
+          <p className="body-regular text-gray-600 mb-8">
+            OKLCH color system for perceptual uniformity and modern design.
+          </p>
+          
+          {/* 메인 컬러 팔레트 */}
+          <div className="mb-8">
+            <h3 className="heading-3 mb-4">메인 컬러 팔레트</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="bg-purple-500 p-4 rounded-lg text-white text-center">
+                <div className="font-semibold">Purple</div>
+                <div className="text-xs opacity-80">Primary</div>
+              </div>
+              <div className="bg-pink-500 p-4 rounded-lg text-white text-center">
+                <div className="font-semibold">Pink</div>
+                <div className="text-xs opacity-80">Primary</div>
+              </div>
+              <div className="bg-green-500 p-4 rounded-lg text-white text-center">
+                <div className="font-semibold">Green</div>
+                <div className="text-xs opacity-80">Secondary</div>
+              </div>
+              <div className="bg-blue-500 p-4 rounded-lg text-white text-center">
+                <div className="font-semibold">Blue</div>
+                <div className="text-xs opacity-80">Secondary</div>
+              </div>
+            </div>
+          </div>
+
+          {/* 메인 컬러 팔레트 스케일 */}
+          <div className="mb-8">
+            <h3 className="heading-3 mb-4">메인 컬러 팔레트 스케일</h3>
+            <div className="space-y-6">
+              {/* Purple 스케일 */}
+              <div>
+                <h4 className="heading-4 mb-3 text-purple-700">Purple 스케일</h4>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
+                  <div className="bg-purple-100 p-3 rounded text-center">
+                    <div className="text-xs font-medium text-purple-800">100</div>
+                    <div className="text-xs text-purple-600">Light</div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gray-300 rounded border"></div>
-                    <code className="text-gray-600">#BBBBBB</code>
+                  <div className="bg-purple-200 p-3 rounded text-center">
+                    <div className="text-xs font-medium text-purple-800">200</div>
+                    <div className="text-xs text-purple-600">Lighter</div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gray-500 rounded border"></div>
-                    <code className="text-gray-600">#737373</code>
+                  <div className="bg-purple-300 p-3 rounded text-center">
+                    <div className="text-xs font-medium text-purple-800">300</div>
+                    <div className="text-xs text-purple-600">Light</div>
+                  </div>
+                  <div className="bg-purple-500 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">500</div>
+                    <div className="text-xs opacity-80">Base</div>
+                  </div>
+                  <div className="bg-purple-600 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">600</div>
+                    <div className="text-xs opacity-80">Dark</div>
+                  </div>
+                  <div className="bg-purple-800 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">800</div>
+                    <div className="text-xs opacity-80">Darker</div>
                   </div>
                 </div>
-                <p className="text-xs text-gray-500 mt-3">
-                  ✅ 직관적, 호환성 좋음<br/>
-                  ❌ 인지적 불균일
-                </p>
+              </div>
+
+              {/* Pink 스케일 */}
+              <div>
+                <h4 className="heading-4 mb-3 text-pink-700">Pink 스케일</h4>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
+                  <div className="bg-pink-100 p-3 rounded text-center">
+                    <div className="text-xs font-medium text-pink-800">100</div>
+                    <div className="text-xs text-pink-600">Light</div>
+                  </div>
+                  <div className="bg-pink-500 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">500</div>
+                    <div className="text-xs opacity-80">Base</div>
+                  </div>
+                  <div className="bg-pink-600 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">600</div>
+                    <div className="text-xs opacity-80">Dark</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Green 스케일 */}
+              <div>
+                <h4 className="heading-4 mb-3 text-green-700">Green 스케일</h4>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
+                  <div className="bg-green-50 p-3 rounded text-center">
+                    <div className="text-xs font-medium text-green-800">50</div>
+                    <div className="text-xs text-green-600">Lightest</div>
+                  </div>
+                  <div className="bg-green-100 p-3 rounded text-center">
+                    <div className="text-xs font-medium text-green-800">100</div>
+                    <div className="text-xs text-green-600">Light</div>
+                  </div>
+                  <div className="bg-green-200 p-3 rounded text-center">
+                    <div className="text-xs font-medium text-green-800">200</div>
+                    <div className="text-xs text-green-600">Lighter</div>
+                  </div>
+                  <div className="bg-green-300 p-3 rounded text-center">
+                    <div className="text-xs font-medium text-green-800">300</div>
+                    <div className="text-xs text-green-600">Light</div>
+                  </div>
+                  <div className="bg-green-400 p-3 rounded text-center">
+                    <div className="text-xs font-medium text-green-800">400</div>
+                    <div className="text-xs text-green-600">Medium</div>
+                  </div>
+                  <div className="bg-green-500 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">500</div>
+                    <div className="text-xs opacity-80">Base</div>
+                  </div>
+                  <div className="bg-green-600 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">600</div>
+                    <div className="text-xs opacity-80">Dark</div>
+                  </div>
+                  <div className="bg-green-700 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">700</div>
+                    <div className="text-xs opacity-80">Darker</div>
+                  </div>
+                  <div className="bg-green-800 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">800</div>
+                    <div className="text-xs opacity-80">Dark</div>
+                  </div>
+                  <div className="bg-green-900 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">900</div>
+                    <div className="text-xs opacity-80">Darkest</div>
+                  </div>
+                  <div className="bg-green-950 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">950</div>
+                    <div className="text-xs opacity-80">Darkest</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Blue 스케일 */}
+              <div>
+                <h4 className="heading-4 mb-3 text-blue-700">Blue 스케일</h4>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
+                  <div className="bg-blue-50 p-3 rounded text-center">
+                    <div className="text-xs font-medium text-blue-800">50</div>
+                    <div className="text-xs text-blue-600">Lightest</div>
+                  </div>
+                  <div className="bg-blue-100 p-3 rounded text-center">
+                    <div className="text-xs font-medium text-blue-800">100</div>
+                    <div className="text-xs text-blue-600">Light</div>
+                  </div>
+                  <div className="bg-blue-200 p-3 rounded text-center">
+                    <div className="text-xs font-medium text-blue-800">200</div>
+                    <div className="text-xs text-blue-600">Lighter</div>
+                  </div>
+                  <div className="bg-blue-300 p-3 rounded text-center">
+                    <div className="text-xs font-medium text-blue-800">300</div>
+                    <div className="text-xs text-blue-600">Light</div>
+                  </div>
+                  <div className="bg-blue-400 p-3 rounded text-center">
+                    <div className="text-xs font-medium text-blue-800">400</div>
+                    <div className="text-xs text-blue-600">Medium</div>
+                  </div>
+                  <div className="bg-blue-500 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">500</div>
+                    <div className="text-xs opacity-80">Base</div>
+                  </div>
+                  <div className="bg-blue-600 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">600</div>
+                    <div className="text-xs opacity-80">Dark</div>
+                  </div>
+                  <div className="bg-blue-700 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">700</div>
+                    <div className="text-xs opacity-80">Darker</div>
+                  </div>
+                  <div className="bg-blue-800 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">800</div>
+                    <div className="text-xs opacity-80">Dark</div>
+                  </div>
+                  <div className="bg-blue-900 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">900</div>
+                    <div className="text-xs opacity-80">Darkest</div>
+                  </div>
+                  <div className="bg-blue-950 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">950</div>
+                    <div className="text-xs opacity-80">Darkest</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Grayscale 컬러 스케일 */}
+          <div className="mb-8">
+            <h3 className="heading-3 mb-4">Grayscale 컬러 스케일</h3>
+            <div className="space-y-4">
+              <div>
+                <h4 className="heading-4 mb-3 text-gray-700">Gray 스케일</h4>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-2">
+                  <div className="bg-gray-50 p-3 rounded text-center">
+                    <div className="text-xs font-medium text-gray-800">50</div>
+                    <div className="text-xs text-gray-600">Lightest</div>
+                  </div>
+                  <div className="bg-gray-100 p-3 rounded text-center">
+                    <div className="text-xs font-medium text-gray-800">100</div>
+                    <div className="text-xs text-gray-600">Light</div>
+                  </div>
+                  <div className="bg-gray-200 p-3 rounded text-center">
+                    <div className="text-xs font-medium text-gray-800">200</div>
+                    <div className="text-xs text-gray-600">Lighter</div>
+                  </div>
+                  <div className="bg-gray-300 p-3 rounded text-center">
+                    <div className="text-xs font-medium text-gray-800">300</div>
+                    <div className="text-xs text-gray-600">Light</div>
+                  </div>
+                  <div className="bg-gray-500 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">500</div>
+                    <div className="text-xs opacity-80">Base</div>
+                  </div>
+                  <div className="bg-gray-600 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">600</div>
+                    <div className="text-xs opacity-80">Dark</div>
+                  </div>
+                  <div className="bg-gray-700 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">700</div>
+                    <div className="text-xs opacity-80">Darker</div>
+                  </div>
+                  <div className="bg-gray-800 p-3 rounded text-center text-white">
+                    <div className="text-xs font-medium">800</div>
+                    <div className="text-xs opacity-80">Dark</div>
+                  </div>
+                </div>
               </div>
               
-              <div className="bg-blue-50 p-6 rounded-lg">
-                <h4 className="font-semibold text-gray-800 mb-3">OKLCH 컬러 (이론적)</h4>
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gray-100 rounded border"></div>
-                    <code className="text-gray-600">oklch(0.967 0.003 264.542)</code>
+              {/* Gray 사용 예시 */}
+              <div>
+                <h4 className="heading-4 mb-3 text-gray-700">Gray 사용 예시</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <div className="bg-gray-50 p-3 rounded border">
+                      <p className="text-gray-800 font-medium">Background 50</p>
+                      <p className="text-gray-600 text-sm">가장 밝은 배경</p>
+                    </div>
+                    <div className="bg-gray-100 p-3 rounded border">
+                      <p className="text-gray-800 font-medium">Background 100</p>
+                      <p className="text-gray-600 text-sm">밝은 배경</p>
+                    </div>
+                    <div className="bg-gray-200 p-3 rounded border">
+                      <p className="text-gray-800 font-medium">Background 200</p>
+                      <p className="text-gray-600 text-sm">경계선 배경</p>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gray-300 rounded border"></div>
-                    <code className="text-gray-600">oklch(0.872 0.01 258.338)</code>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gray-500 rounded border"></div>
-                    <code className="text-gray-600">oklch(0.551 0.027 264.364)</code>
+                  <div className="space-y-2">
+                    <div className="bg-white p-3 rounded border border-gray-300">
+                      <p className="text-gray-800 font-medium">Text 800</p>
+                      <p className="text-gray-600 text-sm">기본 텍스트</p>
+                    </div>
+                    <div className="bg-white p-3 rounded border border-gray-300">
+                      <p className="text-gray-600 font-medium">Text 600</p>
+                      <p className="text-gray-500 text-sm">보조 텍스트</p>
+                    </div>
+                    <div className="bg-white p-3 rounded border border-gray-300">
+                      <p className="text-gray-500 font-medium">Text 500</p>
+                      <p className="text-gray-400 text-sm">비활성 텍스트</p>
+                    </div>
                   </div>
                 </div>
-                <p className="text-xs text-gray-500 mt-3">
-                  ✅ 인지적 균일, 미래 지향적<br/>
-                  ❌ 복잡함, 호환성 이슈
-                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* 컬러 사용 예시 */}
+          <div className="mb-8">
+            <h3 className="heading-3 mb-4">컬러 사용 예시</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <h4 className="heading-4">텍스트 컬러</h4>
+                <div className="space-y-2">
+                  <p className="text-purple-500">Purple 텍스트</p>
+                  <p className="text-pink-500">Pink 텍스트</p>
+                  <p className="text-green-500">Green 텍스트</p>
+                  <p className="text-blue-500">Blue 텍스트</p>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <h4 className="heading-4">배경 컬러</h4>
+                <div className="space-y-2">
+                  <div className="bg-purple-100 p-2 rounded text-purple-800">Purple 배경</div>
+                  <div className="bg-pink-100 p-2 rounded text-pink-800">Pink 배경</div>
+                  <div className="bg-green-100 p-2 rounded text-green-800">Green 배경</div>
+                  <div className="bg-blue-100 p-2 rounded text-blue-800">Blue 배경</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 컬러 조합 */}
+          <div>
+            <h3 className="heading-3 mb-4">컬러 조합</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="bg-purple-500 text-white p-4 rounded-lg">
+                <h4 className="font-semibold mb-2">Purple + White</h4>
+                <p className="text-sm opacity-90">고대비 조합</p>
+              </div>
+              <div className="bg-pink-500 text-white p-4 rounded-lg">
+                <h4 className="font-semibold mb-2">Pink + White</h4>
+                <p className="text-sm opacity-90">따뜻한 조합</p>
+              </div>
+              <div className="bg-green-500 text-white p-4 rounded-lg">
+                <h4 className="font-semibold mb-2">Green + White</h4>
+                <p className="text-sm opacity-90">자연스러운 조합</p>
+              </div>
+              <div className="bg-blue-500 text-white p-4 rounded-lg">
+                <h4 className="font-semibold mb-2">Blue + White</h4>
+                <p className="text-sm opacity-90">신뢰감 있는 조합</p>
+              </div>
+              <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-4 rounded-lg">
+                <h4 className="font-semibold mb-2">Purple-Pink</h4>
+                <p className="text-sm opacity-90">그라데이션 조합</p>
+              </div>
+              <div className="bg-gradient-to-r from-green-400 to-blue-500 text-white p-4 rounded-lg">
+                <h4 className="font-semibold mb-2">Green-Blue</h4>
+                <p className="text-sm opacity-90">자연스러운 그라데이션</p>
               </div>
             </div>
           </div>
         </div>
         
-        {/* 컬러 팔레트 테스트 */}
+
+        {/* 그라데이션 시스템 */}
         <div className="card p-8 mb-8">
-          <h2 className="heading-2 mb-6">OKLCH 컬러 팔레트 (인지적 균일성)</h2>
+          <h2 className="heading-2 mb-6">그라데이션 시스템</h2>
           
-          {/* 메인 브랜드 컬러 - Purple (OKLCH) */}
-        <div className="mb-8">
-            <h3 className="heading-3 mb-4 text-purple-700">Purple (메인 브랜드 - OKLCH)</h3>
-            <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
-              <div className="bg-purple-100 p-3 rounded-lg text-center border border-purple-200">
-                <div className="text-purple-900 font-bold text-sm mb-1">100</div>
-                <div className="text-purple-600 caption text-xs">oklch(0.946 0.033 307.174)</div>
-              </div>
-              <div className="bg-purple-200 p-3 rounded-lg text-center border border-purple-300">
-                <div className="text-purple-900 font-bold text-sm mb-1">200</div>
-                <div className="text-purple-600 caption text-xs">oklch(0.902 0.063 306.703)</div>
-              </div>
-              <div className="bg-purple-300 p-3 rounded-lg text-center border border-purple-400">
-                <div className="text-purple-900 font-bold text-sm mb-1">300</div>
-                <div className="text-purple-600 caption text-xs">oklch(0.827 0.119 306.383)</div>
-              </div>
-              <div className="bg-purple-500 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">500</div>
-                <div className="caption opacity-80 text-xs">oklch(0.714 0.203 305.504)</div>
-              </div>
-              <div className="bg-purple-600 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">600</div>
-                <div className="caption opacity-80 text-xs">oklch(0.651 0.215 304.123)</div>
-              </div>
-              <div className="bg-purple-800 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">800</div>
-                <div className="caption opacity-80 text-xs">oklch(0.438 0.218 303.724)</div>
-          </div>
-        </div>
-      </div>
-      
-          {/* 메인 브랜드 컬러 - Pink (OKLCH) */}
-          <div className="mb-8">
-            <h3 className="heading-3 mb-4 text-pink-700">Pink (메인 브랜드 - OKLCH)</h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              <div className="bg-pink-100 p-3 rounded-lg text-center border border-pink-200">
-                <div className="text-pink-900 font-bold text-sm mb-1">100</div>
-                <div className="text-pink-600 caption text-xs">oklch(0.948 0.028 342.258)</div>
-              </div>
-              <div className="bg-pink-500 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">500</div>
-                <div className="caption opacity-80 text-xs">oklch(0.718 0.202 349.761)</div>
-              </div>
-              <div className="bg-pink-600 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">600</div>
-                <div className="caption opacity-80 text-xs">oklch(0.651 0.215 350.123)</div>
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="bg-gradient-purple-pink-100 p-6 rounded-xl text-center">
+              <h4 className="font-bold text-gray-800 mb-2">Purple-Pink 100</h4>
+              <p className="caption text-gray-600">Light gradient</p>
             </div>
-          </div>
-
-          {/* 보조 컬러 - Green (OKLCH) */}
-          <div className="mb-8">
-            <h3 className="heading-3 mb-4 text-green-700">Green (보조 컬러 - OKLCH)</h3>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-              <div className="bg-green-50 p-3 rounded-lg text-center border border-green-100">
-                <div className="text-green-900 font-bold text-sm mb-1">50</div>
-                <div className="text-green-600 caption text-xs">oklch(0.982 0.018 155.826)</div>
-              </div>
-              <div className="bg-green-100 p-3 rounded-lg text-center border border-green-200">
-                <div className="text-green-900 font-bold text-sm mb-1">100</div>
-                <div className="text-green-600 caption text-xs">oklch(0.962 0.044 156.743)</div>
-              </div>
-              <div className="bg-green-300 p-3 rounded-lg text-center border border-green-400">
-                <div className="text-green-900 font-bold text-sm mb-1">300</div>
-                <div className="text-green-600 caption text-xs">oklch(0.871 0.15 154.449)</div>
-              </div>
-              <div className="bg-green-500 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">500</div>
-                <div className="caption opacity-80 text-xs">oklch(0.707 0.209 151.711)</div>
-              </div>
-              <div className="bg-green-700 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">700</div>
-                <div className="caption opacity-80 text-xs">oklch(0.527 0.154 150.069)</div>
-              </div>
+            <div className="bg-gradient-purple-pink-500 p-6 rounded-xl text-center">
+              <h4 className="font-bold text-gray-800 mb-2">Purple-Pink 500</h4>
+              <p className="caption text-gray-600">Medium gradient</p>
             </div>
-          </div>
-
-          {/* 보조 컬러 - Blue (OKLCH) */}
-          <div className="mb-8">
-            <h3 className="heading-3 mb-4 text-blue-700">Blue (보조 컬러 - OKLCH)</h3>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-              <div className="bg-blue-50 p-3 rounded-lg text-center border border-blue-100">
-                <div className="text-blue-900 font-bold text-sm mb-1">50</div>
-                <div className="text-blue-600 caption text-xs">oklch(0.97 0.014 254.604)</div>
-              </div>
-              <div className="bg-blue-100 p-3 rounded-lg text-center border border-blue-200">
-                <div className="text-blue-900 font-bold text-sm mb-1">100</div>
-                <div className="text-blue-600 caption text-xs">oklch(0.932 0.032 255.585)</div>
-              </div>
-              <div className="bg-blue-300 p-3 rounded-lg text-center border border-blue-400">
-                <div className="text-blue-900 font-bold text-sm mb-1">300</div>
-                <div className="text-blue-600 caption text-xs">oklch(0.809 0.105 251.813)</div>
-              </div>
-              <div className="bg-blue-500 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">500</div>
-                <div className="caption opacity-80 text-xs">oklch(0.651 0.215 254.123)</div>
-              </div>
-              <div className="bg-blue-700 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">700</div>
-                <div className="caption opacity-80 text-xs">oklch(0.488 0.243 264.376)</div>
-          </div>
-        </div>
+            <div className="bg-gradient-purple-pink-600 p-6 rounded-xl text-center text-white">
+              <h4 className="font-bold mb-2">Purple-Pink 600</h4>
+              <p className="caption opacity-90">Strong gradient</p>
       </div>
-      
-          {/* 그레이 스케일 (OKLCH) */}
-          <div className="mb-8">
-            <h3 className="heading-3 mb-4 text-gray-700">Gray (중성 컬러 - OKLCH)</h3>
-            <div className="grid grid-cols-2 md:grid-cols-8 gap-3">
-              <div className="bg-gray-50 p-3 rounded-lg text-center border border-gray-100">
-                <div className="text-gray-900 font-bold text-sm mb-1">50</div>
-                <div className="text-gray-600 caption text-xs">oklch(0.985 0.002 247.839)</div>
-              </div>
-              <div className="bg-gray-100 p-3 rounded-lg text-center border border-gray-200">
-                <div className="text-gray-900 font-bold text-sm mb-1">100</div>
-                <div className="text-gray-600 caption text-xs">oklch(0.967 0.003 264.542)</div>
-              </div>
-              <div className="bg-gray-200 p-3 rounded-lg text-center border border-gray-300">
-                <div className="text-gray-900 font-bold text-sm mb-1">200</div>
-                <div className="text-gray-600 caption text-xs">oklch(0.928 0.006 264.531)</div>
-              </div>
-              <div className="bg-gray-300 p-3 rounded-lg text-center border border-gray-400">
-                <div className="text-gray-900 font-bold text-sm mb-1">300</div>
-                <div className="text-gray-600 caption text-xs">oklch(0.872 0.01 258.338)</div>
-              </div>
-              <div className="bg-gray-500 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">500</div>
-                <div className="caption opacity-80 text-xs">oklch(0.551 0.027 264.364)</div>
-              </div>
-              <div className="bg-gray-600 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">600</div>
-                <div className="caption opacity-80 text-xs">oklch(0.446 0.03 256.802)</div>
-              </div>
-              <div className="bg-gray-700 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">700</div>
-                <div className="caption opacity-80 text-xs">oklch(0.373 0.034 259.733)</div>
-              </div>
-              <div className="bg-gray-800 p-3 rounded-lg text-center text-white">
-                <div className="font-bold text-sm mb-1">800</div>
-                <div className="caption opacity-80 text-xs">oklch(0.278 0.033 256.848)</div>
-              </div>
-        </div>
-      </div>
-      
-          {/* 컬러 조합 예시 */}
-          <div className="mb-8">
-            <h3 className="heading-3 mb-4">컬러 조합 예시</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              <div className="bg-gradient-to-br from-green-400 to-blue-500 p-6 rounded-xl text-white">
-                <h4 className="font-bold mb-2">Green → Blue</h4>
-                <p className="caption opacity-90">자연스러운 전환</p>
-              </div>
-              <div className="bg-gradient-to-br from-purple-400 to-pink-500 p-6 rounded-xl text-white">
-                <h4 className="font-bold mb-2">Purple → Pink</h4>
-                <p className="caption opacity-90">브랜드 그라데이션</p>
-              </div>
-              <div className="bg-gradient-to-br from-blue-400 to-purple-500 p-6 rounded-xl text-white">
-                <h4 className="font-bold mb-2">Blue → Purple</h4>
-                <p className="caption opacity-90">차분한 조화</p>
-              </div>
-        </div>
-      </div>
-      
-          {/* 컬러 사용 가이드 */}
-          <div className="bg-gray-50 p-6 rounded-xl">
-            <h3 className="heading-3 mb-4">컬러 사용 가이드</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h4 className="font-semibold text-gray-800 mb-3">브랜드 컬러</h4>
-                <ul className="space-y-2 text-sm text-gray-600">
-                  <li>• <span className="text-green-600 font-medium">Green 500</span>: 메인 액션, CTA 버튼</li>
-                  <li>• <span className="text-blue-600 font-medium">Blue 500</span>: 보조 액션, 링크</li>
-                  <li>• <span className="text-purple-600 font-medium">Purple 500</span>: 특별 기능, 강조</li>
-                  <li>• <span className="text-pink-600 font-medium">Pink 500</span>: 특별 기능, 강조</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold text-gray-800 mb-3">상태 컬러</h4>
-                <ul className="space-y-2 text-sm text-gray-600">
-                  <li>• <span className="text-gray-600 font-medium">Gray 100-300</span>: 배경, 테두리</li>
-                  <li>• <span className="text-gray-600 font-medium">Gray 500-700</span>: 텍스트, 아이콘</li>
-                  <li>• <span className="text-gray-600 font-medium">Gray 900</span>: 제목, 강조 텍스트</li>
-                </ul>
-              </div>
-            </div>
           </div>
         </div>
 
-        {/* Figma 그라데이션 시스템 테스트 */}
-        <div className="card p-8 mb-8">
-          <h2 className="heading-2 mb-6">Figma 그라데이션 시스템</h2>
-          
-          <div className="space-y-6">
-            <div>
-              <h3 className="heading-3 mb-4">Figma 기준 그라디언트</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="bg-gradient-purple-pink-100 p-6 rounded-xl text-center">
-                  <h4 className="font-bold text-gray-800 mb-2">Purple-Pink 100</h4>
-                  <p className="caption text-gray-600">#DEE0FC → #FFDBF6</p>
-                </div>
-                <div className="bg-gradient-purple-pink-500 p-6 rounded-xl text-center">
-                  <h4 className="font-bold text-gray-800 mb-2">Purple-Pink 500</h4>
-                  <p className="caption text-gray-600">#8D96F6 → #FF85E0</p>
-                </div>
-                <div className="bg-gradient-purple-pink-600 p-6 rounded-xl text-center text-white">
-                  <h4 className="font-bold mb-2">Purple-Pink 600</h4>
-                  <p className="caption opacity-90">#5865F2 → #FF4CD2</p>
-                </div>
-              </div>
-            </div>
-            
-            <div>
-              <h3 className="heading-3 mb-4">기존 그라디언트</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-gradient-green p-6 rounded-xl text-center">
-                  <h4 className="font-bold text-gray-800 mb-2">Green Gradient</h4>
-                  <p className="caption text-gray-600">#E3F8ED → #E5F9F8</p>
-                </div>
-                <div className="bg-gradient-blue p-6 rounded-xl text-center">
-                  <h4 className="font-bold text-gray-800 mb-2">Blue Gradient</h4>
-                  <p className="caption text-gray-600">#D6F9FF → #E3F8ED</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* 특수 효과 테스트 */}
+        {/* Special Effects */}
         <div className="card-gradient p-8 text-center mb-8">
-          <h3 className="heading-2 mb-4">특수 효과 & 애니메이션</h3>
+          <h3 className="heading-2 mb-4">Special Effects & Animations</h3>
           <p className="body-large mb-6">
-            브랜드 그라데이션과 다양한 시각적 효과들을 테스트해보세요!
+            Brand gradients and various visual effects for modern UI.
           </p>
           
           <div className="flex-center gap-6 flex-wrap">
             <div className="glass p-4 rounded-lg">
-              <span className="font-semibold">글래스모피즘</span>
+              <span className="font-semibold">Glassmorphism</span>
             </div>
             <div className="animate-glow p-4 rounded-lg bg-white/20">
-              <span className="font-semibold">글로우 효과</span>
+              <span className="font-semibold">Glow Effect</span>
             </div>
             <div className="bg-gradient-radial p-4 rounded-lg text-white">
-              <span className="font-semibold">방사형 그라데이션</span>
+              <span className="font-semibold">Radial Gradient</span>
             </div>
             <div className="animate-bounce-slow p-4 rounded-lg bg-white/20">
-              <span className="font-semibold">슬로우 바운스</span>
-            </div>
+              <span className="font-semibold">Slow Bounce</span>
+          </div>
           </div>
         </div>
 
-        {/* 폼 요소 테스트 */}
+        {/* 폼 요소 */}
         <div className="card p-8 mb-8">
           <h2 className="heading-2 mb-6">폼 요소</h2>
           
           <div className="space-y-4 max-w-md">
             <div>
               <label className="body-small font-medium text-gray-700 mb-2 block">
-                이메일 주소
+                Email Address
               </label>
               <input 
                 type="email" 
                 className="input" 
                 placeholder="example@email.com"
               />
-            </div>
-            
+      </div>
+      
             <div>
               <label className="body-small font-medium text-gray-700 mb-2 block">
-                비밀번호
+                Password
               </label>
               <input 
                 type="password" 
                 className="input" 
-                placeholder="비밀번호를 입력하세요"
+                placeholder="Enter your password"
               />
-            </div>
+        </div>
             
             <div>
               <label className="body-small font-medium text-gray-700 mb-2 block">
-                메시지
+                Message
               </label>
               <textarea 
                 className="input min-h-[100px] resize-none" 
-                placeholder="메시지를 입력하세요..."
+                placeholder="Enter your message..."
               />
-            </div>
-            
+      </div>
+      
             <div className="flex gap-3 pt-4">
-              <button className="btn-primary">제출</button>
-              <button className="btn-outline">취소</button>
+              <button className="btn-primary">Submit</button>
+              <button className="btn-outline">Cancel</button>
             </div>
           </div>
         </div>
 
-        {/* 레이아웃 시스템 테스트 */}
+        {/* 레이아웃 시스템 */}
         <div className="card p-8">
           <h2 className="heading-2 mb-6">레이아웃 시스템</h2>
           
           <div className="space-y-6">
             <div>
-              <h3 className="heading-3 mb-3">플렉스 유틸리티</h3>
+              <h3 className="heading-3 mb-3">Flex Utilities</h3>
               <div className="space-y-3">
                 <div className="flex-center bg-gray-100 p-4 rounded">
                   <span className="body-small">flex-center</span>
                 </div>
                 <div className="flex-between bg-gray-100 p-4 rounded">
-                  <span className="body-small">왼쪽</span>
-                  <span className="body-small">오른쪽</span>
+                  <span className="body-small">Left</span>
+                  <span className="body-small">Right</span>
                 </div>
                 <div className="flex-start bg-gray-100 p-4 rounded">
                   <span className="body-small">flex-start</span>
                 </div>
                 <div className="flex-end bg-gray-100 p-4 rounded">
                   <span className="body-small">flex-end</span>
-          </div>
+                </div>
         </div>
       </div>
       
             <div>
-              <h3 className="heading-3 mb-3">컨테이너 시스템</h3>
+              <h3 className="heading-3 mb-3">Container System</h3>
               <div className="space-y-2">
                 <div className="container-narrow bg-blue-50 p-4 rounded">
                   <span className="body-small">container-narrow (max-width: 56rem)</span>
@@ -515,7 +669,7 @@ export default function Home() {
                   <span className="body-small">container-custom (max-width: 80rem)</span>
                 </div>
               </div>
-            </div>
+          </div>
           </div>
         </div>
       </div>
