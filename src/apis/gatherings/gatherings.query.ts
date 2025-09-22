@@ -1,4 +1,4 @@
-// /src/apis/gatherings/gatherings.queries.ts
+// /src/apis/gatherings/gatherings.query.ts
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../_react_query/keys";
 import { invalidateGatherings } from "../_react_query/utils";

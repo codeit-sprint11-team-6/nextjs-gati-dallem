@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { useAuthStore, selectIsAuthenticated, selectUser } from "@/store/authStore";
-import { useSignin, useAuthUser } from "@/apis/auths/auths.queries";
+import { useSignin, useAuthUser } from "@/apis/auths/auths.query";
 import { useJoinedGatherings } from "@/apis/gatherings/gatherings.query";
 
 // ─────────────────────────────────────────────────────────────────────────────

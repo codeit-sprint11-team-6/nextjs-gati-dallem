@@ -1,4 +1,4 @@
-// /src/apis/reviews/reviews.queries.ts
+// /src/apis/reviews/reviews.query.ts
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../_react_query/keys";
 import { invalidateGatherings, invalidateReviews } from "../_react_query/utils";

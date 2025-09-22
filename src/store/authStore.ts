@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { apiClient } from "@/apis/_client";
 import type { AuthUser } from "@/types/auth";
+import { deleteCookie, setCookie } from "@/utils/next-cookie";
 
 type AuthSnapshot = {
   token?: string | null;
@@ -38,7 +39,8 @@ export const useAuthStore = create<AuthState>()(
         setUser: (user) => {
           set((s) => ({ ...s, user, isAuthenticated: Boolean(s.token && user) }));
         },
-        clear: () => {
+        clear: async () => {
+          await deleteCookie("loggedIn");
           syncClientToken(undefined);
           set({ token: null, user: null, isAuthenticated: false });
         },
@@ -48,6 +50,7 @@ export const useAuthStore = create<AuthState>()(
           try {
             const me = await fetcher();
             set((s) => ({ ...s, user: me, isAuthenticated: true }));
+            await setCookie("loggedIn", new Date().getTime().toString());
           } catch (e) {
             console.log(e);
 
