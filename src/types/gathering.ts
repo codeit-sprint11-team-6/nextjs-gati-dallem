@@ -2,7 +2,7 @@
 import type { TeamId, UserId, ISODateTimeString, SortOrder } from "./common";
 
 /** 모임 종류 & 위치 */
-export enum GatheringType {
+export enum DefaultGatheringType {
   DALLAEMFIT = "DALLAEMFIT",
   OFFICE_STRETCHING = "OFFICE_STRETCHING",
   MINDFULNESS = "MINDFULNESS",
@@ -13,6 +13,22 @@ export enum GatheringLocation {
   EULJIRO3 = "을지로3가",
   SINLIM = "신림",
   HONGDAE = "홍대입구",
+}
+/**
+ * 소주제 변경(개발자 네트워킹/세미나)에 따른 모임 종류 매핑
+ * - NETWORKING: 네트워킹
+ * - DEVELOPER: 네트워킹 - 개발자 커뮤니티
+ * - EVERYONE: 네트워킹 - 비개발자도 함께 하는 커뮤니티
+ * - SEMINAR: 세미나
+ *
+ * ex. 사용 예시
+ * `const networkingGatheringType = GatheringType["NETWORKING"]`
+ */
+export enum GatheringType {
+  NETWORKING = DefaultGatheringType["DALLAEMFIT"],
+  OFFICE_STRETCHING = DefaultGatheringType["OFFICE_STRETCHING"],
+  MINDFULNESS = DefaultGatheringType["MINDFULNESS"],
+  WORKATION = DefaultGatheringType["WORKATION"],
 }
 
 /** 식별자 */
@@ -26,7 +42,7 @@ export type JoinedSortBy = "dateTime" | "registrationEnd" | "joinedAt";
 export interface Gathering {
   teamId: TeamId;
   id: GatheringId;
-  type: GatheringType;
+  type: DefaultGatheringType;
   name: string;
   dateTime: ISODateTimeString;
   registrationEnd?: ISODateTimeString;
@@ -63,7 +79,7 @@ export interface GatheringParticipant {
 /** UI에서 사용할 필터/정렬 옵션(컴포넌트 props 등에서 재사용) */
 export interface GatheringListFilter {
   idCsv?: string; // "1,2,3"
-  type?: GatheringType;
+  type?: DefaultGatheringType;
   location?: GatheringLocation;
   date?: string; // YYYY-MM-DD
   createdBy?: UserId;
