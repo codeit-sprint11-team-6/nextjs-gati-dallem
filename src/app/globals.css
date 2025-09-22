@@ -2,7 +2,11 @@
 
 /* 11기 6조 디자인 시스템 - Tailwind CSS v4 */
 @theme {
-  /* Color Palette (OKLCH - Perceptual Uniformity) */
+  /* 폰트 변수 */
+  --font-pretendard: "Pretendard", ui-sans-serif, system-ui, sans-serif;
+  --font-tenada: "Tenada", ui-sans-serif, system-ui, sans-serif;
+
+  /* 11기 6조 컬러 팔레트 (OKLCH + HEX 혼합) */
   --color-gray-50: oklch(0.985 0.002 247.839);
   --color-gray-100: oklch(0.967 0.003 264.542);
   --color-gray-200: oklch(0.928 0.006 264.531);
