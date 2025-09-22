@@ -11,7 +11,7 @@ export default function MainNav() {
         <Link href="/meetings">모임 찾기</Link>
         <Link href="/favorites">찜한 모임</Link>
         <Link href="/my">마이페이지</Link>
-        <Link href="/login" className="ml-auto">
+        <Link href="/signin" className="ml-auto">
           로그인
         </Link>
         <Link href="/signup">회원가입</Link>
