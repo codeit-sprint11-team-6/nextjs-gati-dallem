@@ -18,11 +18,16 @@ const CHIP_VARIANTS = {
     "gap-0.5 pr-3 pl-2 py-1 rounded-3xl m-[1px] bg-white text-sm font-semibold text-purple-600",
 };
 interface ChipProps extends HtmlHTMLAttributes<HTMLDivElement> {
-  variant: keyof typeof CHIP_VARIANTS;
+  variant?: keyof typeof CHIP_VARIANTS;
   children?: React.ReactNode;
   className?: string;
 }
-export default function Chip({ variant, className = "", children, ...props }: ChipProps) {
+export default function Chip({
+  variant = "default",
+  className = "",
+  children,
+  ...props
+}: ChipProps) {
   const chipClassName = cn("flex justify-center items-center", CHIP_VARIANTS[variant], className);
   return (
     <span
