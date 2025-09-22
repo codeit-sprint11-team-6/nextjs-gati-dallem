@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
-/* 11기 6조 디자인 시스템 - Tailwind CSS v4 */
+/* Design System - Tailwind CSS v4 */
 @theme {
-  /* 폰트 변수 */
+  /* Font Variables */
   --font-pretendard: 'Pretendard', ui-sans-serif, system-ui, sans-serif;
   --font-tenada: 'Tenada', ui-sans-serif, system-ui, sans-serif;
   
-  /* 11기 6조 컬러 팔레트 (OKLCH - 인지적 균일성) */
+  /* Color Palette (OKLCH - Perceptual Uniformity) */
   --color-gray-50: oklch(0.985 0.002 247.839);
   --color-gray-100: oklch(0.967 0.003 264.542);
   --color-gray-200: oklch(0.928 0.006 264.531);
@@ -16,120 +16,76 @@
   --color-gray-700: oklch(0.373 0.034 259.733);
   --color-gray-800: oklch(0.278 0.033 256.848);
   
-  /* Primary Purple (11기 6조 메인 브랜드 컬러 - OKLCH) */
+  /* Primary Purple (Main Brand Color) */
   --color-purple-100: oklch(0.946 0.033 307.174);
   --color-purple-200: oklch(0.902 0.063 306.703);
   --color-purple-300: oklch(0.827 0.119 306.383);
-  --color-purple-500: oklch(0.714 0.203 305.504); /* 메인 브랜드 컬러 */
+  --color-purple-500: oklch(0.714 0.203 305.504);
   --color-purple-600: oklch(0.651 0.215 304.123);
   --color-purple-800: oklch(0.438 0.218 303.724);
   
-  /* Primary Pink (11기 6조 메인 브랜드 컬러 - OKLCH) */
+  /* Primary Pink (Main Brand Color) */
   --color-pink-100: oklch(0.948 0.028 342.258);
-  --color-pink-500: oklch(0.718 0.202 349.761); /* 메인 브랜드 컬러 */
+  --color-pink-500: oklch(0.718 0.202 349.761);
   --color-pink-600: oklch(0.651 0.215 350.123);
   
-  /* Secondary Green (11기 6조 보조 컬러 - OKLCH) */
+  /* Secondary Green */
   --color-green-50: oklch(0.982 0.018 155.826);
   --color-green-100: oklch(0.962 0.044 156.743);
   --color-green-200: oklch(0.925 0.084 155.995);
   --color-green-300: oklch(0.871 0.15 154.449);
   --color-green-400: oklch(0.792 0.209 151.711);
-  --color-green-500: oklch(0.707 0.209 151.711); /* 보조 브랜드 컬러 */
+  --color-green-500: oklch(0.707 0.209 151.711);
   --color-green-600: oklch(0.651 0.215 150.123);
   --color-green-700: oklch(0.527 0.154 150.069);
   --color-green-800: oklch(0.448 0.119 151.328);
   --color-green-900: oklch(0.393 0.095 152.535);
   --color-green-950: oklch(0.266 0.065 152.934);
   
-  /* Secondary Blue (11기 6조 보조 컬러 - OKLCH) */
+  /* Secondary Blue */
   --color-blue-50: oklch(0.97 0.014 254.604);
   --color-blue-100: oklch(0.932 0.032 255.585);
   --color-blue-200: oklch(0.882 0.059 254.128);
   --color-blue-300: oklch(0.809 0.105 251.813);
   --color-blue-400: oklch(0.707 0.165 254.624);
-  --color-blue-500: oklch(0.651 0.215 254.123); /* 보조 브랜드 컬러 */
+  --color-blue-500: oklch(0.651 0.215 254.123);
   --color-blue-600: oklch(0.595 0.243 264.376);
   --color-blue-700: oklch(0.488 0.243 264.376);
   --color-blue-800: oklch(0.424 0.199 265.638);
   --color-blue-900: oklch(0.379 0.146 265.522);
   --color-blue-950: oklch(0.282 0.091 267.935);
   
-  /* 폰트 패밀리 */
+  /* Font Families */
   --font-family-sans: var(--font-pretendard), ui-sans-serif, system-ui, sans-serif;
   --font-family-pretendard: var(--font-pretendard), ui-sans-serif, system-ui, sans-serif;
   --font-family-tenada: var(--font-tenada), ui-sans-serif, system-ui, sans-serif;
   --font-family-mono: ui-monospace, SFMono-Regular, monospace;
   
-  /* 타이포그래피 스케일 (11기 6조 디자인 반영) */
-  --font-size-xs: 0.75rem;
-  --font-size-xs--line-height: 1rem;
-  --font-size-sm: 0.875rem;
-  --font-size-sm--line-height: 1.25rem;
-  --font-size-base: 1rem;
-  --font-size-base--line-height: 1.5rem;
-  --font-size-lg: 1.125rem;
-  --font-size-lg--line-height: 1.75rem;
-  --font-size-xl: 1.25rem;
-  --font-size-xl--line-height: 1.75rem;
-  --font-size-2xl: 1.5rem;
-  --font-size-2xl--line-height: 2rem;
-  --font-size-3xl: 1.875rem;
-  --font-size-3xl--line-height: 2.25rem;
-  --font-size-4xl: 2.25rem;
-  --font-size-4xl--line-height: 2.5rem;
-  --font-size-5xl: 3rem;
-  --font-size-5xl--line-height: 1;
-  --font-size-6xl: 3.75rem;
-  --font-size-6xl--line-height: 1;
+  /* Custom Typography Scale (only if different from defaults) */
   
-  /* 폰트 웨이트 */
-  --font-weight-thin: 100;
-  --font-weight-extralight: 200;
-  --font-weight-light: 300;
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
-  --font-weight-extrabold: 800;
-  --font-weight-black: 900;
+  /* Custom Font Weights (only if different from defaults) */
   
-  /* 간격 시스템 */
+  /* Spacing System */
   --spacing-18: 4.5rem;   /* 72px */
   --spacing-88: 22rem;    /* 352px */
   --spacing-128: 32rem;   /* 512px */
   --spacing-144: 36rem;   /* 576px */
   
-  /* 브레이크포인트 */
+  /* Custom Breakpoints (only if different from defaults) */
   --breakpoint-xs: 475px;
   --breakpoint-3xl: 1600px;
   --breakpoint-4xl: 1920px;
   
-  /* 그림자 시스템 */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-DEFAULT: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  /* Custom Shadows (only project-specific ones) */
   --shadow-custom: 0 4px 20px rgb(0 0 0 / 0.1);
   --shadow-card: 0 2px 8px rgb(0 0 0 / 0.08);
   --shadow-glow: 0 0 20px rgb(88 101 242 / 0.3);
   --shadow-glow-pink: 0 0 20px rgb(255 76 210 / 0.3);
   
-  /* 보더 반경 */
-  --radius-xs: 0.125rem;
-  --radius-sm: 0.25rem;
-  --radius-md: 0.375rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
-  --radius-2xl: 1rem;
-  --radius-3xl: 1.5rem;
-  --radius-4xl: 2rem;
+  /* Custom Border Radius (only if needed) */
   --radius-full: 9999px;
   
-  /* 애니메이션 */
+  /* Animations */
   --animate-fade-in: fadeIn 0.5s ease-in-out;
   --animate-slide-up: slideUp 0.3s ease-out;
   --animate-slide-down: slideDown 0.3s ease-out;
@@ -140,7 +96,7 @@
   --animate-glow: glow 2s ease-in-out infinite alternate;
 }
 
-/* 다크모드 변수 */
+/* Dark Mode Variables */
 @media (prefers-color-scheme: dark) {
   @theme {
     --color-primary: #4ADE80;
@@ -154,7 +110,7 @@
   }
 }
 
-/* 기본 스타일 */
+/* Base Styles */
 @layer base {
   * {
     border-color: var(--color-gray-200);
@@ -173,12 +129,12 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
-  /* 다크모드 스타일 */
+  /* Dark Mode Styles */
   .dark body {
     @apply text-gray-100 bg-gray-900;
   }
   
-  /* 선택 텍스트 스타일 */
+  /* Text Selection Styles */
   ::selection {
     @apply bg-green-100 text-green-900;
   }
@@ -187,12 +143,12 @@
     @apply bg-green-900 text-green-100;
   }
   
-  /* 포커스 스타일 */
+  /* Focus Styles */
   :focus-visible {
     @apply outline-none ring-2 ring-green-500 ring-offset-2;
   }
   
-  /* 스크롤바 스타일링 */
+  /* Scrollbar Styling */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -210,7 +166,7 @@
     @apply bg-gray-400;
   }
   
-  /* 다크모드 스크롤바 */
+  /* Dark Mode Scrollbar */
   .dark ::-webkit-scrollbar-track {
     @apply bg-gray-800;
   }
@@ -224,9 +180,9 @@
   }
 }
 
-/* 컴포넌트 스타일 (11기 6조 컴포넌트 시스템) */
+/* Component Styles */
 @layer components {
-  /* 11기 6조 타이포그래피 시스템 */
+  /* Typography System */
   .heading-1 {
     @apply text-3xl font-extrabold text-gray-900 leading-tight tracking-tight;
   }
@@ -259,7 +215,7 @@
     @apply text-xs font-normal text-gray-500 leading-normal;
   }
   
-  /* 다크모드 타이포그래피 */
+  /* Dark Mode Typography */
   .dark .heading-1,
   .dark .heading-2,
   .dark .heading-3,
@@ -280,7 +236,7 @@
     @apply text-gray-500;
   }
   
-  /* 11기 6조 버튼 컴포넌트 */
+  /* Button Components */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -349,7 +305,7 @@
     box-shadow: 0 0 0 2px var(--color-gray-500);
   }
   
-  /* 11기 6조 카드 컴포넌트 */
+  /* Card Components */
   .card {
     background-color: white;
     border-radius: 0.75rem;
@@ -384,7 +340,7 @@
     box-shadow: 0 0 20px rgb(88 101 242 / 0.3);
   }
   
-  /* 입력 필드 */
+  /* Input Fields */
   .input {
     width: 100%;
     padding: 0.75rem 1rem;
@@ -400,7 +356,7 @@
     box-shadow: 0 0 0 2px var(--color-green-500);
   }
   
-  /* 컨테이너 시스템 */
+  /* Container System */
   .container-custom {
     max-width: 80rem;
     margin: 0 auto;
@@ -455,7 +411,7 @@
     }
   }
   
-  /* 그리드 시스템 */
+  /* Grid System */
   .grid-auto-fit {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -466,7 +422,7 @@
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   }
   
-  /* 플렉스 유틸리티 */
+  /* Flex Utilities */
   .flex-center {
     display: flex;
     align-items: center;
@@ -492,9 +448,9 @@
   }
 }
 
-/* 유틸리티 클래스 (11기 6조 최신 유틸리티) */
+/* Utility Classes */
 @layer utilities {
-  /* 11기 6조 그라데이션 유틸리티 (Figma 기준) */
+  /* Gradient Utilities */
   .bg-gradient-green {
     background: linear-gradient(90deg, #E3F8ED 0%, #E5F9F8 100%);
   }
@@ -523,7 +479,7 @@
     background: radial-gradient(circle, #5865F2 0%, #FF4CD2 100%);
   }
   
-  /* 텍스트 그라데이션 */
+  /* Text Gradients */
   .text-gradient-purple-pink {
     background: linear-gradient(135deg, #5865F2 0%, #FF4CD2 100%);
     -webkit-background-clip: text;
@@ -531,7 +487,7 @@
     background-clip: text;
   }
   
-  /* 글래스모피즘 효과 */
+  /* Glassmorphism Effects */
   .glass {
     background-color: rgb(255 255 255 / 0.8);
     backdrop-filter: blur(12px);
@@ -544,7 +500,7 @@
     border: 1px solid rgb(55 65 81 / 0.2);
   }
   
-  /* 커스텀 애니메이션 */
+  /* Custom Animations */
   .animate-bounce-slow {
     animation: bounce 2s infinite;
   }
@@ -561,7 +517,7 @@
     animation: glow 2s ease-in-out infinite alternate;
   }
   
-  /* 반응형 숨김/표시 */
+  /* Responsive Hide/Show */
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -571,7 +527,7 @@
     display: none;
   }
   
-  /* 커스텀 포커스 */
+  /* Custom Focus */
   .focus-ring:focus {
     outline: none;
     box-shadow: 0 0 0 2px var(--color-green-500);
@@ -582,7 +538,7 @@
     box-shadow: inset 0 0 0 2px var(--color-green-500);
   }
   
-  /* 커스텀 트랜지션 */
+  /* Custom Transitions */
   .transition-all-smooth {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -594,7 +550,7 @@
   }
 }
 
-/* 키프레임 애니메이션 */
+/* Keyframe Animations */
 @keyframes fadeIn {
   0% { opacity: 0; }
   100% { opacity: 1; }
