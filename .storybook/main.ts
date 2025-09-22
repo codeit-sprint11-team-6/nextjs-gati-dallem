@@ -5,7 +5,10 @@ const config: StorybookConfig = {
     name: "@storybook/nextjs-vite",
     options: {},
   },
-  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+  // stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+  // stories: ["../src/components/**/*.stories.@(js|jsx|ts|tsx|mdx)"],
+  stories: ["../src/components/**/__stories__/**/*.stories.@(js|jsx|ts|tsx|mdx)"],
+
   addons: [
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",

@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button_01";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card_02";
+import { Input } from "@/components/ui/input_03";
 import Image from "next/image";
 
 export default function Home() {
