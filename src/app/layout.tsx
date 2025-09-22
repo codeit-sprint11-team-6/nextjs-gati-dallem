@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { pretendard, tenada } from '@/lib/fonts'  
+import { pretendard, tenada } from '@/lib/fonts'
 import "./globals.css";
 
 import Providers from "./providers";
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko" className={`${pretendard.variable} ${tenada.variable}`}>
-      <body className="antialiased">
+      <body>
         <Providers>
           <LayoutInner>{children}</LayoutInner>
         </Providers>
