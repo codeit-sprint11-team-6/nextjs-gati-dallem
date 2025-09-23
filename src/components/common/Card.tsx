@@ -152,7 +152,7 @@ function CardMyButton({
   }
 
   return (
-    <div className="flex w-full items-center justify-end">
+    <div className="flex w-full items-center justify-end md:w-fit">
       {!isCompleted ? (
         <button
           className="rounded-2xl border-1 border-purple-500 px-6 py-2.5 text-base font-semibold text-purple-500"
