@@ -1,6 +1,8 @@
 import Chip from "@/components/common/Chip";
 import { ChipInfo, CompletedChip, ConfirmChip } from "@/components/my/ChipState";
-import ReservedCardItem from "@/components/my/MyCardItem";
+import CreatedCardItem from "@/components/my/CreatedCardItem";
+import ReservedCardItem from "@/components/my/ReservedCardItem";
+import ReviewCardItem from "@/components/my/ReviewCardItem";
 import Image from "next/image";
 
 const MockData = {
@@ -45,7 +47,11 @@ export default function MyPage() {
           <ConfirmChip isConfirmed={false} />
           <ConfirmChip isConfirmed={true} />
         </div>
-        <ReservedCardItem {...MockData} />
+        <div className="grid justify-stretch gap-4">
+          <ReservedCardItem {...MockData} />
+          <ReviewCardItem {...MockData} />
+          <CreatedCardItem {...MockData} />
+        </div>
       </div>
     </main>
   );

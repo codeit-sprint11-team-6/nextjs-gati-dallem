@@ -136,8 +136,8 @@ function CardLikeButton({ isLiked = false }: { isLiked?: boolean }) {
 }
 Card.LikeButton = CardLikeButton;
 
-/** 모임카드 버튼 */
-function CardMyButton({
+/** 나의 모임 카드 버튼 */
+function CardReservedButton({
   isCompleted = false,
   isReviewed = false,
 }: {
@@ -173,7 +173,26 @@ function CardMyButton({
     </div>
   );
 }
-Card.MyButton = CardMyButton;
-// function CardReviewButton() {
-//   return ()
-// }
+Card.ReservedButton = CardReservedButton;
+
+/** 나의 리뷰 카드 버튼 */
+function CardReviewButton({ isReviewed = false }: { isReviewed?: boolean }) {
+  function handleWriteReview() {
+    // TODO
+  }
+  return (
+    <div className="flex w-full items-center justify-end md:w-fit">
+      {!isReviewed ? (
+        <button
+          className="rounded-2xl bg-purple-100 px-6 py-2.5 text-base font-bold text-purple-500"
+          onClick={handleWriteReview}
+        >
+          리뷰 작성하기
+        </button>
+      ) : (
+        <></>
+      )}
+    </div>
+  );
+}
+Card.ReviewButton = CardReviewButton;
