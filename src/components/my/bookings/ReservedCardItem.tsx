@@ -1,7 +1,7 @@
 "use client";
 
 import { JoinedGathering } from "@/types";
-import { Card } from "../common/Card";
+import { Card } from "../../common/Card";
 
 /** 마이페이지 나의 모임 카드 컴포넌트 */
 export default function ReservedCardItem({
