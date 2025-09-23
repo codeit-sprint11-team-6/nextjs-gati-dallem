@@ -14,43 +14,45 @@ export interface UserProfile {
 
 interface AvatarProps {
   userProfile?: UserProfile;
-  size?: 'small' | 'medium' | 'large';
+  size?: 'small' | 'medium' | 'large' | 'x-large';
+  type?: 'female' | 'male';
   className?: string;
 }
 
 const DEFAULT_AVATAR_SIZE = 'medium';
+const DEFAULT_AVATAR_TYPE = 'female';
 
+// Figma 디자인에 맞춘 정확한 크기
 const AVATAR_SIZE_CLASSES = {
-  small: "avatar-small",
-  medium: "avatar-medium",
-  large: "avatar-large"
+  small: "w-10 h-10",      // 40px
+  medium: "w-[54px] h-[54px]", // 54px (정확한 Figma 스펙)
+  large: "w-16 h-16",      // 64px
+  'x-large': "w-[114px] h-[114px]" // 114px (정확한 Figma 스펙)
 } as const;
 
-export default function Avatar({ userProfile, size = DEFAULT_AVATAR_SIZE, className }: AvatarProps) {
+export default function Avatar({ 
+  userProfile, 
+  size = DEFAULT_AVATAR_SIZE, 
+  type = DEFAULT_AVATAR_TYPE,
+  className 
+}: AvatarProps) {
 
   return (
     <div 
       className={cn(
-        "avatar",
+        "relative rounded-full bg-white border border-gray-300 overflow-hidden",
         AVATAR_SIZE_CLASSES[size],
         className
       )}
     >
-      {userProfile?.image && userProfile.image.trim() !== '' ? (
-        <Image
-          src={userProfile.image}
-          alt={userProfile.name}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 32px, (max-width: 1024px) 40px, 48px"
-        />
-      ) : (
-        <div className="avatar-gradient">
-          <span className="text-white font-semibold">
-            {userProfile?.name?.charAt(0) || 'U'}
-          </span>
-        </div>
-      )}
+      <Image
+        src={`/avatars/${type}.svg`}
+        alt={`${type} avatar`}
+        fill
+        className="object-contain"
+        sizes="(max-width: 768px) 40px, (max-width: 1024px) 54px, 64px"
+      />
     </div>
   );
 }
+
