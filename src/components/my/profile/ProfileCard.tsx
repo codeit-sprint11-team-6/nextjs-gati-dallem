@@ -1,11 +1,18 @@
 "use client";
 
+import { useOverlay } from "@/hooks/useOverlay";
 import { useAuthStore } from "@/store/authStore";
 import { cn } from "@/utils/classNames";
 import Image from "next/image";
+import ProfileUpdateModal from "./ProfileUpdateModal";
 
 export default function ProfileCard() {
   const { user } = useAuthStore();
+  const { overlay } = useOverlay();
+
+  function handleClickEdit() {
+    overlay(<ProfileUpdateModal />);
+  }
   if (!!!user) return <></>;
   return (
     <section
@@ -45,7 +52,10 @@ export default function ProfileCard() {
           "md:static lg:w-full lg:justify-end",
         )}
       >
-        <button className="flex-center relative aspect-square w-7 overflow-hidden md:w-10">
+        <button
+          className="flex-center btn relative aspect-square w-7 overflow-hidden md:w-10"
+          onClick={handleClickEdit}
+        >
           <Image src="/icon/edit.svg" alt="프로필 수정하기 버튼 이미지" fill />
         </button>
       </div>

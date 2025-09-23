@@ -1,5 +1,5 @@
 import MyPageTab from "@/components/my/MyPageTab";
-import ProfileCard from "@/components/my/ProfileCard";
+import ProfileCard from "@/components/my/profile/ProfileCard";
 import { cn } from "@/utils/classNames";
 
 export default function MyPageLayout({ children }: { children: React.ReactNode }) {
