@@ -15,7 +15,7 @@ interface NavigationProps {
 
 export default function Navigation({ items, favoriteCount }: NavigationProps) {
   return (
-    <nav className="flex items-center">
+    <nav className="flex-center space-x-1 md:space-x-2 lg:space-x-4">
       {items.map((item) => (
         <NavigationLink 
           key={item.href} 
@@ -35,13 +35,13 @@ interface NavigationLinkProps {
 function NavigationLink({ item, favoriteCount }: NavigationLinkProps) {
   const linkClasses = cn(
     // Base styles
-    "flex items-center justify-center transition-colors duration-200 font-['Pretendard']",
+      "flex-center transition-colors duration-200",
     // Responsive sizing
     "h-8 md:h-14 lg:h-14 px-2 md:px-3 lg:px-4 text-xs md:text-base lg:text-base",
     // Active/Inactive states
     item.isActive 
-      ? "text-[#4d59d5] font-semibold md:font-semibold lg:font-bold"
-      : "text-[#737373] hover:text-gray-700 font-medium"
+        ? "font-semibold md:font-semibold lg:font-bold text-white"
+        : "font-medium text-purple-100 hover:text-white"
   );
 
   return (
@@ -62,7 +62,7 @@ interface FavoriteItemProps {
 
 function FavoriteItem({ label, count }: FavoriteItemProps) {
   return (
-    <div className="flex items-center gap-1 md:gap-1.5 lg:gap-2">
+    <div className="flex-center gap-1 md:gap-1.5 lg:gap-2">
       <span>{label}</span>
       <Badge 
         count={count} 

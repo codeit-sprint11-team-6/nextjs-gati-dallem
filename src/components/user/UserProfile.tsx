@@ -13,7 +13,7 @@ export default function UserProfile({ userProfile, isProfileOpen, setIsProfileOp
       <button
         onClick={() => setIsProfileOpen(!isProfileOpen)}
         className={cn(
-          "flex items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-transform hover:scale-105",
+          "flex-center rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-transform hover:scale-105",
           "w-8 h-8 md:w-[54px] md:h-[54px] lg:w-14 lg:h-14"
         )}
         aria-label="프로필 메뉴 열기"
