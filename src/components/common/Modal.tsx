@@ -1,6 +1,7 @@
 import { useOverlay } from "@/hooks/useOverlay";
 import { cn } from "@/utils/classNames";
 import Image from "next/image";
+import { ButtonHTMLAttributes, HtmlHTMLAttributes } from "react";
 
 export default function Modal({
   children,
@@ -35,6 +36,20 @@ function ModalHeader({ children }: { children?: React.ReactNode }) {
   );
 }
 Modal.Header = ModalHeader;
+
+function ModalOneButton({ children, ...props }: ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <div className="grid grid-cols-1 gap-3">
+      <button
+        className="btn rounded-2xl bg-purple-500 p-3 font-bold text-white md:p-4 md:text-xl"
+        {...props}
+      >
+        {children}
+      </button>
+    </div>
+  );
+}
+Modal.OneButton = ModalOneButton;
 
 function ModalTwoButton({
   rightBtnText = "확인",
