@@ -23,7 +23,7 @@ export default function CreatedCardItem({
           <Card.Title id={id}>
             <div className="flex gap-1.5 md:gap-2">{name}</div>
           </Card.Title>
-          <div className="flex flex-col items-center justify-end gap-6 md:flex-row md:justify-between md:gap-3">
+          <div className="flex-end md:flex-between flex-col gap-6 md:flex-row md:gap-3">
             <Card.GatheringDetail {...{ participantCount, capacity, location, dateTime }} />
           </div>
         </div>

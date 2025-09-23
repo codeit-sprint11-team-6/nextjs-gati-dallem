@@ -52,7 +52,7 @@ function CardTags({
   isConfirmed?: boolean;
 }) {
   return (
-    <div className="flex items-center justify-start gap-2">
+    <div className="flex-start gap-2">
       <CompletedChip isCompleted={isCompleted} />
       <ConfirmChip isConfirmed={isConfirmed} />
     </div>
@@ -85,7 +85,7 @@ function CardGatheringDetail({
   const [date, time] = formatDateTime(dateTime);
   return (
     <div className="flex flex-col gap-2.5">
-      <div className="flex items-center gap-1 text-sm font-medium">
+      <div className="flex-start gap-1 text-sm font-medium">
         <Image src="/icon/person.svg" width={16} height={16} alt="모임 이용인원 정보 아이콘" />
         {participantCount}/{capacity}
       </div>
@@ -116,7 +116,7 @@ function CardLikeButton({ isLiked = false }: { isLiked?: boolean }) {
   return (
     <button
       className={cn(
-        "border-color-gray-200 md:border-color-slate-100 flex h-12 w-12 items-center justify-center rounded-full border-1 bg-white",
+        "border-color-gray-200 md:border-color-slate-100 flex-center h-12 w-12 rounded-full border-1 bg-white",
         "absolute top-4 right-4 md:top-6 md:right-8",
       )}
       onClick={handleLikeGathering}
@@ -152,7 +152,7 @@ function CardReservedButton({
   }
 
   return (
-    <div className="flex w-full items-center justify-end md:w-fit">
+    <div className="flex-end w-full md:w-fit">
       {!isCompleted ? (
         <button
           className="rounded-2xl border-1 border-purple-500 px-6 py-2.5 text-base font-semibold text-purple-500"
@@ -181,7 +181,7 @@ function CardReviewButton({ isReviewed = false }: { isReviewed?: boolean }) {
     // TODO
   }
   return (
-    <div className="flex w-full items-center justify-end md:w-fit">
+    <div className="flex-end w-full md:w-fit">
       {!isReviewed ? (
         <button
           className="rounded-2xl bg-purple-100 px-6 py-2.5 text-base font-bold text-purple-500"
