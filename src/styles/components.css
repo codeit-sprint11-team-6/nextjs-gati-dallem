@@ -2,108 +2,87 @@
 @layer components {
   /* Badge Component Styles */
   .badge {
-    @apply bg-white text-purple-500 font-semibold flex items-center justify-center rounded-full;
+    @apply flex items-center justify-center rounded-full bg-white font-semibold text-purple-500;
   }
-  
+
   .badge-small {
-    @apply w-3 h-3 text-[10px] leading-[11px];
+    @apply h-3 w-3 text-[10px] leading-[11px];
   }
-  
+
   .badge-large {
-    @apply w-5 h-4 text-xs leading-4;
+    @apply h-4 w-5 text-xs leading-4;
   }
-  
+
   /* Avatar Component Styles */
   .avatar {
-    @apply bg-gray-200 border border-gray-300 rounded-full flex items-center justify-center overflow-hidden;
+    @apply flex items-center justify-center overflow-hidden rounded-full border border-gray-300 bg-gray-200;
   }
-  
+
   .avatar-small {
-    @apply w-8 h-8 text-xs;
+    @apply h-8 w-8 text-xs;
   }
-  
+
   .avatar-medium {
-    @apply w-10 h-10 text-sm;
+    @apply h-10 w-10 text-sm;
   }
-  
+
   .avatar-large {
-    @apply w-12 h-12 text-base;
+    @apply h-12 w-12 text-base;
   }
-  
+
   .avatar-gradient {
-    @apply w-full h-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center;
+    @apply flex h-full w-full items-center justify-center bg-gradient-to-br from-purple-400 to-purple-600;
   }
 
   /* Typography System - Figma 정확한 스펙 반영 */
   .heading-1 {
-    @apply text-3xl font-extrabold text-gray-900 tracking-tight;
+    @apply text-3xl font-extrabold tracking-tight text-gray-900;
     line-height: 36px; /* 30px / 36px */
   }
-  
+
   .heading-2 {
-    @apply text-2xl font-bold text-gray-900 tracking-tight;
+    @apply text-2xl font-bold tracking-tight text-gray-900;
     line-height: 32px; /* 24px / 32px */
   }
-  
+
   .heading-3 {
-    @apply text-xl font-semibold text-gray-900 tracking-tight;
+    @apply text-xl font-semibold tracking-tight text-gray-900;
     line-height: 28px; /* 20px / 28px */
   }
-  
+
   .heading-4 {
-    @apply text-lg font-semibold text-gray-900 tracking-tight;
+    @apply text-lg font-semibold tracking-tight text-gray-900;
     line-height: 28px; /* 18px / 28px */
   }
-  
+
   .body-large {
     @apply text-lg font-medium text-gray-700;
     line-height: 28px; /* 18px / 28px */
   }
-  
+
   .body-regular {
     @apply text-base font-normal text-gray-700;
     line-height: 24px; /* 16px / 24px */
   }
-  
+
   .body-small {
     @apply text-sm font-normal text-gray-600;
     line-height: 20px; /* 14px / 20px */
   }
-  
+
   .caption {
     @apply text-xs font-normal text-gray-500;
     line-height: 16px; /* 12px / 16px */
   }
-  
+
   /* Tenada Font System - 반응형 Figma 스펙 */
-  .tenada {
+  .font-logo {
     font-family: var(--font-tenada);
-    font-weight: 800;
-    /* 모바일 기본 */
-    font-size: 18px;
-    line-height: 22px;
-    letter-spacing: -1.08px;
-    color: var(--color-gray-900);
+    font-weight: 800; /* font-extrabold */
+    color: var(--color-purple-500);
+    letter-spacing: -0.06em;
   }
-  
-  /* 태블릿 */
-  @media (min-width: 768px) {
-    .tenada {
-      font-size: 20px;
-      line-height: 24px;
-      letter-spacing: -1.2px;
-    }
-  }
-  
-  /* 데스크톱 */
-  @media (min-width: 1024px) {
-    .tenada {
-      font-size: 24px;
-      line-height: 30px;
-      letter-spacing: -1.44px;
-    }
-  }
-  
+
   /* Dark Mode Typography */
   .dark .heading-1,
   .dark .heading-2,
@@ -111,25 +90,25 @@
   .dark .heading-4 {
     @apply text-gray-100;
   }
-  
+
   .dark .body-large,
   .dark .body-regular {
     @apply text-gray-300;
   }
-  
+
   .dark .body-small {
     @apply text-gray-400;
   }
-  
+
   .dark .caption {
     @apply text-gray-500;
   }
-  
+
   /* Dark Mode Tenada */
   .dark .tenada {
     color: var(--color-gray-100);
   }
-  
+
   /* Button Components */
   .btn {
     display: inline-flex;
@@ -144,61 +123,61 @@
     border: none;
     cursor: pointer;
   }
-  
+
   .btn:focus {
-    box-shadow: 0 0 0 2px var(--color-green-500);
+    box-shadow: 0 0 0 2px var(--color-purple-100);
   }
-  
+
   .btn-primary {
     background-color: var(--color-purple-500);
     color: white;
   }
-  
+
   .btn-primary:hover {
     background-color: var(--color-purple-600);
   }
-  
+
   .btn-primary:focus {
     box-shadow: 0 0 0 2px var(--color-purple-500);
   }
-  
+
   .btn-secondary {
     background-color: var(--color-pink-500);
     color: white;
   }
-  
+
   .btn-secondary:hover {
     background-color: var(--color-pink-600);
   }
-  
+
   .btn-secondary:focus {
     box-shadow: 0 0 0 2px var(--color-pink-500);
   }
-  
+
   .btn-gradient {
     color: white;
-    background: linear-gradient(135deg, #5865F2 0%, #FF4CD2 100%);
+    background: linear-gradient(135deg, #5865f2 0%, #ff4cd2 100%);
   }
-  
+
   .btn-gradient:hover {
     transform: translateY(-1px);
     box-shadow: 0 0 20px rgb(88 101 242 / 0.3);
   }
-  
+
   .btn-outline {
     border: 2px solid var(--color-gray-300);
     color: var(--color-gray-700);
     background-color: transparent;
   }
-  
+
   .btn-outline:hover {
     background-color: var(--color-gray-50);
   }
-  
+
   .btn-outline:focus {
     box-shadow: 0 0 0 2px var(--color-gray-500);
   }
-  
+
   /* Card Components */
   .card {
     background-color: white;
@@ -207,7 +186,7 @@
     border: 1px solid var(--color-gray-100);
     overflow: hidden;
   }
-  
+
   .card-hover {
     background-color: white;
     border-radius: 0.75rem;
@@ -216,24 +195,24 @@
     overflow: hidden;
     transition: all 0.2s;
   }
-  
+
   .card-hover:hover {
     box-shadow: 0 4px 20px rgb(0 0 0 / 0.1);
     transform: translateY(-1px);
   }
-  
+
   .card-gradient {
     color: white;
     border-radius: 0.75rem;
     overflow: hidden;
-    background: linear-gradient(135deg, #5865F2 0%, #FF4CD2 100%);
+    background: linear-gradient(135deg, #5865f2 0%, #ff4cd2 100%);
   }
-  
+
   .card-gradient:hover {
     transform: translateY(-4px);
     box-shadow: 0 0 20px rgb(88 101 242 / 0.3);
   }
-  
+
   /* Input Fields */
   .input {
     width: 100%;
@@ -244,73 +223,73 @@
     outline: none;
     transition: all 0.2s;
   }
-  
+
   .input:focus {
     border-color: transparent;
     box-shadow: 0 0 0 2px var(--color-green-500);
   }
-  
+
   /* Container System */
   .container-custom {
     max-width: 80rem;
     margin: 0 auto;
     padding: 0 1rem;
   }
-  
+
   @media (min-width: 640px) {
     .container-custom {
       padding: 0 1.5rem;
     }
   }
-  
+
   @media (min-width: 1024px) {
     .container-custom {
       padding: 0 2rem;
     }
   }
-  
+
   .container-narrow {
     max-width: 56rem;
     margin: 0 auto;
     padding: 0 1rem;
   }
-  
+
   @media (min-width: 640px) {
     .container-narrow {
       padding: 0 1.5rem;
     }
   }
-  
+
   @media (min-width: 1024px) {
     .container-narrow {
       padding: 0 2rem;
     }
   }
-  
+
   .container-wide {
     max-width: 100%;
     margin: 0 auto;
     padding: 0 1rem;
   }
-  
+
   @media (min-width: 640px) {
     .container-wide {
       padding: 0 1.5rem;
     }
   }
-  
+
   @media (min-width: 1024px) {
     .container-wide {
       padding: 0 2rem;
     }
   }
-  
+
   /* Grid System */
   .grid-auto-fit {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
-  
+
   .grid-auto-fill {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
