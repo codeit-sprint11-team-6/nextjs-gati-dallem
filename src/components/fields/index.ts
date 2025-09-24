@@ -1,5 +1,4 @@
-export * from "./DateField";
-export * from "./PasswordField";
-export * from "./FileField";
-export * from "./SelectField";
-
+export * from "./date-field";
+export * from "./password-field";
+export * from "./file-field";
+export * from "./select-field";
