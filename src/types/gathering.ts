@@ -22,13 +22,13 @@ export enum GatheringLocation {
  * - SEMINAR: 세미나
  *
  * ex. 사용 예시
- * `const networkingGatheringType = GatheringType["NETWORKING"]`
+ * `const GatheringMapper = GatheringType["NETWORKING"]`
  */
-export enum GatheringType {
-  NETWORKING = DefaultGatheringType["DALLAEMFIT"],
-  OFFICE_STRETCHING = DefaultGatheringType["OFFICE_STRETCHING"],
-  MINDFULNESS = DefaultGatheringType["MINDFULNESS"],
-  WORKATION = DefaultGatheringType["WORKATION"],
+export enum GatheringMapper {
+  DALLAEMFIT = "네트워킹",
+  OFFICE_STRETCHING = "개발자 커뮤니티",
+  MINDFULNESS = "비개발자도 함께 하는 커뮤니티",
+  WORKATION = "세미나",
 }
 
 /** 식별자 */
@@ -42,7 +42,7 @@ export type JoinedSortBy = "dateTime" | "registrationEnd" | "joinedAt";
 export interface Gathering {
   teamId: TeamId;
   id: GatheringId;
-  type: DefaultGatheringType;
+  type: string;
   name: string;
   dateTime: ISODateTimeString;
   registrationEnd?: ISODateTimeString;
