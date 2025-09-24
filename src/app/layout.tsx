@@ -3,7 +3,7 @@ import { pretendard, tenada } from '@/lib/fonts'
 import "../styles/globals.css";
 
 import Providers from "./providers";
-import LayoutInner from "@/layout/LayoutInner";
+import MainNav from "@/layout/Header";
 
 export const metadata: Metadata = {
   title: {
@@ -26,7 +26,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ko" className={`${pretendard.variable} ${tenada.variable}`}>
       <body>
         <Providers>
-          <LayoutInner>{children}</LayoutInner>
+          <MainNav />
+          <main className="min-h-dvh">{children}</main>
         </Providers>
       </body>
     </html>
