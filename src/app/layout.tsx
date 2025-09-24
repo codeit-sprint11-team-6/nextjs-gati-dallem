@@ -1,6 +1,7 @@
-import { pretendard, tenada } from "@/lib/fonts";
 import type { Metadata } from "next";
-import "./globals.css";
+import { pretendard, tenada } from '@/lib/fonts'
+import "../styles/globals.css";
+
 import Providers from "./providers";
 import LayoutInner from "@/layout/LayoutInner";
 
