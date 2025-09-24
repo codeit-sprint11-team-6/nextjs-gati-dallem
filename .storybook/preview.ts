@@ -1,8 +1,8 @@
 // .storybook/preview.ts
 
-// import type { Preview } from "@storybook/nextjs-vite";
 import type { Preview } from "@storybook/react";
-import "../src/app/globals.css";
+import "../src/styles/globals.css";
+
 const preview: Preview = {
   parameters: {
     controls: {
@@ -14,13 +14,13 @@ const preview: Preview = {
     // 전체 스토리에 배경 설정
     backgrounds: {
       options: {
-        red: {
-          name: "red",
-          value: "red",
+        light: {
+          name: "light",
+          value: "#F6F7F9",
         },
-        blue: {
-          name: "blue",
-          value: "blue",
+        dark: {
+          name: "dark",
+          value: "#333333",
         },
       },
     },
