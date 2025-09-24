@@ -12,7 +12,7 @@ const inputVariants = cva(
     "shadow-xs transition-[color,box-shadow,border-color]",
     "outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium",
     "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-    " focus-visible:border-purple-500 focus-visible:ring-1.5 focus-visible:ring-purple-500 focus-visible:ring-offset-0",
+    " focus-visible:border-purple-500 focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-0",
   ].join(" "),
   {
     variants: {
