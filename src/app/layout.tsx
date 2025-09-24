@@ -27,8 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="flex min-h-dvh flex-col">
         <Providers>
           <MainNav />
-          {/* 메인이 남는 공간만 차지 = 헤더+푸터 있어도 100dvh 초과 안 함 */}
-          <main className="min-h-0 flex-1">{children}</main>
+          <main className="min-h-dvh">{children}</main>
         </Providers>
       </body>
     </html>
