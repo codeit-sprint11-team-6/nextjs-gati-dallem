@@ -1,0 +1,115 @@
+/* Design Tokens - 색상, 폰트, 간격 등 디자인 토큰 */
+
+@theme {
+  
+  /* Color Palette (OKLCH - Perceptual Uniformity) */
+  --color-gray-50: oklch(0.985 0.002 247.839);
+  --color-gray-100: oklch(0.967 0.003 264.542);
+  --color-gray-200: oklch(0.928 0.006 264.531);
+  --color-gray-300: oklch(0.872 0.01 258.338);
+  --color-gray-500: oklch(0.551 0.027 264.364);
+  --color-gray-600: oklch(0.446 0.03 256.802);
+  --color-gray-700: oklch(0.373 0.034 259.733);
+  --color-gray-800: oklch(0.278 0.033 256.848);
+  
+  /* Primary Purple (Main Brand Color) */
+  --color-purple-50: oklch(0.9138 0.0381 282.37);
+  --color-purple-100: oklch(0.8457 0.0699 280.32);
+  --color-purple-200: oklch(0.7758 0.1044 279.44);
+  --color-purple-300: oklch(0.7066 0.1399 278.11);
+  --color-purple-400: oklch(0.6417 0.1741 276.32);
+  --color-purple-500: oklch(0.5774 0.2091 273.85);
+  --color-purple-600: oklch(0.5267 0.1885 273.8);
+  --color-purple-700: oklch(0.4753 0.1671 274.11);
+  --color-purple-800: oklch(0.4219 0.1452 274.06);
+  --color-purple-900: oklch(0.3675 0.1222 274.55);
+  --color-purple-950: oklch(0.3082 0.0998 275.12);
+  
+  /* Primary Pink (Main Brand Color) */
+  --color-pink-50: oklch(0.9292 0.0529 334.81);
+  --color-pink-100: oklch(0.877 0.0953 335.61);
+  --color-pink-200: oklch(0.8265 0.1395 336.39);
+  --color-pink-300: oklch(0.7805 0.1815 337.68);
+  --color-pink-400: oklch(0.7424 0.2188 338.7);
+  --color-pink-500: oklch(0.7106 0.2509 339.8);
+  --color-pink-600: oklch(0.6459 0.2264 339.58);
+  --color-pink-700: oklch(0.581 0.2019 339.59);
+  --color-pink-800: oklch(0.5123 0.1752 339.71);
+  --color-pink-900: oklch(0.4434 0.1489 339.76);
+  --color-pink-950: oklch(0.3689 0.1219 339.22);
+  
+  /* Secondary Green */
+  --color-green-50: oklch(0.982 0.018 155.826);
+  --color-green-100: oklch(0.962 0.044 156.743);
+  --color-green-200: oklch(0.925 0.084 155.995);
+  --color-green-300: oklch(0.871 0.15 154.449);
+  --color-green-400: oklch(0.792 0.209 151.711);
+  --color-green-500: oklch(0.707 0.209 151.711);
+  --color-green-600: oklch(0.651 0.215 150.123);
+  --color-green-700: oklch(0.527 0.154 150.069);
+  --color-green-800: oklch(0.448 0.119 151.328);
+  --color-green-900: oklch(0.393 0.095 152.535);
+  --color-green-950: oklch(0.266 0.065 152.934);
+  
+  /* Secondary Blue */
+  --color-blue-50: oklch(0.97 0.014 254.604);
+  --color-blue-100: oklch(0.932 0.032 255.585);
+  --color-blue-200: oklch(0.882 0.059 254.128);
+  --color-blue-300: oklch(0.809 0.105 251.813);
+  --color-blue-400: oklch(0.707 0.165 254.624);
+  --color-blue-500: oklch(0.651 0.215 254.123);
+  --color-blue-600: oklch(0.595 0.243 264.376);
+  --color-blue-700: oklch(0.488 0.243 264.376);
+  --color-blue-800: oklch(0.424 0.199 265.638);
+  --color-blue-900: oklch(0.379 0.146 265.522);
+  --color-blue-950: oklch(0.282 0.091 267.935);
+  
+  /* Font Families */
+  --font-sans: var(--font-pretendard), ui-sans-serif, system-ui, sans-serif;
+  --font-tenada: var(--font-tenada), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, monospace;
+  
+  /* Spacing System */
+  --spacing-18: 4.5rem;   /* 72px */
+  --spacing-88: 22rem;    /* 352px */
+  --spacing-128: 32rem;   /* 512px */
+  --spacing-144: 36rem;   /* 576px */
+  
+  /* Custom Breakpoints (only if different from defaults) */
+  --breakpoint-xs: 475px;
+  --breakpoint-3xl: 1600px;
+  --breakpoint-4xl: 1920px;
+  
+  /* Custom Shadows (only project-specific ones) */
+  --shadow-custom: 0 4px 20px rgb(0 0 0 / 0.1);
+  --shadow-card: 0 2px 8px rgb(0 0 0 / 0.08);
+  --shadow-glow: 0 0 20px rgb(88 101 242 / 0.3);
+  --shadow-glow-pink: 0 0 20px rgb(255 76 210 / 0.3);
+  
+  /* Custom Border Radius (only if needed) */
+  --radius-full: 9999px;
+  
+  /* Animations */
+  --animate-fade-in: fadeIn 0.5s ease-in-out;
+  --animate-slide-up: slideUp 0.3s ease-out;
+  --animate-slide-down: slideDown 0.3s ease-out;
+  --animate-scale-in: scaleIn 0.2s ease-out;
+  --animate-bounce-slow: bounce 2s infinite;
+  --animate-pulse-slow: pulse 3s infinite;
+  --animate-spin-slow: spin 3s linear infinite;
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+}
+
+/* Dark Mode Variables */
+@media (prefers-color-scheme: dark) {
+  @theme {
+    --color-primary: #4ADE80;
+    --color-primary-hover: #22C55E;
+    --color-secondary: #60A5FA;
+    --color-secondary-hover: #3B82F6;
+    --color-accent: #A78BFA;
+    --color-accent-hover: #8B5CF6;
+    --color-accent-pink: #F472B6;
+    --color-accent-pink-hover: #EC4899;
+  }
+}
