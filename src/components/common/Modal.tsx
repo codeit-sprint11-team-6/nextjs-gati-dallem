@@ -3,11 +3,14 @@ import { cn } from "@/utils/classNames";
 import Image from "next/image";
 import { ButtonHTMLAttributes, HtmlHTMLAttributes } from "react";
 
+/**
+ * CCP로 직접 구현하는 모달 컴포넌트
+ */
 export default function Modal({
   children,
   className = "",
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 }) {
   return (
@@ -29,7 +32,7 @@ function ModalHeader({ children }: { children?: React.ReactNode }) {
   return (
     <div className="flex-between">
       <h2 className="text-lg font-semibold text-gray-900 md:text-2xl">{children}</h2>
-      <button className="btn" onClick={close}>
+      <button className="cursor-pointer" onClick={close}>
         <Image src="/icon/delete.svg" width={24} height={24} alt="모달 닫기 버튼 이미지" />
       </button>
     </div>
@@ -39,7 +42,7 @@ Modal.Header = ModalHeader;
 
 function ModalOneButton({ children, ...props }: ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <div className="grid grid-cols-1 gap-3">
+    <div className="grid grid-cols-1 gap-3 px-18 md:px-24">
       <button
         className="btn rounded-2xl bg-purple-500 p-3 font-bold text-white md:p-4 md:text-xl"
         {...props}
