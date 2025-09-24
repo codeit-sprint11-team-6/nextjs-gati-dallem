@@ -47,19 +47,12 @@ export const SelectField = React.forwardRef<HTMLDivElement, SelectFieldProps>(
           <SelectTrigger
             aria-invalid={state === "invalid" || undefined}
             className={cn(
-              // 레이아웃 & 폭
               "w-full text-left",
-              // 패딩 & 사이즈 매핑
               sizeMap[size],
-              // 배경 & 테두리 & 라운드
               "bg-transparent border border-input rounded-xl",
-              // 그림자
               "shadow-xs",
-              // 포커스
               "outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
-              // 전환 효과
               "transition-[box-shadow,border-color]",
-              // 상태 경계선
               state === "invalid" && "border-red-500",
               state === "success" && "border-purple-500",
               className,
