@@ -14,7 +14,6 @@ const MockData = {
   location: "string",
   participantCount: 0,
   capacity: 0,
-  image: "string",
   createdBy: 0,
   canceledAt: "2025-09-23T00:16:21.224Z",
   joinedAt: "2025-09-23T00:16:21.224Z",
@@ -46,7 +45,7 @@ export default function MyPage() {
           <ConfirmChip isConfirmed={false} />
           <ConfirmChip isConfirmed={true} />
         </div>
-        <div className="grid justify-stretch gap-4">
+        <div className="grid w-full justify-stretch gap-4">
           <ReservedCardItem {...MockData} />
           <ReviewCardItem {...MockData} />
           <CreatedCardItem {...MockData} />
