@@ -5,19 +5,11 @@ const config: StorybookConfig = {
     name: "@storybook/nextjs-vite",
     options: {},
   },
-  stories: [
-    "../src/**/Button.gallery.stories.@(ts|tsx|mdx)",
-    "../src/**/Button.presets.*.stories.@(ts|tsx|mdx)",
-    // "../src/components/ui/__stories__/Button.stories.@(ts|tsx|mdx)"  // 제외
-  ],
-
+  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   addons: [
     "@storybook/addon-docs",
-    // "@storybook/addon-essentials", // 구버전
-    // "@storybook/addon-interactions", // 구버전
     // "@storybook/addon-a11y", // 접근성 검사 쓰고 싶을 때만 유지
     // "@chromatic-com/storybook", // 크로마틱 안 쓸 거면 제거
-    // "@storybook/addon-docs", // essentials 안에 이미 포함 → 중복
     // "@storybook/addon-onboarding", // 체험용, 실제 개발에선 불필요
     // "@storybook/addon-vitest", // Vitest 연동 쓸 때만 필요
   ],

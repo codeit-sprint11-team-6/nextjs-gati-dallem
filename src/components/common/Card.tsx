@@ -4,12 +4,12 @@ import { cn } from "@/utils/classNames";
 import { formatDateTime } from "@/utils/datetime";
 import Image from "next/image";
 import Link from "next/link";
-import { CompletedChip, ConfirmChip } from "../my/ChipState";
+import { CompletedChip, ConfirmChip } from "../ui/Chip";
 
 /**
  * CCP로 직접 구현하는 모임 카드 컴포넌트
  */
-export function Card({ children }: { children: React.ReactNode }) {
+export function Card({ children }: { children?: React.ReactNode }) {
   return (
     <article
       className={cn(
@@ -26,9 +26,9 @@ export function Card({ children }: { children: React.ReactNode }) {
 /** 모임 이미지 영역 */
 function CardImage({ image }: { image?: string }) {
   return (
-    <div className="aspect-[2.2] overflow-hidden md:aspect-square md:w-[170px] md:rounded-3xl">
+    <div className="relative aspect-[2.2] overflow-hidden md:aspect-square md:w-[170px] md:rounded-3xl">
       {image ? (
-        <Image className="object-fit" src={image} alt="모임 이미지 미리보기" fill />
+        <Image className="object-fill" src={image} alt="모임 이미지 미리보기" fill />
       ) : (
         <div className="h-full w-full bg-gray-200" />
       )}
