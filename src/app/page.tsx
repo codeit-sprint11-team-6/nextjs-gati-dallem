@@ -4,9 +4,7 @@ export default function Home() {
       <div className="container-custom">
         {/* Main Header */}
         <div className="text-center mb-12">
-          <h1 className="heading-1 text-gradient-purple-pink mb-4">
-            Design System
-          </h1>
+          <h1 className="heading-1 text-gradient-purple-pink mb-4">Design System</h1>
           <p className="body-large text-gray-600">
             Tailwind CSS v4 + OKLCH Colors + Complete Component System
           </p>
@@ -18,7 +16,7 @@ export default function Home() {
           <p className="body-regular text-gray-600 mb-8">
             Figma 디자인 시스템과 정확히 일치하는 타이포그래피 스펙
           </p>
-          
+
           <div className="space-y-8">
             {/* Pretendard 폰트 시스템 */}
             <div>
@@ -28,37 +26,41 @@ export default function Home() {
                   <h1 className="heading-1 mb-2">Heading 1 - Main Title</h1>
                   <p className="caption">heading-1 class • 30px / 36px • font-extrabold</p>
                 </div>
-                
+
                 <div>
                   <h2 className="heading-2 mb-2">Heading 2 - Section Title</h2>
                   <p className="caption">heading-2 class • 24px / 32px • font-bold</p>
                 </div>
-                
+
                 <div>
                   <h3 className="heading-3 mb-2">Heading 3 - Subsection</h3>
                   <p className="caption">heading-3 class • 20px / 28px • font-semibold</p>
                 </div>
-                
+
                 <div>
                   <h4 className="heading-4 mb-2">Heading 4 - Card Title</h4>
                   <p className="caption">heading-4 class • 18px / 28px • font-semibold</p>
                 </div>
-                
+
                 <div>
-                  <p className="body-large mb-2">Body Large - Important content with medium weight</p>
+                  <p className="body-large mb-2">
+                    Body Large - Important content with medium weight
+                  </p>
                   <p className="caption">body-large class • 18px / 28px • font-medium</p>
                 </div>
-                
+
                 <div>
-                  <p className="body-regular mb-2">Body Regular - Standard paragraph text with normal weight</p>
+                  <p className="body-regular mb-2">
+                    Body Regular - Standard paragraph text with normal weight
+                  </p>
                   <p className="caption">body-regular class • 16px / 24px • font-normal</p>
                 </div>
-                
+
                 <div>
                   <p className="body-small mb-2">Body Small - Secondary information</p>
                   <p className="caption">body-small class • 14px / 20px • font-normal</p>
                 </div>
-                
+
                 <div>
                   <p className="caption">Caption - Small helper text</p>
                   <p className="caption">caption class • 12px / 16px • font-normal</p>
@@ -72,7 +74,9 @@ export default function Home() {
               <div className="space-y-6">
                 <div>
                   <p className="tenada mb-2">Tenada</p>
-                  <p className="caption">tenada class • 24px / 30px • font-extrabold • letter-spacing: -1.44px</p>
+                  <p className="caption">
+                    tenada class • 24px / 30px • font-extrabold • letter-spacing: -1.44px
+                  </p>
                 </div>
               </div>
             </div>
@@ -86,7 +90,7 @@ export default function Home() {
                   <p className="tenada mb-2">Tenada</p>
                   <p className="caption">비슷한 크기 (24px vs 24px), 다른 폰트 패밀리와 스타일</p>
                 </div>
-                
+
                 <div className="p-4 bg-gray-50 rounded-lg">
                   <p className="heading-4 mb-2">Pretendard Heading 4</p>
                   <p className="tenada mb-2">Tenada</p>
@@ -96,11 +100,11 @@ export default function Home() {
             </div>
           </div>
         </div>
-        
+
         {/* 버튼 시스템 */}
         <div className="card p-8 mb-8">
           <h2 className="heading-2 mb-6">버튼 시스템</h2>
-          
+
           <div className="space-y-8">
             {/* 기본 버튼들 */}
             <div>
@@ -112,7 +116,7 @@ export default function Home() {
                 <button className="btn-outline">Outline</button>
               </div>
             </div>
-            
+
             {/* 버튼 크기 */}
             <div>
               <h3 className="heading-3 mb-4">버튼 크기</h3>
@@ -142,7 +146,9 @@ export default function Home() {
               <div className="flex gap-4 flex-wrap">
                 <button className="btn-primary">Normal</button>
                 <button className="btn-primary hover:scale-105 transition-transform">Hover</button>
-                <button className="btn-primary opacity-50 cursor-not-allowed" disabled>Disabled</button>
+                <button className="btn-primary opacity-50 cursor-not-allowed" disabled>
+                  Disabled
+                </button>
                 <button className="btn-primary animate-pulse">Loading</button>
               </div>
             </div>
@@ -195,9 +201,7 @@ export default function Home() {
                 <button className="btn-secondary border-2 border-transparent hover:border-pink-300 transition-colors">
                   Border
                 </button>
-                <button className="btn-outline hover:bg-gray-50 transition-colors">
-                  Smooth
-                </button>
+                <button className="btn-outline hover:bg-gray-50 transition-colors">Smooth</button>
                 <button className="btn-gradient hover:scale-105 transition-transform shadow-glow">
                   Glow
                 </button>
@@ -215,11 +219,11 @@ export default function Home() {
             </div>
           </div>
         </div>
-        
+
         {/* 카드 시스템 */}
         <div className="mb-8">
           <h2 className="heading-2 mb-6">카드 시스템</h2>
-          
+
           <div className="grid grid-auto-fit gap-6">
             <div className="card p-6">
               <h3 className="heading-3 mb-3">Basic Card</h3>
@@ -230,17 +234,15 @@ export default function Home() {
                 <button className="btn-primary">Action</button>
               </div>
             </div>
-            
+
             <div className="card-hover p-6">
               <h3 className="heading-3 mb-3">Hover Card</h3>
-              <p className="body-regular mb-4">
-                Card with smooth hover animation and lift effect.
-              </p>
+              <p className="body-regular mb-4">Card with smooth hover animation and lift effect.</p>
               <div className="flex-end">
                 <button className="btn-secondary">Action</button>
               </div>
             </div>
-            
+
             <div className="card-gradient p-6">
               <h3 className="heading-3 mb-3">Gradient Card</h3>
               <p className="body-regular mb-4">
@@ -252,14 +254,14 @@ export default function Home() {
             </div>
           </div>
         </div>
-        
+
         {/* 컬러 시스템 */}
         <div className="card p-8 mb-8">
           <h2 className="heading-2 mb-6">컬러 시스템</h2>
           <p className="body-regular text-gray-600 mb-8">
             OKLCH color system for perceptual uniformity and modern design.
           </p>
-          
+
           {/* 메인 컬러 팔레트 */}
           <div className="mb-8">
             <h3 className="heading-3 mb-4">메인 컬러 팔레트</h3>
@@ -482,7 +484,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              
+
               {/* Gray 사용 예시 */}
               <div>
                 <h4 className="heading-4 mb-3 text-gray-700">Gray 사용 예시</h4>
@@ -576,12 +578,11 @@ export default function Home() {
             </div>
           </div>
         </div>
-        
 
         {/* 그라데이션 시스템 */}
         <div className="card p-8 mb-8">
           <h2 className="heading-2 mb-6">그라데이션 시스템</h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div className="bg-gradient-purple-pink-100 p-6 rounded-xl text-center">
               <h4 className="font-bold text-gray-800 mb-2">Purple-Pink 100</h4>
@@ -594,7 +595,7 @@ export default function Home() {
             <div className="bg-gradient-purple-pink-600 p-6 rounded-xl text-center text-white">
               <h4 className="font-bold mb-2">Purple-Pink 600</h4>
               <p className="caption opacity-90">Strong gradient</p>
-      </div>
+            </div>
           </div>
         </div>
 
@@ -604,7 +605,7 @@ export default function Home() {
           <p className="body-large mb-6">
             Brand gradients and various visual effects for modern UI.
           </p>
-          
+
           <div className="flex-center gap-6 flex-wrap">
             <div className="glass p-4 rounded-lg">
               <span className="font-semibold">Glassmorphism</span>
@@ -617,47 +618,35 @@ export default function Home() {
             </div>
             <div className="animate-bounce-slow p-4 rounded-lg bg-white/20">
               <span className="font-semibold">Slow Bounce</span>
-          </div>
+            </div>
           </div>
         </div>
 
         {/* 폼 요소 */}
         <div className="card p-8 mb-8">
           <h2 className="heading-2 mb-6">폼 요소</h2>
-          
+
           <div className="space-y-4 max-w-md">
             <div>
               <label className="body-small font-medium text-gray-700 mb-2 block">
                 Email Address
               </label>
-              <input 
-                type="email" 
-                className="input" 
-                placeholder="example@email.com"
-              />
-      </div>
-      
+              <input type="email" className="input" placeholder="example@email.com" />
+            </div>
+
             <div>
-              <label className="body-small font-medium text-gray-700 mb-2 block">
-                Password
-              </label>
-              <input 
-                type="password" 
-                className="input" 
-                placeholder="Enter your password"
-              />
-        </div>
-            
+              <label className="body-small font-medium text-gray-700 mb-2 block">Password</label>
+              <input type="password" className="input" placeholder="Enter your password" />
+            </div>
+
             <div>
-              <label className="body-small font-medium text-gray-700 mb-2 block">
-                Message
-              </label>
-              <textarea 
-                className="input min-h-[100px] resize-none" 
+              <label className="body-small font-medium text-gray-700 mb-2 block">Message</label>
+              <textarea
+                className="input min-h-[100px] resize-none"
                 placeholder="Enter your message..."
               />
-      </div>
-      
+            </div>
+
             <div className="flex gap-3 pt-4">
               <button className="btn-primary">Submit</button>
               <button className="btn-outline">Cancel</button>
@@ -668,7 +657,7 @@ export default function Home() {
         {/* 레이아웃 시스템 */}
         <div className="card p-8">
           <h2 className="heading-2 mb-6">레이아웃 시스템</h2>
-          
+
           <div className="space-y-6">
             <div>
               <h3 className="heading-3 mb-3">Flex Utilities</h3>
@@ -686,9 +675,9 @@ export default function Home() {
                 <div className="flex-end bg-gray-100 p-4 rounded">
                   <span className="body-small">flex-end</span>
                 </div>
-        </div>
-      </div>
-      
+              </div>
+            </div>
+
             <div>
               <h3 className="heading-3 mb-3">Container System</h3>
               <div className="space-y-2">
@@ -699,7 +688,7 @@ export default function Home() {
                   <span className="body-small">container-custom (max-width: 80rem)</span>
                 </div>
               </div>
-          </div>
+            </div>
           </div>
         </div>
       </div>
