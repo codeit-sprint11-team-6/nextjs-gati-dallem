@@ -26,7 +26,7 @@ export default function ReservedCardItem({
             <Card.Title id={id}>
               <div className="flex gap-1.5 md:gap-2">{name}</div>
             </Card.Title>
-            <div className="flex-end md:flex-between flex-col items-center gap-6 md:flex-row md:gap-3">
+            <div className="flex-between flex-col items-center gap-6 md:w-full md:flex-row md:gap-3">
               <Card.GatheringDetail {...{ participantCount, capacity, location, dateTime }} />
               <Card.ReservedButton />
             </div>
