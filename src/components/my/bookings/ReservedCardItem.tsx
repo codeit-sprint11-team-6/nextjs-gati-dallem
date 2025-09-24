@@ -7,6 +7,7 @@ import { Card } from "../../common/Card";
 export default function ReservedCardItem({
   id,
   name,
+  image,
   participantCount,
   capacity,
   dateTime,
@@ -17,7 +18,7 @@ export default function ReservedCardItem({
 }: JoinedGathering) {
   return (
     <Card>
-      <Card.Image />
+      <Card.Image image={image} />
       <Card.Detail>
         <div className="flex flex-col gap-3.5 md:gap-4">
           <Card.Tags />

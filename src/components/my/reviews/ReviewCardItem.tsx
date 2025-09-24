@@ -7,6 +7,7 @@ import { Card } from "../../common/Card";
 export default function ReviewCardItem({
   id,
   name,
+  image,
   participantCount,
   capacity,
   dateTime,
@@ -17,7 +18,7 @@ export default function ReviewCardItem({
 }: JoinedGathering) {
   return (
     <Card>
-      <Card.Image />
+      <Card.Image image={image} />
       <Card.Detail>
         <div className="flex h-full flex-col items-start justify-between gap-4">
           <Card.Title id={id}>
