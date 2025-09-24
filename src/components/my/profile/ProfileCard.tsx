@@ -46,12 +46,7 @@ export default function ProfileCard() {
           </li>
         </ul>
       </div>
-      <div
-        className={cn(
-          "flex-center absolute top-[-34px] right-0",
-          "md:static lg:w-full lg:justify-end",
-        )}
-      >
+      <div className="flex-end absolute top-[-34px] right-0 md:static lg:w-full">
         <button
           className="flex-center btn relative aspect-square w-7 overflow-hidden md:w-10"
           onClick={handleClickEdit}

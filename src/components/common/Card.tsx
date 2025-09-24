@@ -4,7 +4,7 @@ import { cn } from "@/utils/classNames";
 import { formatDateTime } from "@/utils/datetime";
 import Image from "next/image";
 import Link from "next/link";
-import { CompletedChip, ConfirmChip } from "../my/ChipState";
+import { CompletedChip, ConfirmChip } from "../ui/Chip";
 
 /**
  * CCP로 직접 구현하는 모임 카드 컴포넌트
