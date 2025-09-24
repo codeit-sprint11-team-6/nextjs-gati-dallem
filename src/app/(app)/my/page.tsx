@@ -1,9 +1,8 @@
-import Chip from "@/components/common/Chip";
 import ReservedCardItem from "@/components/my/bookings/ReservedCardItem";
-import { ChipInfo, CompletedChip, ConfirmChip } from "@/components/my/ChipState";
 import CreatedCardItem from "@/components/my/hosted/CreatedCardItem";
 import ReviewCardItem from "@/components/my/reviews/ReviewCardItem";
-import Image from "next/image";
+import { AlarmTag, ChipInfo, CompletedChip, ConfirmChip } from "@/components/ui/Chip";
+import { formatDateTime } from "@/utils/datetime";
 
 const MockData = {
   teamId: "11-6",
@@ -25,16 +24,17 @@ const MockData = {
 
 // src/app/(app)/my/page.tsx
 export default function MyPage() {
+  const [date, time] = formatDateTime(MockData.dateTime);
   return (
     <div className="w-full rounded-lg border-1 p-5">
       <div className="flex flex-col items-start justify-center gap-4">
         <div className="flex flex-wrap gap-2">
           <h2 className="heading-2">tag</h2>
-          <AlarmTag />
+          <AlarmTag>오늘 21시 마감</AlarmTag>
         </div>
         <div className="flex flex-wrap gap-2">
           <h2 className="heading-2">info</h2>
-          <ChipInfo />
+          <ChipInfo>{time}</ChipInfo>
         </div>
         <div className="flex flex-wrap gap-2">
           <h2 className="heading-2">이용 상태 (brand/disabled)</h2>
@@ -55,12 +55,3 @@ export default function MyPage() {
     </div>
   );
 }
-
-export const AlarmTag = () => {
-  return (
-    <Chip variant="tag">
-      <Image src="/icon/alarm.svg" width={24} height={24} alt="태그 아이콘 이미지" />
-      <span>오늘 21시 마감</span>
-    </Chip>
-  );
-};
