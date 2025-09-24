@@ -48,20 +48,24 @@ function Calendar({
         months: cn("flex gap-4 flex-col md:flex-row relative", defaultClassNames.months),
         month: cn("flex flex-col w-full gap-4", defaultClassNames.month),
         nav: cn(
+          // 네비게이션 바 배치
           "flex items-center gap-1 w-full absolute top-0 inset-x-0 justify-between",
           defaultClassNames.nav,
         ),
         button_previous: cn(
+          // 이전 달 버튼
           buttonVariants({ variant: buttonVariant }),
           "size-(--cell-size) aria-disabled:opacity-50 p-0 select-none",
           defaultClassNames.button_previous,
         ),
         button_next: cn(
+          // 다음 달 버튼
           buttonVariants({ variant: buttonVariant }),
           "size-(--cell-size) aria-disabled:opacity-50 p-0 select-none",
           defaultClassNames.button_next,
         ),
         month_caption: cn(
+          // 캡션(월 표시)
           "flex items-center justify-center h-(--cell-size) w-full px-(--cell-size)",
           defaultClassNames.month_caption,
         ),
@@ -75,6 +79,7 @@ function Calendar({
         ),
         dropdown: cn("absolute bg-popover inset-0 opacity-0", defaultClassNames.dropdown),
         caption_label: cn(
+          // 캡션 라벨 텍스트
           "select-none font-medium",
           captionLayout === "label"
             ? "text-sm"
@@ -105,6 +110,7 @@ function Calendar({
           defaultClassNames.today,
         ),
         outside: cn(
+          // 달력 외부(이전/다음 달) 날짜
           "text-muted-foreground aria-selected:text-muted-foreground",
           defaultClassNames.outside,
         ),
@@ -173,7 +179,20 @@ function CalendarDayButton({
       data-range-end={modifiers.range_end}
       data-range-middle={modifiers.range_middle}
       className={cn(
-        "data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 dark:hover:text-accent-foreground flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px] data-[range-end=true]:rounded-md data-[range-end=true]:rounded-r-md data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-md data-[range-start=true]:rounded-l-md [&>span]:text-xs [&>span]:opacity-70",
+        // 레이아웃 & 크기
+        "flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal",
+        // 선택 상태 색상
+        "data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground",
+        // 범위 선택 상태
+        "data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground",
+        // 범위 border-radius
+        "data-[range-end=true]:rounded-md data-[range-end=true]:rounded-r-md data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-md data-[range-start=true]:rounded-l-md",
+        // 포커스 링
+        "group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px]",
+        // 다크모드 hover
+        "dark:hover:text-accent-foreground",
+        // 내부 텍스트 크기/투명도
+        "[&>span]:text-xs [&>span]:opacity-70",
         defaultClassNames.day,
         className,
       )}
