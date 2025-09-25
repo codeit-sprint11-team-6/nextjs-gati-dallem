@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Input } from "@/components/common/Input";
-import { Button } from "@/components/ui/button_01";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export type FileFieldProps = {
