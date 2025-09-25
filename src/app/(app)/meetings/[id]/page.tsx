@@ -2,8 +2,7 @@
 
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import MeetingDetailHeader from "@/components/meeting/MeetingDetailHeader";
-import MeetingActions from "@/components/meeting/MeetingActions";
+import MeetingDetailCard from "@/components/meeting/MeetingDetailCard";
 import ParticipantList from "@/components/meeting/ParticipantList";
 import ReviewSection from "@/components/meeting/ReviewSection";
 import { useAuthStore } from "@/store/authStore";
@@ -299,20 +298,15 @@ export default function MeetingDetailPage() {
           {/* 오른쪽: 모임 정보와 참가자 정보 */}
           <div className="space-y-8">
             {/* 모임 정보 카드 */}
-            <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
-              <MeetingDetailHeader gathering={gathering!} />
-              <div className="mt-8">
-                <MeetingActions
-                  gathering={gathering!}
-                  isJoined={isJoined}
-                  isFavorite={isFavorite}
-                  onJoin={handleJoin}
-                  onLeave={handleLeave}
-                  onToggleFavorite={handleToggleFavorite}
-                  onShare={handleShare}
-                />
-              </div>
-            </div>
+            <MeetingDetailCard
+              gathering={gathering!}
+              isJoined={isJoined}
+              isFavorite={isFavorite}
+              onJoin={handleJoin}
+              onLeave={handleLeave}
+              onToggleFavorite={handleToggleFavorite}
+              onShare={handleShare}
+            />
 
             {/* 참가자 정보 섹션 */}
             <div className="rounded-3xl border border-green-200 bg-gradient-to-r from-green-50 to-teal-50 p-8">
