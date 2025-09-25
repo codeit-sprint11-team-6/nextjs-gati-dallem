@@ -14,9 +14,11 @@ export default function LoginModal() {
   }
   return (
     <Modal>
-      <Modal.Header />
-      <div className="flex-center text-lg font-semibold md:text-2xl">
-        로그인이 필요한 서비스입니다.
+      <div className="grid gap-4">
+        <Modal.Header />
+        <div className="flex-center text-lg font-semibold md:text-2xl">
+          로그인이 필요한 서비스입니다.
+        </div>
       </div>
       <Modal.TwoButton onRightBtnClick={onConfirmBtnClick} />
     </Modal>

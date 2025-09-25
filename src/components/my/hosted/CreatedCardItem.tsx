@@ -7,6 +7,7 @@ import { JoinedGathering } from "@/types";
 export default function CreatedCardItem({
   id,
   name,
+  image,
   participantCount,
   capacity,
   dateTime,
@@ -17,7 +18,7 @@ export default function CreatedCardItem({
 }: JoinedGathering) {
   return (
     <Card>
-      <Card.Image />
+      <Card.Image image={image} />
       <Card.Detail>
         <div className="flex h-full flex-col items-start justify-between gap-4">
           <Card.Title id={id}>
