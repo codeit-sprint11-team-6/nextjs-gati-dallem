@@ -1,8 +1,8 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import Image from "next/image";
 import MeetingDetailHeader from "@/components/meeting/MeetingDetailHeader";
-import MeetingDetailContent from "@/components/meeting/MeetingDetailContent";
 import MeetingActions from "@/components/meeting/MeetingActions";
 import ParticipantList from "@/components/meeting/ParticipantList";
 import ReviewSection from "@/components/meeting/ReviewSection";
@@ -150,14 +150,12 @@ export default function MeetingDetailPage() {
   const [gathering, setGathering] = useState<Gathering | null>(null);
   const [participants, setParticipants] = useState<GatheringParticipant[]>([]);
 
-  // Mock 데이터 로딩 시뮬레이션
+  // Mock 데이터 로딩
   useEffect(() => {
     const loadMockData = async () => {
       setIsLoading(true);
 
-      // 1초 지연으로 로딩 상태 시뮬레이션
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
+      // 즉시 로딩 (지연 제거)
       const mockGathering = mockGatherings[meetingId];
       const mockParticipantList = mockParticipants[meetingId] || [];
 
@@ -215,16 +213,34 @@ export default function MeetingDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="min-h-screen" style={{ backgroundColor: "var(--color-gray-50)" }}>
+        <div className="container-custom py-8">
           <div className="animate-pulse">
-            <div className="h-8 bg-gray-200 rounded w-3/4 mb-4"></div>
-            <div className="h-4 bg-gray-200 rounded w-1/2 mb-8"></div>
-            <div className="h-64 bg-gray-200 rounded mb-8"></div>
+            <div
+              className="mb-4 h-8 w-3/4 rounded"
+              style={{ backgroundColor: "var(--color-gray-200)" }}
+            ></div>
+            <div
+              className="mb-8 h-4 w-1/2 rounded"
+              style={{ backgroundColor: "var(--color-gray-200)" }}
+            ></div>
+            <div
+              className="mb-8 h-64 rounded"
+              style={{ backgroundColor: "var(--color-gray-200)" }}
+            ></div>
             <div className="space-y-4">
-              <div className="h-4 bg-gray-200 rounded"></div>
-              <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-              <div className="h-4 bg-gray-200 rounded w-4/6"></div>
+              <div
+                className="h-4 rounded"
+                style={{ backgroundColor: "var(--color-gray-200)" }}
+              ></div>
+              <div
+                className="h-4 w-5/6 rounded"
+                style={{ backgroundColor: "var(--color-gray-200)" }}
+              ></div>
+              <div
+                className="h-4 w-4/6 rounded"
+                style={{ backgroundColor: "var(--color-gray-200)" }}
+              ></div>
             </div>
           </div>
         </div>
@@ -234,14 +250,18 @@ export default function MeetingDetailPage() {
 
   if (!isLoading && !gathering) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div
+        className="flex min-h-screen items-center justify-center"
+        style={{ backgroundColor: "var(--color-gray-50)" }}
+      >
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">모임을 찾을 수 없습니다</h1>
-          <p className="text-gray-600 mb-8">요청하신 모임이 존재하지 않거나 삭제되었습니다.</p>
-          <button
-            onClick={() => window.history.back()}
-            className="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
-          >
+          <h1 className="heading-2 mb-4" style={{ color: "var(--color-gray-900)" }}>
+            모임을 찾을 수 없습니다
+          </h1>
+          <p className="body-regular mb-8" style={{ color: "var(--color-gray-600)" }}>
+            요청하신 모임이 존재하지 않거나 삭제되었습니다.
+          </p>
+          <button onClick={() => window.history.back()} className="btn-primary px-6 py-2">
             이전 페이지로 돌아가기
           </button>
         </div>
@@ -251,29 +271,60 @@ export default function MeetingDetailPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* 메인 콘텐츠 */}
-          <div className="lg:col-span-2 space-y-8">
-            <MeetingDetailHeader gathering={gathering} />
-            <MeetingDetailContent gathering={gathering} />
-            <ParticipantList participants={participants} />
-            <ReviewSection reviews={[]} averageRating={0} totalReviews={0} />
+      <div className="mx-auto max-w-7xl px-4 py-8">
+        {/* 메인 콘텐츠 영역 */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+          {/* 왼쪽: 모임 이미지 */}
+          <div className="relative">
+            {gathering!.image ? (
+              <div className="relative h-full w-full overflow-hidden rounded-3xl">
+                <Image
+                  src={gathering!.image}
+                  alt={gathering!.name}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
+            ) : (
+              <div className="flex h-full w-full items-center justify-center rounded-3xl bg-gray-200">
+                <div className="text-center">
+                  <div className="mb-4 text-6xl">🏃‍♀️</div>
+                  <p className="text-lg text-gray-500">모임 이미지</p>
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* 사이드바 - 액션 버튼 */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-8">
-              <MeetingActions
-                gathering={gathering}
-                isJoined={isJoined}
-                isFavorite={isFavorite}
-                onJoin={handleJoin}
-                onLeave={handleLeave}
-                onToggleFavorite={handleToggleFavorite}
-                onShare={handleShare}
-              />
+          {/* 오른쪽: 모임 정보와 참가자 정보 */}
+          <div className="space-y-8">
+            {/* 모임 정보 카드 */}
+            <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
+              <MeetingDetailHeader gathering={gathering!} />
+              <div className="mt-8">
+                <MeetingActions
+                  gathering={gathering!}
+                  isJoined={isJoined}
+                  isFavorite={isFavorite}
+                  onJoin={handleJoin}
+                  onLeave={handleLeave}
+                  onToggleFavorite={handleToggleFavorite}
+                  onShare={handleShare}
+                />
+              </div>
             </div>
+
+            {/* 참가자 정보 섹션 */}
+            <div className="rounded-3xl border border-green-200 bg-gradient-to-r from-green-50 to-teal-50 p-8">
+              <ParticipantList participants={participants} />
+            </div>
+          </div>
+        </div>
+
+        {/* 리뷰 섹션 - 전체 너비 */}
+        <div className="mt-8">
+          <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
+            <ReviewSection reviews={[]} averageRating={0} totalReviews={0} />
           </div>
         </div>
       </div>
