@@ -83,24 +83,6 @@
     letter-spacing: -0.06em;
   }
 
-  /* 태블릿 */
-  @media (min-width: 768px) {
-    .tenada {
-      font-size: 20px;
-      line-height: 24px;
-      letter-spacing: -1.2px;
-    }
-  }
-
-  /* 데스크톱 */
-  @media (min-width: 1024px) {
-    .tenada {
-      font-size: 24px;
-      line-height: 30px;
-      letter-spacing: -1.44px;
-    }
-  }
-
   /* Dark Mode Typography */
   .dark .heading-1,
   .dark .heading-2,
