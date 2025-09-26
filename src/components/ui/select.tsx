@@ -34,11 +34,11 @@ function SelectTrigger({
         // 레이아웃 & 배치
         "flex w-fit items-center justify-between gap-2 whitespace-nowrap",
         // 크기 (height는 data-size로 제어)
-        "px-3 py-2 data-[size=default]:h-9 data-[size=lg]:h-12 data-[size=sm]:h-8",
+        "px-3 py-2 data-[size=default]:h-9 data-[size=sm]:h-8 data-[size=lg]:h-12",
         // 배경 & 테두리 & 라운드
-        "border-input rounded-lg border bg-transparent shadow-xs",
+        "bg-transparent border border-input rounded-lg shadow-xs",
         // 타이포 & 색상
-        "data-[placeholder]:text-muted-foreground text-sm",
+        "text-sm data-[placeholder]:text-muted-foreground",
         // 아이콘 기본 색상
         "[&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         // 아이콘 회전 상태
@@ -48,7 +48,7 @@ function SelectTrigger({
         // 다크 모드
         "dark:bg-input/30 dark:hover:bg-input/50",
         // 포커스 링
-        "focus-visible:border-ring focus-visible:ring-ring/50 outline-none focus-visible:ring-[3px]",
+        "outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
         // 비활성화
         "disabled:cursor-not-allowed disabled:opacity-50",
         // 값 컨테이너 보정
@@ -79,7 +79,7 @@ function SelectContent({
         data-slot="select-content"
         className={cn(
           // 색상 & 타이포
-          "bg-white text-slate-900 dark:bg-slate-800 dark:text-slate-100",
+          "bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100",
           // 애니메이션 상태
           "data-[state=open]:animate-in data-[state=closed]:animate-out",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
@@ -91,7 +91,7 @@ function SelectContent({
           // 스크롤 & 모양
           "overflow-x-hidden overflow-y-auto rounded-lg",
           // 테두리 & 그림자
-          "border border-slate-200 shadow-lg dark:border-slate-700",
+          "border border-slate-200 dark:border-slate-700 shadow-lg",
           // Popper 위치 보정
           position === "popper" &&
             "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
