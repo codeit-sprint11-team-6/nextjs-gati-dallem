@@ -7,7 +7,7 @@ import {
   SelectContent,
   SelectItem,
   SelectValue,
-} from "@/components/ui/Select";
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
 export type SelectFieldProps = {
