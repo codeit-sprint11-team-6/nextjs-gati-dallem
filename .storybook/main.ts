@@ -1,3 +1,4 @@
+import path from "path";
 import type { StorybookConfig } from "@storybook/nextjs-vite";
 
 const config: StorybookConfig = {
@@ -5,7 +6,11 @@ const config: StorybookConfig = {
     name: "@storybook/nextjs-vite",
     options: {},
   },
-  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+  stories: [
+    "../src/**/*.mdx",
+    "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "!../src/components/ui/__stories__/**", //  스토리 전체 제외
+  ],
   addons: [
     "@storybook/addon-docs",
     // "@storybook/addon-a11y", // 접근성 검사 쓰고 싶을 때만 유지
@@ -15,5 +20,15 @@ const config: StorybookConfig = {
   ],
   staticDirs: ["../public"],
   // docs: { autodocs: "tag" }, // 자동 문서화 켜두기
+
+  //
+  viteFinal: async (viteConfig, { configType }) => {
+    viteConfig.resolve ??= {};
+    viteConfig.resolve.alias = {
+      ...(viteConfig.resolve.alias as Record<string, string> | undefined),
+      "@": path.resolve(__dirname, "../src"),
+    };
+    return viteConfig;
+  },
 };
 export default config;
