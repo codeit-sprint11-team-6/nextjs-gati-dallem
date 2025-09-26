@@ -12,7 +12,7 @@ export default function Logo({
   return (
     <div className="flex-shrink-0 mr-2 md:mr-6 lg:mr-8">
       <Link href="/" className="flex-center h-full py-1 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 rounded-sm">
-        <span className={`font-tenada font-extrabold text-purple-500 transition-colors duration-200 text-sm md:text-xl leading-tight tracking-tight hover:text-purple-600 ${className}`}>
+        <span className={`font-logo text-lg md:text-xl lg:text-2xl leading-tight transition-colors duration-200 hover:text-purple-600 ${className}`}>
           {altText}
         </span>
       </Link>
