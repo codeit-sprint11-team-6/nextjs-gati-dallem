@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Input, type InputProps } from "@/components/common/Input";
-import { Button } from "@/components/common/Button";
+import { Button } from "@/components/common/button";
 import { cn } from "@/lib/utils";
 
 export const PasswordField = React.forwardRef<HTMLInputElement, InputProps>(
