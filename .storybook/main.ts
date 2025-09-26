@@ -6,7 +6,11 @@ const config: StorybookConfig = {
     name: "@storybook/nextjs-vite",
     options: {},
   },
-  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+  stories: [
+    "../src/**/*.mdx",
+    "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "!../src/components/ui/__stories__/**", //  스토리 전체 제외
+  ],
   addons: [
     "@storybook/addon-docs",
     // "@storybook/addon-a11y", // 접근성 검사 쓰고 싶을 때만 유지
