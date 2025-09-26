@@ -55,7 +55,12 @@ export default function AuthAction({
           </Button>
         </>
       ) : (
-        <Button variant="destructive" size="sm" className="h-12 text-lg text-white md:h-22 lg:h-22">
+        <Button
+          asChild
+          variant="destructive"
+          size="sm"
+          className="h-12 text-lg text-white md:h-22 lg:h-22"
+        >
           <Link href={loginHref} className="flex items-center gap-2">
             <LogIn className="size-4" aria-hidden />
             <span className="leading-none">로그인</span>
