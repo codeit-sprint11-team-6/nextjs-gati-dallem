@@ -21,7 +21,7 @@ const mockGatherings: Record<number, Gathering> = {
     location: "건대입구",
     participantCount: 8,
     capacity: 12,
-    image: undefined,
+    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center",
     createdBy: 1,
   },
   2: {
@@ -34,7 +34,7 @@ const mockGatherings: Record<number, Gathering> = {
     location: "홍대입구",
     participantCount: 5,
     capacity: 10,
-    image: undefined,
+    image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&crop=center",
     createdBy: 2,
   },
   3: {
@@ -47,7 +47,7 @@ const mockGatherings: Record<number, Gathering> = {
     location: "신림",
     participantCount: 3,
     capacity: 8,
-    image: undefined,
+    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center",
     createdBy: 3,
   },
 };
