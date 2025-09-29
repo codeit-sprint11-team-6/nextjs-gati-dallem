@@ -11,6 +11,7 @@ interface MeetingDetailCardProps {
   gathering: Gathering;
   isJoined?: boolean;
   isFavorite?: boolean;
+  isHost?: boolean; // 주최자 여부
   onJoin?: () => void;
   onLeave?: () => void;
   onToggleFavorite?: () => void;
@@ -22,6 +23,7 @@ export default function MeetingDetailCard({
   gathering,
   isJoined = false,
   isFavorite = false,
+  isHost = false,
   onJoin,
   onLeave,
   onToggleFavorite,
@@ -106,16 +108,18 @@ export default function MeetingDetailCard({
                 <ChipInfo>{time}</ChipInfo>
               </div>
 
-              {/* 주최자 크라운 아이콘 */}
-              <div className="flex h-8 w-8 items-center justify-center">
-                <Image
-                  src="/icon/crown.svg"
-                  alt="주최자"
-                  width={24}
-                  height={24}
-                  className="h-6 w-6"
-                />
-              </div>
+              {/* 주최자 크라운 아이콘 (주최자일 때만 표시) */}
+              {isHost && (
+                <div className="flex h-8 w-8 items-center justify-center">
+                  <Image
+                    src="/icon/crown.svg"
+                    alt="주최자"
+                    width={24}
+                    height={24}
+                    className="h-6 w-6"
+                  />
+                </div>
+              )}
             </div>
 
             {/* 모임 제목과 위치 */}
@@ -142,25 +146,68 @@ export default function MeetingDetailCard({
                 <Heart className={cn("h-6 w-6", isFavorite && "fill-current")} />
               </button>
 
-              {/* 취소하기 버튼 (주최자용) */}
-              <Button
-                onClick={handleLeave}
-                disabled={isLeaving}
-                variant="outline"
-                size="lg"
-                className="h-12 flex-1 border-2 border-gray-200 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50"
-              >
-                {isLeaving ? "취소 중..." : "취소하기"}
-              </Button>
+              {/* 주최자인 경우 */}
+              {isHost ? (
+                <>
+                  {/* 모임 취소 버튼 (주최자용) */}
+                  <Button
+                    onClick={handleLeave}
+                    disabled={isLeaving}
+                    variant="outline"
+                    size="lg"
+                    className="h-12 flex-1 border-2 border-red-200 text-base font-medium text-red-600 hover:border-red-300 hover:bg-red-50"
+                  >
+                    {isLeaving ? "취소 중..." : "모임 취소"}
+                  </Button>
 
-              {/* 공유하기 버튼 */}
-              <Button
-                onClick={handleShare}
-                size="lg"
-                className="h-12 flex-1 bg-purple-600 text-base font-bold text-white hover:bg-purple-700"
-              >
-                공유하기
-              </Button>
+                  {/* 공유하기 버튼 */}
+                  <Button
+                    onClick={handleShare}
+                    size="lg"
+                    className="h-12 flex-1 bg-purple-600 text-base font-bold text-white hover:bg-purple-700"
+                  >
+                    공유하기
+                  </Button>
+                </>
+              ) : (
+                <>
+                  {/* 참여/참여 취소 버튼 (참가자용) */}
+                  {isJoined ? (
+                    <Button
+                      onClick={handleLeave}
+                      disabled={isLeaving}
+                      variant="outline"
+                      size="lg"
+                      className="h-12 flex-1 border-2 border-gray-200 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50"
+                    >
+                      {isLeaving ? "취소 중..." : "참여 취소"}
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={handleJoin}
+                      disabled={isJoining || !!isRegistrationEnded}
+                      size="lg"
+                      className={cn(
+                        "h-12 flex-1 text-base font-bold text-white",
+                        isRegistrationEnded
+                          ? "cursor-not-allowed bg-gray-400"
+                          : "bg-purple-600 hover:bg-purple-700",
+                      )}
+                    >
+                      {isJoining ? "참여 중..." : isRegistrationEnded ? "신청 마감" : "참여하기"}
+                    </Button>
+                  )}
+
+                  {/* 공유하기 버튼 */}
+                  <Button
+                    onClick={handleShare}
+                    size="lg"
+                    className="h-12 flex-1 bg-purple-600 text-base font-bold text-white hover:bg-purple-700"
+                  >
+                    공유하기
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </Card.Detail>

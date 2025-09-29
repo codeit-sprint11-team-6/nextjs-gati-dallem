@@ -159,8 +159,14 @@ export default function ReviewSection({
 
       {/* 리뷰 목록 */}
       <div className="space-y-6 rounded-3xl bg-white pt-10 pr-12 pb-12 pl-12">
-        {displayReviews.map((review) => (
-          <Card key={review.id}>
+        {mockReviews.map((review, index) => (
+          <div
+            key={review.id}
+            className={cn(
+              "bg-white p-6",
+              index !== mockReviews.length - 1 && "border-b border-gray-200",
+            )}
+          >
             <Card.Detail>
               <div className="flex items-start gap-4">
                 {/* 사용자 프로필 */}
@@ -205,7 +211,7 @@ export default function ReviewSection({
                 {review.comment}
               </p>
             </Card.Detail>
-          </Card>
+          </div>
         ))}
       </div>
 

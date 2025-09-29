@@ -3,12 +3,21 @@ import ParticipantList from "@/components/meeting/ParticipantList";
 import { GatheringParticipant } from "@/types/gathering";
 
 const meta: Meta<typeof ParticipantList> = {
-  title: "Meeting/ParticipantList",
+  title: "Components/Meeting/ParticipantList",
   component: ParticipantList,
   parameters: {
     layout: "padded",
   },
   tags: ["autodocs"],
+  argTypes: {
+    participants: {
+      description: "참가자 목록",
+    },
+    maxDisplay: {
+      control: { type: "number", min: 1, max: 20 },
+      description: "최대 표시할 참가자 수",
+    },
+  },
 };
 
 export default meta;
@@ -169,5 +178,56 @@ export const FewParticipants: Story = {
 export const NoParticipants: Story = {
   args: {
     participants: [],
+  },
+};
+
+// 단일 참가자
+export const SingleParticipant: Story = {
+  args: {
+    participants: mockParticipants.slice(0, 1),
+  },
+};
+
+// 정확히 maxDisplay 수만큼 참가자
+export const ExactMaxDisplay: Story = {
+  args: {
+    participants: mockParticipants.slice(0, 6),
+    maxDisplay: 6,
+  },
+};
+
+// maxDisplay보다 많은 참가자 (전체 보기 버튼 표시)
+export const MoreThanMaxDisplay: Story = {
+  args: {
+    participants: mockParticipants,
+    maxDisplay: 5,
+  },
+};
+
+// 최대 표시 수 조정
+export const CustomMaxDisplay: Story = {
+  args: {
+    participants: mockParticipants,
+    maxDisplay: 3,
+  },
+};
+
+// 많은 참가자 (20명)
+export const VeryManyParticipants: Story = {
+  args: {
+    participants: [
+      ...mockParticipants,
+      ...mockParticipants.map((p, index) => ({
+        ...p,
+        userId: p.userId + 10,
+        User: {
+          ...p.User,
+          id: p.User.id + 10,
+          name: `추가참가자${index + 1}`,
+          email: `additional${index + 1}@example.com`,
+        },
+      })),
+    ],
+    maxDisplay: 8,
   },
 };
