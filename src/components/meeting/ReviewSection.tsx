@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import Avatar from "@/components/ui/Avatar";
+import { Card } from "@/components/common/Card";
 import { Heart, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Review {
@@ -64,47 +65,55 @@ export default function ReviewSection({
     return Array.from({ length: 5 }, (_, i) => (
       <Heart
         key={i}
-        className={cn("h-6 w-6", i < rating ? "fill-red-500 text-red-500" : "text-gray-300")}
+        className={cn("h-6 w-6", i < rating ? "fill-purple-500 text-purple-500" : "text-gray-300")}
       />
     ));
   };
 
   return (
     <div className={cn("", className)}>
-      <h2 className="mb-8 text-2xl font-semibold text-gray-900">리뷰 모아보기</h2>
+      <h2 className="mb-8 ml-4 text-2xl font-semibold text-gray-900">리뷰 모아보기</h2>
 
       {/* 리뷰 목록 */}
-      <div className="space-y-6">
+      <div className="space-y-6 rounded-3xl bg-white pt-10 pr-12 pb-12 pl-12">
         {mockReviews.map((review) => (
-          <div key={review.id} className="rounded-lg border border-gray-200 bg-white p-6">
-            <div className="flex items-start gap-4">
-              {/* 사용자 프로필 */}
-              <Avatar
-                userProfile={{
-                  teamId: "1",
-                  id: review.user.id,
-                  email: "",
-                  name: review.user.name,
-                  companyName: "",
-                  image: review.user.image || "",
-                  createdAt: "",
-                  updatedAt: "",
-                }}
-                size="medium"
-                className="h-10 w-10"
-              />
+          <Card key={review.id}>
+            <Card.Detail>
+              <div className="flex items-start gap-4">
+                {/* 사용자 프로필 */}
+                <Avatar
+                  userProfile={{
+                    teamId: "1",
+                    id: review.user.id,
+                    email: "",
+                    name: review.user.name,
+                    companyName: "",
+                    image: review.user.image || "",
+                    createdAt: "",
+                    updatedAt: "",
+                  }}
+                  size="medium"
+                  className="h-10 w-10 flex-shrink-0"
+                />
 
-              {/* 리뷰 내용 */}
-              <div className="flex-1">
-                <div className="mb-2 flex items-center gap-4">
-                  <span className="text-sm font-medium text-gray-600">{review.user.name}</span>
-                  <div className="flex items-center gap-1">{renderStars(review.rating)}</div>
-                  <span className="text-sm text-gray-400">{review.createdAt}</span>
+                {/* 사용자 정보 */}
+                <div className="min-w-0 flex-1">
+                  <div className="mb-2 flex flex-col gap-1">
+                    <span className="text-sm font-medium text-gray-600">{review.user.name}</span>
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-1">{renderStars(review.rating)}</div>
+                      <span className="text-sm text-gray-400">{review.createdAt}</span>
+                    </div>
+                  </div>
                 </div>
-                <p className="leading-relaxed text-gray-700">{review.content}</p>
               </div>
-            </div>
-          </div>
+
+              {/* 리뷰 내용 - 아바타와 같은 부모 레벨 */}
+              <p className="mt-6 text-base leading-relaxed font-medium text-gray-700">
+                {review.content}
+              </p>
+            </Card.Detail>
+          </Card>
         ))}
       </div>
 

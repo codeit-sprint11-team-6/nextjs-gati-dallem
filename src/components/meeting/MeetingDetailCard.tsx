@@ -80,17 +80,22 @@ export default function MeetingDetailCard({
   };
 
   return (
-    <div className={cn("w-full md:min-w-0 md:flex-none", className)}>
+    <div
+      className={cn(
+        "w-full [&>article]:!w-full [&>article]:!max-w-full [&>article]:!min-w-0 [&>article]:!flex-none",
+        className,
+      )}
+    >
       <Card>
         <Card.Detail>
-          <div className="flex h-full flex-col items-start justify-between gap-6">
+          <div className="flex-between flex h-full flex-col gap-6 pt-8 pr-10 pb-8 pl-10">
             {/* 상단 태그와 마감 정보 */}
-            <div className="flex w-full items-center justify-between">
-              <div className="flex items-center gap-2">
+            <div className="flex-between w-full">
+              <div className="flex-start gap-2">
                 {/* 마감 알림 태그 */}
                 {isRegistrationEnded ? (
-                  <div className="flex items-center gap-2 rounded-lg bg-red-50 px-3 py-1.5">
-                    <span className="text-sm font-semibold text-red-600">신청 마감</span>
+                  <div className="flex-start gap-2 rounded-lg bg-pink-50 px-3 py-1.5">
+                    <span className="text-sm font-semibold text-pink-600">신청 마감</span>
                   </div>
                 ) : (
                   <AlarmTag>오늘 21시 마감</AlarmTag>
@@ -116,22 +121,21 @@ export default function MeetingDetailCard({
             {/* 모임 제목과 위치 */}
             <div className="w-full">
               <h1 className="mb-4 text-3xl font-semibold text-gray-900">{gathering.name}</h1>
-              <div className="flex items-center gap-2">
+              <div className="flex-start gap-2">
                 <MapPin className="h-4 w-4 text-gray-400" />
-                <span className="text-gray-400">위치</span>
                 <span className="text-gray-600">{gathering.location}</span>
               </div>
             </div>
 
             {/* 액션 버튼들 */}
-            <div className="flex w-full items-center gap-4">
+            <div className="flex-start w-full gap-4">
               {/* 찜하기 버튼 */}
               <button
                 onClick={handleToggleFavorite}
                 className={cn(
                   "flex h-12 w-12 items-center justify-center rounded-full border-2 transition-colors",
                   isFavorite
-                    ? "border-red-200 bg-red-50 text-red-600"
+                    ? "border-red-200 bg-red-50 text-purple-600"
                     : "border-gray-200 bg-white text-gray-600 hover:border-gray-300",
                 )}
               >
@@ -153,9 +157,8 @@ export default function MeetingDetailCard({
               <Button
                 onClick={handleShare}
                 size="lg"
-                className="h-12 flex-1 bg-green-600 text-base font-bold text-white hover:bg-green-700"
+                className="h-12 flex-1 bg-purple-600 text-base font-bold text-white hover:bg-purple-700"
               >
-                <Share2 className="mr-2 h-4 w-4" />
                 공유하기
               </Button>
             </div>

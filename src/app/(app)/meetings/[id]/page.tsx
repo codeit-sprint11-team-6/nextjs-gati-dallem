@@ -309,17 +309,15 @@ export default function MeetingDetailPage() {
             />
 
             {/* 참가자 정보 섹션 */}
-            <div className="rounded-3xl border border-green-200 bg-gradient-to-r from-green-50 to-teal-50 p-8">
+            <div className="rounded-3xl border bg-gradient-to-r from-green-50 to-teal-50 hover:border-pink-200">
               <ParticipantList participants={participants} />
             </div>
           </div>
         </div>
 
         {/* 리뷰 섹션 - 전체 너비 */}
-        <div className="mt-8">
-          <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
-            <ReviewSection reviews={[]} averageRating={0} totalReviews={0} />
-          </div>
+        <div className="mt-8 rounded-3xl">
+          <ReviewSection reviews={[]} averageRating={0} totalReviews={0} />
         </div>
       </div>
     </div>
