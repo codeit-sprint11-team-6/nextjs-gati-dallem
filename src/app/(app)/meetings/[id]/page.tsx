@@ -21,7 +21,8 @@ const mockGatherings: Record<number, Gathering> = {
     location: "건대입구",
     participantCount: 8,
     capacity: 12,
-    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center",
+    image:
+      "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center",
     createdBy: 1,
   },
   2: {
@@ -34,7 +35,8 @@ const mockGatherings: Record<number, Gathering> = {
     location: "홍대입구",
     participantCount: 5,
     capacity: 10,
-    image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&crop=center",
+    image:
+      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&crop=center",
     createdBy: 2,
   },
   3: {
@@ -47,7 +49,8 @@ const mockGatherings: Record<number, Gathering> = {
     location: "신림",
     participantCount: 3,
     capacity: 8,
-    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center",
+    image:
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center",
     createdBy: 3,
   },
 };
@@ -274,7 +277,7 @@ export default function MeetingDetailPage() {
         {/* 메인 콘텐츠 영역 */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           {/* 왼쪽: 모임 이미지 */}
-          <div className="relative">
+          <div className="relative h-96 lg:h-[600px]">
             {gathering!.image ? (
               <div className="relative h-full w-full overflow-hidden rounded-3xl">
                 <Image
