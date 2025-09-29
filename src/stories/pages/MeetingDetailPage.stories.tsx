@@ -163,28 +163,52 @@ function MeetingDetailPage({
 }) {
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto max-w-4xl px-4 py-8">
-        {/* 모임 상세 카드 */}
-        <div className="mb-8">
-          <MeetingDetailCard
-            gathering={gathering}
-            isJoined={isJoined}
-            isFavorite={isFavorite}
-            isHost={isHost}
-            onJoin={onJoin}
-            onLeave={onLeave}
-            onToggleFavorite={onToggleFavorite}
-            onShare={onShare}
-          />
-        </div>
+      <div className="mx-auto max-w-7xl px-4 py-8">
+        {/* 메인 콘텐츠 영역 */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+          {/* 왼쪽: 모임 이미지 */}
+          <div className="relative h-96 lg:h-[600px]">
+            {gathering.image ? (
+              <div className="relative h-full w-full overflow-hidden rounded-3xl">
+                <img
+                  src={gathering.image}
+                  alt={gathering.name}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            ) : (
+              <div className="flex h-full w-full items-center justify-center rounded-3xl bg-gray-200">
+                <div className="text-center">
+                  <div className="mb-4 text-6xl">🏃‍♀️</div>
+                  <p className="text-lg text-gray-500">모임 이미지</p>
+                </div>
+              </div>
+            )}
+          </div>
 
-        {/* 참가자 목록 */}
-        <div className="mb-8">
-          <ParticipantList participants={participants} maxDisplay={8} />
+          {/* 오른쪽: 모임 정보와 참가자 정보 */}
+          <div className="space-y-8">
+            {/* 모임 정보 카드 */}
+            <MeetingDetailCard
+              gathering={gathering}
+              isJoined={isJoined}
+              isFavorite={isFavorite}
+              isHost={isHost}
+              onJoin={onJoin}
+              onLeave={onLeave}
+              onToggleFavorite={onToggleFavorite}
+              onShare={onShare}
+            />
+
+            {/* 참가자 정보 섹션 */}
+            <div className="rounded-3xl border bg-gradient-to-r from-green-50 to-teal-50 hover:border-pink-200">
+              <ParticipantList participants={participants} maxDisplay={8} />
+            </div>
+          </div>
         </div>
 
         {/* 리뷰 섹션 */}
-        <div className="mb-8">
+        <div className="mt-8">
           <ReviewSection reviewList={reviewList} onPageChange={onPageChange} />
         </div>
       </div>
