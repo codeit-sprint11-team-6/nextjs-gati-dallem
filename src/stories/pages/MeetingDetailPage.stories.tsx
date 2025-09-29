@@ -17,7 +17,8 @@ const mockGathering: Gathering = {
   location: "건대입구",
   participantCount: 15,
   capacity: 20,
-  image: "/image/profile.svg",
+  image:
+    "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center",
   createdBy: 1,
   canceledAt: null,
 };
@@ -105,7 +106,8 @@ const mockReviewList: ReviewList = {
         name: "건대입구 달라임핏 모임",
         dateTime: "2024-01-25T10:00:00.000Z",
         location: "건대입구",
-        image: "/image/profile.svg",
+        image:
+          "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center",
       },
       User: { teamId: "team-1", id: 1, name: "김철수", image: "/avatars/male.svg" },
     },
@@ -122,7 +124,8 @@ const mockReviewList: ReviewList = {
         name: "건대입구 달라임핏 모임",
         dateTime: "2024-01-25T10:00:00.000Z",
         location: "건대입구",
-        image: "/image/profile.svg",
+        image:
+          "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center",
       },
       User: { teamId: "team-1", id: 2, name: "이영희", image: "/avatars/female.svg" },
     },
@@ -296,6 +299,8 @@ export const OfficeStretching: Story = {
       type: "OFFICE_STRETCHING",
       name: "사무직 스트레칭 모임",
       location: "을지로3가",
+      image:
+        "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&crop=center",
     },
     isJoined: false,
     isFavorite: false,
@@ -310,6 +315,8 @@ export const Mindfulness: Story = {
       type: "MINDFULNESS",
       name: "명상 세션",
       location: "신림",
+      image:
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center",
     },
     isJoined: false,
     isFavorite: false,
@@ -324,6 +331,8 @@ export const Workation: Story = {
       type: "WORKATION",
       name: "워케이션 세미나",
       location: "홍대입구",
+      image:
+        "https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=400&h=300&fit=crop&crop=center",
     },
     isJoined: false,
     isFavorite: false,

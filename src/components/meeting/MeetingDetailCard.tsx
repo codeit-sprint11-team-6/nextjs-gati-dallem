@@ -122,6 +122,21 @@ export default function MeetingDetailCard({
               )}
             </div>
 
+            {/* 모임 이미지 */}
+            {gathering.image && (
+              <div className="w-full">
+                <div className="relative h-48 w-full overflow-hidden rounded-lg">
+                  <Image
+                    src={gathering.image}
+                    alt={gathering.name}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
+              </div>
+            )}
+
             {/* 모임 제목과 위치 */}
             <div className="w-full">
               <h1 className="mb-4 text-3xl font-semibold text-gray-900">{gathering.name}</h1>
