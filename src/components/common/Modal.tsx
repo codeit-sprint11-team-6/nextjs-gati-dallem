@@ -42,9 +42,9 @@ Modal.Header = ModalHeader;
 
 function ModalOneButton({ children, ...props }: ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <div className="grid grid-cols-1 gap-3 px-18 md:px-24">
+    <div className="flex-center">
       <button
-        className="btn rounded-2xl bg-purple-500 p-3 font-bold text-white md:p-4 md:text-xl"
+        className="btn w-[140px] rounded-2xl bg-purple-500 py-3 font-bold text-white md:w-[254px] md:p-4 md:text-xl"
         {...props}
       >
         {children}
