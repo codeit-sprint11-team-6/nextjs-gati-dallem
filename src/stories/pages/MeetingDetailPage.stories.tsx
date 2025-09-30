@@ -464,3 +464,100 @@ export const NoReviews: Story = {
     isFavorite: false,
   },
 };
+
+// 모바일 뷰 (세로 레이아웃)
+export const MobileView: Story = {
+  args: {
+    isJoined: false,
+    isFavorite: false,
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: "mobile1",
+    },
+  },
+};
+
+// 태블릿 뷰 (가로 레이아웃)
+export const TabletView: Story = {
+  args: {
+    isJoined: false,
+    isFavorite: false,
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: "tablet",
+    },
+  },
+};
+
+// 데스크톱 뷰 (가로 레이아웃)
+export const DesktopView: Story = {
+  args: {
+    isJoined: false,
+    isFavorite: false,
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: "desktop",
+    },
+  },
+};
+
+// 주최자 - 모임 취소 가능 상태
+export const HostCanCancel: Story = {
+  args: {
+    isJoined: true,
+    isFavorite: false,
+    isHost: true,
+  },
+};
+
+// 주최자 - 즐겨찾기한 상태
+export const HostFavorited: Story = {
+  args: {
+    isJoined: true,
+    isFavorite: true,
+    isHost: true,
+  },
+};
+
+// 참가자 - 참여하지 않은 상태
+export const ParticipantNotJoined: Story = {
+  args: {
+    isJoined: false,
+    isFavorite: false,
+    isHost: false,
+  },
+};
+
+// 참가자 - 참여한 상태
+export const ParticipantJoined: Story = {
+  args: {
+    isJoined: true,
+    isFavorite: false,
+    isHost: false,
+  },
+};
+
+// 참가자 - 참여하고 즐겨찾기한 상태
+export const ParticipantJoinedAndFavorited: Story = {
+  args: {
+    isJoined: true,
+    isFavorite: true,
+    isHost: false,
+  },
+};
+
+// 신청 마감된 모임
+export const RegistrationEnded: Story = {
+  args: {
+    gathering: {
+      ...mockGathering,
+      registrationEnd: "2024-01-15T18:00:00.000Z", // 과거 날짜로 설정
+    },
+    isJoined: false,
+    isFavorite: false,
+    isHost: false,
+  },
+};
