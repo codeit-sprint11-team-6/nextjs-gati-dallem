@@ -8,7 +8,8 @@ import ReviewSection from "@/components/meeting/ReviewSection";
 import { useAuthStore } from "@/store/authStore";
 import { useState, useEffect } from "react";
 import { Gathering, GatheringParticipant } from "@/types/gathering";
-import { mockGatherings, mockParticipants } from "@/mocks/meeting";
+import { ReviewList } from "@/types/review";
+import { mockGatherings, mockParticipants, mockReviewsByGathering } from "@/mocks/meeting";
 
 export default function MeetingDetailPage() {
   const params = useParams();
@@ -19,6 +20,8 @@ export default function MeetingDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [gathering, setGathering] = useState<Gathering | null>(null);
   const [participants, setParticipants] = useState<GatheringParticipant[]>([]);
+  const [reviewList, setReviewList] = useState<ReviewList | undefined>(undefined);
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Mock 데이터 로딩
   useEffect(() => {
@@ -28,9 +31,12 @@ export default function MeetingDetailPage() {
       // 즉시 로딩 (지연 제거)
       const mockGathering = mockGatherings[meetingId];
       const mockParticipantList = mockParticipants[meetingId] || [];
+      const mockReviewData = mockReviewsByGathering[meetingId];
 
       setGathering(mockGathering || null);
       setParticipants(mockParticipantList);
+      setReviewList(mockReviewData);
+      setCurrentPage(mockReviewData?.currentPage || 1);
       setIsLoading(false);
     };
 
@@ -79,6 +85,19 @@ export default function MeetingDetailPage() {
       navigator.clipboard.writeText(window.location.href);
       alert("링크가 클립보드에 복사되었습니다.");
     }
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    // 실제로는 API 호출로 해당 페이지의 리뷰 데이터를 가져와야 함
+    // 현재는 mock 데이터이므로 페이지네이션 정보만 업데이트
+    if (reviewList) {
+      setReviewList({
+        ...reviewList,
+        currentPage: page,
+      });
+    }
+    console.log(`리뷰 페이지 ${page}로 이동`);
   };
 
   if (!isLoading && !gathering) {
@@ -153,7 +172,13 @@ export default function MeetingDetailPage() {
 
         {/* 리뷰 섹션 - 전체 너비 */}
         <div className="mt-16 rounded-3xl">
-          <ReviewSection reviews={[]} averageRating={0} totalReviews={0} />
+          <ReviewSection
+            reviewList={reviewList}
+            currentPage={currentPage}
+            totalPages={reviewList?.totalPages}
+            totalItemCount={reviewList?.totalItemCount}
+            onPageChange={handlePageChange}
+          />
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ import { GatheringParticipant } from "@/types/gathering";
 export const mockParticipants: Record<number, GatheringParticipant[]> = {
   1: [
     {
-      teamId: "1",
+      teamId: "team-1",
       userId: 1,
       gatheringId: 1,
       joinedAt: "2024-01-15T09:00:00Z",
@@ -16,7 +16,7 @@ export const mockParticipants: Record<number, GatheringParticipant[]> = {
       },
     },
     {
-      teamId: "1",
+      teamId: "team-1",
       userId: 2,
       gatheringId: 1,
       joinedAt: "2024-01-15T10:00:00Z",
@@ -29,7 +29,7 @@ export const mockParticipants: Record<number, GatheringParticipant[]> = {
       },
     },
     {
-      teamId: "1",
+      teamId: "team-1",
       userId: 3,
       gatheringId: 1,
       joinedAt: "2024-01-15T11:00:00Z",
@@ -44,7 +44,7 @@ export const mockParticipants: Record<number, GatheringParticipant[]> = {
   ],
   2: [
     {
-      teamId: "1",
+      teamId: "team-1",
       userId: 4,
       gatheringId: 2,
       joinedAt: "2024-01-16T09:00:00Z",
@@ -57,7 +57,7 @@ export const mockParticipants: Record<number, GatheringParticipant[]> = {
       },
     },
     {
-      teamId: "1",
+      teamId: "team-1",
       userId: 5,
       gatheringId: 2,
       joinedAt: "2024-01-16T10:00:00Z",
@@ -72,7 +72,7 @@ export const mockParticipants: Record<number, GatheringParticipant[]> = {
   ],
   3: [
     {
-      teamId: "1",
+      teamId: "team-1",
       userId: 6,
       gatheringId: 3,
       joinedAt: "2024-01-17T09:00:00Z",

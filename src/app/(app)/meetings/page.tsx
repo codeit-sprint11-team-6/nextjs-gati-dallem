@@ -15,10 +15,10 @@ export default function MeetingsPage() {
 
   return (
     <main className="p-6">
-      <h1 className="text-2xl font-bold mb-6">모임 목록</h1>
+      <h1 className="mb-6 text-2xl font-bold">모임 목록</h1>
       <div className="space-y-4">
         {testMeetings.map((meeting) => (
-          <div key={meeting.id} className="border rounded-lg p-4">
+          <div key={meeting.id} className="rounded-lg border p-4">
             <h2 className="text-lg font-semibold">{meeting.name}</h2>
             <p className="text-gray-600">위치: {meeting.location}</p>
             <p className="text-gray-600">
@@ -26,7 +26,7 @@ export default function MeetingsPage() {
             </p>
             <Link
               href={`/meetings/${meeting.id}`}
-              className="inline-block mt-2 px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
+              className="mt-2 inline-block rounded bg-purple-500 px-4 py-2 text-white hover:bg-purple-600"
             >
               상세보기
             </Link>

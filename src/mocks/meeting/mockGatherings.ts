@@ -2,7 +2,7 @@ import { Gathering } from "@/types/gathering";
 
 export const mockGatherings: Record<number, Gathering> = {
   1: {
-    teamId: "1",
+    teamId: "team-1",
     id: 1,
     type: "DALLAEMFIT",
     name: "건대입구 달렘핏 모임",
@@ -14,9 +14,10 @@ export const mockGatherings: Record<number, Gathering> = {
     image:
       "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center",
     createdBy: 1,
+    canceledAt: null,
   },
   2: {
-    teamId: "1",
+    teamId: "team-1",
     id: 2,
     type: "OFFICE_STRETCHING",
     name: "홍대 스트레칭 모임",
@@ -30,7 +31,7 @@ export const mockGatherings: Record<number, Gathering> = {
     createdBy: 2,
   },
   3: {
-    teamId: "1",
+    teamId: "team-1",
     id: 3,
     type: "MINDFULNESS",
     name: "신림 마인드풀니스 모임",

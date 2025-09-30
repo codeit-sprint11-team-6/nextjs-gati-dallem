@@ -4,15 +4,12 @@ import { Card } from "@/components/common/Card";
 import Pagination from "@/components/ui/Pagination";
 import Image from "next/image";
 import type { Review, ReviewList } from "@/types";
-import { mockReviews } from "@/mocks/meeting";
 
 interface ReviewSectionProps {
-  // API 응답 데이터 (ReviewList 또는 개별 props)
+  // API 응답 데이터
   reviewList?: ReviewList;
   // 또는 개별 props로 전달
   reviews?: Review[];
-  averageRating?: number;
-  totalReviews?: number;
   currentPage?: number;
   totalPages?: number;
   totalItemCount?: number;
@@ -24,19 +21,17 @@ interface ReviewSectionProps {
 export default function ReviewSection({
   reviewList,
   reviews,
-  averageRating,
-  totalReviews,
   currentPage = 1,
   totalPages = 9,
   totalItemCount,
   className,
   onPageChange,
 }: ReviewSectionProps) {
-  // ReviewList가 있으면 우선 사용, 없으면 개별 props 사용, 둘 다 없으면 mock 데이터 사용
-  const displayReviews = reviewList?.data || reviews || mockReviews;
+  // ReviewList가 있으면 우선 사용, 없으면 개별 props 사용
+  const displayReviews = reviewList?.data || reviews || [];
   const displayCurrentPage = reviewList?.currentPage || currentPage;
   const displayTotalPages = reviewList?.totalPages || totalPages;
-  const displayTotalItemCount = reviewList?.totalItemCount || totalItemCount || mockReviews.length;
+  const displayTotalItemCount = reviewList?.totalItemCount || totalItemCount || 0;
 
   const renderStars = (score: number) => {
     return Array.from({ length: 5 }, (_, i) => (
