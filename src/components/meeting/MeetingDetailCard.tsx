@@ -50,6 +50,7 @@ export default function MeetingDetailCard({
   const { date, time } = formatDateTime(gathering.dateTime);
   const isRegistrationEnded =
     gathering.registrationEnd && new Date(gathering.registrationEnd) < new Date();
+  const isFullCapacity = gathering.participantCount >= gathering.capacity;
 
   const handleJoin = async () => {
     if (onJoin) {
@@ -178,34 +179,31 @@ export default function MeetingDetailCard({
                       disabled={isLeaving}
                       variant="outline"
                       size="lg"
-                      className="h-12 flex-1 border-2 border-gray-200 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50"
+                      className="h-12 flex-1 border-2 border-purple-200 text-base font-medium text-purple-600 hover:border-purple-300 hover:bg-purple-50"
                     >
                       {isLeaving ? "취소 중..." : "참여 취소"}
                     </Button>
                   ) : (
                     <Button
                       onClick={handleJoin}
-                      disabled={isJoining || !!isRegistrationEnded}
+                      disabled={isJoining || !!isRegistrationEnded || isFullCapacity}
                       size="lg"
                       className={cn(
                         "h-12 flex-1 text-base font-bold text-white",
-                        isRegistrationEnded
+                        isRegistrationEnded || isFullCapacity
                           ? "cursor-not-allowed bg-gray-400"
                           : "bg-purple-600 hover:bg-purple-700",
                       )}
                     >
-                      {isJoining ? "참여 중..." : isRegistrationEnded ? "신청 마감" : "참여하기"}
+                      {isJoining
+                        ? "참여 중..."
+                        : isRegistrationEnded
+                          ? "신청 마감"
+                          : isFullCapacity
+                            ? "정원 마감"
+                            : "참여하기"}
                     </Button>
                   )}
-
-                  {/* 공유하기 버튼 */}
-                  <Button
-                    onClick={handleShare}
-                    size="lg"
-                    className="h-12 flex-1 bg-purple-600 text-base font-bold text-white hover:bg-purple-700"
-                  >
-                    공유하기
-                  </Button>
                 </>
               )}
             </div>

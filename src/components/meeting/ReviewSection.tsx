@@ -165,11 +165,15 @@ export default function ReviewSection({
         {isEmpty ? (
           // 빈 상태
           <div className="flex flex-col items-center justify-center py-16">
-            <div className="mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-gray-100">
-              <div className="text-4xl">📝</div>
+            <div className="mb-6 flex h-24 w-24 items-center justify-center sm:h-32 sm:w-32">
+              <Image
+                src="/image/empty.svg"
+                alt="리뷰가 없음"
+                fill
+                className="object-contain opacity-30"
+              />
             </div>
             <h3 className="mb-2 text-lg font-semibold text-gray-400">아직 리뷰가 없어요</h3>
-            <p className="text-sm text-gray-300">첫 번째 리뷰를 작성해보세요!</p>
           </div>
         ) : (
           displayReviews.map((review, index) => (
