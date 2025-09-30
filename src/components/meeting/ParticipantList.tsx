@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
 import Avatar from "@/components/ui/Avatar";
 import { GatheringParticipant } from "@/types/gathering";
-import { Users, CheckCircle } from "lucide-react";
 import { Card } from "@/components/common/Card";
 import Chip, { AlarmTag, ChipInfo } from "@/components/ui/Chip";
 import Image from "next/image";

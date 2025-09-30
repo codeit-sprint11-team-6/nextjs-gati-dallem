@@ -1,0 +1,1 @@
+export { mockReviews } from "./mockReviews";
