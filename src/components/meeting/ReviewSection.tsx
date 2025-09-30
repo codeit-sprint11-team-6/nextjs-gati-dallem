@@ -2,7 +2,6 @@ import { cn } from "@/lib/utils";
 import Avatar from "@/components/ui/Avatar";
 import { Card } from "@/components/common/Card";
 import Pagination from "@/components/ui/Pagination";
-import { Heart } from "lucide-react";
 import Image from "next/image";
 import type { Review, ReviewList } from "@/types";
 
@@ -147,9 +146,13 @@ export default function ReviewSection({
 
   const renderStars = (score: number) => {
     return Array.from({ length: 5 }, (_, i) => (
-      <Heart
+      <Image
         key={i}
-        className={cn("h-6 w-6", i < score ? "fill-purple-500 text-purple-500" : "text-gray-300")}
+        src={i < score ? "/icon/heart_active.svg" : "/icon/heart_inactive.svg"}
+        alt={i < score ? "별점 활성" : "별점 비활성"}
+        width={24}
+        height={24}
+        className="h-6 w-6"
       />
     ));
   };

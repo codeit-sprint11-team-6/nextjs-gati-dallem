@@ -201,7 +201,7 @@ function MeetingDetailPage({
             />
 
             {/* 참가자 정보 섹션 */}
-            <div className="rounded-3xl border bg-gradient-to-r from-green-50 to-teal-50 hover:border-pink-200">
+            <div className="rounded-3xl border bg-gradient-to-r from-purple-50 to-pink-50 hover:border-purple-200">
               <ParticipantList participants={participants} maxDisplay={8} />
             </div>
           </div>

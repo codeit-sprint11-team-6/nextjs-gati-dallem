@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import { Gathering } from "@/types/gathering";
-import { MapPin, Heart, Share2 } from "lucide-react";
 import Chip, { AlarmTag, ChipInfo } from "@/components/ui/Chip";
 import { Button } from "@/components/common/Button";
 import Image from "next/image";
@@ -136,7 +135,7 @@ export default function MeetingDetailCard({
             <div className="w-full">
               <h1 className="mb-4 text-3xl font-semibold text-gray-900">{gathering.name}</h1>
               <div className="flex-start gap-2">
-                <MapPin className="h-4 w-4 text-gray-400" />
+                <span className="text-sm font-medium text-gray-500">위치</span>
                 <span className="text-gray-600">{gathering.location}</span>
               </div>
             </div>
@@ -152,11 +151,17 @@ export default function MeetingDetailCard({
                 className={cn(
                   "h-12 w-12 border-2",
                   isFavorite
-                    ? "border-red-200 bg-red-50 text-red-600 hover:border-red-300 hover:bg-red-100"
+                    ? "border-purple-200 bg-purple-50 text-purple-600 hover:border-purple-300 hover:bg-purple-100"
                     : "border-gray-200 hover:border-gray-300",
                 )}
               >
-                <Heart className={cn("h-6 w-6", isFavorite && "fill-current")} />
+                <Image
+                  src={isFavorite ? "/icon/save_active.svg" : "/icon/save_inactive.svg"}
+                  alt={isFavorite ? "찜하기 취소" : "찜하기"}
+                  width={24}
+                  height={24}
+                  className="h-6 w-6"
+                />
               </Button>
 
               {/* 주최자인 경우 */}
