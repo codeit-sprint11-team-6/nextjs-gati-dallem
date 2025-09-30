@@ -121,18 +121,24 @@ export default function MeetingDetailPage() {
     );
   }
 
+  // gathering이 없으면 이미 위에서 "모임을 찾을 수 없습니다" 페이지를 표시했으므로
+  // 여기서는 gathering이 확실히 존재함을 보장
+  if (!gathering) {
+    return null; // 이 경우는 발생하지 않아야 함
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <div className="mx-auto mt-10 max-w-7xl px-4">
         {/* 메인 콘텐츠 영역 */}
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           {/* 왼쪽: 모임 이미지 */}
           <div className="relative">
-            {gathering!.image ? (
+            {gathering.image ? (
               <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl sm:aspect-auto sm:h-full">
                 <Image
-                  src={gathering!.image}
-                  alt={gathering!.name}
+                  src={gathering.image}
+                  alt={gathering.name}
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
@@ -154,7 +160,7 @@ export default function MeetingDetailPage() {
           <div className="space-y-6">
             {/* 모임 정보 카드 */}
             <MeetingDetailCard
-              gathering={gathering!}
+              gathering={gathering}
               isJoined={isJoined}
               isFavorite={isFavorite}
               onJoin={handleJoin}
@@ -164,7 +170,7 @@ export default function MeetingDetailPage() {
             />
 
             {/* 참가자 정보 섹션 */}
-            <div className="rounded-3xl border bg-gradient-to-r from-purple-50 to-pink-50 hover:border-purple-200">
+            <div className="rounded-3xl hover:border-purple-200">
               <ParticipantList participants={participants} />
             </div>
           </div>
