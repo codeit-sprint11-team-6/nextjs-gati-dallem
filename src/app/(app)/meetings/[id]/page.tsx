@@ -213,43 +213,6 @@ export default function MeetingDetailPage() {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen" style={{ backgroundColor: "var(--color-gray-50)" }}>
-        <div className="container-custom py-8">
-          <div className="animate-pulse">
-            <div
-              className="mb-4 h-8 w-3/4 rounded"
-              style={{ backgroundColor: "var(--color-gray-200)" }}
-            ></div>
-            <div
-              className="mb-8 h-4 w-1/2 rounded"
-              style={{ backgroundColor: "var(--color-gray-200)" }}
-            ></div>
-            <div
-              className="mb-8 h-64 rounded"
-              style={{ backgroundColor: "var(--color-gray-200)" }}
-            ></div>
-            <div className="space-y-4">
-              <div
-                className="h-4 rounded"
-                style={{ backgroundColor: "var(--color-gray-200)" }}
-              ></div>
-              <div
-                className="h-4 w-5/6 rounded"
-                style={{ backgroundColor: "var(--color-gray-200)" }}
-              ></div>
-              <div
-                className="h-4 w-4/6 rounded"
-                style={{ backgroundColor: "var(--color-gray-200)" }}
-              ></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   if (!isLoading && !gathering) {
     return (
       <div
@@ -289,11 +252,13 @@ export default function MeetingDetailPage() {
                 />
               </div>
             ) : (
-              <div className="flex h-full w-full items-center justify-center rounded-3xl bg-gray-200">
-                <div className="text-center">
-                  <div className="mb-4 text-6xl">🏃‍♀️</div>
-                  <p className="text-lg text-gray-500">모임 이미지</p>
-                </div>
+              <div className="relative flex h-full w-full items-center justify-center rounded-3xl bg-gray-200">
+                <Image
+                  src="/image/empty.svg"
+                  alt="모임 이미지 없음"
+                  fill
+                  className="object-contain opacity-30"
+                />
               </div>
             )}
           </div>

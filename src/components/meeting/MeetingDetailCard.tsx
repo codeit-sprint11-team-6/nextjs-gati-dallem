@@ -107,7 +107,7 @@ export default function MeetingDetailCard({
 
                 {/* 개설확정 상태 */}
                 {isConfirmed && (
-                  <Chip variant="outlined">
+                  <Chip>
                     <Image src="/icon/check.svg" width={16} height={16} alt="개설확정 아이콘" />
                     <span>개설확정</span>
                   </Chip>
