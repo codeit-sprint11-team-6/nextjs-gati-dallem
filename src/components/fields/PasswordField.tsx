@@ -25,7 +25,7 @@ export const PasswordField = React.forwardRef<HTMLInputElement, InputProps>(
           type="button"
           variant="ghost"
           size="sm"
-          className="absolute right-0 top-0 h-full px-3 py-2 hover:!bg-transparent active:!bg-transparent focus-visible:!bg-transparent cursor-pointer"
+          className="absolute top-0 right-0 h-full cursor-pointer px-3 py-2 hover:!bg-transparent focus-visible:!bg-transparent active:!bg-transparent"
           onClick={() => setshowPassword((s) => !s)}
           aria-label={showPassword ? "비밀번호 숨기기" : "비밀번호 보기"}
         >

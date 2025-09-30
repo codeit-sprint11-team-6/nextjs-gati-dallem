@@ -39,12 +39,12 @@ export const FileField = React.forwardRef<HTMLInputElement, FileFieldProps>(
           placeholder={placeholder}
           value={label}
           size={size}
-          className={cn("pr-24 bg-white", className)}
+          className={cn("bg-white pr-24", className)}
         />
         <Button
           type="button"
           size="sm"
-          className="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-purple-600 border border-purple-500 hover:bg-purple-50"
+          className="absolute top-1/2 right-2 -translate-y-1/2 border border-purple-500 bg-white text-purple-600 hover:bg-purple-50"
           onClick={() => ref.current?.click()}
           disabled={disabled}
         >
