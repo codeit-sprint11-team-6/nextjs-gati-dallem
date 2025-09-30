@@ -16,6 +16,7 @@ const meta = {
       options: [
         "primary",
         "secondary",
+        "bare",
         "outline",
         "outlineSoft",
         "outlineWhite",
@@ -71,6 +72,7 @@ export const Variants: Story = {
     <div className="flex flex-wrap gap-4">
       <Button variant="primary">Primary</Button>
       <Button variant="secondary">Secondary</Button>
+      <Button variant="bare">Bare</Button>
       <Button variant="outline">Outline</Button>
       <Button variant="outlineSoft">Outline Soft</Button>
       <Button variant="outlineWhite">Outline White</Button>
