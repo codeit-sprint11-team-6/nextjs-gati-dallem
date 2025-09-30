@@ -4,7 +4,7 @@ import { Card } from "@/components/common/Card";
 import Pagination from "@/components/ui/Pagination";
 import Image from "next/image";
 import type { Review, ReviewList } from "@/types";
-import { mockReviews } from "@/mocks/review";
+import { mockReviews } from "@/mocks/meeting";
 
 interface ReviewSectionProps {
   // API 응답 데이터 (ReviewList 또는 개별 props)
@@ -74,7 +74,7 @@ export default function ReviewSection({
             <h3 className="mb-2 text-lg font-semibold text-gray-400">아직 리뷰가 없어요</h3>
           </div>
         ) : (
-          displayReviews.map((review, index) => (
+          displayReviews.map((review: Review, index: number) => (
             <div
               key={review.id}
               className={cn(
