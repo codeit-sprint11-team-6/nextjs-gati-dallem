@@ -46,7 +46,7 @@ export default function AuthAction({
           <Button
             type="button"
             onClick={onLogout}
-            variant="primary"
+            variant="bare"
             size="sm"
             className="h-12 text-lg text-white md:h-22 lg:h-22"
           >
@@ -57,7 +57,7 @@ export default function AuthAction({
       ) : (
         <Button
           asChild
-          variant="primary"
+          variant="bare"
           size="sm"
           className="h-12 text-lg text-white md:h-22 lg:h-22"
         >

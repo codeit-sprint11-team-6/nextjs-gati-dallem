@@ -16,6 +16,8 @@ const buttonVariants = cva(
           "bg-[var(--color-purple-500)] text-[var(--color-white)] hover:bg-[var(--color-purple-600)] focus-visible:ring-[var(--color-purple-500)]",
         secondary:
           "bg-[var(--color-purple-800)] text-[var(--color-white)] hover:bg-[var(--color-purple-600)] focus-visible:ring-[var(--color-purple-800)]",
+        bare:
+          "bg-transparent text-white shadow-xs ",
         outline:
           "bg-transparent border border-[var(--color-purple-500)] text-[var(--color-purple-500)] hover:bg-[var(--color-purple-500)] hover:text-[var(--color-white)] focus-visible:ring-[var(--color-purple-500)]",
         outlineSoft:
