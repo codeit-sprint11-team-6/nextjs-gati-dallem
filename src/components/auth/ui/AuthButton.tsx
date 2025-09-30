@@ -3,7 +3,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/common/Button";
+import { Button } from "@/components/ui/Button";
 import * as React from "react";
 
 type Props = React.ComponentProps<typeof Button> & {
