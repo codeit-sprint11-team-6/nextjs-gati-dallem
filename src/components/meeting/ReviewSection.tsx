@@ -3,6 +3,7 @@ import Avatar from "@/components/ui/Avatar";
 import { Card } from "@/components/common/Card";
 import Pagination from "@/components/ui/Pagination";
 import { Heart } from "lucide-react";
+import Image from "next/image";
 import type { Review, ReviewList } from "@/types";
 
 interface ReviewSectionProps {
@@ -165,7 +166,7 @@ export default function ReviewSection({
         {isEmpty ? (
           // 빈 상태
           <div className="flex flex-col items-center justify-center py-16">
-            <div className="mb-6 flex h-24 w-24 items-center justify-center sm:h-32 sm:w-32">
+            <div className="relative mb-6 flex h-24 w-24 items-center justify-center sm:h-32 sm:w-32">
               <Image
                 src="/image/empty.svg"
                 alt="리뷰가 없음"

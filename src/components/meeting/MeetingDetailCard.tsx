@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 import { Gathering } from "@/types/gathering";
 import { MapPin, Heart, Share2 } from "lucide-react";
-import { AlarmTag, ChipInfo } from "@/components/ui/Chip";
-import { Button } from "@/components/ui/Button";
+import Chip, { AlarmTag, ChipInfo } from "@/components/ui/Chip";
+import { Button } from "@/components/common/Button";
 import Image from "next/image";
 import { Card } from "@/components/common/Card";
 import { useState } from "react";
@@ -51,6 +51,7 @@ export default function MeetingDetailCard({
   const isRegistrationEnded =
     gathering.registrationEnd && new Date(gathering.registrationEnd) < new Date();
   const isFullCapacity = gathering.participantCount >= gathering.capacity;
+  const isConfirmed = gathering.participantCount >= 5; // 최소 5명 이상이면 개설확정
 
   const handleJoin = async () => {
     if (onJoin) {
@@ -104,6 +105,14 @@ export default function MeetingDetailCard({
                   <AlarmTag>오늘 21시 마감</AlarmTag>
                 )}
 
+                {/* 개설확정 상태 */}
+                {isConfirmed && (
+                  <Chip variant="outlined">
+                    <Image src="/icon/check.svg" width={16} height={16} alt="개설확정 아이콘" />
+                    <span>개설확정</span>
+                  </Chip>
+                )}
+
                 {/* 날짜/시간 칩 */}
                 <ChipInfo>{date}</ChipInfo>
                 <ChipInfo>{time}</ChipInfo>
@@ -135,17 +144,20 @@ export default function MeetingDetailCard({
             {/* 액션 버튼들 */}
             <div className="flex-start w-full gap-4">
               {/* 찜하기 버튼 */}
-              <button
+              <Button
                 onClick={handleToggleFavorite}
+                variant={isFavorite ? "selected" : "outlineWhite"}
+                size="icon"
+                radius="round"
                 className={cn(
-                  "flex h-12 w-12 items-center justify-center rounded-full border-2 transition-colors",
+                  "h-12 w-12 border-2",
                   isFavorite
-                    ? "border-red-200 bg-red-50 text-purple-600"
-                    : "border-gray-200 bg-white text-gray-600 hover:border-gray-300",
+                    ? "border-red-200 bg-red-50 text-red-600 hover:border-red-300 hover:bg-red-100"
+                    : "border-gray-200 hover:border-gray-300",
                 )}
               >
                 <Heart className={cn("h-6 w-6", isFavorite && "fill-current")} />
-              </button>
+              </Button>
 
               {/* 주최자인 경우 */}
               {isHost ? (
@@ -154,6 +166,7 @@ export default function MeetingDetailCard({
                   <Button
                     onClick={handleLeave}
                     disabled={isLeaving}
+                    isLoading={isLeaving}
                     variant="outline"
                     size="lg"
                     className="h-12 flex-1 border-2 border-red-200 text-base font-medium text-red-600 hover:border-red-300 hover:bg-red-50"
@@ -164,8 +177,9 @@ export default function MeetingDetailCard({
                   {/* 공유하기 버튼 */}
                   <Button
                     onClick={handleShare}
+                    variant="primary"
                     size="lg"
-                    className="h-12 flex-1 bg-purple-600 text-base font-bold text-white hover:bg-purple-700"
+                    className="h-12 flex-1 text-base font-bold"
                   >
                     공유하기
                   </Button>
@@ -177,6 +191,7 @@ export default function MeetingDetailCard({
                     <Button
                       onClick={handleLeave}
                       disabled={isLeaving}
+                      isLoading={isLeaving}
                       variant="outline"
                       size="lg"
                       className="h-12 flex-1 border-2 border-purple-200 text-base font-medium text-purple-600 hover:border-purple-300 hover:bg-purple-50"
@@ -187,13 +202,10 @@ export default function MeetingDetailCard({
                     <Button
                       onClick={handleJoin}
                       disabled={isJoining || !!isRegistrationEnded || isFullCapacity}
+                      isLoading={isJoining}
+                      variant={isRegistrationEnded || isFullCapacity ? "gray" : "primary"}
                       size="lg"
-                      className={cn(
-                        "h-12 flex-1 text-base font-bold text-white",
-                        isRegistrationEnded || isFullCapacity
-                          ? "cursor-not-allowed bg-gray-400"
-                          : "bg-purple-600 hover:bg-purple-700",
-                      )}
+                      className="h-12 flex-1 text-base font-bold"
                     >
                       {isJoining
                         ? "참여 중..."

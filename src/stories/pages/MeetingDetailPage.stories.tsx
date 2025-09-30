@@ -561,17 +561,3 @@ export const RegistrationEnded: Story = {
     isHost: false,
   },
 };
-
-// 정원이 가득 찬 모임
-export const FullCapacity: Story = {
-  args: {
-    gathering: {
-      ...mockGathering,
-      participantCount: 20,
-      capacity: 20,
-    },
-    isJoined: false,
-    isFavorite: false,
-    isHost: false,
-  },
-};
