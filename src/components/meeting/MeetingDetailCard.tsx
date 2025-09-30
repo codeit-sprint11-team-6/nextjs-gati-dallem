@@ -104,13 +104,6 @@ export default function MeetingDetailCard({
                   <AlarmTag>오늘 21시 마감</AlarmTag>
                 )}
 
-                {/* 개설확정 상태 */}
-                {isConfirmed && (
-                  <Chip>
-                    <Image src="/icon/check.svg" width={16} height={16} alt="개설확정 아이콘" />
-                    <span>개설확정</span>
-                  </Chip>
-                )}
 
                 {/* 날짜/시간 칩 */}
                 <ChipInfo>{date}</ChipInfo>
@@ -174,7 +167,7 @@ export default function MeetingDetailCard({
                     isLoading={isLeaving}
                     variant="outline"
                     size="lg"
-                    className="h-12 flex-1 border-2 border-red-200 text-base font-medium text-red-600 hover:border-red-300 hover:bg-red-50"
+                    className="h-12 flex-1 border-2 border-purple-200 text-base font-medium text-purple-600 hover:border-purple-300 hover:bg-purple-50"
                   >
                     {isLeaving ? "취소 중..." : "모임 취소"}
                   </Button>

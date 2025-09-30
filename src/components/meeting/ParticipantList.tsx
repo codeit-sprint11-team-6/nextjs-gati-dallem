@@ -3,6 +3,8 @@ import Avatar from "@/components/ui/Avatar";
 import { GatheringParticipant } from "@/types/gathering";
 import { Users, CheckCircle } from "lucide-react";
 import { Card } from "@/components/common/Card";
+import Chip, { AlarmTag, ChipInfo } from "@/components/ui/Chip";
+import Image from "next/image";
 
 interface ParticipantListProps {
   participants: GatheringParticipant[];
@@ -69,12 +71,10 @@ export default function ParticipantList({
 
               {/* 개설확정 상태 */}
               {isConfirmed && (
-                <div className="flex-start gap-2">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-r from-pink-400 to-purple-400">
-                    <CheckCircle className="h-4 w-4 text-white" />
-                  </div>
-                  <span className="text-lg font-semibold text-pink-600">개설확정</span>
-                </div>
+                <Chip>
+                  <Image src="/icon/check.svg" width={16} height={16} alt="개설확정 아이콘" />
+                  <span>개설확정</span>
+                </Chip>
               )}
             </div>
 
