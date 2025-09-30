@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "../ui/Button";
+import { Button } from "../common/Button";
 import UserProfile from "@/components/user/UserProfile";
 import { type UserProfile as UserProfileType } from "@/components/ui/Avatar";
 import { LogIn, LogOut } from "lucide-react";
@@ -46,7 +46,7 @@ export default function AuthAction({
           <Button
             type="button"
             onClick={onLogout}
-            variant="destructive"
+            variant="bare"
             size="sm"
             className="h-12 text-lg text-white md:h-22 lg:h-22"
           >
@@ -57,7 +57,7 @@ export default function AuthAction({
       ) : (
         <Button
           asChild
-          variant="destructive"
+          variant="bare"
           size="sm"
           className="h-12 text-lg text-white md:h-22 lg:h-22"
         >
