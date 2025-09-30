@@ -12,7 +12,7 @@ export const mockReviewList: ReviewList = {
         teamId: "team-1",
         id: 1,
         type: "DALLAEMFIT",
-        name: "건대입구 달라임핏 모임",
+        name: "건대입구 달렘핏 모임",
         dateTime: "2024-01-25T10:00:00.000Z",
         location: "건대입구",
         image:
@@ -30,7 +30,7 @@ export const mockReviewList: ReviewList = {
         teamId: "team-1",
         id: 1,
         type: "DALLAEMFIT",
-        name: "건대입구 달라임핏 모임",
+        name: "건대입구 달렘핏 모임",
         dateTime: "2024-01-25T10:00:00.000Z",
         location: "건대입구",
         image:

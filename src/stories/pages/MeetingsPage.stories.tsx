@@ -19,7 +19,7 @@ function MeetingsPage({
           <div className="mb-8 flex flex-wrap gap-4">
             <select className="rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-purple-500">
               <option value="">모든 타입</option>
-              <option value="DALLAEMFIT">달라임핏</option>
+              <option value="DALLAEMFIT">달렘핏</option>
               <option value="OFFICE_STRETCHING">사무직 스트레칭</option>
               <option value="MINDFULNESS">명상</option>
               <option value="WORKATION">워케이션</option>
@@ -122,7 +122,7 @@ const mockMeetings: Gathering[] = [
     teamId: "team-1",
     id: 1,
     type: "DALLAEMFIT",
-    name: "건대입구 달라임핏 모임",
+    name: "건대입구 달렘핏 모임",
     dateTime: "2024-01-25T10:00:00.000Z",
     registrationEnd: "2024-01-24T18:00:00.000Z",
     location: "건대입구",
@@ -178,7 +178,7 @@ const mockMeetings: Gathering[] = [
     teamId: "team-1",
     id: 5,
     type: "DALLAEMFIT",
-    name: "홍대 달라임핏 모임",
+    name: "홍대 달렘핏 모임",
     dateTime: "2024-01-29T11:00:00.000Z",
     registrationEnd: "2024-01-28T18:00:00.000Z",
     location: "홍대입구",

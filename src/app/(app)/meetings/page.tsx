@@ -5,7 +5,7 @@ export default function MeetingsPage() {
   const testMeetings = [
     {
       id: 1,
-      name: "건대입구 달라임핏 모임",
+      name: "건대입구 달렘핏 모임",
       location: "건대입구",
       dateTime: "2024-01-20T10:00:00Z",
     },

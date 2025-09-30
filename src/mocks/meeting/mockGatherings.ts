@@ -5,7 +5,7 @@ export const mockGatherings: Record<number, Gathering> = {
     teamId: "1",
     id: 1,
     type: "DALLAEMFIT",
-    name: "건대입구 달라임핏 모임",
+    name: "건대입구 달렘핏 모임",
     dateTime: "2024-01-20T10:00:00Z",
     registrationEnd: "2024-01-19T18:00:00Z",
     location: "건대입구",
