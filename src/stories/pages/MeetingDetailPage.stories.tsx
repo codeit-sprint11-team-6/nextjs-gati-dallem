@@ -450,3 +450,17 @@ export const ParticipantFavoritedPage: Story = {
     isHost: false,
   },
 };
+
+// 리뷰가 없는 빈 상태
+export const NoReviews: Story = {
+  args: {
+    reviewList: {
+      data: [],
+      totalItemCount: 0,
+      currentPage: 1,
+      totalPages: 0,
+    },
+    isJoined: false,
+    isFavorite: false,
+  },
+};

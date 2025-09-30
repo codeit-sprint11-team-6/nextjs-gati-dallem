@@ -28,7 +28,7 @@ export default function ParticipantList({
     >
       <Card>
         <Card.Detail>
-          <div className="px-10 pt-7 pb-[34px] pl-10">
+          <div className="px-6 pt-5 pb-6">
             {/* 참가자 수와 개설확정 상태 */}
             <div className="flex-between mb-6">
               <div className="flex-start gap-3">

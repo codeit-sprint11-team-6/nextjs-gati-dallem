@@ -153,75 +153,91 @@ export default function ReviewSection({
     ));
   };
 
+  // 빈 상태 확인
+  const isEmpty = displayReviews.length === 0;
+
   return (
     <div className={cn("", className)}>
       <h2 className="mb-8 ml-4 text-2xl font-semibold text-gray-900">리뷰 모아보기</h2>
 
-      {/* 리뷰 목록 */}
+      {/* 리뷰 목록 또는 빈 상태 */}
       <div className="space-y-6 rounded-3xl bg-white pt-10 pr-12 pb-12 pl-12">
-        {mockReviews.map((review, index) => (
-          <div
-            key={review.id}
-            className={cn(
-              "bg-white p-6",
-              index !== mockReviews.length - 1 && "border-b border-gray-200",
-            )}
-          >
-            <Card.Detail>
-              <div className="flex items-start gap-4">
-                {/* 사용자 프로필 */}
-                <Avatar
-                  userProfile={{
-                    teamId: review.User.teamId,
-                    id: review.User.id,
-                    email: "",
-                    name: review.User.name,
-                    companyName: "",
-                    image: review.User.image || "",
-                    createdAt: "",
-                    updatedAt: "",
-                  }}
-                  size="medium"
-                  className="h-10 w-10 flex-shrink-0"
-                />
+        {isEmpty ? (
+          // 빈 상태
+          <div className="flex flex-col items-center justify-center py-16">
+            <div className="mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-gray-100">
+              <div className="text-4xl">📝</div>
+            </div>
+            <h3 className="mb-2 text-lg font-semibold text-gray-400">아직 리뷰가 없어요</h3>
+            <p className="text-sm text-gray-300">첫 번째 리뷰를 작성해보세요!</p>
+          </div>
+        ) : (
+          displayReviews.map((review, index) => (
+            <div
+              key={review.id}
+              className={cn(
+                "bg-white p-6",
+                index !== mockReviews.length - 1 && "border-b border-gray-200",
+              )}
+            >
+              <Card.Detail>
+                <div className="flex items-start gap-4">
+                  {/* 사용자 프로필 */}
+                  <Avatar
+                    userProfile={{
+                      teamId: review.User.teamId,
+                      id: review.User.id,
+                      email: "",
+                      name: review.User.name,
+                      companyName: "",
+                      image: review.User.image || "",
+                      createdAt: "",
+                      updatedAt: "",
+                    }}
+                    size="medium"
+                    className="h-10 w-10 flex-shrink-0"
+                  />
 
-                {/* 사용자 정보 */}
-                <div className="min-w-0 flex-1">
-                  <div className="mb-2 flex flex-col gap-1">
-                    <span className="text-sm font-medium text-gray-600">{review.User.name}</span>
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center gap-1">{renderStars(review.score)}</div>
-                      <span className="text-sm text-gray-400">
-                        {new Date(review.createdAt)
-                          .toLocaleDateString("ko-KR", {
-                            year: "numeric",
-                            month: "2-digit",
-                            day: "2-digit",
-                          })
-                          .replace(/\./g, ".")
-                          .replace(/\s/g, "")}
-                      </span>
+                  {/* 사용자 정보 */}
+                  <div className="min-w-0 flex-1">
+                    <div className="mb-2 flex flex-col gap-1">
+                      <span className="text-sm font-medium text-gray-600">{review.User.name}</span>
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-1">{renderStars(review.score)}</div>
+                        <span className="text-sm text-gray-400">
+                          {new Date(review.createdAt)
+                            .toLocaleDateString("ko-KR", {
+                              year: "numeric",
+                              month: "2-digit",
+                              day: "2-digit",
+                            })
+                            .replace(/\./g, ".")
+                            .replace(/\s/g, "")}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* 리뷰 내용 - 아바타와 같은 부모 레벨 */}
-              <p className="mt-6 text-base leading-relaxed font-medium text-gray-700">
-                {review.comment}
-              </p>
-            </Card.Detail>
-          </div>
-        ))}
+                {/* 리뷰 내용 - 아바타와 같은 부모 레벨 */}
+                <p className="mt-6 text-base leading-relaxed font-medium text-gray-700">
+                  {review.comment}
+                </p>
+              </Card.Detail>
+            </div>
+          ))
+        )}
       </div>
 
-      {/* 페이지네이션 */}
-      <Pagination
-        currentPage={displayCurrentPage}
-        totalPages={displayTotalPages}
-        onPageChange={onPageChange || (() => {})}
-        className="mt-8"
-      />
+      {/* 페이지네이션 - 리뷰가 있을 때만 표시 */}
+      {!isEmpty && (
+        <Pagination
+          currentPage={displayCurrentPage}
+          totalPages={displayTotalPages}
+          onPageChange={onPageChange || (() => {})}
+          className="mt-8"
+        />
+      )}
     </div>
   );
 }

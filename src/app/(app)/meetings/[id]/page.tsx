@@ -273,13 +273,13 @@ export default function MeetingDetailPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="mx-auto max-w-7xl px-4 py-8">
+      <div className="mx-auto mt-10 max-w-7xl px-4">
         {/* 메인 콘텐츠 영역 */}
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           {/* 왼쪽: 모임 이미지 */}
-          <div className="relative h-96 lg:h-[600px]">
+          <div className="relative">
             {gathering!.image ? (
-              <div className="relative h-full w-full overflow-hidden rounded-3xl">
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl sm:aspect-auto sm:h-full">
                 <Image
                   src={gathering!.image}
                   alt={gathering!.name}
@@ -299,7 +299,7 @@ export default function MeetingDetailPage() {
           </div>
 
           {/* 오른쪽: 모임 정보와 참가자 정보 */}
-          <div className="space-y-8">
+          <div className="space-y-6">
             {/* 모임 정보 카드 */}
             <MeetingDetailCard
               gathering={gathering!}
@@ -319,7 +319,7 @@ export default function MeetingDetailPage() {
         </div>
 
         {/* 리뷰 섹션 - 전체 너비 */}
-        <div className="mt-8 rounded-3xl">
+        <div className="mt-16 rounded-3xl">
           <ReviewSection reviews={[]} averageRating={0} totalReviews={0} />
         </div>
       </div>

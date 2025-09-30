@@ -96,7 +96,7 @@ export default function Pagination({
               onClick={() => onPageChange(pageNum)}
               className={cn(
                 "flex h-12 w-12 items-center justify-center rounded-lg font-semibold transition-colors",
-                isCurrentPage ? "bg-green-50 text-green-700" : "text-gray-400 hover:bg-gray-50",
+                isCurrentPage ? "bg-purple-100 text-purple-600" : "text-gray-400 hover:bg-gray-50",
               )}
             >
               {pageNum}

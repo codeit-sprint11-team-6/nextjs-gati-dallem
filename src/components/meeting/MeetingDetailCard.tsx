@@ -90,7 +90,7 @@ export default function MeetingDetailCard({
     >
       <Card>
         <Card.Detail>
-          <div className="flex-between flex h-full flex-col gap-6 pt-8 pr-10 pb-8 pl-10">
+          <div className="flex-between flex h-full flex-col gap-6 p-3">
             {/* 상단 태그와 마감 정보 */}
             <div className="flex-between w-full">
               <div className="flex-start gap-2">
