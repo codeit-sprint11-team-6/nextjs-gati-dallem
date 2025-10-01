@@ -9,10 +9,22 @@ import type { Review, ReviewList } from "@/types";
 interface ReviewCardProps {
   review: Review;
   isLast: boolean;
-  renderStars: (score: number) => React.ReactNode;
 }
 
-function ReviewCard({ review, isLast, renderStars }: ReviewCardProps) {
+function ReviewCard({ review, isLast }: ReviewCardProps) {
+  const renderStars = (score: number) => {
+    return Array.from({ length: 5 }, (_, i) => (
+      <Image
+        key={i}
+        src={i < score ? "/icon/heart_active.svg" : "/icon/heart_inactive.svg"}
+        alt={i < score ? "별점 활성" : "별점 비활성"}
+        width={24}
+        height={24}
+        className="h-6 w-6"
+      />
+    ));
+  };
+
   return (
     <Card
       className={cn(
@@ -103,19 +115,6 @@ export default function ReviewSection({
   const displayTotalPages = reviewList?.totalPages || totalPages;
   const displayTotalItemCount = reviewList?.totalItemCount || totalItemCount || 0;
 
-  const renderStars = (score: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Image
-        key={i}
-        src={i < score ? "/icon/heart_active.svg" : "/icon/heart_inactive.svg"}
-        alt={i < score ? "별점 활성" : "별점 비활성"}
-        width={24}
-        height={24}
-        className="h-6 w-6"
-      />
-    ));
-  };
-
   // 빈 상태 확인
   const isEmpty = displayReviews.length === 0;
 
@@ -144,7 +143,6 @@ export default function ReviewSection({
               key={review.id}
               review={review}
               isLast={index === displayReviews.length - 1}
-              renderStars={renderStars}
             />
           ))}
         </div>
