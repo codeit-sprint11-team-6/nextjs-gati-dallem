@@ -137,22 +137,16 @@ export default function MeetingDetailCard({
               {/* 찜하기 버튼 */}
               <Button
                 onClick={handleToggleFavorite}
-                variant={isFavorite ? "selected" : "outlineWhite"}
+                variant="ghost"
                 size="icon"
-                radius="round"
-                className={cn(
-                  "h-12 w-12 border-2",
-                  isFavorite
-                    ? "border-purple-200 bg-purple-50 text-purple-600 hover:border-purple-300 hover:bg-purple-100"
-                    : "border-gray-200 hover:border-gray-300",
-                )}
+                className="h-10 w-10 p-0 sm:h-12 sm:w-12 md:h-15 md:w-15"
               >
                 <Image
                   src={isFavorite ? "/icon/save_active.svg" : "/icon/save_inactive.svg"}
                   alt={isFavorite ? "찜하기 취소" : "찜하기"}
-                  width={24}
-                  height={24}
-                  className="h-6 w-6"
+                  width={20}
+                  height={20}
+                  className="h-10 w-10 sm:h-12 sm:w-12 md:h-[60px] md:w-[60px]"
                 />
               </Button>
 
