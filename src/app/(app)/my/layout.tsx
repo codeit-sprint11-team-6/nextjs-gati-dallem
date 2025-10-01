@@ -7,7 +7,7 @@ export default function MyPageLayout({ children }: { children: React.ReactNode }
     <div
       className={cn(
         "flex flex-col items-start justify-stretch gap-6",
-        "md:flex-center",
+        "md:flex-center px-4 md:px-6 lg:p-0",
         "lg:mx-auto lg:max-w-[1280px] lg:flex-row lg:gap-10",
       )}
     >

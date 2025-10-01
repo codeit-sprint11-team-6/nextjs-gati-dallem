@@ -26,9 +26,9 @@ export function Card({ children }: { children?: React.ReactNode }) {
 /** 모임 이미지 영역 */
 function CardImage({ image }: { image?: string }) {
   return (
-    <div className="relative aspect-[2.2] overflow-hidden md:aspect-square md:w-[170px] md:rounded-3xl">
+    <div className="border-slate-120 relative aspect-[2.2] overflow-hidden border-1 md:aspect-square md:w-[170px] md:rounded-3xl">
       {image ? (
-        <Image className="object-fill" src={image} alt="모임 이미지 미리보기" fill />
+        <Image className="object-cover" src={image} alt="모임 이미지 미리보기" fill />
       ) : (
         <div className="h-full w-full bg-gray-200" />
       )}
