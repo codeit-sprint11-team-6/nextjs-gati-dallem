@@ -54,30 +54,35 @@ export default function ReviewSection({
       <h2 className="mb-8 ml-4 text-2xl font-semibold text-gray-900">리뷰 모아보기</h2>
 
       {/* 리뷰 목록 또는 빈 상태 */}
-      <div className="space-y-6 rounded-3xl bg-white pt-10 pr-12 pb-12 pl-12">
-        {isEmpty ? (
-          // 빈 상태
-          <div className="flex flex-col items-center justify-center py-16">
-            <div className="relative mb-6 flex h-24 w-24 items-center justify-center sm:h-32 sm:w-32">
-              <Image
-                src="/image/empty.svg"
-                alt="리뷰가 없음"
-                fill
-                className="object-contain opacity-30"
-              />
-            </div>
-            <h3 className="mb-2 text-lg font-semibold text-gray-400">아직 리뷰가 없어요</h3>
+      {isEmpty ? (
+        // 빈 상태
+        <div className="flex flex-col items-center justify-center rounded-3xl bg-white py-16">
+          <div className="relative mb-6 flex h-24 w-24 items-center justify-center sm:h-32 sm:w-32">
+            <Image
+              src="/image/empty.svg"
+              alt="리뷰가 없음"
+              fill
+              className="object-contain opacity-30"
+            />
           </div>
-        ) : (
-          displayReviews.map((review: Review, index: number) => (
-            <div
+          <h3 className="mb-2 text-lg font-semibold text-gray-400">아직 리뷰가 없어요</h3>
+        </div>
+      ) : (
+        <div className="overflow-hidden rounded-3xl bg-white px-12 pt-10 pb-12">
+          {displayReviews.map((review: Review, index: number) => (
+            <Card
               key={review.id}
               className={cn(
-                "bg-white p-6",
-                index !== displayReviews.length - 1 && "border-b border-gray-200",
+                "w-full !max-w-full !min-w-0 !rounded-none !p-0",
+                "hover:!shadow-none hover:!drop-shadow-none",
               )}
             >
-              <Card.Detail>
+              <Card.Detail
+                className={cn(
+                  "!rounded-none !p-0",
+                  index !== displayReviews.length - 1 && "mb-6 border-b border-gray-200 pb-6",
+                )}
+              >
                 <div className="flex items-start gap-4">
                   {/* 사용자 프로필 */}
                   <Avatar
@@ -116,15 +121,20 @@ export default function ReviewSection({
                   </div>
                 </div>
 
-                {/* 리뷰 내용 - 아바타와 같은 부모 레벨 */}
-                <p className="mt-6 text-base leading-relaxed font-medium text-gray-700">
+                {/* 리뷰 내용 */}
+                <p
+                  className={cn(
+                    "mt-6 mb-7 text-base leading-relaxed font-medium text-gray-700",
+                    index === displayReviews.length - 1 && "mb-0",
+                  )}
+                >
                   {review.comment}
                 </p>
               </Card.Detail>
-            </div>
-          ))
-        )}
-      </div>
+            </Card>
+          ))}
+        </div>
+      )}
 
       {/* 페이지네이션 - 리뷰가 있을 때만 표시 */}
       {!isEmpty && (
