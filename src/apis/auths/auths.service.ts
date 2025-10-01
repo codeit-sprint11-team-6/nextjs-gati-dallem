@@ -1,6 +1,7 @@
 // /src/apis/auths/auths.service.ts
 import type { AuthUser } from "@/types/auth";
 import { apiClient } from "../_client";
+import { authEndpoints } from "./auths.endpoints";
 import { toAuthUserFromGet, toAuthUserFromUpdate } from "./auths.adapters";
 import {
   GetAuthUserResponse,
@@ -22,32 +23,38 @@ import {
 } from "./auths.schema";
 
 /** 회원가입 (메시지 DTO) */
-export async function signup(body: SignupBody) {
+export const signup = async (body: SignupBody): Promise<SignupResponse> => {
   const parsed = SignupBodySchema.parse(body);
-  const res = await apiClient.post<SignupResponse>(`/auths/signup`, parsed, SignupResponseSchema);
-  return res;
-}
+  return apiClient.post<SignupResponse>(authEndpoints.signup(), parsed, SignupResponseSchema);
+};
 
 /** 로그인 (토큰/메시지 DTO) */
-export async function signin(body: SigninBody) {
+export const signin = async (body: SigninBody): Promise<SigninResponse> => {
   const parsed = SigninBodySchema.parse(body);
-  const res = await apiClient.post<SigninResponse>(`/auths/signin`, parsed, SigninResponseSchema);
-  if ("token" in res && res.token) {
-    // apiClient 내부 토큰 동기화
-    apiClient.setAuthToken(res.token);
-  }
+  const res = await apiClient.post<SigninResponse>(
+    authEndpoints.signin(),
+    parsed,
+    SigninResponseSchema,
+  );
+
+  // if ("token" in res && res.token) {
+  //   apiClient.setAuthToken(res.token); // apiClient 내부 토큰 동기화
+  // }
+
+  apiClient.setAuthToken(res.token);
+
   return res;
-}
+};
 
 /** 로그아웃 (메시지 DTO) */
-export async function signout() {
+export const signout = async (): Promise<SignoutResponse> => {
   const res = await apiClient.post<SignoutResponse>(
-    `/auths/signout`,
+    authEndpoints.signout(),
     undefined,
     SignoutResponseSchema,
   );
   return res;
-}
+};
 
 /** 내 정보 조회 → 도메인 반환 */
 export async function getAuthUser() {

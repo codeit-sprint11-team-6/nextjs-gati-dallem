@@ -1,4 +1,5 @@
 import LoginForm from "@/components/auth/LoginForm";
+import DebugOnce from "../../../components/debug/DebugOnce";
 
 export const metadata = {
   title: "로그인 | 같이달램",
@@ -19,6 +20,7 @@ export default function LoginPage() {
       {/* 우측: 로그인 카드 */}
       <section className="flex justify-center md:justify-end">
         <LoginForm />
+        <DebugOnce /> {/* 임시 디버깅용 */}
       </section>
     </main>
   );

@@ -3,7 +3,9 @@
 
 import { useState } from "react";
 import { useAuthStore, selectIsAuthenticated, selectUser } from "@/store/authStore";
-import { useSignin, useAuthUser } from "@/apis/auths/auths.query";
+// import { useSignin, useAuthUser } from "@/apis/auths/auths.query";
+import { useAuthUser } from "@/hooks/auths/useAuthUser";
+import { useSignin } from "@/hooks/auths/useSignin";
 import { useJoinedGatherings } from "@/apis/gatherings/gatherings.query";
 
 // ─────────────────────────────────────────────────────────────────────────────
