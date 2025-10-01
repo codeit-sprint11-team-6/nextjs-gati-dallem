@@ -22,16 +22,18 @@ export default function ReservedCardList() {
 
 function EmptyList() {
   return (
-    <div className="flex flex-col items-center justify-center py-16">
-      <div className="relative mb-6 flex h-24 w-24 items-center justify-center sm:h-32 sm:w-32">
+    <div className="flex-center flex-col">
+      <div className="flex-center relative mb-6 h-24 w-24 sm:h-32 sm:w-32">
         <Image
           src="/image/empty.svg"
-          alt="리뷰가 없음"
+          alt="나의 모임 빈 페이지"
           fill
           className="object-contain opacity-30"
         />
       </div>
-      <h3 className="mb-2 text-lg font-semibold text-gray-400">아직 리뷰가 없어요</h3>
+      <h3 className="mb-2 text-sm font-semibold text-gray-400 md:text-lg">
+        아직 신청한 모임이 없어요
+      </h3>
     </div>
   );
 }
