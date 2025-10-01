@@ -5,10 +5,10 @@ import ParticipantList from "@/components/meeting/ParticipantList";
 import ReviewSection from "@/components/meeting/ReviewSection";
 import type { Gathering, GatheringParticipant } from "@/types/gathering";
 import type { ReviewList } from "@/types/review";
-import { 
-  storybookMockGathering, 
-  storybookMockParticipants, 
-  storybookMockReviewList 
+import {
+  storybookMockGathering,
+  storybookMockParticipants,
+  storybookMockReviewList,
 } from "@/mocks/meeting/storybookMocks";
 
 // 페이지 컴포넌트
@@ -77,7 +77,7 @@ function MeetingDetailPage({
             />
 
             {/* 참가자 정보 섹션 */}
-            <div className="rounded-3xl border bg-gradient-to-r from-purple-50 to-pink-50 hover:border-purple-200">
+            <div className="rounded-3xl hover:border-purple-200">
               <ParticipantList participants={participants} maxDisplay={8} />
             </div>
           </div>
@@ -429,7 +429,7 @@ export const ParticipantJoinedAndFavorited: Story = {
 export const RegistrationEnded: Story = {
   args: {
     gathering: {
-      ...mockGathering,
+      ...storybookMockGathering,
       registrationEnd: "2024-01-15T18:00:00.000Z", // 과거 날짜로 설정
     },
     isJoined: false,

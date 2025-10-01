@@ -86,6 +86,55 @@ export const storybookMockParticipants: GatheringParticipant[] = [
   },
 ];
 
+// 다양한 타입의 모임 mock 데이터
+export const storybookMockUpcomingGathering: Gathering = {
+  teamId: "team-1",
+  id: 2,
+  type: "OFFICE_STRETCHING",
+  name: "사무직 스트레칭",
+  dateTime: "2024-02-15T14:00:00.000Z",
+  registrationEnd: "2024-02-14T18:00:00.000Z",
+  location: "을지로3가",
+  participantCount: 8,
+  capacity: 15,
+  image:
+    "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&crop=center",
+  createdBy: 2,
+  canceledAt: null,
+};
+
+export const storybookMockFullGathering: Gathering = {
+  teamId: "team-1",
+  id: 3,
+  type: "MINDFULNESS",
+  name: "명상 세션",
+  dateTime: "2024-01-30T19:00:00.000Z",
+  registrationEnd: "2024-01-29T18:00:00.000Z",
+  location: "신림",
+  participantCount: 20,
+  capacity: 20,
+  image:
+    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center",
+  createdBy: 3,
+  canceledAt: null,
+};
+
+export const storybookMockCanceledGathering: Gathering = {
+  teamId: "team-1",
+  id: 4,
+  type: "WORKATION",
+  name: "워케이션 세미나",
+  dateTime: "2024-01-20T09:00:00.000Z",
+  registrationEnd: "2024-01-19T18:00:00.000Z",
+  location: "홍대입구",
+  participantCount: 0,
+  capacity: 30,
+  image:
+    "https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=400&h=300&fit=crop&crop=center",
+  createdBy: 4,
+  canceledAt: "2024-01-18T10:00:00.000Z",
+};
+
 export const storybookMockReviewList: ReviewList = {
   data: [
     {

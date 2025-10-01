@@ -1,8 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import MeetingDetailCard from "@/components/meeting/MeetingDetailCard";
-import type { Gathering } from "@/types/gathering";
+import {
+  storybookMockGathering,
+  storybookMockUpcomingGathering,
+  storybookMockFullGathering,
+  storybookMockCanceledGathering,
+} from "@/mocks/meeting/storybookMocks";
 
-const meta: Meta<typeof MeetingDetailCard> = {
+const meta = {
   title: "Components/Meeting/MeetingDetailCard",
   component: MeetingDetailCard,
   parameters: {
@@ -42,75 +47,15 @@ const meta: Meta<typeof MeetingDetailCard> = {
       description: "공유 버튼 클릭 시 호출되는 콜백",
     },
   },
-};
+} satisfies Meta<typeof MeetingDetailCard>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const mockGathering: Gathering = {
-  teamId: "team-1",
-  id: 1,
-  type: "DALLAEMFIT",
-  name: "달램핏 클래스",
-  dateTime: "2024-01-25T10:00:00.000Z",
-  registrationEnd: "2024-01-24T18:00:00.000Z",
-  location: "건대입구",
-  participantCount: 15,
-  capacity: 20,
-  image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center",
-  createdBy: 1,
-  canceledAt: null,
-};
-
-const upcomingGathering: Gathering = {
-  teamId: "team-1",
-  id: 2,
-  type: "OFFICE_STRETCHING",
-  name: "사무직 스트레칭",
-  dateTime: "2024-02-15T14:00:00.000Z",
-  registrationEnd: "2024-02-14T18:00:00.000Z",
-  location: "을지로3가",
-  participantCount: 8,
-  capacity: 15,
-  image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&crop=center",
-  createdBy: 2,
-  canceledAt: null,
-};
-
-const fullGathering: Gathering = {
-  teamId: "team-1",
-  id: 3,
-  type: "MINDFULNESS",
-  name: "명상 세션",
-  dateTime: "2024-01-30T19:00:00.000Z",
-  registrationEnd: "2024-01-29T18:00:00.000Z",
-  location: "신림",
-  participantCount: 20,
-  capacity: 20,
-  image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center",
-  createdBy: 3,
-  canceledAt: null,
-};
-
-const canceledGathering: Gathering = {
-  teamId: "team-1",
-  id: 4,
-  type: "WORKATION",
-  name: "워케이션 세미나",
-  dateTime: "2024-01-20T09:00:00.000Z",
-  registrationEnd: "2024-01-19T18:00:00.000Z",
-  location: "홍대입구",
-  participantCount: 0,
-  capacity: 30,
-  image: "https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=400&h=300&fit=crop&crop=center",
-  createdBy: 4,
-  canceledAt: "2024-01-18T10:00:00.000Z",
-};
-
 // 기본 상태 (참여하지 않음, 즐겨찾기 안함)
 export const Default: Story = {
   args: {
-    gathering: mockGathering,
+    gathering: storybookMockGathering,
     isJoined: false,
     isFavorite: false,
   },
@@ -119,7 +64,7 @@ export const Default: Story = {
 // 참여한 상태
 export const Joined: Story = {
   args: {
-    gathering: mockGathering,
+    gathering: storybookMockGathering,
     isJoined: true,
     isFavorite: false,
   },
@@ -128,7 +73,7 @@ export const Joined: Story = {
 // 즐겨찾기한 상태
 export const Favorited: Story = {
   args: {
-    gathering: mockGathering,
+    gathering: storybookMockGathering,
     isJoined: false,
     isFavorite: true,
   },
@@ -137,7 +82,7 @@ export const Favorited: Story = {
 // 참여하고 즐겨찾기한 상태
 export const JoinedAndFavorited: Story = {
   args: {
-    gathering: mockGathering,
+    gathering: storybookMockGathering,
     isJoined: true,
     isFavorite: true,
   },
@@ -146,7 +91,7 @@ export const JoinedAndFavorited: Story = {
 // 다가오는 모임
 export const Upcoming: Story = {
   args: {
-    gathering: upcomingGathering,
+    gathering: storybookMockUpcomingGathering,
     isJoined: false,
     isFavorite: false,
   },
@@ -155,7 +100,7 @@ export const Upcoming: Story = {
 // 정원이 가득 찬 모임
 export const Full: Story = {
   args: {
-    gathering: fullGathering,
+    gathering: storybookMockFullGathering,
     isJoined: false,
     isFavorite: false,
   },
@@ -164,7 +109,7 @@ export const Full: Story = {
 // 취소된 모임
 export const Canceled: Story = {
   args: {
-    gathering: canceledGathering,
+    gathering: storybookMockCanceledGathering,
     isJoined: false,
     isFavorite: false,
   },
@@ -174,11 +119,12 @@ export const Canceled: Story = {
 export const OfficeStretching: Story = {
   args: {
     gathering: {
-      ...mockGathering,
+      ...storybookMockGathering,
       type: "OFFICE_STRETCHING",
       name: "사무직 스트레칭",
       location: "을지로3가",
-      image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&crop=center",
+      image:
+        "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&crop=center",
     },
     isJoined: false,
     isFavorite: false,
@@ -189,11 +135,12 @@ export const OfficeStretching: Story = {
 export const Mindfulness: Story = {
   args: {
     gathering: {
-      ...mockGathering,
+      ...storybookMockGathering,
       type: "MINDFULNESS",
       name: "명상 세션",
       location: "신림",
-      image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center",
+      image:
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center",
     },
     isJoined: false,
     isFavorite: false,
@@ -204,11 +151,12 @@ export const Mindfulness: Story = {
 export const Workation: Story = {
   args: {
     gathering: {
-      ...mockGathering,
+      ...storybookMockGathering,
       type: "WORKATION",
       name: "워케이션 세미나",
       location: "홍대입구",
-      image: "https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=400&h=300&fit=crop&crop=center",
+      image:
+        "https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=400&h=300&fit=crop&crop=center",
     },
     isJoined: false,
     isFavorite: false,
@@ -219,7 +167,7 @@ export const Workation: Story = {
 export const LongTitle: Story = {
   args: {
     gathering: {
-      ...mockGathering,
+      ...storybookMockGathering,
       name: "매우 긴 제목을 가진 달램핏 클래스 - 건강한 몸과 마음을 위한 특별한 시간",
     },
     isJoined: false,
@@ -231,7 +179,7 @@ export const LongTitle: Story = {
 export const NoImage: Story = {
   args: {
     gathering: {
-      ...mockGathering,
+      ...storybookMockGathering,
       image: undefined,
     },
     isJoined: false,
@@ -242,7 +190,7 @@ export const NoImage: Story = {
 // 주최자인 경우
 export const Host: Story = {
   args: {
-    gathering: mockGathering,
+    gathering: storybookMockGathering,
     isJoined: true,
     isFavorite: false,
     isHost: true,
@@ -252,7 +200,7 @@ export const Host: Story = {
 // 주최자 + 즐겨찾기
 export const HostAndFavorited: Story = {
   args: {
-    gathering: mockGathering,
+    gathering: storybookMockGathering,
     isJoined: true,
     isFavorite: true,
     isHost: true,
@@ -263,7 +211,7 @@ export const HostAndFavorited: Story = {
 export const HostWithFullCapacity: Story = {
   args: {
     gathering: {
-      ...mockGathering,
+      ...storybookMockGathering,
       participantCount: 20,
       capacity: 20,
     },
@@ -277,7 +225,7 @@ export const HostWithFullCapacity: Story = {
 export const HostWithCanceled: Story = {
   args: {
     gathering: {
-      ...mockGathering,
+      ...storybookMockGathering,
       canceledAt: "2024-01-18T10:00:00.000Z",
     },
     isJoined: true,
@@ -289,7 +237,7 @@ export const HostWithCanceled: Story = {
 // 참가자 (크라운 아이콘 없음)
 export const Participant: Story = {
   args: {
-    gathering: mockGathering,
+    gathering: storybookMockGathering,
     isJoined: false,
     isFavorite: false,
     isHost: false,
@@ -299,7 +247,7 @@ export const Participant: Story = {
 // 참가자 + 참여함
 export const ParticipantJoined: Story = {
   args: {
-    gathering: mockGathering,
+    gathering: storybookMockGathering,
     isJoined: true,
     isFavorite: false,
     isHost: false,
@@ -309,7 +257,7 @@ export const ParticipantJoined: Story = {
 // 참가자 + 즐겨찾기
 export const ParticipantFavorited: Story = {
   args: {
-    gathering: mockGathering,
+    gathering: storybookMockGathering,
     isJoined: false,
     isFavorite: true,
     isHost: false,
