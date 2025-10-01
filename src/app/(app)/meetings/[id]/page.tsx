@@ -26,20 +26,19 @@ export default function MeetingDetailPage() {
   // Mock 데이터 로딩
   useEffect(() => {
     const loadMockData = async () => {
-      setIsLoading(true);
+        setIsLoading(true);
 
-      // 즉시 로딩 (지연 제거)
-      const mockGathering = mockGatherings[meetingId];
-      const mockParticipantList = mockParticipants[meetingId] || [];
-      const mockReviewData = mockReviewsByGathering[meetingId];
+        // TODO: 실제 API 호출로 대체 예정
+        const mockGathering = mockGatherings[meetingId];
+        const mockParticipantList = mockParticipants[meetingId] || [];
+        const mockReviewData = mockReviewsByGathering[meetingId];
 
       setGathering(mockGathering || null);
       setParticipants(mockParticipantList);
       setReviewList(mockReviewData);
       setCurrentPage(mockReviewData?.currentPage || 1);
       setIsLoading(false);
-    };
-
+    }  
     loadMockData();
   }, [meetingId]);
 
@@ -102,15 +101,10 @@ export default function MeetingDetailPage() {
 
   if (!isLoading && !gathering) {
     return (
-      <div
-        className="flex min-h-screen items-center justify-center"
-        style={{ backgroundColor: "var(--color-gray-50)" }}
-      >
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
         <div className="text-center">
-          <h1 className="heading-2 mb-4" style={{ color: "var(--color-gray-900)" }}>
-            모임을 찾을 수 없습니다
-          </h1>
-          <p className="body-regular mb-8" style={{ color: "var(--color-gray-600)" }}>
+          <h1 className="heading-2 mb-4 text-gray-900">모임을 찾을 수 없습니다</h1>
+          <p className="body-regular mb-8 text-gray-600">
             요청하신 모임이 존재하지 않거나 삭제되었습니다.
           </p>
           <button onClick={() => window.history.back()} className="btn-primary px-6 py-2">
