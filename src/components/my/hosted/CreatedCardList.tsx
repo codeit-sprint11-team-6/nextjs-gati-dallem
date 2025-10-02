@@ -3,8 +3,7 @@
 import { useGatherings } from "@/apis/gatherings/gatherings.query";
 import { useAuthStore } from "@/store/authStore";
 import Image from "next/image";
-import { CreatedCardSkeleton } from "./CreatedCardItem";
-import { mockMyGathering } from "@/mocks/mypage/mockMyGathering";
+import CreatedCardItem, { CreatedCardSkeleton } from "./CreatedCardItem";
 
 export default function CreatedCardList() {
   const { user } = useAuthStore();
@@ -16,8 +15,8 @@ export default function CreatedCardList() {
     <EmptyList />
   ) : (
     <div className="grid w-full justify-stretch gap-4 lg:mt-2 lg:gap-6">
-      {mockMyGathering?.map((item) => (
-        <CreatedCardList key={item.id} {...item} />
+      {data?.map((item) => (
+        <CreatedCardItem key={item.id} {...item} />
       ))}
     </div>
   );
@@ -25,7 +24,7 @@ export default function CreatedCardList() {
 
 function EmptyList() {
   return (
-    <div className="flex-center flex-col">
+    <div className="flex-center mt-18 flex-col lg:mt-24">
       <div className="flex-center relative mb-6 h-24 w-24 sm:h-32 sm:w-32">
         <Image src="/image/empty.svg" alt="빈 페이지 표시 이미지" fill className="object-contain" />
       </div>
