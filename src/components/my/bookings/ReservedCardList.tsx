@@ -23,12 +23,7 @@ function EmptyList() {
   return (
     <div className="flex-center flex-col">
       <div className="flex-center relative mb-6 h-24 w-24 sm:h-32 sm:w-32">
-        <Image
-          src="/image/empty.svg"
-          alt="빈 페이지 표시 이미지"
-          fill
-          className="object-contain opacity-30"
-        />
+        <Image src="/image/empty.svg" alt="빈 페이지 표시 이미지" fill className="object-contain" />
       </div>
       <h3 className="mb-2 text-sm font-semibold text-gray-400 md:text-lg">
         아직 신청한 모임이 없어요
