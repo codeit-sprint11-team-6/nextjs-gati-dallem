@@ -13,11 +13,11 @@ const ReviewCardListContext = createContext<ReviewCardListContextType | null>(nu
 
 function useReviewCardList() {
   const context = useContext(ReviewCardListContext);
-  if (!context) throw new Error("It must be used within <ReviewsCardList />");
+  if (!context) throw new Error("It must be used within <ReviewCardList />");
   return context;
 }
 
-export default function ReviewsCardList() {
+export default function ReviewCardList() {
   const [writable, setWritable] = useState(true);
   return (
     <div className="mt-1 flex w-full flex-col items-start justify-start gap-4">
@@ -66,12 +66,7 @@ function EmptyList() {
   return (
     <div className="flex-center flex-col">
       <div className="flex-center relative mb-6 h-24 w-24 sm:h-32 sm:w-32">
-        <Image
-          src="/image/empty.svg"
-          alt="빈 페이지 표시 이미지"
-          fill
-          className="object-contain opacity-30"
-        />
+        <Image src="/image/empty.svg" alt="빈 페이지 표시 이미지" fill className="object-contain" />
       </div>
       <h3 className="mb-2 text-sm font-semibold text-gray-400 md:text-lg">
         {writable ? "작성할 수 있는 리뷰가 없어요" : "작성한 리뷰가 없어요"}

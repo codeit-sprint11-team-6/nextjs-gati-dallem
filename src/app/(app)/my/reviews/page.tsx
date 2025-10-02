@@ -1,5 +1,5 @@
-import ReviewsCardList from "@/components/my/reviews/ReviewsCardList";
+import ReviewCardList from "@/components/my/reviews/ReviewCardList";
 
 export default function Page() {
-  return <ReviewsCardList />;
+  return <ReviewCardList />;
 }
