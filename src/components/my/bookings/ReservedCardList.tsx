@@ -2,8 +2,7 @@
 
 import { useJoinedGatherings } from "@/apis/gatherings/gatherings.query";
 import Image from "next/image";
-import ReservedCardItem from "./ReservedCardItem";
-import ReservedCardSkeleton from "./ReservedCardSkeleton";
+import ReservedCardItem, { ReservedCardSkeleton } from "./ReservedCardItem";
 
 export default function ReservedCardList() {
   const { isLoading, data } = useJoinedGatherings();
@@ -12,7 +11,7 @@ export default function ReservedCardList() {
   ) : data?.length === 0 ? (
     <EmptyList />
   ) : (
-    <div className="grid w-full justify-stretch gap-4 lg:gap-6">
+    <div className="grid w-full justify-stretch gap-4 lg:mt-2 lg:gap-6">
       {data?.map((item) => (
         <ReservedCardItem key={item.id} {...item} />
       ))}
@@ -26,7 +25,7 @@ function EmptyList() {
       <div className="flex-center relative mb-6 h-24 w-24 sm:h-32 sm:w-32">
         <Image
           src="/image/empty.svg"
-          alt="나의 모임 빈 페이지"
+          alt="빈 페이지 표시 이미지"
           fill
           className="object-contain opacity-30"
         />
@@ -40,8 +39,8 @@ function EmptyList() {
 
 function SkeletonList() {
   return (
-    <div className="grid w-full justify-stretch gap-4 lg:gap-6">
-      {Array(10)
+    <div className="grid w-full justify-stretch gap-4 lg:mt-2 lg:gap-6">
+      {Array(5)
         .fill(undefined)
         .map((_, idx) => (
           <ReservedCardSkeleton key={idx} />
