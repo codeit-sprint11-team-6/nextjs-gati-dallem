@@ -1,9 +1,13 @@
 "use client";
 
 import { useJoinedGatherings } from "@/apis/gatherings/gatherings.query";
+import { useReviews } from "@/apis/reviews/reviews.query";
 import Chip from "@/components/ui/Chip";
+import { mockReviewed } from "@/mocks/mypage/mockMyReview";
+import { useAuthStore } from "@/store/authStore";
 import Image from "next/image";
 import { createContext, useContext, useState } from "react";
+import ReviewedCardItem, { ReviewCardSkeleton } from "./ReviewedCardItem";
 import UnreviewedCardItem, { UnreviewedCardSkeleton } from "./UnreviewedCardItem";
 
 interface ReviewCardListContextType {
@@ -39,7 +43,7 @@ export default function ReviewCardList() {
       </div>
       <ReviewCardListContext.Provider value={{ writable }}>
         <div className="grid w-full justify-stretch gap-4 lg:gap-6">
-          {writable && <UnreviewedCardList />}
+          {writable ? <UnreviewedCardList /> : <ReviewedCardList />}
         </div>
       </ReviewCardListContext.Provider>
     </div>
@@ -60,6 +64,19 @@ function UnreviewedCardList() {
     </>
   );
 }
+function ReviewedCardList() {
+  const { user } = useAuthStore();
+  const { isLoading, data } = useReviews({ userId: user?.id });
+  return isLoading ? (
+    <SkeletonList />
+  ) : (
+    <div className="grid justify-stretch gap-6 divide-y-1 divide-slate-200 rounded-3xl bg-white p-6 pb-0 md:rounded-4xl lg:px-8 lg:pb-2">
+      {mockReviewed.map((review) => (
+        <ReviewedCardItem key={review.id} {...review} />
+      ))}
+    </div>
+  );
+}
 
 function EmptyList() {
   const { writable } = useReviewCardList();
@@ -78,10 +95,12 @@ function EmptyList() {
 function SkeletonList() {
   const { writable } = useReviewCardList();
   return (
-    <div className="grid w-full justify-stretch gap-4 lg:mt-2 lg:gap-6">
-      {Array(5)
+    <div className="grid justify-stretch gap-6 divide-y-1 divide-slate-200 rounded-3xl bg-white p-6 pb-0 md:rounded-4xl lg:px-8 lg:pb-2">
+      {Array(3)
         .fill(undefined)
-        .map((_, idx) => writable && <UnreviewedCardSkeleton key={idx} />)}
+        .map((_, idx) =>
+          writable ? <UnreviewedCardSkeleton key={idx} /> : <ReviewCardSkeleton key={idx} />,
+        )}
     </div>
   );
 }

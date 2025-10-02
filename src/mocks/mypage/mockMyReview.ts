@@ -62,7 +62,8 @@ export const mockReviewed: Review[] = [
     teamId: "11-6",
     id: 1,
     score: 5,
-    comment: "좋아요 너무 좋아요 1",
+    comment:
+      "좋아요 너무 좋아요 1\n좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 ",
     createdAt: "2025-10-01T09:33:25.213Z",
     Gathering: {
       teamId: "11-6",
@@ -71,6 +72,8 @@ export const mockReviewed: Review[] = [
       name: "React-Query로 우아하게 상태 관리 하기",
       dateTime: "2025-10-01T09:33:25.213Z",
       location: "홍대입구",
+      image:
+        "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1758264082588_images.jpeg",
     },
     User: {
       teamId: "11-6",
@@ -80,7 +83,7 @@ export const mockReviewed: Review[] = [
   },
   {
     teamId: "11-6",
-    id: 1,
+    id: 2,
     score: 5,
     comment: "좋아요 너무 좋아요 2",
     createdAt: "2025-10-01T09:33:25.213Z",
@@ -100,7 +103,7 @@ export const mockReviewed: Review[] = [
   },
   {
     teamId: "11-6",
-    id: 1,
+    id: 3,
     score: 5,
     comment: "좋아요 너무 좋아요 3",
     createdAt: "2025-10-01T09:33:25.213Z",

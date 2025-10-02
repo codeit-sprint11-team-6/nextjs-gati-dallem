@@ -16,6 +16,6 @@ export const formatDateAndTime = (datetime: string) => {
  * @returns [date, time]
  */
 export const formatDate = (datetime: string) => {
-  const datetimeString = format(datetime, "YYYY.MM.dd");
+  const datetimeString = format(datetime, "yyyy.MM.dd");
   return datetimeString;
 };
