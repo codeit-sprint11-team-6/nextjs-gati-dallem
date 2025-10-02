@@ -3,7 +3,6 @@
 import { useJoinedGatherings } from "@/apis/gatherings/gatherings.query";
 import { useReviews } from "@/apis/reviews/reviews.query";
 import Chip from "@/components/ui/Chip";
-import { mockReviewed } from "@/mocks/mypage/mockMyReview";
 import { useAuthStore } from "@/store/authStore";
 import Image from "next/image";
 import { createContext, useContext, useState } from "react";
@@ -26,20 +25,20 @@ export default function ReviewCardList() {
   return (
     <div className="mt-1 flex w-full flex-col items-start justify-start gap-4 md:gap-8">
       <div className="flex-start gap-2.5 lg:ml-2">
-        <Chip
-          variant={writable ? "active" : "default"}
+        <button
+          className="cursor-pointer"
+          aria-label="작성 가능한 리뷰"
           onClick={() => !writable && setWritable(true)}
-          className="cursor-pointer"
         >
-          작성 가능한 리뷰
-        </Chip>
-        <Chip
-          variant={writable ? "default" : "active"}
+          <Chip variant={writable ? "active" : "default"}>작성 가능한 리뷰</Chip>
+        </button>
+        <button
+          className="cursor-pointer"
+          aria-label="작성한 리뷰"
           onClick={() => writable && setWritable(false)}
-          className="cursor-pointer"
         >
-          작성한 리뷰
-        </Chip>
+          <Chip variant={writable ? "default" : "active"}>작성한 리뷰</Chip>
+        </button>
       </div>
       <ReviewCardListContext.Provider value={{ writable }}>
         <div className="grid w-full justify-stretch gap-4 lg:gap-6">
@@ -69,9 +68,11 @@ function ReviewedCardList() {
   const { isLoading, data } = useReviews({ userId: user?.id });
   return isLoading ? (
     <SkeletonList />
+  ) : data?.data.length === 0 ? (
+    <EmptyList />
   ) : (
     <div className="grid justify-stretch gap-6 divide-y-1 divide-slate-200 rounded-3xl bg-white p-6 pb-0 md:rounded-4xl lg:px-8 lg:pb-2">
-      {mockReviewed.map((review) => (
+      {data?.data.map((review) => (
         <ReviewedCardItem key={review.id} {...review} />
       ))}
     </div>
@@ -94,13 +95,21 @@ function EmptyList() {
 
 function SkeletonList() {
   const { writable } = useReviewCardList();
-  return (
+  return writable ? (
+    <>
+      {Array(3)
+        .fill(undefined)
+        .map((_, idx) => (
+          <UnreviewedCardSkeleton key={idx} />
+        ))}
+    </>
+  ) : (
     <div className="grid justify-stretch gap-6 divide-y-1 divide-slate-200 rounded-3xl bg-white p-6 pb-0 md:rounded-4xl lg:px-8 lg:pb-2">
       {Array(3)
         .fill(undefined)
-        .map((_, idx) =>
-          writable ? <UnreviewedCardSkeleton key={idx} /> : <ReviewCardSkeleton key={idx} />,
-        )}
+        .map((_, idx) => (
+          <ReviewCardSkeleton key={idx} />
+        ))}
     </div>
   );
 }
