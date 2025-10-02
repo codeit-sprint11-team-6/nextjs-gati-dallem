@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/utils/classNames";
-import { formatDateTime } from "@/utils/datetime";
+import { formatDateAndTime } from "@/utils/datetime";
 import Image from "next/image";
 import Link from "next/link";
 import { CompletedChip, ConfirmChip } from "../ui/Chip";
@@ -82,7 +82,7 @@ function CardGatheringDetail({
   location: string;
   dateTime: string;
 }) {
-  const [date, time] = formatDateTime(dateTime);
+  const [date, time] = formatDateAndTime(dateTime);
   return (
     <div className="flex flex-col gap-2.5">
       <div className="flex-start gap-1 text-sm font-medium">

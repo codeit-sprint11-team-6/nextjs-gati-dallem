@@ -2,7 +2,7 @@ import ReservedCardItem from "@/components/my/bookings/ReservedCardItem";
 import CreatedCardItem from "@/components/my/hosted/CreatedCardItem";
 import UnreviewedCardItem from "@/components/my/reviews/UnreviewedCardItem";
 import { AlarmTag, ChipInfo, CompletedChip, ConfirmChip } from "@/components/ui/Chip";
-import { formatDateTime } from "@/utils/datetime";
+import { formatDateAndTime } from "@/utils/datetime";
 
 const MockData = {
   teamId: "11-6",
@@ -23,7 +23,7 @@ const MockData = {
 
 // src/app/(app)/my/page.tsx
 export default function MyPage() {
-  const [date, time] = formatDateTime(MockData.dateTime);
+  const [date, time] = formatDateAndTime(MockData.dateTime);
   return (
     <div className="w-full rounded-lg border-1 p-5">
       <div className="flex flex-col items-start justify-center gap-4">
