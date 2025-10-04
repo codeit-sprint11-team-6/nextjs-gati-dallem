@@ -1,16 +1,39 @@
-// components/auth/ui/LoginForm.tsx
+// components/auth/LoginForm.tsx
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type FormEvent } from "react";
 import AuthInput from "./ui/AuthInput";
 import AuthButton from "./ui/AuthButton";
 import { AuthPasswordInput } from "./ui/AuthPasswordInput";
 import { useSignin } from "@/hooks/auths/useSignin";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-export default function LoginForm() {
-  const router = useRouter(); // 성공 시 페이지 이동
-  const { mutateAsync: signinMutate, isPending, error } = useSignin(); // 기존 로컬 상태 대신 react-query 훅 상태 사용
+/** 문자열이 루트상대 경로(/...)인지 확인해서 오픈 리다이렉트 방지 */
+const toSafePath = (v?: string) => (v && v.startsWith("/") ? v : "/");
+
+/** 에러 객체에서 사용자 메시지 추출 */
+const toErrorMessage = (err: unknown) => {
+  const anyErr = err as any;
+  return (
+    anyErr?.response?.data?.message ??
+    anyErr?.data?.message ??
+    anyErr?.message ??
+    "로그인에 실패했습니다. 다시 시도해 주세요."
+  );
+};
+
+type Props = { redirect?: string };
+
+/**
+ * LoginForm
+ * - 이메일/비밀번호 입력 및 로그인 요청
+ * - 클라이언트 유효성 검사 + React Query 기반 요청 처리
+ */
+
+const LoginForm = ({ redirect = "/" }: Props) => {
+  const router = useRouter();
+  const { mutateAsync: signinMutate, isPending, error } = useSignin();
 
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
@@ -18,7 +41,6 @@ export default function LoginForm() {
   const [pwError, setPwError] = useState("");
   const [serverMsg, setServerMsg] = useState("");
 
-  // useMemo로 canSubmit 최적화 (isPending까지 고려)
   const canSubmit = useMemo(
     () => email.trim().length > 0 && pw.trim().length > 0 && !isPending,
     [email, pw, isPending],
@@ -26,7 +48,6 @@ export default function LoginForm() {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (isPending) return; // 중복 제출 방지
 
     setEmailError("");
@@ -40,19 +61,13 @@ export default function LoginForm() {
 
     // 로그인 API 호출 (useSignin 활용)
     try {
-      await signinMutate({ email, password: pw });
-      router.push("/");
-    } catch (err: any) {
-      const msg =
-        err?.response?.data?.message ??
-        err?.data?.message ??
-        err?.message ??
-        "로그인에 실패했습니다. 다시 시도해 주세요.";
-      setServerMsg(msg);
+      await signinMutate({ email: email.trim(), password: pw });
+      router.replace(toSafePath(redirect)); // 로그인 성공 시 안전 리다이렉트
+    } catch (err) {
+      setServerMsg(toErrorMessage(err));
     }
   };
 
-  // 표시 우선순위: serverMsg > react-query error.data.message > error.message
   const fallbackMsg =
     (error as any)?.response?.data?.message ??
     (error as any)?.data?.message ??
@@ -60,23 +75,13 @@ export default function LoginForm() {
     "";
   const displayError = serverMsg || fallbackMsg;
 
-  // const serverErrorMessage = (error as any)?.message ?? (error as any)?.data?.message ?? "";
   return (
     <form
       onSubmit={onSubmit}
       className={`flex w-[568px] max-w-full flex-col gap-2 rounded-2xl bg-white pt-14 pr-11 pb-11 pl-14 shadow-sm [box-shadow:0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(16,24,40,0.08)]`}
       noValidate // 브라우저 기본 검증 비활성 (커스텀 메시지 사용)
-      // 위 padding: top 56 / right 44 / bottom 44 / left 56 (Figma 근접)
     >
       <h1 className="mb-4 text-center text-lg font-bold text-slate-900">로그인</h1>
-
-      {/* 서버 에러 표시 */}
-      {/* {serverErrorMessage && (
-        <p className="mb-2 rounded-md bg-red-50 px-3 py-2 text-xs text-red-600">
-          {serverErrorMessage}
-        </p>
-      )} */}
-
       {displayError && (
         <p className="mb-2 rounded-md bg-red-50 px-3 py-2 text-xs text-red-600">{displayError}</p>
       )}
@@ -127,10 +132,12 @@ export default function LoginForm() {
 
       <p className="mt-3 text-center text-xs text-slate-500">
         같이 달램이 처음이신가요?{" "}
-        <a href="/signup" className="underline underline-offset-2 hover:text-slate-700">
+        <Link href="/signup" className="underline underline-offset-2 hover:text-slate-700">
           회원가입
-        </a>
+        </Link>
       </p>
     </form>
   );
-}
+};
+
+export default LoginForm;

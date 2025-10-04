@@ -1,3 +1,5 @@
+// src/app/(auth)/signin/page.tsx
+
 import LoginForm from "@/components/auth/LoginForm";
 import DebugOnce from "../../../components/debug/DebugOnce";
 
@@ -5,7 +7,13 @@ export const metadata = {
   title: "로그인 | 같이달램",
 };
 
-export default function LoginPage() {
+type PageProps = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
+
+const LoginPage = async ({ searchParams }: PageProps) => {
+  const sp = await searchParams; // 반드시 await
+  const redirect = typeof sp.redirect === "string" ? sp.redirect : undefined;
   return (
     <main className="grid w-full grid-cols-1 items-center gap-12 md:grid-cols-2">
       {/* 좌측: 이미지 자리에 임시 텍스트 */}
@@ -19,9 +27,14 @@ export default function LoginPage() {
 
       {/* 우측: 로그인 카드 */}
       <section className="flex justify-center md:justify-end">
-        <LoginForm />
+        <LoginForm
+          // next={next}
+          redirect={redirect}
+        />
         <DebugOnce /> {/* 임시 디버깅용 */}
       </section>
     </main>
   );
-}
+};
+
+export default LoginPage;

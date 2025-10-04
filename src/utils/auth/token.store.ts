@@ -1,14 +1,25 @@
 // src/utils/auth/token.store.ts
-const AUTH_TOKEN_KEY = "auth_token";
+export const ACCESS_TOKEN_KEY = "access_token" as const;
+export const AUTH_TOKEN_CHANGED = "auth:token_changed" as const;
 
+const notify = () => {
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event(AUTH_TOKEN_CHANGED));
+  }
+};
 export const tokenStore = {
-  get() {
-    if (typeof window === "undefined") return undefined;
-    return localStorage.getItem(AUTH_TOKEN_KEY) ?? undefined;
-  },
-  set(token?: string) {
+  get: () => (typeof window === "undefined" ? null : localStorage.getItem(ACCESS_TOKEN_KEY)),
+  set(token?: string | null) {
     if (typeof window === "undefined") return;
-    if (!token) localStorage.removeItem(AUTH_TOKEN_KEY);
-    else localStorage.setItem(AUTH_TOKEN_KEY, token);
+    const prev = localStorage.getItem(ACCESS_TOKEN_KEY);
+    if (!token) localStorage.removeItem(ACCESS_TOKEN_KEY);
+    else localStorage.setItem(ACCESS_TOKEN_KEY, token);
+    if ((prev ?? null) !== (token ?? null)) notify();
+  },
+  clear() {
+    if (typeof window === "undefined") return;
+    const had = localStorage.getItem(ACCESS_TOKEN_KEY);
+    localStorage.removeItem(ACCESS_TOKEN_KEY);
+    if (had !== null) notify();
   },
 };

@@ -1,10 +1,10 @@
-// // /src/apis/auths/auths.query.ts
-// import { authActions } from "@/store/authStore";
-// import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-// import { queryKeys } from "../_react_query/keys";
-// import { invalidateAuth } from "../_react_query/utils";
-// import { GetAuthUserResponse } from "./auths.schema";
-// import { getAuthUser, signin, signout, signup, updateAuthUser } from "./auths.service";
+// /src/apis/auths/auths.query.ts
+import { authActions } from "@/store/authStore";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "../_react_query/keys";
+import { invalidateAuth } from "../_react_query/utils";
+import { GetAuthUserResponse } from "./auths.schema";
+import { getAuthUser, signin, signout, signup, updateAuthUser } from "./auths.service";
 
 // /** GET /auths/user */
 // export function useAuthUser(options?: {
@@ -56,13 +56,13 @@
 //   });
 // }
 
-// /** PUT /auths/user (multipart) */
-// export function useUpdateAuthUser() {
-//   const queryClient = useQueryClient();
-//   return useMutation({
-//     mutationFn: updateAuthUser,
-//     onSuccess: async () => {
-//       await queryClient.invalidateQueries({ queryKey: queryKeys.auth.me() });
-//     },
-//   });
-// }
+/** PUT /auths/user (multipart) */
+export function useUpdateAuthUser() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: updateAuthUser,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: queryKeys.auth.me() });
+    },
+  });
+}
