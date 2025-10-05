@@ -7,7 +7,7 @@ import {
   SelectContent,
   SelectItem,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/components/ui/Select";
 import { cn } from "@/lib/utils";
 
 export type SelectFieldProps = {
@@ -52,11 +52,11 @@ export const SelectField = React.forwardRef<HTMLDivElement, SelectFieldProps>(
               // 패딩 & 사이즈 매핑
               sizeMap[size],
               // 배경 & 테두리 & 라운드
-              "bg-transparent border border-input rounded-xl",
+              "border-input rounded-xl border bg-transparent",
               // 그림자
               "shadow-xs",
               // 포커스
-              "outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
+              "focus-visible:ring-ring outline-none focus-visible:ring-2 focus-visible:ring-offset-0",
               // 전환 효과
               "transition-[box-shadow,border-color]",
               // 상태 경계선

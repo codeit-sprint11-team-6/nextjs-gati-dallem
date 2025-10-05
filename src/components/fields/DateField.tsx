@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
+import { Calendar } from "@/components/ui/Calendar";
 import { Input } from "@/components/common/Input";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -48,10 +48,10 @@ export const DateField = React.forwardRef<HTMLDivElement, DateFieldProps>(
                 withEndIcon
                 className={cn("pr-10", className)}
               />
-              <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+              <CalendarIcon className="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 text-slate-500" />
             </div>
           </PopoverTrigger>
-          <PopoverContent align="end" className="w-auto p-0 bg-white shadow-md border rounded-md">
+          <PopoverContent align="end" className="w-auto rounded-md border bg-white p-0 shadow-md">
             <Calendar mode="single" selected={value} onSelect={onChange} initialFocus />
           </PopoverContent>
         </Popover>
