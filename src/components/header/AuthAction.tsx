@@ -55,7 +55,7 @@ export default function AuthAction({
       {!authed && !loadingProfile && (
         <Button
           asChild
-          variant="destructive"
+          variant="bare"
           size="sm"
           className="h-12 text-lg text-white md:h-22 lg:h-22"
         >
