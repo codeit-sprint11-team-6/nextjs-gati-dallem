@@ -1,4 +1,3 @@
-import path from "path";
 import type { StorybookConfig } from "@storybook/nextjs-vite";
 
 const config: StorybookConfig = {
@@ -21,12 +20,12 @@ const config: StorybookConfig = {
   staticDirs: ["../public"],
   // docs: { autodocs: "tag" }, // 자동 문서화 켜두기
 
-  //
-  viteFinal: async (viteConfig, { configType }) => {
+  viteFinal: async (viteConfig) => {
     viteConfig.resolve ??= {};
     viteConfig.resolve.alias = {
       ...(viteConfig.resolve.alias as Record<string, string> | undefined),
-      "@": path.resolve(__dirname, "../src"),
+      "@": "../src",
+      "next/navigation": "./mocks/nextNavigationMock.ts",
     };
     return viteConfig;
   },
