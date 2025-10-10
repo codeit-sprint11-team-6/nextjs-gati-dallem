@@ -15,7 +15,7 @@ interface NavigationProps {
 
 export default function Navigation({ items, favoriteCount }: NavigationProps) {
   return (
-    <nav className="flex-center space-x-1 md:space-x-2 lg:space-x-4">
+    <nav className="flex-center space-x-0 md:space-x-2 lg:space-x-4">
       {items.map((item) => (
         <NavigationLink key={item.href} item={item} favoriteCount={favoriteCount} />
       ))}
@@ -58,7 +58,7 @@ interface FavoriteItemProps {
 
 function FavoriteItem({ label, count }: FavoriteItemProps) {
   return (
-    <div className="flex-center gap-1 md:gap-1.5 lg:gap-2">
+    <div className="flex-center gap-1 md:gap-1 lg:gap-1">
       <span>{label}</span>
       <Badge count={count} size="small" className="md:hidden" />
       <Badge count={count} size="large" className="hidden md:block" />
