@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import MeetingDetailCard from "@/components/meeting/MeetingDetailCard";
 import ParticipantList from "@/components/meeting/ParticipantList";
@@ -13,6 +13,7 @@ import { mockGatherings, mockParticipants, mockReviewsByGathering } from "@/mock
 
 export default function MeetingDetailPage() {
   const params = useParams();
+  const router = useRouter();
   const meetingId = parseInt(params.id as string);
 
   const { user } = useAuthStore();
@@ -44,8 +45,20 @@ export default function MeetingDetailPage() {
 
   // 사용자가 참가했는지 확인
   const isJoined = participants.some((p) => p.userId === user?.id);
+  
+  // 주최자 확인
+  const isHost = user?.id === gathering?.createdBy;
 
   const handleJoin = async () => {
+    // 로그인 체크
+    if (!user) {
+      const confirmLogin = window.confirm("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동하시겠습니까?");
+      if (confirmLogin) {
+        router.push(`/signin?redirect=/meetings/${meetingId}`);
+      }
+      return;
+    }
+
     console.log("모임 참가 신청:", meetingId);
     // Mock: 참가자 수 증가
     if (gathering) {
@@ -157,6 +170,7 @@ export default function MeetingDetailPage() {
               gathering={gathering}
               isJoined={isJoined}
               isFavorite={isFavorite}
+              isHost={isHost}
               onJoin={handleJoin}
               onLeave={handleLeave}
               onToggleFavorite={handleToggleFavorite}
