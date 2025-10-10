@@ -1,34 +1,72 @@
+// src/layout/Header.tsx
 "use client";
 
 import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Logo from "@/components/header/Logo";
-import Navigation, { NavigationItem } from "@/components/header/Navigation";
-// import UserProfile from "@/components/user/UserProfile";
-import { type UserProfile as UserProfileType } from "@/components/ui/Avatar";
+import Navigation, { type NavigationItem } from "@/components/header/Navigation";
+import type { UserProfile } from "@/components/ui/Avatar";
 import AuthAction from "@/components/header/AuthAction";
+import { useAuthUser } from "@/hooks/auths/useAuthUser";
+import { useSignout } from "@/hooks/auths/useSignout";
+import { useAuthToken } from "@/hooks/auths/useAuthToken";
+import { authQueryKeys } from "@/utils/auth/authQueryKeys";
 
 interface HeaderProps {
   favoriteCount?: number;
-  userProfile?: UserProfileType;
+  userProfile?: UserProfile;
   logoAltText?: string;
 }
 
-export default function Header({ favoriteCount = 0, userProfile, logoAltText }: HeaderProps) {
+/**
+ * Header
+ * - 토큰 기준으로 로그인 여부 판단
+ * - /me를 즉시 재검증하여 프로필/401 상태 반영
+ */
+
+export default function Header({ favoriteCount = 0, logoAltText }: HeaderProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [devLoggedIn, setDevLoggedIn] = useState(true); // 토글
+
+  const token = useAuthToken(); // 로그인 여부는 '토큰'으로 즉시 판단
+  const isAuthed = !!token; // 토큰이 있을 때만 /me 조회
+
+  const q = useAuthUser<UserProfile | null>({
+    enabled: isAuthed,
+    retry: 0,
+    refetchOnWindowFocus: false, // 포커스 때 깜빡임 원인이면 꺼두기
+    refetchOnMount: "always", // 재시작/첫 렌더에서 꼭 새로 가져오게
+    staleTime: 0,
+    queryKey: [...authQueryKeys.me(), token ?? "no-token"], // 세션 전환 시 캐시 충돌 방지
+  });
+
+  const { data: me, isLoading, isFetching, isSuccess, isError, isStale } = q;
+
+  const loadingProfile = isAuthed && (isLoading || isFetching);
+  const isUnauthorized = isAuthed && isSuccess && !loadingProfile && !isStale && me === null;
+  const errorProfile = isAuthed && !loadingProfile && isError && me === undefined;
+  const profile = me ?? undefined; // 렌더용
+
+  const { mutateAsync: signout } = useSignout();
+  const onLogout = async () => {
+    await signout();
+    router.replace("/"); // 또는 "/signin"
+    router.refresh();
+  };
 
   // 최소 필드만 가진 더미 유저
-  const mockUser: UserProfileType = {
-    name: "Anna",
-    email: "anna@example.com",
-    image: "", // 없으면 예외처리
-  } as UserProfileType;
+  // const mockUser: UserProfileType = {
+  //   name: "Anna",
+  //   email: "anna@example.com",
+  //   image: "", // 없으면 예외처리
+  // } as UserProfileType;
 
   const navigationItems: NavigationItem[] = [
     { label: "모임 찾기", href: "/meetings", isActive: pathname === "/meetings" },
-    { label: "찜한 모임", href: "/favorites", isActive: pathname === "/favorites" },
+    ...(isAuthed
+      ? [{ label: "찜한 모임", href: "/favorites", isActive: pathname === "/favorites" }]
+      : []),
     { label: "모든 리뷰", href: "/reviews", isActive: pathname === "/reviews" },
   ];
 
@@ -46,21 +84,21 @@ export default function Header({ favoriteCount = 0, userProfile, logoAltText }: 
             isProfileOpen={isProfileOpen}
             setIsProfileOpen={setIsProfileOpen}
           /> */}
-          <AuthAction
-            // userProfile={userProfile}
-            userProfile={devLoggedIn ? mockUser : undefined}
-            onLogoutUI={() => setDevLoggedIn(false)}
-            isProfileOpen={isProfileOpen}
-            setIsProfileOpen={setIsProfileOpen}
-          />
-          {/* 개발용 토글 버튼 (나중에 제거) */}
-          {/* <button
-            type="button"
-            onClick={() => setDevLoggedIn((v) => !v)}
-            className="fixed bottom-3 left-3 z-[9999] rounded bg-gray-800 px-3 py-1 text-xs text-white"
-          >
-            Mock {devLoggedIn ? "Logout" : "Login"}
-          </button> */}
+          {isAuthed && loadingProfile ? (
+            <div className="h-10 w-28 animate-pulse rounded-md bg-gray-700" />
+          ) : (
+            <AuthAction
+              authed={isAuthed}
+              loadingProfile={loadingProfile}
+              userProfile={profile}
+              isUnauthorized={isUnauthorized}
+              errorProfile={errorProfile}
+              isProfileOpen={isProfileOpen}
+              setIsProfileOpen={setIsProfileOpen}
+              onLogoutUI={onLogout}
+              loginHref="/signin"
+            />
+          )}
         </div>
       </div>
     </header>
