@@ -51,7 +51,7 @@ export default function AuthAction({
             className="h-12 text-lg text-white md:h-22 lg:h-22"
           >
             <LogOut className="size-4" aria-hidden />
-            로그아웃
+            <span className="hidden md:inline">로그아웃</span>
           </Button>
         </>
       ) : (
