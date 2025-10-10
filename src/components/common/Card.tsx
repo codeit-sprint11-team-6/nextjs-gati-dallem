@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/utils/classNames";
-import { formatDateTime } from "@/utils/datetime";
+import { formatDateAndTime } from "@/utils/datetime";
 import Image from "next/image";
 import Link from "next/link";
 import { CompletedChip, ConfirmChip } from "../ui/Chip";
@@ -9,12 +9,13 @@ import { CompletedChip, ConfirmChip } from "../ui/Chip";
 /**
  * CCP로 직접 구현하는 모임 카드 컴포넌트
  */
-export function Card({ children }: { children?: React.ReactNode }) {
+export function Card({ children, className }: { children?: React.ReactNode; className?: string }) {
   return (
     <article
       className={cn(
         "relative overflow-hidden rounded-3xl bg-white hover:drop-shadow-sm",
         "md:items-upper md:flex md:min-w-[650px] md:justify-start md:gap-6 md:rounded-4xl md:p-6 md:pr-9",
+        className,
       )}
       aria-label="모임 목록 아이템"
     >
@@ -26,9 +27,9 @@ export function Card({ children }: { children?: React.ReactNode }) {
 /** 모임 이미지 영역 */
 function CardImage({ image }: { image?: string }) {
   return (
-    <div className="relative aspect-[2.2] overflow-hidden md:aspect-square md:w-[170px] md:rounded-3xl">
+    <div className="border-slate-120 relative aspect-[2.2] overflow-hidden border-1 md:aspect-square md:w-[170px] md:rounded-3xl">
       {image ? (
-        <Image className="object-fill" src={image} alt="모임 이미지 미리보기" fill />
+        <Image className="object-cover" src={image} alt="모임 이미지 미리보기" fill />
       ) : (
         <div className="h-full w-full bg-gray-200" />
       )}
@@ -38,8 +39,10 @@ function CardImage({ image }: { image?: string }) {
 Card.Image = CardImage;
 
 /** 모임 상세 정보 영역 */
-function CardDetail({ children }: { children?: React.ReactNode }) {
-  return <div className="flex-2 bg-white p-4 pb-5 md:px-0 md:py-2">{children}</div>;
+function CardDetail({ children, className }: { children?: React.ReactNode; className?: string }) {
+  return (
+    <div className={cn("flex-2 bg-white p-4 pb-5 md:px-0 md:py-2", className)}>{children}</div>
+  );
 }
 Card.Detail = CardDetail;
 
@@ -82,7 +85,7 @@ function CardGatheringDetail({
   location: string;
   dateTime: string;
 }) {
-  const [date, time] = formatDateTime(dateTime);
+  const [date, time] = formatDateAndTime(dateTime);
   return (
     <div className="flex flex-col gap-2.5">
       <div className="flex-start gap-1 text-sm font-medium">
