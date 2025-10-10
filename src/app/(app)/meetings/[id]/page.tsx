@@ -1,15 +1,21 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
+import { notFound } from "next/navigation";
 import Image from "next/image";
 import MeetingDetailCard from "@/components/meeting/MeetingDetailCard";
 import ParticipantList from "@/components/meeting/ParticipantList";
 import ReviewSection from "@/components/meeting/ReviewSection";
 import { useAuthStore } from "@/store/authStore";
-import { useState, useEffect } from "react";
-import { Gathering, GatheringParticipant } from "@/types/gathering";
-import { ReviewList } from "@/types/review";
-import { mockGatherings, mockParticipants, mockReviewsByGathering } from "@/mocks/meeting";
+import { useState } from "react";
+import {
+  useGatheringDetail,
+  useParticipants,
+  useJoinGathering,
+  useLeaveGathering,
+  useCancelGathering,
+} from "@/apis/gatherings/gatherings.query";
+import { useReviews } from "@/apis/reviews/reviews.query";
 
 export default function MeetingDetailPage() {
   const params = useParams();
@@ -18,66 +24,84 @@ export default function MeetingDetailPage() {
 
   const { user } = useAuthStore();
   const [isFavorite, setIsFavorite] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [gathering, setGathering] = useState<Gathering | null>(null);
-  const [participants, setParticipants] = useState<GatheringParticipant[]>([]);
-  const [reviewList, setReviewList] = useState<ReviewList | undefined>(undefined);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Mock 데이터 로딩
-  useEffect(() => {
-    const loadMockData = async () => {
-        setIsLoading(true);
+  /**
+   * React Query Hooks (v5 Standard Pattern)
+   * - useQuery: 데이터 조회 (GET 요청)
+   * - useMutation: 데이터 변경 (POST/PUT/DELETE 요청)
+   */
 
-        // TODO: 실제 API 호출로 대체 예정
-        const mockGathering = mockGatherings[meetingId];
-        const mockParticipantList = mockParticipants[meetingId] || [];
-        const mockReviewData = mockReviewsByGathering[meetingId];
+  // Query: 모임 상세 정보
+  const {
+    data: gathering,
+    isLoading: gatheringLoading,
+    isError: gatheringError,
+  } = useGatheringDetail(meetingId);
 
-      setGathering(mockGathering || null);
-      setParticipants(mockParticipantList);
-      setReviewList(mockReviewData);
-      setCurrentPage(mockReviewData?.currentPage || 1);
-      setIsLoading(false);
-    }  
-    loadMockData();
-  }, [meetingId]);
+  // Query: 참가자 목록 (기본값: 빈 배열)
+  const { data: participants = [], isLoading: participantsLoading } = useParticipants(meetingId);
+
+  // Query: 리뷰 목록 (페이지네이션)
+  const limit = 10;
+  const { data: reviewList, isLoading: reviewsLoading } = useReviews({
+    gatheringId: meetingId,
+    offset: (currentPage - 1) * limit,
+    limit: limit,
+  });
+
+  // Mutations: 데이터 변경 작업
+  // - 각 mutation은 onSuccess시 자동으로 관련 쿼리를 invalidate하여 최신 데이터 유지
+  const joinMutation = useJoinGathering();
+  const leaveMutation = useLeaveGathering();
+  const cancelMutation = useCancelGathering();
 
   // 사용자가 참가했는지 확인
   const isJoined = participants.some((p) => p.userId === user?.id);
-  
+
   // 주최자 확인
   const isHost = user?.id === gathering?.createdBy;
 
-  const handleJoin = async () => {
+  // Mutation 진행 중 여부 (버튼 disabled 처리용)
+  const isMutating = joinMutation.isPending || leaveMutation.isPending || cancelMutation.isPending;
+
+  const handleJoin = () => {
     // 로그인 체크
     if (!user) {
-      const confirmLogin = window.confirm("로그인이 필요한 서비스입니다.\n로그인 페이지로 이동하시겠습니까?");
+      const confirmLogin = window.confirm(
+        "로그인이 필요한 서비스입니다.\n로그인 페이지로 이동하시겠습니까?",
+      );
       if (confirmLogin) {
         router.push(`/signin?redirect=/meetings/${meetingId}`);
       }
       return;
     }
 
-    console.log("모임 참가 신청:", meetingId);
-    // Mock: 참가자 수 증가
-    if (gathering) {
-      setGathering({
-        ...gathering,
-        participantCount: gathering.participantCount + 1,
-      });
-    }
+    // Global MutationCache가 에러를 자동 처리 (MessageModal)
+    joinMutation.mutate(meetingId);
   };
 
-  const handleLeave = async () => {
-    console.log("모임 탈퇴:", meetingId);
-    // Mock: 참가자 수 감소
-    if (gathering) {
-      setGathering({
-        ...gathering,
-        participantCount: Math.max(0, gathering.participantCount - 1),
-      });
+  const handleLeave = () => {
+    if (!confirm("정말 참가를 취소하시겠습니까?")) {
+      return;
     }
+
+    // Global MutationCache가 에러를 자동 처리
+    leaveMutation.mutate(meetingId);
+  };
+
+  const handleCancelMeeting = () => {
+    if (!confirm("정말 모임을 취소하시겠습니까?\n이 작업은 되돌릴 수 없습니다.")) {
+      return;
+    }
+
+    // 성공 시에만 특별한 처리 필요 (페이지 이동)
+    cancelMutation.mutate(meetingId, {
+      onSuccess: () => {
+        router.push("/meetings");
+      },
+      // onError는 생략 - Global handler가 처리
+    });
   };
 
   const handleToggleFavorite = () => {
@@ -101,41 +125,43 @@ export default function MeetingDetailPage() {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    // 실제로는 API 호출로 해당 페이지의 리뷰 데이터를 가져와야 함
-    // 현재는 mock 데이터이므로 페이지네이션 정보만 업데이트
-    if (reviewList) {
-      setReviewList({
-        ...reviewList,
-        currentPage: page,
-      });
-    }
-    console.log(`리뷰 페이지 ${page}로 이동`);
+    // React Query가 자동으로 새 페이지 데이터를 fetch
   };
 
-  if (!isLoading && !gathering) {
+  // 로딩 상태 (React Query v5 권장 패턴)
+  const isLoading = gatheringLoading || participantsLoading;
+
+  if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <h1 className="heading-2 mb-4 text-gray-900">모임을 찾을 수 없습니다</h1>
-          <p className="body-regular mb-8 text-gray-600">
-            요청하신 모임이 존재하지 않거나 삭제되었습니다.
-          </p>
-          <button onClick={() => window.history.back()} className="btn-primary px-6 py-2">
-            이전 페이지로 돌아가기
-          </button>
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="space-y-4 text-center">
+          <div className="relative">
+            <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-purple-600" />
+          </div>
+          <p className="text-lg font-medium text-gray-600">모임 정보를 불러오는 중...</p>
+          {participantsLoading && !gatheringLoading && (
+            <p className="text-sm text-gray-500">참가자 목록 로딩 중...</p>
+          )}
         </div>
       </div>
     );
   }
 
-  // gathering이 없으면 이미 위에서 "모임을 찾을 수 없습니다" 페이지를 표시했으므로
-  // 여기서는 gathering이 확실히 존재함을 보장
-  if (!gathering) {
-    return null; // 이 경우는 발생하지 않아야 함
+  // 에러 또는 데이터 없음
+  if (gatheringError || !gathering) {
+    notFound();
   }
 
   return (
     <div className="min-h-screen">
+      {/* Global Mutation Loading Indicator */}
+      {isMutating && (
+        <div className="fixed top-4 right-4 z-50 flex items-center gap-2 rounded-lg bg-purple-600 px-4 py-2 text-white shadow-lg">
+          <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+          <span className="text-sm font-medium">처리 중...</span>
+        </div>
+      )}
+
       <div className="mx-auto mt-10 max-w-7xl px-4">
         {/* 메인 콘텐츠 영역 */}
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -172,7 +198,7 @@ export default function MeetingDetailPage() {
               isFavorite={isFavorite}
               isHost={isHost}
               onJoin={handleJoin}
-              onLeave={handleLeave}
+              onLeave={isHost ? handleCancelMeeting : handleLeave}
               onToggleFavorite={handleToggleFavorite}
               onShare={handleShare}
             />
