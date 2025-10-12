@@ -24,9 +24,7 @@ export const useSignin = () => {
     onSuccess: async (res) => {
       // 서버 응답 토큰 (token | accessToken 모두 대응)
       const t = (res as any)?.token ?? (res as any)?.accessToken;
-      if (typeof t === "string" && t) {
-        tokenStore.set(t); // // 로컬 스토리지에 토큰 저장
-      }
+      if (typeof t === "string" && t) tokenStore.set(t); // 로컬 스토리지에 토큰 저장
 
       // 진행 중인 /me 요청 취소 + 캐시 무효화
       await queryClient.cancelQueries({ queryKey: authQueryKeys.me() });
