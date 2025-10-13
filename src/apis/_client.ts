@@ -2,6 +2,7 @@
 import { ZodType } from "zod";
 import { ApiErrorSchema } from "./_shared.schema";
 import { tokenStore } from "@/utils/auth/token.store";
+import { getErrorMessage } from "./_errorMessage";
 
 /**
  * NOTE:
@@ -89,24 +90,25 @@ export class ApiClient {
       try {
         raw = await resp.json();
       } catch {
-        // throw new Error(`HTTP ${resp.status}`);
-        throw new HttpApiError(resp.status, `HTTP ${resp.status}`);
+        const uiMsg = getErrorMessage(resp.status);
+        throw new HttpApiError(resp.status, uiMsg);
       }
       const parsed = ApiErrorSchema.safeParse(raw);
       if (parsed.success) {
-        const { code, message, parameter } = parsed.data;
-        const msg = [code, parameter, message].filter(Boolean).join(" | ");
-        // throw new Error(msg || `HTTP ${resp.status}`);
-        throw new HttpApiError(resp.status, msg || `HTTP ${resp.status}`, code, parameter);
+        const { code, message } = parsed.data;
+        const uiMsg = getErrorMessage(resp.status, code, message);
+        throw new HttpApiError(resp.status, uiMsg);
       }
+
       // 알 수 없는 포맷
-      // throw new Error(`HTTP ${resp.status}`);
-      throw new HttpApiError(resp.status, `HTTP ${resp.status}`);
+      const uiMsg = getErrorMessage(resp.status);
+      throw new HttpApiError(resp.status, uiMsg);
     }
 
     // No Content 등 처리
     // if (options.emptyResponse) return undefined as T;
-    if (emptyResponse) return undefined as T;
+    if (emptyResponse || resp.status === 204 || resp.headers.get("Content-Length") === "0")
+      return undefined as T;
 
     // #region 성공 응답 파싱
     const data = await resp.json();
@@ -127,8 +129,7 @@ export class ApiClient {
 
   /** GET 헬퍼 */
   get<T>(path: string, query?: Record<string, unknown>, responseSchema?: ZodType<T>) {
-    const qs = this._buildQuery(query);
-    return this._request<T>(`${path}${qs}`, { method: "GET", query, responseSchema });
+    return this._request<T>(path, { method: "GET", query, responseSchema });
   }
 
   /** POST 헬퍼 (JSON / FormData 자동 처리) */

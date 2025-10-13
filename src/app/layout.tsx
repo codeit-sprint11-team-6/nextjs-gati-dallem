@@ -5,6 +5,7 @@ import "../styles/globals.css";
 
 import Providers from "./providers";
 import MainNav from "@/layout/Header";
+import AppInitializer from "./AppInitializer";
 
 export const metadata: Metadata = {
   title: {
@@ -26,6 +27,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko" className={`${pretendard.variable} ${tenada.variable}`}>
       <body className="flex min-h-dvh flex-col bg-gray-50">
+        {/* 앱 전역 초기화 (토큰 동기화, 리스너 등록)  */}
+        <AppInitializer />
         <Providers>
           <MainNav />
           {/* 메인이 남는 공간만 차지 = 헤더+푸터 있어도 100dvh 초과 안 함 */}

@@ -32,6 +32,13 @@ const eslintConfig = [
     },
   }, // 팀 규칙: 파일명 컨벤션 등
   {
+    name: "next-rules",
+    plugins: { next },
+    rules: {
+      ...next.configs["core-web-vitals"].rules, // 내부 <a> 방지 등
+    },
+  },
+  {
     name: "team-rules",
     plugins: { unicorn },
     rules: {

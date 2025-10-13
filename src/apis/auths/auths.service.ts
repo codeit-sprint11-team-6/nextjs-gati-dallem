@@ -36,10 +36,25 @@ export const signup = async (body: SignupBody): Promise<SignupResponse> => {
 
 /** 로그인 (토큰/메시지 DTO) - 토큰 저장 후 응답 반환 */
 export const signin = async (body: SigninBody): Promise<SigninResponse> => {
-  const parsed = SigninBodySchema.parse(body);
+  // const parsed = SigninBodySchema.parse(body);
+  const parsed = SigninBodySchema.safeParse(body);
+
+  // 실패 시 HttpApiError로 변환해서 던지기 (폼에서 잡아서 message만 보여줌)
+  if (!parsed.success) {
+    const first = parsed.error.issues[0];
+    const field = Array.isArray(first?.path) ? String(first.path[0]) : undefined;
+    throw new HttpApiError(
+      400,
+      first?.message ?? "입력값을 확인해주세요.",
+      "VALIDATION_ERROR",
+      field,
+    );
+  }
+
+  // 통과한 데이터만 서버에 전송
   const res = await apiClient.post<SigninResponse>(
     authEndpoints.signin(),
-    parsed,
+    parsed.data,
     SigninResponseSchema,
   );
 
