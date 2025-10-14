@@ -49,7 +49,7 @@ export default function ProfileUpdateModal() {
   const btnDisabled =
     user?.companyName === profileData.companyName && user?.image === profileData.image;
 
-  function onConfirmBtnClick() {
+  function handleBtnClick() {
     const { companyName, tempImage: image } = profileData;
     updateMutate.mutate({ companyName, image }, { onSuccess: () => close() });
   }
@@ -96,7 +96,7 @@ export default function ProfileUpdateModal() {
       </div>
       <Modal.TwoButton
         rightBtnText="수정하기"
-        onRightBtnClick={onConfirmBtnClick}
+        onRightBtnClick={handleBtnClick}
         rightBtnDisabled={btnDisabled}
       />
     </Modal>
