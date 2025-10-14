@@ -1,3 +1,4 @@
+import { QueryProvider } from "@/app/providers";
 import { createContext, JSX, useContext, useState } from "react";
 
 interface OverlayContextProps {
@@ -15,8 +16,10 @@ export function OverlayProvider({ children }: { children: React.ReactNode }) {
   const [overlay, setOverlay] = useState<JSX.Element | undefined>();
   return (
     <OverlayContext value={{ setIsOpen, setOverlay }}>
-      {children}
-      {isOpen && overlay}
+      <QueryProvider>
+        {children}
+        {isOpen && overlay}
+      </QueryProvider>
     </OverlayContext>
   );
 }
