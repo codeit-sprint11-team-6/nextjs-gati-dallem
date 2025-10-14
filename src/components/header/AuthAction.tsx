@@ -42,6 +42,7 @@ export default function AuthAction({
             userProfile={userProfile}
             isProfileOpen={isProfileOpen}
             setIsProfileOpen={setIsProfileOpen}
+            onLogout={onLogoutUI}
           />
           <Button
             type="button"

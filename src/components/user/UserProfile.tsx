@@ -6,12 +6,14 @@ interface UserProfileProps {
   userProfile?: UserProfile;
   isProfileOpen: boolean;
   setIsProfileOpen: (open: boolean) => void;
+  onLogout?: () => void;
 }
 
 export default function UserProfile({
   userProfile,
   isProfileOpen,
   setIsProfileOpen,
+  onLogout,
 }: UserProfileProps) {
   return (
     <div className="relative">
@@ -30,16 +32,22 @@ export default function UserProfile({
         />
       </button>
 
-      {isProfileOpen && <ProfileDropdown setIsProfileOpen={setIsProfileOpen} />}
+      {isProfileOpen && <ProfileDropdown setIsProfileOpen={setIsProfileOpen} onLogout={onLogout} />}
     </div>
   );
 }
 
 interface ProfileDropdownProps {
   setIsProfileOpen: (open: boolean) => void;
+  onLogout?: () => void;
 }
 
-function ProfileDropdown({ setIsProfileOpen }: ProfileDropdownProps) {
+function ProfileDropdown({ setIsProfileOpen, onLogout }: ProfileDropdownProps) {
+  const handleLogout = () => {
+    setIsProfileOpen(false);
+    onLogout?.();
+  };
+
   return (
     <div className="absolute right-0 z-50 mt-2 w-48 rounded-md border border-gray-200 bg-white py-1 shadow-lg">
       <Link
@@ -64,13 +72,13 @@ function ProfileDropdown({ setIsProfileOpen }: ProfileDropdownProps) {
         내가 만든 모임
       </Link>
       <hr className="my-1" />
-      <Link
-        href="/signout"
-        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-        onClick={() => setIsProfileOpen(false)}
+      <button
+        type="button"
+        className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+        onClick={handleLogout}
       >
         로그아웃
-      </Link>
+      </button>
     </div>
   );
 }
