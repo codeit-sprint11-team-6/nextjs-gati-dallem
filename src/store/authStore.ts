@@ -1,17 +1,12 @@
-// /src/store/useAuthStore.ts
+// /src/store/authStore.ts
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-// import { apiClient } from "@/apis/_client";
 import type { AuthUser } from "@/types/auth";
 import { deleteCookie, setCookie } from "@/utils/next-cookie";
 import { tokenStore } from "@/utils/auth/token.store";
 
-type AuthSnapshot = {
-  token?: string | null;
-  user?: AuthUser | null;
-};
-
-type AuthState = AuthSnapshot & {
+type AuthState = {
+  user: AuthUser | null;
   isAuthenticated: boolean;
   actions: {
     setToken: (token?: string | null) => void;
@@ -21,33 +16,32 @@ type AuthState = AuthSnapshot & {
   };
 };
 
-const STORAGE_KEY = "auth-store";
+const STORAGE_KEY = "auth-store"; // 유지해도 되지만 token은 저장 안 함
 
 export const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
-      token: null,
       user: null,
-      isAuthenticated: false,
+      isAuthenticated: false, // UI 플래그 (토큰은 tokenStore에서 파생)
       actions: {
         setToken: (token) => {
+          // 토큰은 오직 tokenStore로만
           if (token) tokenStore.set(token);
           else tokenStore.clear();
-          // set((s) => ({ token, isAuthenticated: Boolean(token && s.user) }));
-          set((s) => ({ token, isAuthenticated: Boolean(token) }));
+
+          // isAuthenticated는 '현재 tokenStore에 토큰이 있느냐'로만 판단
+          const has = !!tokenStore.get();
+          set((s) => ({ ...s, isAuthenticated: has }));
         },
         setUser: (user) => {
-          // set((s) => ({ ...s, user, isAuthenticated: Boolean(s.token && user) }));
-          set((s) => ({ ...s, user, isAuthenticated: Boolean(s.token) }));
+          set((s) => ({ ...s, user, isAuthenticated: !!tokenStore.get() }));
         },
         clear: async () => {
           await deleteCookie("loggedIn");
-          // syncClientToken(undefined);
           tokenStore.clear();
-          set({ token: null, user: null, isAuthenticated: false });
+          set({ user: null, isAuthenticated: false });
         },
         hydrateUser: async (fetcher) => {
-          // const { token } = get();
           const token = tokenStore.get();
           if (!token) return;
           try {
@@ -62,7 +56,6 @@ export const useAuthStore = create<AuthState>()(
           } catch (e) {
             console.log(e);
 
-            // get().actions.clear();
             await get().actions.clear();
           }
         },
@@ -70,22 +63,15 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: STORAGE_KEY,
-      version: 1,
+      version: 2,
       storage: createJSONStorage(() => localStorage),
-      onRehydrateStorage: () => (state, error) => {
-        if (error) return;
-        const token = state?.token;
-        // syncClientToken(token);
-        if (token) tokenStore.set(token);
-        else tokenStore.clear();
-      },
-      partialize: (s) => ({ token: s.token, user: s.user }) as AuthSnapshot,
+      // user만 저장
+      partialize: (s) => ({ user: s.user }) as Partial<AuthState>,
     },
   ),
 );
 
-export const selectToken = (s: AuthState) => s.token ?? null;
-export const selectUser = (s: AuthState) => s.user ?? null;
+export const selectUser = (s: AuthState) => s.user;
 export const selectIsAuthenticated = (s: AuthState) => s.isAuthenticated;
 
 export const authActions = {

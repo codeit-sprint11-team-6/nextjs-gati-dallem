@@ -5,7 +5,7 @@ import Image from "next/image";
 import MeetingDetailCard from "@/components/meeting/MeetingDetailCard";
 import ParticipantList from "@/components/meeting/ParticipantList";
 import ReviewSection from "@/components/meeting/ReviewSection";
-import { useAuthStore } from "@/store/authStore";
+import { selectUser, useAuthStore } from "@/store/authStore";
 import { useState, useEffect } from "react";
 import { Gathering, GatheringParticipant } from "@/types/gathering";
 import { ReviewList } from "@/types/review";
@@ -15,7 +15,7 @@ export default function MeetingDetailPage() {
   const params = useParams();
   const meetingId = parseInt(params.id as string);
 
-  const { user } = useAuthStore();
+  const user = useAuthStore(selectUser);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [gathering, setGathering] = useState<Gathering | null>(null);
@@ -26,19 +26,19 @@ export default function MeetingDetailPage() {
   // Mock 데이터 로딩
   useEffect(() => {
     const loadMockData = async () => {
-        setIsLoading(true);
+      setIsLoading(true);
 
-        // TODO: 실제 API 호출로 대체 예정
-        const mockGathering = mockGatherings[meetingId];
-        const mockParticipantList = mockParticipants[meetingId] || [];
-        const mockReviewData = mockReviewsByGathering[meetingId];
+      // TODO: 실제 API 호출로 대체 예정
+      const mockGathering = mockGatherings[meetingId];
+      const mockParticipantList = mockParticipants[meetingId] || [];
+      const mockReviewData = mockReviewsByGathering[meetingId];
 
       setGathering(mockGathering || null);
       setParticipants(mockParticipantList);
       setReviewList(mockReviewData);
       setCurrentPage(mockReviewData?.currentPage || 1);
       setIsLoading(false);
-    }  
+    };
     loadMockData();
   }, [meetingId]);
 

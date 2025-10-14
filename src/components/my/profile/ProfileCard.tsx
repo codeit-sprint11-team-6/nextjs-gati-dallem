@@ -1,14 +1,14 @@
 "use client";
 
 import { useOverlay } from "@/hooks/useOverlay";
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore, selectUser } from "@/store/authStore";
 import { cn } from "@/utils/classNames";
 import Image from "next/image";
 import ProfileUpdateModal from "./ProfileUpdateModal";
 
 /** 마이페이지 - 프로필 영역 */
 export default function ProfileCard() {
-  const { user } = useAuthStore();
+  const user = useAuthStore(selectUser);
   const { overlay } = useOverlay();
 
   function handleClickEdit() {

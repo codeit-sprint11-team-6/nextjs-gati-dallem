@@ -4,7 +4,7 @@ import { useJoinedGatherings } from "@/apis/gatherings/gatherings.query";
 import { useReviews } from "@/apis/reviews/reviews.query";
 import Chip from "@/components/ui/Chip";
 import Pagination from "@/components/ui/Pagination";
-import { useAuthStore } from "@/store/authStore";
+import { selectUser, useAuthStore } from "@/store/authStore";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
@@ -78,10 +78,11 @@ function UnreviewedCardList() {
   );
 }
 function ReviewedCardList() {
-  const { user } = useAuthStore();
+  const user = useAuthStore(selectUser);
   const [page, setPage] = useState(1);
   const { isLoading, data: reviewResult } = useReviews({ userId: user?.id, offset: page - 1 });
   const { data, totalPages } = reviewResult ?? { data: [], totalPages: 1 };
+
   return isLoading ? (
     <SkeletonList />
   ) : data.length === 0 ? (
