@@ -3,7 +3,7 @@
 import { useJoinedGatherings } from "@/apis/gatherings/gatherings.query";
 import { useReviews } from "@/apis/reviews/reviews.query";
 import Chip from "@/components/ui/Chip";
-import { useAuthStore } from "@/store/authStore";
+import { selectUser, useAuthStore } from "@/store/authStore";
 import Image from "next/image";
 import { createContext, useContext, useState } from "react";
 import ReviewedCardItem, { ReviewCardSkeleton } from "./ReviewedCardItem";
@@ -64,7 +64,7 @@ function UnreviewedCardList() {
   );
 }
 function ReviewedCardList() {
-  const { user } = useAuthStore();
+  const user = useAuthStore(selectUser);
   const { isLoading, data } = useReviews({ userId: user?.id });
   return isLoading ? (
     <SkeletonList />
