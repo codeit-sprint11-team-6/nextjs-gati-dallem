@@ -7,7 +7,7 @@ export interface UserProfile {
   email: string;
   name: string;
   companyName: string;
-  image: string;
+  image?: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -37,7 +37,10 @@ export default function Avatar({
   className,
 }: AvatarProps) {
   // 사용자 프로필 이미지가 있으면 우선 사용, 없으면 기본 아바타 사용
-  const avatarSrc = userProfile?.image || `/image/avatars/${type}.svg`;
+  const avatarSrc =
+    userProfile?.image && userProfile.image.trim() !== ""
+      ? userProfile.image
+      : `/image/avatars/${type}.svg`;
   const avatarAlt = userProfile?.name || `${type} avatar`;
 
   return (
@@ -54,6 +57,13 @@ export default function Avatar({
         fill
         className={userProfile?.image ? "object-cover" : "object-contain"}
         sizes="(max-width: 768px) 40px, (max-width: 1024px) 54px, 64px"
+        onError={(e) => {
+          // 이미지 로드 실패 시 기본 아바타로 fallback
+          const target = e.target as HTMLImageElement;
+          if (target.src !== `/image/avatars/${type}.svg`) {
+            target.src = `/image/avatars/${type}.svg`;
+          }
+        }}
       />
     </div>
   );

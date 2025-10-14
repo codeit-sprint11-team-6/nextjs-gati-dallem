@@ -6,98 +6,30 @@ import MeetingDetailCard from "@/components/meeting/MeetingDetailCard";
 import ParticipantList from "@/components/meeting/ParticipantList";
 import ReviewSection from "@/components/meeting/ReviewSection";
 import { useAuthStore } from "@/store/authStore";
-import { useState, useEffect } from "react";
-import { Gathering, GatheringParticipant } from "@/types/gathering";
-import { ReviewList } from "@/types/review";
-import { mockGatherings, mockParticipants, mockReviewsByGathering } from "@/mocks/meeting";
+import { useMeetingData, useMeetingActions, useMeetingUI } from "@/hooks/meeting";
 
 export default function MeetingDetailPage() {
   const params = useParams();
   const meetingId = parseInt(params.id as string);
-
   const { user } = useAuthStore();
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [gathering, setGathering] = useState<Gathering | null>(null);
-  const [participants, setParticipants] = useState<GatheringParticipant[]>([]);
-  const [reviewList, setReviewList] = useState<ReviewList | undefined>(undefined);
-  const [currentPage, setCurrentPage] = useState(1);
 
-  // Mock 데이터 로딩
-  useEffect(() => {
-    const loadMockData = async () => {
-        setIsLoading(true);
+  // Custom hooks 사용
+  const { gathering, participants, reviewList, isLoading, isJoined, setGathering, setReviewList } =
+    useMeetingData(meetingId, user?.id);
 
-        // TODO: 실제 API 호출로 대체 예정
-        const mockGathering = mockGatherings[meetingId];
-        const mockParticipantList = mockParticipants[meetingId] || [];
-        const mockReviewData = mockReviewsByGathering[meetingId];
+  const { isFavorite, currentPage, handleToggleFavorite, handlePageChange } =
+    useMeetingUI(reviewList);
 
-      setGathering(mockGathering || null);
-      setParticipants(mockParticipantList);
-      setReviewList(mockReviewData);
-      setCurrentPage(mockReviewData?.currentPage || 1);
-      setIsLoading(false);
-    }  
-    loadMockData();
-  }, [meetingId]);
-
-  // 사용자가 참가했는지 확인
-  const isJoined = participants.some((p) => p.userId === user?.id);
-
-  const handleJoin = async () => {
-    console.log("모임 참가 신청:", meetingId);
-    // Mock: 참가자 수 증가
-    if (gathering) {
-      setGathering({
-        ...gathering,
-        participantCount: gathering.participantCount + 1,
-      });
-    }
-  };
-
-  const handleLeave = async () => {
-    console.log("모임 탈퇴:", meetingId);
-    // Mock: 참가자 수 감소
-    if (gathering) {
-      setGathering({
-        ...gathering,
-        participantCount: Math.max(0, gathering.participantCount - 1),
-      });
-    }
-  };
-
-  const handleToggleFavorite = () => {
-    setIsFavorite(!isFavorite);
-    // TODO: API 연동
-  };
-
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: gathering?.name,
-        text: `${gathering?.name} 모임에 참가해보세요!`,
-        url: window.location.href,
-      });
-    } else {
-      // 클립보드에 URL 복사
-      navigator.clipboard.writeText(window.location.href);
-      alert("링크가 클립보드에 복사되었습니다.");
-    }
-  };
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    // 실제로는 API 호출로 해당 페이지의 리뷰 데이터를 가져와야 함
-    // 현재는 mock 데이터이므로 페이지네이션 정보만 업데이트
-    if (reviewList) {
-      setReviewList({
-        ...reviewList,
-        currentPage: page,
-      });
-    }
-    console.log(`리뷰 페이지 ${page}로 이동`);
-  };
+  const { handleJoin, handleLeave, handleShare } = useMeetingActions({
+    meetingId,
+    gathering,
+    participants,
+    reviewList,
+    setGathering,
+    setReviewList,
+    onToggleFavorite: handleToggleFavorite,
+    onPageChange: handlePageChange,
+  });
 
   if (!isLoading && !gathering) {
     return (
