@@ -30,8 +30,14 @@ export default function ProfileCard() {
         )}
       >
         <div className="flex-center gap-2 pr-4 pb-0 md:pr-7 lg:w-full lg:flex-col lg:pr-0 lg:pb-7">
-          <div className="relative aspect-square w-10 shrink-0 md:w-[54px] lg:w-[114px]">
-            <Image src={user.image ?? "/image/profile-lg.svg"} alt="프로필 이미지" fill priority />
+          <div className="relative aspect-square w-10 shrink-0 overflow-hidden rounded-full border-1 border-slate-200 md:w-[54px] lg:w-[114px]">
+            <Image
+              src={user.image ?? "/image/profile-lg.svg"}
+              className="object-cover"
+              alt="프로필 이미지"
+              fill
+              priority
+            />
           </div>
           <span className="shrink-0 text-sm font-semibold md:text-lg">{user.name}</span>
         </div>
