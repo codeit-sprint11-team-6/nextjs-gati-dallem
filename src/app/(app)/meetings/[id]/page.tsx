@@ -1,6 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { notFound } from "next/navigation";
 import Image from "next/image";
 import MeetingDetailCard from "@/components/meeting/MeetingDetailCard";
 import ParticipantList from "@/components/meeting/ParticipantList";
@@ -31,26 +32,13 @@ export default function MeetingDetailPage() {
     onPageChange: handlePageChange,
   });
 
+  // Early return 패턴
   if (!isLoading && !gathering) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <h1 className="heading-2 mb-4 text-gray-900">모임을 찾을 수 없습니다</h1>
-          <p className="body-regular mb-8 text-gray-600">
-            요청하신 모임이 존재하지 않거나 삭제되었습니다.
-          </p>
-          <button onClick={() => window.history.back()} className="btn-primary px-6 py-2">
-            이전 페이지로 돌아가기
-          </button>
-        </div>
-      </div>
-    );
+    notFound();
   }
 
-  // gathering이 없으면 이미 위에서 "모임을 찾을 수 없습니다" 페이지를 표시했으므로
-  // 여기서는 gathering이 확실히 존재함을 보장
   if (!gathering) {
-    return null; // 이 경우는 발생하지 않아야 함
+    return null;
   }
 
   return (
