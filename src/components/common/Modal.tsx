@@ -77,7 +77,7 @@ function ModalTwoButton({
         취소
       </button>
       <button
-        className="btn rounded-2xl bg-purple-500 p-3 font-bold text-white md:p-4 md:text-xl"
+        className="btn rounded-2xl bg-purple-500 p-3 font-bold text-white disabled:cursor-not-allowed disabled:bg-gray-300 md:p-4 md:text-xl"
         disabled={rightBtnDisabled}
         onClick={onRightBtnClick}
       >
