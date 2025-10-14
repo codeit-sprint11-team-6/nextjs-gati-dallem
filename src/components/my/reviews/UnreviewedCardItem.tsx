@@ -29,7 +29,8 @@ export default function UnreviewedCardItem({
           </div>
         </div>
       </Card.Detail>
-      <Card.LikeButton />
+      {/* TODO: 찜하기/취소 기능 구현 */}
+      {/* <Card.LikeButton /> */}
     </Card>
   );
 }
