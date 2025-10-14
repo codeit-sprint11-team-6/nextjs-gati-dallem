@@ -36,6 +36,10 @@ export default function Avatar({
   type = DEFAULT_AVATAR_TYPE,
   className,
 }: AvatarProps) {
+  // 사용자 프로필 이미지가 있으면 우선 사용, 없으면 기본 아바타 사용
+  const avatarSrc = userProfile?.image || `/image/avatars/${type}.svg`;
+  const avatarAlt = userProfile?.name || `${type} avatar`;
+
   return (
     <div
       className={cn(
@@ -45,10 +49,10 @@ export default function Avatar({
       )}
     >
       <Image
-        src={`/avatars/${type}.svg`}
-        alt={`${type} avatar`}
+        src={avatarSrc}
+        alt={avatarAlt}
         fill
-        className="object-contain"
+        className={userProfile?.image ? "object-cover" : "object-contain"}
         sizes="(max-width: 768px) 40px, (max-width: 1024px) 54px, 64px"
       />
     </div>

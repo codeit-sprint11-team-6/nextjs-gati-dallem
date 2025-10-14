@@ -1,5 +1,6 @@
 // src/app/(app)/meetings/page.tsx
 import Link from "next/link";
+import Container from "@/components/common/Container";
 
 export default function MeetingsPage() {
   const testMeetings = [
