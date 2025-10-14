@@ -1,7 +1,7 @@
 import { useOverlay } from "@/hooks/useOverlay";
 import { cn } from "@/utils/classNames";
 import Image from "next/image";
-import { ButtonHTMLAttributes, HtmlHTMLAttributes } from "react";
+import { ButtonHTMLAttributes } from "react";
 
 /**
  * CCP로 직접 구현하는 모달 컴포넌트
@@ -14,13 +14,17 @@ export default function Modal({
   className?: string;
 }) {
   return (
-    <div className="fixed inset-0 z-100 flex items-center justify-center bg-[rgba(0,0,0,0.5)]">
+    <div
+      className="animate-fade-in fixed inset-0 z-100 flex items-center justify-center bg-[rgba(0,0,0,0.5)]"
+      id="dimmed"
+    >
       <section
         className={cn(
           "grid items-center justify-stretch gap-11 rounded-3xl md:rounded-[40px]",
           "min-w-[342px] bg-white p-6 pt-8 md:w-[600px] md:p-12",
           className,
         )}
+        aria-label="모달 영역"
       >
         {children}
       </section>

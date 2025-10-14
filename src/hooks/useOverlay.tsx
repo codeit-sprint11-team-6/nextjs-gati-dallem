@@ -24,8 +24,13 @@ export function OverlayProvider({ children }: { children: React.ReactNode }) {
 export function useOverlay() {
   const { setIsOpen, setOverlay } = useContext(OverlayContext);
   function handleClose() {
-    setIsOpen(false);
-    setOverlay();
+    const dimmedModalBg = document.getElementById("dimmed");
+    dimmedModalBg?.classList.remove("animate-fade-in");
+    dimmedModalBg?.classList.add("animate-fade-out");
+    setTimeout(() => {
+      setIsOpen(false);
+      setOverlay();
+    }, 300);
   }
   function handleSetOverlay(modal: JSX.Element) {
     setIsOpen(true);
