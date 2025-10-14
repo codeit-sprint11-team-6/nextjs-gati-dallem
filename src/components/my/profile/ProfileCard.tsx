@@ -36,6 +36,7 @@ export default function ProfileCard() {
               className="object-cover"
               alt="프로필 이미지"
               fill
+              sizes="120px"
               priority
             />
           </div>

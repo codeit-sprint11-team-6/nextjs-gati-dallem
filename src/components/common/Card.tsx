@@ -29,7 +29,13 @@ function CardImage({ image }: { image?: string }) {
   return (
     <div className="border-slate-120 relative aspect-[2.2] overflow-hidden border-1 md:aspect-square md:w-[170px] md:rounded-3xl">
       {image ? (
-        <Image className="object-cover" src={image} alt="모임 이미지 미리보기" fill />
+        <Image
+          className="object-cover"
+          src={image}
+          alt="모임 이미지 미리보기"
+          fill
+          sizes="100vw, (min-width: 768px) 200px"
+        />
       ) : (
         <div className="h-full w-full bg-gray-200" />
       )}
@@ -148,7 +154,7 @@ function CardReservedButton({
   isReviewed?: boolean;
 }) {
   function handleCancel() {
-    // TODO
+    // TODO: 모임 참여 취소
   }
   function handleWriteReview() {
     // TODO
@@ -158,14 +164,14 @@ function CardReservedButton({
     <div className="flex-end w-full md:w-fit">
       {!isCompleted ? (
         <button
-          className="rounded-2xl border-1 border-purple-500 px-6 py-2.5 text-base font-semibold text-purple-500"
+          className="btn rounded-2xl border-1 border-purple-500 px-6 py-2.5 text-base font-semibold text-purple-500"
           onClick={handleCancel}
         >
           예약 취소하기
         </button>
       ) : !isReviewed ? (
         <button
-          className="rounded-2xl bg-purple-100 px-6 py-2.5 text-base font-bold text-purple-500"
+          className="btn rounded-2xl bg-purple-100 px-6 py-2.5 text-base font-bold text-purple-500"
           onClick={handleWriteReview}
         >
           리뷰 작성하기
