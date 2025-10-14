@@ -8,20 +8,18 @@ import { AuthPasswordInput } from "./ui/AuthPasswordInput";
 import { useSignin } from "@/hooks/auths/useSignin";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-
-/** 문자열이 루트상대 경로(/...)인지 확인해서 오픈 리다이렉트 방지 */
-const toSafePath = (v?: string) => (v && v.startsWith("/") ? v : "/");
+import { toSafePath } from "@/utils/auth/safePath";
 
 /** 에러 객체에서 사용자 메시지 추출 */
-const toErrorMessage = (err: unknown) => {
-  const anyErr = err as any;
-  return (
-    anyErr?.response?.data?.message ??
-    anyErr?.data?.message ??
-    anyErr?.message ??
-    "로그인에 실패했습니다. 다시 시도해 주세요."
-  );
-};
+// const toErrorMessage = (err: unknown) => {
+//   const anyErr = err as any;
+//   return (
+//     anyErr?.response?.data?.message ??
+//     anyErr?.data?.message ??
+//     anyErr?.message ??
+//     "로그인에 실패했습니다. 다시 시도해 주세요."
+//   );
+// };
 
 type Props = { redirect?: string };
 
@@ -33,7 +31,8 @@ type Props = { redirect?: string };
 
 const LoginForm = ({ redirect = "/" }: Props) => {
   const router = useRouter();
-  const { mutateAsync: signinMutate, isPending, error } = useSignin();
+  // const { mutateAsync: signinMutate, isPending, error } = useSignin();
+  const { mutateAsync: signinMutate, isPending } = useSignin();
 
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
