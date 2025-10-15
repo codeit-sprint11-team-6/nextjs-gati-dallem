@@ -1,6 +1,5 @@
 // src/app/(auth)/signup/page.tsx
 
-import DebugOnce from "../../../components/debug/DebugOnce";
 // import strict from "assert/strict";
 import AuthGrid from "@/components/auth/AuthGrid";
 import SignupForm from "@/components/auth/SignupForm";
@@ -8,6 +7,7 @@ import SignupForm from "@/components/auth/SignupForm";
 const SignupPage = () => {
   return (
     <AuthGrid
+      // 좌측: 이미지 자리에 임시 텍스트 : 공통 분리 예정
       left={
         <div className="text-center select-none md:text-left">
           <div className="mb-4 text-3xl font-semibold text-slate-700">오늘부터 함께 시작해요</div>
@@ -16,12 +16,12 @@ const SignupPage = () => {
           {/* 이미지 필요해지면 여기에만 추가 */}
         </div>
       }
+      // 우측: 회원가입 폼
       right={
         <>
           <SignupForm
           // redirect={redirect}
           />
-          <DebugOnce /> {/* 임시 디버깅용 */}
         </>
       }
     />
