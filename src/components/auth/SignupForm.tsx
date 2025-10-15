@@ -9,17 +9,14 @@ import { AuthPasswordInput } from "./ui/AuthPasswordInput";
 import AuthButton from "./ui/AuthButton";
 import { useSignup } from "@/hooks/auths/useSignUp";
 import { toSafePath } from "@/utils/auth/safePath";
-
-/** 에러 객체에서 사용자 메시지 추출 (백/프론트 혼용 대비) */
-const toErrorMessage = (err: unknown) => {
-  const anyErr = err as any;
-  return (
-    anyErr?.response?.data?.message ??
-    anyErr?.data?.message ??
-    anyErr?.message ??
-    "회원가입에 실패했습니다. 잠시 후 다시 시도해 주세요."
-  );
-};
+import {
+  toUserErrorMessage,
+  toUserErrorDetails,
+  extractValidationItems,
+} from "@/apis/_errorMessage";
+import { AUTH_ERROR_MESSAGES } from "@/constants/auth/errorMessages";
+import { validateSignup } from "@/utils/auth/validateSignup";
+import { MIN_PASSWORD_LEN } from "@/constants/auth/constraints";
 
 type Props = { redirect?: string };
 
@@ -37,64 +34,95 @@ const SignupForm = ({ redirect = "/" }: Props) => {
   // field error states
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [companyError, setCompanyError] = useState("");
   const [pwError, setPwError] = useState("");
   const [pw2Error, setPw2Error] = useState("");
   const [serverMsg, setServerMsg] = useState("");
 
+  // 앞단 검증
   const isPwMatch = pw2.length > 0 && pw === pw2;
-  const isPwStrongEnough = pw.length >= 8; // 필요시 강화 규칙 추가(영문/숫자/특수문자 등)
+  const isPwStrongEnough = pw.length >= MIN_PASSWORD_LEN; // 필요시 강화 규칙 추가(영문/숫자/특수문자 등)
 
-  const canSubmit = useMemo(() => {
-    return (
-      name.trim().length > 0 &&
-      email.trim().length > 0 &&
-      company.trim().length > 0 &&
-      pw.length > 0 &&
-      pw2.length > 0 &&
-      isPwStrongEnough &&
-      pw === pw2 &&
-      !isPending
-    );
-  }, [name, email, company, pw, pw2, isPwStrongEnough, isPending]);
+  // 버튼 활성: 값 존재 & 요청 중 아님 (검증은 submit 시 validateSignup이 최종 담당)
+  const canSubmit = useMemo(
+    () => !!(name.trim() && email.trim() && company.trim() && pw && pw2) && !isPending,
+    [name, email, company, pw, pw2, isPending],
+  );
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isPending) return;
 
-    // 초기화
+    // 에러 초기화
     setNameError("");
     setEmailError("");
+    setCompanyError("");
     setPwError("");
     setPw2Error("");
     setServerMsg("");
 
-    // 간단 클라이언트 유효성
-    if (!name) setNameError("이름을 입력해 주세요.");
-    if (!email) setEmailError("아이디(이메일)를 입력해 주세요.");
-    if (!pw) setPwError("비밀번호를 입력해 주세요.");
-    if (!pw2) setPw2Error("비밀번호 확인을 입력해 주세요.");
-    if (pw && !isPwStrongEnough) setPwError("비밀번호는 8자 이상이어야 합니다.");
-    if (pw2 && pw !== pw2) setPw2Error("비밀번호가 일치하지 않습니다.");
-    if (!name || !email || !pw || !pw2 || !isPwStrongEnough || pw !== pw2) return;
+    // 1) 클라이언트 선검증
+    const errs = validateSignup({
+      name,
+      email,
+      company,
+      password: pw,
+      confirmPassword: pw2,
+    });
 
+    if (errs.name) setNameError(errs.name);
+    if (errs.email) setEmailError(errs.email);
+    if (errs.company) setCompanyError(errs.company);
+    if (errs.password) setPwError(errs.password);
+    if (errs.confirmPassword) setPw2Error(errs.confirmPassword);
+    if (Object.keys(errs).length) return; // 선검증 실패 시 API 호출 중단
+
+    // 2) API
     try {
-      // ✅ 프로젝트 스키마에 맞게 바디 키 이름을 맞추세요.
-      // 예) 백엔드가 companyName을 원하면 { companyName: company } 로 변경
-      const body = { name: name.trim(), email: email.trim(), company, password: pw };
-
+      const body = {
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+        companyName: company.trim(),
+        password: pw,
+      };
       await signupMutate(body as any);
       router.replace(toSafePath(redirect));
     } catch (err) {
-      setServerMsg(toErrorMessage(err));
+      // 상단 배너 메시지
+      setServerMsg(toUserErrorMessage(err, AUTH_ERROR_MESSAGES.generic.SIGNUP_FAILED));
+
+      // 서버 필드 에러 매핑(있으면)
+      const { code } = toUserErrorDetails(err, "");
+      if (code === "EMAIL_ALREADY_TAKEN") {
+        setEmailError(AUTH_ERROR_MESSAGES.fields.email.DUPLICATE);
+        return;
+      }
+      if (code === "VALIDATION_ERROR") {
+        const items = extractValidationItems(err);
+        for (const it of items) {
+          switch (it.parameter) {
+            case "email":
+              setEmailError(it.message || AUTH_ERROR_MESSAGES.fields.email.INVALID);
+              break;
+            case "name":
+              setNameError(it.message || AUTH_ERROR_MESSAGES.fields.name.REQUIRED);
+              break;
+            case "companyName":
+              setCompanyError(it.message || AUTH_ERROR_MESSAGES.fields.companyName.REQUIRED);
+              break;
+            case "password":
+              setPwError(it.message || AUTH_ERROR_MESSAGES.fields.password.WEAK);
+              break;
+            default:
+              break;
+          }
+        }
+      }
     }
   };
 
-  // React Query fallback 메시지(성공 후 rerender 타이밍 보정)
-  const fallbackMsg =
-    (error as any)?.response?.data?.message ??
-    (error as any)?.data?.message ??
-    (error as any)?.message ??
-    "";
+  // React Query 에러 보조
+  const fallbackMsg = error ? toUserErrorMessage(error, "") : "";
   const displayError = serverMsg || fallbackMsg;
 
   return (
@@ -114,7 +142,10 @@ const SignupForm = ({ redirect = "/" }: Props) => {
       <AuthInput
         placeholder="이름을 입력해 주세요"
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={(e) => {
+          setName(e.target.value);
+          if (nameError) setNameError("");
+        }}
         invalid={!!nameError}
         aria-describedby="name-error"
         autoComplete="name"
@@ -132,7 +163,10 @@ const SignupForm = ({ redirect = "/" }: Props) => {
         type="email"
         placeholder="이메일을 입력해 주세요"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => {
+          setEmail(e.target.value);
+          if (emailError) setEmailError("");
+        }}
         invalid={!!emailError}
         aria-describedby="email-error"
         autoComplete="username"
@@ -149,18 +183,28 @@ const SignupForm = ({ redirect = "/" }: Props) => {
       <AuthInput
         placeholder="회사명을 입력해 주세요"
         value={company}
-        onChange={(e) => setCompany(e.target.value)}
-        invalid={false}
+        onChange={(e) => {
+          setCompany(e.target.value);
+          if (companyError) setCompanyError("");
+        }}
+        invalid={!!companyError}
         autoComplete="organization"
         className="bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]"
       />
-
+      {companyError && (
+        <p id="company-error" className="mt-1 text-xs text-[#FF2727]">
+          {companyError}
+        </p>
+      )}
       {/* 비밀번호 */}
       <label className="mt-4 mb-1 text-[13px] font-medium text-slate-500">비밀번호</label>
       <AuthPasswordInput
         placeholder="비밀번호를 입력해 주세요"
         value={pw}
-        onChange={(e) => setPw(e.target.value)}
+        onChange={(e) => {
+          setPw(e.target.value);
+          if (pwError) setPwError("");
+        }}
         invalid={!!pwError}
         errorMessage={pwError}
         aria-describedby="pw-error"
@@ -174,6 +218,30 @@ const SignupForm = ({ redirect = "/" }: Props) => {
         placeholder="비밀번호를 작성해 주세요"
         value={pw2}
         onChange={(e) => setPw2(e.target.value)}
+        invalid={!!pw2Error || (pw2.length > 0 && !isPwMatch)}
+        errorMessage={
+          pw2Error || (pw2.length > 0 && !isPwMatch ? "비밀번호가 일치하지 않습니다." : undefined)
+        }
+        aria-describedby="pw2-error"
+        autoComplete="new-password"
+        className="bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]"
+      />
+
+      {/* 실시간 힌트(선택): 최소 길이 */}
+      {pw.length > 0 && !isPwStrongEnough && (
+        <p className="mt-1 text-xs text-[#FF2727]">
+          비밀번호는 {MIN_PASSWORD_LEN}자 이상이어야 합니다.
+        </p>
+      )}
+      {/* 비밀번호 확인 */}
+      <label className="mt-4 mb-1 text-[13px] font-medium text-slate-500">비밀번호 확인</label>
+      <AuthPasswordInput
+        placeholder="비밀번호를 작성해 주세요"
+        value={pw2}
+        onChange={(e) => {
+          setPw2(e.target.value);
+          if (pw2Error) setPw2Error("");
+        }}
         invalid={!!pw2Error || (pw2.length > 0 && !isPwMatch)}
         errorMessage={
           pw2Error || (pw2.length > 0 && !isPwMatch ? "비밀번호가 일치하지 않습니다." : undefined)
