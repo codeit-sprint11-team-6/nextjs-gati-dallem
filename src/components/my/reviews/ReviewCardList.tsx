@@ -6,8 +6,8 @@ import Chip from "@/components/ui/Chip";
 import { useAuthStore } from "@/store/authStore";
 import Image from "next/image";
 import { createContext, useContext, useState } from "react";
-import ReviewedCardItem, { ReviewCardSkeleton } from "./ReviewedCardItem";
-import UnreviewedCardItem, { UnreviewedCardSkeleton } from "./UnreviewedCardItem";
+import ReviewedCardItem, { ReviewCardSkeleton } from "./reviewed/ReviewedCardItem";
+import UnreviewedCardItem, { UnreviewedCardSkeleton } from "./unreviewed/UnreviewedCardItem";
 
 interface ReviewCardListContextType {
   writable: boolean;

@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import HeartScore from "./HeartScore";
 
+/** 마이페이지 나의 리뷰 - 작성한 리뷰 카드 컴포넌트 */
 export default function ReviewedCardItem({ Gathering, User, score, createdAt, comment }: Review) {
   return (
     <div className="flex items-start justify-start gap-4 pb-6">

@@ -1,10 +1,10 @@
 "use client";
 
-import { useOverlay } from "@/hooks/useOverlay";
-import Modal from "../../common/Modal";
-import ScoreInput from "./ScoreInput";
-import { useState } from "react";
 import { useCreateReview } from "@/apis/reviews/reviews.query";
+import Modal from "@/components/common/Modal";
+import { useOverlay } from "@/hooks/useOverlay";
+import { useState } from "react";
+import ScoreInput from "./ScoreInput";
 
 export default function ReviewCreateModal({ id }: { id: number }) {
   const [score, setScore] = useState<number>(0);

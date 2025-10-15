@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { DragEvent, MouseEvent, TouchEvent, useRef } from "react";
 
+/** 리뷰 작성 모달 - 점수 입력 (클릭, 드래그, 모바일 터치 허용) */
 export default function ScoreInput({
   score,
   setScore,
