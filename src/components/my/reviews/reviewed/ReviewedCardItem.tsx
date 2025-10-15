@@ -18,7 +18,7 @@ export default function ReviewedCardItem({ Gathering, User, score, createdAt, co
             src={Gathering.image}
             alt="모임 이미지"
             fill
-            sizes="80px, (min-width: 768px) 160px"
+            sizes="200px"
           />
         </div>
       )}

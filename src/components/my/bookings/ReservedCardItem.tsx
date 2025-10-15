@@ -17,7 +17,6 @@ export default function ReservedCardItem({
   isReviewed,
   canceledAt,
 }: JoinedGathering) {
-  console.log(id, canceledAt);
   return (
     <Card>
       <Card.Image image={image} />
