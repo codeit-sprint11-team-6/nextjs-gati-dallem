@@ -1,4 +1,4 @@
-import { MeetingListItem } from "@/components/meeting/ListGrid";
+import { MeetingListItem } from "@/components/meeting/list/ListGrid";
 
 // 데모 데이터 (실제 서비스에서는 React Query + API 연동)
 export const MOCK_MEETINGS: MeetingListItem[] = [
