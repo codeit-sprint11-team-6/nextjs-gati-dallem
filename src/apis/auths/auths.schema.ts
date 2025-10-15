@@ -81,11 +81,11 @@ export type UpdateAuthUserBody = z.infer<typeof UpdateAuthUserBodySchema>;
 // 1) 공통 유저 코어 (teamId 제외)
 const UserCoreSchema = z
   .object({
+    teamId: z.string().optional(),
     id: z.number(),
     email: EmailResponseSchema,
     name: z.string(),
     companyName: z.string().optional(),
-    // 서버가 null을 주거나, 아예 키를 생략할 수도 있다는 가정 → 둘 다 허용
     image: z.string().nullable().optional(),
     createdAt: IsoDateTime,
     updatedAt: IsoDateTime,

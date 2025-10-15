@@ -1,3 +1,4 @@
+import { QueryProvider } from "@/app/providers";
 import { createContext, JSX, useContext, useState } from "react";
 
 interface OverlayContextProps {
@@ -15,8 +16,10 @@ export function OverlayProvider({ children }: { children: React.ReactNode }) {
   const [overlay, setOverlay] = useState<JSX.Element | undefined>();
   return (
     <OverlayContext value={{ setIsOpen, setOverlay }}>
-      {children}
-      {isOpen && overlay}
+      <QueryProvider>
+        {children}
+        {isOpen && overlay}
+      </QueryProvider>
     </OverlayContext>
   );
 }
@@ -24,8 +27,13 @@ export function OverlayProvider({ children }: { children: React.ReactNode }) {
 export function useOverlay() {
   const { setIsOpen, setOverlay } = useContext(OverlayContext);
   function handleClose() {
-    setIsOpen(false);
-    setOverlay();
+    const dimmedModalBg = document.getElementById("dimmed");
+    dimmedModalBg?.classList.remove("animate-fade-in");
+    dimmedModalBg?.classList.add("animate-fade-out");
+    setTimeout(() => {
+      setIsOpen(false);
+      setOverlay();
+    }, 300);
   }
   function handleSetOverlay(modal: JSX.Element) {
     setIsOpen(true);

@@ -14,6 +14,7 @@ export default function ReservedCardItem({
   dateTime,
   location,
   isCompleted,
+  isReviewed,
 }: JoinedGathering) {
   return (
     <Card>
@@ -27,12 +28,13 @@ export default function ReservedCardItem({
             </Card.Title>
             <div className="flex-between flex-col items-center gap-6 md:w-full md:flex-row md:gap-3">
               <Card.GatheringDetail {...{ participantCount, capacity, location, dateTime }} />
-              <Card.ReservedButton />
+              <Card.ReservedButton {...{ id, isCompleted, isReviewed }} />
             </div>
           </div>
         </div>
       </Card.Detail>
-      <Card.LikeButton />
+      {/* TODO: 찜하기/취소 기능 구현 */}
+      {/* <Card.LikeButton /> */}
     </Card>
   );
 }
