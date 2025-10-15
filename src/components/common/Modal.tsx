@@ -59,10 +59,12 @@ function ModalOneButton({ children, ...props }: ButtonHTMLAttributes<HTMLButtonE
 Modal.OneButton = ModalOneButton;
 
 function ModalTwoButton({
+  leftBtnText = "취소",
   rightBtnText = "확인",
   rightBtnDisabled = false,
   onRightBtnClick = () => {},
 }: {
+  leftBtnText?: string;
   rightBtnText?: string;
   rightBtnDisabled?: boolean;
   onRightBtnClick?: () => void;
@@ -74,7 +76,7 @@ function ModalTwoButton({
         className="btn rounded-2xl border-1 border-[#DDDDDD] bg-white p-3 text-[#737373] md:p-4 md:text-xl"
         onClick={close}
       >
-        취소
+        {leftBtnText}
       </button>
       <button
         className="btn rounded-2xl bg-purple-500 p-3 font-bold text-white disabled:cursor-not-allowed disabled:bg-gray-300 md:p-4 md:text-xl"

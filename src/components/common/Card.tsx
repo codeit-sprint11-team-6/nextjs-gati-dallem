@@ -1,12 +1,12 @@
 "use client";
 
-import { useLeaveGathering } from "@/apis/gatherings/gatherings.query";
 import { useOverlay } from "@/hooks/useOverlay";
 import { cn } from "@/utils/classNames";
 import { formatDateAndTime } from "@/utils/datetime";
 import Image from "next/image";
 import Link from "next/link";
-import ReviewCreateModal from "../my/reviews/ReviewCreateModal";
+import ConfirmLeaveModal from "../my/bookings/ConfirmLeaveModal";
+import ReviewCreateModal from "../my/reviews/modal/ReviewCreateModal";
 import { CompletedChip, ConfirmChip } from "../ui/Chip";
 
 /**
@@ -123,7 +123,7 @@ Card.GatheringDetail = CardGatheringDetail;
 /** 모임 찜하기 버튼 */
 function CardLikeButton({ isLiked = false }: { isLiked?: boolean }) {
   function handleLikeGathering() {
-    // TODO
+    // TODO: 찜하기/취소 기능 구현
   }
   return (
     <button
@@ -159,10 +159,9 @@ function CardReservedButton({
   isReviewed?: boolean;
 }) {
   const { overlay } = useOverlay();
-  const { mutate: leaveGatheringMutate } = useLeaveGathering();
 
   function handleCancel() {
-    leaveGatheringMutate(id);
+    overlay(<ConfirmLeaveModal id={id} />);
   }
 
   function handleWriteReview() {
