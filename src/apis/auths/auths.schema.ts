@@ -1,6 +1,12 @@
 // /src/apis/auths/auths.schema.ts
 import { z } from "zod";
 import { ApiErrorSchema, IsoDateTime, MessageSchema } from "../_shared.schema";
+import {
+  MAX_PASSWORD_LEN,
+  MIN_PASSWORD_LEN,
+  PASSWORD_REGEX,
+  USE_PASSWORD_COMPLEXITY,
+} from "@/constants/auth/constraints";
 
 /** ===== Auths ===== */
 
@@ -34,8 +40,11 @@ export const EmailResponseSchema = z.email({
 
 export const PasswordSchema = z
   .string()
-  .min(8, { message: "비밀번호는 최소 8자 이상이어야 합니다." })
-  .max(20, { message: "비밀번호는 최대 20자 이내여야 합니다." });
+  .min(MIN_PASSWORD_LEN, { message: `비밀번호는 최소 ${MIN_PASSWORD_LEN}자 이상이어야 합니다.` })
+  .max(MAX_PASSWORD_LEN, { message: `비밀번호는 최대 ${MAX_PASSWORD_LEN}자 이내여야 합니다.` })
+  .refine((v) => !USE_PASSWORD_COMPLEXITY || PASSWORD_REGEX.test(v), {
+    message: "영문/숫자/특수문자를 포함해 주세요.",
+  });
 
 export const NameSchema = z
   .string()
