@@ -61,7 +61,8 @@ export function useUpdateAuthUser() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateAuthUser,
-    onSuccess: async () => {
+    onSuccess: async (res) => {
+      authActions.setUser({ ...res });
       await queryClient.invalidateQueries({ queryKey: queryKeys.auth.me() });
     },
   });

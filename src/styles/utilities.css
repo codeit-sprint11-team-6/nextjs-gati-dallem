@@ -6,19 +6,19 @@
     align-items: center;
     justify-content: center;
   }
-  
+
   .flex-between {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-  
+
   .flex-start {
     display: flex;
     align-items: center;
     justify-content: flex-start;
   }
-  
+
   .flex-end {
     display: flex;
     align-items: center;
@@ -27,100 +27,105 @@
 
   /* Gradient Utilities */
   .bg-gradient-green {
-    background: linear-gradient(90deg, #E3F8ED 0%, #E5F9F8 100%);
+    background: linear-gradient(90deg, #e3f8ed 0%, #e5f9f8 100%);
   }
-  
+
   .bg-gradient-blue {
-    background: linear-gradient(90deg, #D6F9FF 0%, #E3F8ED 100%);
+    background: linear-gradient(90deg, #d6f9ff 0%, #e3f8ed 100%);
   }
-  
+
   .bg-gradient-purple-pink {
-    background: linear-gradient(135deg, #5865F2 0%, #FF4CD2 100%);
+    background: linear-gradient(135deg, #5865f2 0%, #ff4cd2 100%);
   }
-  
+
   .bg-gradient-purple-pink-100 {
-    background: linear-gradient(90deg, #DEE0FC 0%, #FFDBF6 100%);
+    background: linear-gradient(90deg, #dee0fc 0%, #ffdbf6 100%);
   }
-  
+
   .bg-gradient-purple-pink-500 {
-    background: linear-gradient(90deg, #8D96F6 0%, #FF85E0 100%);
+    background: linear-gradient(90deg, #8d96f6 0%, #ff85e0 100%);
   }
-  
+
   .bg-gradient-purple-pink-600 {
-    background: linear-gradient(90deg, #5865F2 0%, #FF4CD2 100%);
+    background: linear-gradient(90deg, #5865f2 0%, #ff4cd2 100%);
   }
-  
+
   .bg-gradient-radial {
-    background: radial-gradient(circle, #5865F2 0%, #FF4CD2 100%);
+    background: radial-gradient(circle, #5865f2 0%, #ff4cd2 100%);
   }
-  
+
   /* Text Gradients */
   .text-gradient-purple-pink {
-    background: linear-gradient(135deg, #5865F2 0%, #FF4CD2 100%);
+    background: linear-gradient(135deg, #5865f2 0%, #ff4cd2 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  
+
   /* Glassmorphism Effects */
   .glass {
     background-color: rgb(255 255 255 / 0.8);
     backdrop-filter: blur(12px);
     border: 1px solid rgb(255 255 255 / 0.2);
   }
-  
+
   .glass-dark {
     background-color: rgb(17 24 39 / 0.8);
     backdrop-filter: blur(12px);
     border: 1px solid rgb(55 65 81 / 0.2);
   }
-  
+
   /* Custom Animations */
+  .animate-fade-out {
+    animation: fadeOut 0.3s ease-in-out;
+  }
+
   .animate-bounce-slow {
     animation: bounce 2s infinite;
   }
-  
+
   .animate-pulse-slow {
     animation: pulse 3s infinite;
   }
-  
+
   .animate-spin-slow {
     animation: spin 3s linear infinite;
   }
-  
+
   .animate-glow {
     animation: glow 2s ease-in-out infinite alternate;
   }
-  
+
   /* Responsive Hide/Show */
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  
+
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
   }
-  
+
   /* Custom Focus */
   .focus-ring:focus {
     outline: none;
     box-shadow: 0 0 0 2px var(--color-green-500);
   }
-  
+
   .focus-ring-inset:focus {
     outline: none;
     box-shadow: inset 0 0 0 2px var(--color-green-500);
   }
-  
+
   /* Custom Transitions */
   .transition-all-smooth {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
+
   .transition-colors-smooth {
-    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition:
+      color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }

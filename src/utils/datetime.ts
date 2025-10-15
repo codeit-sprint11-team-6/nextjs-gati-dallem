@@ -1,21 +1,25 @@
-import { format } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 
 /**
  * 날짜, 시간 포맷터
- * @param datetime
+ * @param datetime ISO 문자열
  * @returns [date, time]
  */
 export const formatDateAndTime = (datetime: string) => {
-  const date = format(datetime, "MM월 dd일");
-  const time = format(datetime, "HH:mm");
+  const naive = datetime.replace(/Z$/, "");
+  const timeZone = "Asia/Seoul";
+  const date = formatInTimeZone(naive, timeZone, "MM월 dd일");
+  const time = formatInTimeZone(naive, timeZone, "HH:mm");
   return [date, time];
 };
+
 /**
  * 날짜 포맷터
- * @param datetime
- * @returns [date, time]
+ * @param datetime ISO 문자열
+ * @returns yyyy.MM.dd
  */
 export const formatDate = (datetime: string) => {
-  const datetimeString = format(datetime, "yyyy.MM.dd");
-  return datetimeString;
+  const naive = datetime.replace(/Z$/, "");
+  const timeZone = "Asia/Seoul";
+  return formatInTimeZone(naive, timeZone, "yyyy.MM.dd");
 };
