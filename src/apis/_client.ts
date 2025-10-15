@@ -4,12 +4,6 @@ import { ApiErrorSchema } from "./_shared.schema";
 import { tokenStore } from "@/utils/auth/token.store";
 import { getErrorMessage } from "./_errorMessage";
 
-/**
- * NOTE:
- * - BASE_URL, TEAM_ID는 이 클래스 내부에서만 사용됩니다.
- * - 외부에서는 setAuthToken 만(선택) 사용하면 됩니다.
- */
-
 interface ReqOptionsType<T> extends RequestInit {
   /** 응답 Zod 스키마 (성공 응답) */
   responseSchema?: ZodType<T>;
@@ -32,9 +26,18 @@ export class HttpApiError extends Error {
   }
 }
 
+/**
+ * ApiClient
+ * - 매 요청마다 tokenStore의 최신 토큰으로 Authorization 헤더를 설정합니다.
+ * - Zod 기반 성공 응답 검증 및 공통 에러(HttpApiError) 처리.
+ */
+
 export class ApiClient {
+  // TODO: commonConfig/env로 이동 (배포 시 환경별 분리)
   private static readonly BASE_URL = "https://fe-adv-project-together-dallaem.vercel.app";
   private static readonly TEAM_ID = "11-6";
+  // private static readonly BASE_URL = API_BASE_URL;
+  // private static readonly TEAM_ID = TEAM_ID;
 
   private authToken?: string; // 선택: 인스턴스 보관 토큰
 
@@ -47,7 +50,7 @@ export class ApiClient {
     const headers = new Headers(init);
     const isFormData = typeof FormData !== "undefined" && body instanceof FormData;
 
-    // JSON 요청 기본 헤더(FormData가 아니면 JSON 기본값)
+    // FormData가 아닌 경우에만 JSON 기본 Content-Type 설정
     if (!isFormData && !headers.has("Content-Type")) {
       headers.set("Content-Type", "application/json");
     }
@@ -84,7 +87,7 @@ export class ApiClient {
     // fetch (캐시 방지)
     const resp = await fetch(url, { ...init, headers, cache: "no-store" });
 
-    // #region 에러 응답 처리
+    // 에러 응답 처리
     if (!resp.ok) {
       let raw: unknown;
       try {
@@ -106,22 +109,20 @@ export class ApiClient {
     }
 
     // No Content 등 처리
-    // if (options.emptyResponse) return undefined as T;
+    // 주의: chunked 전송의 경우 Content-Length가 없을 수 있음.
     if (emptyResponse || resp.status === 204 || resp.headers.get("Content-Length") === "0")
       return undefined as T;
 
-    // #region 성공 응답 파싱
+    // 성공 응답 파싱
     const data = await resp.json();
     // if (!options.responseSchema) return data as T;
     if (!responseSchema) return data as T;
 
     // 스키마 미스매치 시 바로 에러
-    // const parsed = options.responseSchema.safeParse(data);
     const parsed = responseSchema.safeParse(data);
     if (!parsed.success) {
-      // parsed?.error?.issues.map((issue) => console.log(issue));
+      // 필요 시 디버깅: parsed.error.issues
       parsed.error?.issues.forEach((i) => console.log(i));
-      // throw new Error("Response schema validation failed");
       throw new HttpApiError(500, "Response schema validation failed");
     }
     return parsed.data as T;
