@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
 import Avatar, { type UserProfile } from "@/components/ui/Avatar";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 interface UserProfileProps {
@@ -63,10 +63,10 @@ function ProfileDropdown({ setIsProfileOpen, onLogout }: ProfileDropdownProps) {
         className="block px-4 pt-3 pb-2 text-sm text-gray-700 hover:bg-gray-100"
         onClick={() => setIsProfileOpen(false)}
       >
-        예약 내역
+        참여 내역
       </Link>
       <Link
-        href="/my/reviews"
+        href="/my/reviews?writable=true"
         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
         onClick={() => setIsProfileOpen(false)}
       >
