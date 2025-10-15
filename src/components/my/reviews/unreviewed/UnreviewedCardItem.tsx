@@ -1,8 +1,8 @@
 "use client";
 
+import { Card } from "@/components/common/Card";
 import { JoinedGathering } from "@/types";
 import { cn } from "@/utils/classNames";
-import { Card } from "../../../common/Card";
 
 /** 마이페이지 나의 리뷰 - 작성 가능한 리뷰 카드 컴포넌트 */
 export default function UnreviewedCardItem({
