@@ -24,16 +24,16 @@
 
   /* Text Selection Styles */
   ::selection {
-    @apply bg-green-100 text-green-900;
+    @apply bg-purple-100 text-purple-900;
   }
 
   .dark ::selection {
-    @apply bg-green-900 text-green-100;
+    @apply bg-purple-900 text-purple-100;
   }
 
   /* Focus Styles */
   :focus-visible {
-    @apply ring-2 ring-green-500 ring-offset-2 outline-none;
+    @apply ring-2 ring-purple-500 ring-offset-2 outline-none;
   }
 
   /* Scrollbar Styling */
@@ -43,7 +43,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-gray-100;
+    @apply rounded-full bg-gray-100;
   }
 
   ::-webkit-scrollbar-thumb {

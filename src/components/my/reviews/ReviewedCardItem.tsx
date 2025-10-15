@@ -24,12 +24,15 @@ export default function ReviewedCardItem({ Gathering, User, score, createdAt, co
       <div className="grid gap-4">
         <div className="grid gap-2">
           <div className="flex-start gap-3">
-            <Image
-              src={User.image || "/image/profile.svg"}
-              alt="모임 이미지"
-              width={40}
-              height={40}
-            />
+            <div className="relative aspect-square w-10 overflow-hidden rounded-full border-1 border-slate-200">
+              <Image
+                className="object-cover"
+                src={User.image || "/image/profile.svg"}
+                alt="리뷰 작성 사용자의 프로필 이미지"
+                fill
+                sizes="40px"
+              />
+            </div>
             <div className="grid gap-1">
               <div className="text-sm font-medium text-slate-600">{User.name}</div>
               <div className="flex-start gap-2">
