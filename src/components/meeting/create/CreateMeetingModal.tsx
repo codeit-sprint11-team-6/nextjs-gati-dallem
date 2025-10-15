@@ -1,7 +1,7 @@
 "use client";
 
 import { useOverlay } from "@/hooks/useOverlay";
-import Modal from "@/components/common/Modal";
+import Modal from "../../common/Modal";
 import CreateMeetingWizard from "./CreateMeetingWizard";
 
 export default function CreateMeetingModal() {

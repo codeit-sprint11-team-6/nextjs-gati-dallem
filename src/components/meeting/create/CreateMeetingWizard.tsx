@@ -1,8 +1,10 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
-import {Button} from "@/components/common/Button";
-import {Input} from "@/components/common/Input";
+import { useMemo, useState } from "react";
+import { Button } from "@/components/common/Button";
+import { Input } from "@/components/common/Input";
+import { SelectField, DateField, FileField } from "@/components/fields/index";
+import { Label } from "@/components/ui/Label";
 
 type Step = 1 | 2 | 3;
 type MeetingType = "GENERAL" | "FLASH" | "WORKATION";
@@ -12,10 +14,17 @@ interface Draft {
   name: string;
   location: string;
   imageFile: File | null;
-  startDate: string;
-  endDate: string;
+  startDate: Date | undefined;
+  endDate: Date | undefined;
   capacity: number | "";
 }
+
+const LOCATION_OPTIONS = [
+  { label: "서울", value: "서울" },
+  { label: "경기", value: "경기" },
+  { label: "인천", value: "인천" },
+  { label: "부산", value: "부산" },
+];
 
 interface Props {
   onCancel: () => void;
@@ -26,9 +35,9 @@ const NEXT: Record<Step, Step> = { 1: 2, 2: 3, 3: 3 };
 const PREV: Record<Step, Step> = { 1: 1, 2: 1, 3: 2 };
 
 const TYPE_OPTIONS = [
-  { key: "GENERAL",   title: "일반모임",  desc: "정기 스터디/소모임", emoji: "👥" },
-  { key: "FLASH",     title: "번개모임",  desc: "번개 만남/모임",    emoji: "⚡️" },
-  { key: "WORKATION", title: "워케이션",  desc: "원데이/취미 클래스", emoji: "🏝️" },
+  { key: "GENERAL",   title: "스터디",  desc: "정기 스터디/소모임", emoji: "👥" },
+  { key: "FLASH",     title: "네트워킹",  desc: "번개 만남/모임",    emoji: "⚡️" },
+  { key: "WORKATION", title: "아무거나",  desc: "아무거나/아무거나", emoji: "🏝️" },
 ] as const;
 
 export default function CreateMeetingWizard({ onCancel, onFinished }: Props) {
@@ -38,11 +47,10 @@ export default function CreateMeetingWizard({ onCancel, onFinished }: Props) {
     name: "",
     location: "",
     imageFile: null,
-    startDate: "",
-    endDate: "",
+    startDate: undefined,
+    endDate: undefined,
     capacity: "",
   });
-  const fileRef = useRef<HTMLInputElement>(null);
 
   const canNext = useMemo(() => {
     if (step === 1) return !!draft.type;
@@ -70,23 +78,22 @@ export default function CreateMeetingWizard({ onCancel, onFinished }: Props) {
               {TYPE_OPTIONS.map((opt) => {
                 const active = draft.type === opt.key;
                 return (
-                  <button
+                  <Button
                     key={opt.key}
                     onClick={() => setDraft((d) => ({ ...d, type: opt.key } as Draft))}
-                    className={`w-full rounded-xl border p-4 text-left transition ${
-                      active ? "border-emerald-500 bg-emerald-50" : "border-slate-200 hover:bg-slate-50"
-                    }`}
+                    variant={active ? "selected" : "outlineWhite"}
+                    size="lg"
+                    radius="lg"
+                    className="w-full h-auto py-4 justify-start"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100">
-                        <span aria-hidden>{opt.emoji}</span>
-                      </div>
-                      <div>
-                        <div className="font-medium">{opt.title}</div>
-                        <div className="text-xs text-slate-500">{opt.desc}</div>
-                      </div>
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-100">
+                      <span aria-hidden className="text-xl">{opt.emoji}</span>
                     </div>
-                  </button>
+                    <div className="text-left">
+                      <div className="font-semibold">{opt.title}</div>
+                      <div className="text-xs text-slate-500 font-normal">{opt.desc}</div>
+                    </div>
+                  </Button>
                 );
               })}
             </div>
@@ -94,73 +101,65 @@ export default function CreateMeetingWizard({ onCancel, onFinished }: Props) {
         )}
 
         {step === 2 && (
-          <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-            <div>
-              <label className="mb-1 block text-sm text-slate-600">모임 이름</label>
+          <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+            <div className="space-y-2">
+              <Label htmlFor="meeting-name">모임 이름</Label>
               <Input
+                id="meeting-name"
                 placeholder="모임 이름을 작성해주세요"
                 value={draft.name}
                 onChange={(e: any) => setDraft((d) => ({ ...d, name: e.target.value }))}
+                size="lg"
               />
             </div>
 
-            <div>
-              <label className="mb-1 block text-sm text-slate-600">장소</label>
-              <select
-                className="w-full rounded-xl border border-slate-300 px-3 py-2"
+            <div className="space-y-2">
+              <Label>장소</Label>
+              <SelectField
                 value={draft.location}
-                onChange={(e) => setDraft((d) => ({ ...d, location: e.target.value }))}
-              >
-                <option value="">장소를 선택해주세요</option>
-                <option value="서울">서울</option>
-                <option value="경기">경기</option>
-                <option value="인천">인천</option>
-                <option value="부산">부산</option>
-              </select>
+                onChange={(value) => setDraft((d) => ({ ...d, location: value }))}
+                items={LOCATION_OPTIONS}
+                placeholder="장소를 선택해주세요"
+                size="lg"
+              />
             </div>
 
-            <div>
-              <label className="mb-1 block text-sm text-slate-600">이미지</label>
-              <div className="flex items-center gap-3">
-                <Input readOnly value={draft.imageFile?.name ?? ""} placeholder="이미지를 첨부해주세요" />
-                <input
-                  ref={fileRef}
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={(e) => setDraft((d) => ({ ...d, imageFile: e.target.files?.[0] ?? null }))}
-                />
-                <Button type="button" variant="secondary" onClick={() => fileRef.current?.click()}>
-                  파일 찾기
-                </Button>
-              </div>
+            <div className="space-y-2">
+              <Label>이미지</Label>
+              <FileField
+                onFileSelect={(file) => setDraft((d) => ({ ...d, imageFile: file }))}
+                size="lg"
+                accept="image/*"
+                placeholder="이미지를 첨부해주세요"
+              />
             </div>
           </form>
         )}
 
         {step === 3 && (
-          <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-            <div>
-              <label className="mb-1 block text-sm text-slate-600">모임 날짜</label>
-              <input
-                type="date"
-                className="w-full rounded-xl border border-slate-300 px-3 py-2"
+          <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+            <div className="space-y-2">
+              <Label>모임 날짜</Label>
+              <DateField
                 value={draft.startDate}
-                onChange={(e) => setDraft((d) => ({ ...d, startDate: e.target.value }))}
+                onChange={(date) => setDraft((d) => ({ ...d, startDate: date }))}
+                size="lg"
+                placeholder="날짜를 선택해주세요"
               />
             </div>
-            <div>
-              <label className="mb-1 block text-sm text-slate-600">마감 날짜</label>
-              <input
-                type="date"
-                className="w-full rounded-xl border border-slate-300 px-3 py-2"
+            <div className="space-y-2">
+              <Label>마감 날짜</Label>
+              <DateField
                 value={draft.endDate}
-                onChange={(e) => setDraft((d) => ({ ...d, endDate: e.target.value }))}
+                onChange={(date) => setDraft((d) => ({ ...d, endDate: date }))}
+                size="lg"
+                placeholder="마감 날짜를 선택해주세요"
               />
             </div>
-            <div>
-              <label className="mb-1 block text-sm text-slate-600">모임 정원</label>
+            <div className="space-y-2">
+              <Label htmlFor="capacity">모임 정원</Label>
               <Input
+                id="capacity"
                 type="number"
                 min={1}
                 placeholder="정원을 입력해주세요"
@@ -168,6 +167,7 @@ export default function CreateMeetingWizard({ onCancel, onFinished }: Props) {
                 onChange={(e: any) =>
                   setDraft((d) => ({ ...d, capacity: e.target.value === "" ? "" : Number(e.target.value) }))
                 }
+                size="lg"
               />
             </div>
           </form>
@@ -175,14 +175,24 @@ export default function CreateMeetingWizard({ onCancel, onFinished }: Props) {
       </div>
 
       {/* Footer */}
-      <div className="mt-6 flex justify-between">
-        <Button variant="secondary" onClick={step === 1 ? onCancel : () => setStep((s) => PREV[s])}>
+      <div className="mt-10 grid grid-cols-2 gap-3">
+        <Button
+          variant="outlineSoft"
+          onClick={step === 1 ? onCancel : () => setStep((s) => PREV[s])}
+          size="sm"
+          radius="lg"
+          className="h-14 text-base md:h-14 md:text-lg font-semibold"
+        >
           {step === 1 ? "취소" : "이전"}
         </Button>
         {step < 3 ? (
-          <Button disabled={!canNext} onClick={() => setStep((s) => NEXT[s])}>다음</Button>
+          <Button disabled={!canNext} onClick={() => setStep((s) => NEXT[s])} size="sm" radius="lg" className="h-14 text-base md:h-14 md:text-lg font-semibold">
+            다음
+          </Button>
         ) : (
-          <Button disabled={!canNext} onClick={submit}>모임 만들기</Button>
+          <Button disabled={!canNext} onClick={submit} size="sm" radius="lg" className="h-14 text-base md:h-14 md:text-lg font-semibold">
+            모임 만들기
+          </Button>
         )}
       </div>
     </div>
