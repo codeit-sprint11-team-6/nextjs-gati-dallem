@@ -8,7 +8,7 @@ export default function LoginModal() {
   const router = useRouter();
   const { close } = useOverlay();
 
-  function onConfirmBtnClick() {
+  function handleBtnClick() {
     router.push("/signin");
     close();
   }
@@ -20,7 +20,7 @@ export default function LoginModal() {
           로그인이 필요한 서비스입니다.
         </div>
       </div>
-      <Modal.TwoButton onRightBtnClick={onConfirmBtnClick} />
+      <Modal.TwoButton onRightBtnClick={handleBtnClick} />
     </Modal>
   );
 }
