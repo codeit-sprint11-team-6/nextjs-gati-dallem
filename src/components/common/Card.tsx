@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ConfirmLeaveModal from "../my/bookings/ConfirmLeaveModal";
 import ReviewCreateModal from "../my/reviews/modal/ReviewCreateModal";
-import { CompletedChip, ConfirmChip } from "../ui/Chip";
+import Chip, { CompletedChip, ConfirmChip } from "../ui/Chip";
 
 /**
  * CCP로 직접 구현하는 모임 카드 컴포넌트
@@ -59,14 +59,20 @@ Card.Detail = CardDetail;
 function CardTags({
   isCompleted = false,
   isConfirmed = false,
+  canceledAt = null,
 }: {
   isCompleted?: boolean;
   isConfirmed?: boolean;
+  canceledAt?: string | null;
 }) {
-  return (
+  return isCompleted || canceledAt === null ? (
     <div className="flex-start gap-2">
       <CompletedChip isCompleted={isCompleted} />
       <ConfirmChip isConfirmed={isConfirmed} />
+    </div>
+  ) : (
+    <div className="flex-start">
+      <Chip variant="disabled">취소된 모임</Chip>
     </div>
   );
 }
@@ -184,7 +190,7 @@ function CardReservedButton({
           className="btn rounded-2xl border-1 border-purple-500 px-6 py-2.5 text-base font-semibold text-purple-500"
           onClick={handleCancel}
         >
-          예약 취소하기
+          참여 취소하기
         </button>
       )}
     </div>
