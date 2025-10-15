@@ -25,7 +25,7 @@ export default function UnreviewedCardItem({
           </Card.Title>
           <div className="flex-between w-full flex-col gap-6 md:flex-row md:gap-3">
             <Card.GatheringDetail {...{ participantCount, capacity, location, dateTime }} />
-            <Card.ReviewButton isReviewed={isReviewed} />
+            <Card.ReviewButton id={id} isReviewed={isReviewed} />
           </div>
         </div>
       </Card.Detail>

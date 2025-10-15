@@ -1,9 +1,12 @@
 "use client";
 
+import { useLeaveGathering } from "@/apis/gatherings/gatherings.query";
+import { useOverlay } from "@/hooks/useOverlay";
 import { cn } from "@/utils/classNames";
 import { formatDateAndTime } from "@/utils/datetime";
 import Image from "next/image";
 import Link from "next/link";
+import ReviewCreateModal from "../my/reviews/ReviewCreateModal";
 import { CompletedChip, ConfirmChip } from "../ui/Chip";
 
 /**
@@ -147,29 +150,30 @@ Card.LikeButton = CardLikeButton;
 
 /** 나의 모임 카드 버튼 */
 function CardReservedButton({
+  id,
   isCompleted = false,
   isReviewed = false,
 }: {
+  id: number;
   isCompleted?: boolean;
   isReviewed?: boolean;
 }) {
+  const { overlay } = useOverlay();
+  const { mutate: leaveGatheringMutate } = useLeaveGathering();
+
   function handleCancel() {
-    // TODO: 모임 참여 취소
-  }
-  function handleWriteReview() {
-    // TODO
+    leaveGatheringMutate(id);
   }
 
-  return (
+  function handleWriteReview() {
+    overlay(<ReviewCreateModal id={id} />);
+  }
+
+  return isReviewed ? (
+    <></>
+  ) : (
     <div className="flex-end w-full md:w-fit">
-      {!isCompleted ? (
-        <button
-          className="btn rounded-2xl border-1 border-purple-500 px-6 py-2.5 text-base font-semibold text-purple-500"
-          onClick={handleCancel}
-        >
-          예약 취소하기
-        </button>
-      ) : !isReviewed ? (
+      {isCompleted ? (
         <button
           className="btn rounded-2xl bg-purple-100 px-6 py-2.5 text-base font-bold text-purple-500"
           onClick={handleWriteReview}
@@ -177,7 +181,12 @@ function CardReservedButton({
           리뷰 작성하기
         </button>
       ) : (
-        <></>
+        <button
+          className="btn rounded-2xl border-1 border-purple-500 px-6 py-2.5 text-base font-semibold text-purple-500"
+          onClick={handleCancel}
+        >
+          예약 취소하기
+        </button>
       )}
     </div>
   );
@@ -185,15 +194,18 @@ function CardReservedButton({
 Card.ReservedButton = CardReservedButton;
 
 /** 나의 리뷰 카드 버튼 */
-function CardReviewButton({ isReviewed = false }: { isReviewed?: boolean }) {
+function CardReviewButton({ id, isReviewed = false }: { id: number; isReviewed?: boolean }) {
+  const { overlay } = useOverlay();
+
   function handleWriteReview() {
-    // TODO
+    overlay(<ReviewCreateModal id={id} />);
   }
+
   return (
     <div className="flex-end w-full md:w-fit">
       {!isReviewed ? (
         <button
-          className="rounded-2xl bg-purple-100 px-6 py-2.5 text-base font-bold text-purple-500"
+          className="btn rounded-2xl bg-purple-100 px-6 py-2.5 text-base font-bold text-purple-500"
           onClick={handleWriteReview}
         >
           리뷰 작성하기
