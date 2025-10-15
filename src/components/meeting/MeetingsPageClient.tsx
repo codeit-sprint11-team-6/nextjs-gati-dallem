@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import FilterBar, { MeetingFilters } from "./FilterBar";
-import ListGrid, { MeetingListItem } from "./ListGrid";
+import ListGrid from "./ListGrid";
+import { MOCK_MEETINGS } from "@/mocks/meetings";
 
 const DEFAULT: MeetingFilters = {
   keyword: "",
@@ -12,54 +13,6 @@ const DEFAULT: MeetingFilters = {
   date: "",
   sort: "latest",
 };
-
-// 데모 데이터(실서비스에선 React Query + API 연동)
-const MOCK: MeetingListItem[] = [
-  {
-    id: 1,
-    name: "달램핏 오피스 스트레칭",
-    type: "OFFICE_STRETCHING",
-    location: "건대입구",
-    dateTime: "2025-01-07T17:30:00Z",
-    participantCount: 4,
-    capacity: 20,
-    image: "/img/sample/room-1.jpg",
-    host: "달램핏",
-  },
-  {
-    id: 2,
-    name: "노구뇨 오후 스트레칭",
-    type: "OFFICE_STRETCHING",
-    location: "홍대입구",
-    dateTime: "2025-01-07T17:30:00Z",
-    participantCount: 10,
-    capacity: 20,
-    image: "/img/sample/cafe-1.jpg",
-    host: "달램핏",
-  },
-  {
-    id: 3,
-    name: "나를 돌아보는 30분",
-    type: "MINDFULNESS",
-    location: "신림",
-    dateTime: "2025-01-07T17:30:00Z",
-    participantCount: 20,
-    capacity: 20,
-    image: "/img/sample/room-2.jpg",
-    host: "달램핏",
-  },
-  {
-    id: 4,
-    name: "힐링 마인드 클래스",
-    type: "MINDFULNESS",
-    location: "건대입구",
-    dateTime: "2025-01-07T17:30:00Z",
-    participantCount: 4,
-    capacity: 20,
-    image: "/img/sample/room-1.jpg",
-    host: "달램핏",
-  },
-];
 
 export default function MeetingsPageClient() {
   const router = useRouter();
@@ -90,7 +43,7 @@ export default function MeetingsPageClient() {
 
   // 실제 필터링
   const filtered = useMemo(() => {
-    let arr = [...MOCK];
+    let arr = [...MOCK_MEETINGS];
 
     if (filters.keyword) {
       const q = filters.keyword.toLowerCase();
