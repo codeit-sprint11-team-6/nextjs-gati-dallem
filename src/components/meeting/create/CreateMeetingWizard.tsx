@@ -5,9 +5,11 @@ import { Button } from "@/components/common/Button";
 import { Input } from "@/components/common/Input";
 import { SelectField, DateField, FileField } from "@/components/fields/index";
 import { Label } from "@/components/ui/Label";
+import { useCreateGathering } from "@/apis/gatherings/gatherings.query";
+import type { CreateGatheringBody } from "@/apis/gatherings/gatherings.schema";
 
 type Step = 1 | 2 | 3;
-type MeetingType = "GENERAL" | "FLASH" | "WORKATION";
+type MeetingType = "OFFICE_STRETCHING" | "MINDFULNESS" | "WORKATION";
 
 interface Draft {
   type: MeetingType | null;
@@ -20,30 +22,35 @@ interface Draft {
 }
 
 const LOCATION_OPTIONS = [
-  { label: "서울", value: "서울" },
-  { label: "경기", value: "경기" },
-  { label: "인천", value: "인천" },
-  { label: "부산", value: "부산" },
+  { label: "건대입구", value: "건대입구" },
+  { label: "을지로3가", value: "을지로3가" },
+  { label: "신림", value: "신림" },
+  { label: "홍대입구", value: "홍대입구" },
 ];
 
 interface Props {
   onCancel: () => void;
-  onFinished: (draft: Draft) => void;
+  onFinished: () => void;
 }
 
 const NEXT: Record<Step, Step> = { 1: 2, 2: 3, 3: 3 };
 const PREV: Record<Step, Step> = { 1: 1, 2: 1, 3: 2 };
 
 const TYPE_OPTIONS = [
-  { key: "GENERAL",   title: "스터디",  desc: "정기 스터디/소모임", emoji: "👥" },
-  { key: "FLASH",     title: "네트워킹",  desc: "번개 만남/모임",    emoji: "⚡️" },
-  { key: "WORKATION", title: "아무거나",  desc: "아무거나/아무거나", emoji: "🏝️" },
+  {
+    key: "OFFICE_STRETCHING" as const,
+    title: "오피스 스트레칭",
+    desc: "업무 중 스트레칭",
+    emoji: "🧘",
+  },
+  { key: "MINDFULNESS" as const, title: "마인드풀니스", desc: "명상과 힐링", emoji: "🧠" },
+  { key: "WORKATION" as const, title: "워케이션", desc: "일과 휴가의 결합", emoji: "🏝️" },
 ] as const;
 
 export default function CreateMeetingWizard({ onCancel, onFinished }: Props) {
   const [step, setStep] = useState<Step>(1);
   const [draft, setDraft] = useState<Draft>({
-    type: "GENERAL",
+    type: "OFFICE_STRETCHING",
     name: "",
     location: "",
     imageFile: null,
@@ -51,6 +58,8 @@ export default function CreateMeetingWizard({ onCancel, onFinished }: Props) {
     endDate: undefined,
     capacity: "",
   });
+
+  const createGatheringMutation = useCreateGathering();
 
   const canNext = useMemo(() => {
     if (step === 1) return !!draft.type;
@@ -60,16 +69,52 @@ export default function CreateMeetingWizard({ onCancel, onFinished }: Props) {
   }, [step, draft]);
 
   const submit = async () => {
-    // TODO: API 연동 (FormData 권장)
-    onFinished(draft);
+    // 유효성 검사
+    if (
+      !draft.type ||
+      !draft.name.trim() ||
+      !draft.location ||
+      !draft.startDate ||
+      !draft.endDate ||
+      !draft.capacity
+    ) {
+      return;
+    }
+
+    // 날짜를 ISO 형식 문자열로 변환 (YYYY-MM-DDTHH:MM:SS)
+    const formatDateTime = (date: Date): string => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+      const seconds = String(date.getSeconds()).padStart(2, "0");
+      return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+    };
+
+    const body: CreateGatheringBody = {
+      location: draft.location as CreateGatheringBody["location"],
+      type: draft.type,
+      name: draft.name,
+      dateTime: formatDateTime(draft.startDate),
+      capacity: Number(draft.capacity),
+      image: draft.imageFile || undefined,
+      registrationEnd: formatDateTime(draft.endDate),
+    };
+
+    try {
+      await createGatheringMutation.mutateAsync(body);
+      onFinished();
+    } catch (error) {
+      // 에러는 QueryCache에서 전역으로 처리됨
+      console.error("모임 생성 실패:", error);
+    }
   };
 
   return (
     <div>
-      {/* Header (페이지/모달에서 타이틀 감싸줄 수 있어, 여기서는 최소화) */}
       <h2 className="mb-4 text-lg font-semibold">모임 만들기 {step}/3</h2>
 
-      {/* Body */}
       <div className="min-h-[280px]">
         {step === 1 && (
           <>
@@ -80,18 +125,20 @@ export default function CreateMeetingWizard({ onCancel, onFinished }: Props) {
                 return (
                   <Button
                     key={opt.key}
-                    onClick={() => setDraft((d) => ({ ...d, type: opt.key } as Draft))}
+                    onClick={() => setDraft((d) => ({ ...d, type: opt.key }) as Draft)}
                     variant={active ? "selected" : "outlineWhite"}
                     size="lg"
                     radius="lg"
-                    className="w-full h-auto py-4 justify-start"
+                    className="h-auto w-full justify-start py-4"
                   >
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-100">
-                      <span aria-hidden className="text-xl">{opt.emoji}</span>
+                      <span aria-hidden className="text-xl">
+                        {opt.emoji}
+                      </span>
                     </div>
                     <div className="text-left">
                       <div className="font-semibold">{opt.title}</div>
-                      <div className="text-xs text-slate-500 font-normal">{opt.desc}</div>
+                      <div className="text-xs font-normal text-slate-500">{opt.desc}</div>
                     </div>
                   </Button>
                 );
@@ -161,11 +208,14 @@ export default function CreateMeetingWizard({ onCancel, onFinished }: Props) {
               <Input
                 id="capacity"
                 type="number"
-                min={1}
-                placeholder="정원을 입력해주세요"
+                min={5}
+                placeholder="정원을 입력해주세요 (최소 5명)"
                 value={draft.capacity}
                 onChange={(e: any) =>
-                  setDraft((d) => ({ ...d, capacity: e.target.value === "" ? "" : Number(e.target.value) }))
+                  setDraft((d) => ({
+                    ...d,
+                    capacity: e.target.value === "" ? "" : Number(e.target.value),
+                  }))
                 }
                 size="lg"
               />
@@ -174,23 +224,34 @@ export default function CreateMeetingWizard({ onCancel, onFinished }: Props) {
         )}
       </div>
 
-      {/* Footer */}
       <div className="mt-10 grid grid-cols-2 gap-3">
         <Button
           variant="outlineSoft"
           onClick={step === 1 ? onCancel : () => setStep((s) => PREV[s])}
           size="sm"
           radius="lg"
-          className="h-14 text-base md:h-14 md:text-lg font-semibold"
+          className="h-14 text-base font-semibold md:h-14 md:text-lg"
         >
           {step === 1 ? "취소" : "이전"}
         </Button>
         {step < 3 ? (
-          <Button disabled={!canNext} onClick={() => setStep((s) => NEXT[s])} size="sm" radius="lg" className="h-14 text-base md:h-14 md:text-lg font-semibold">
+          <Button
+            disabled={!canNext}
+            onClick={() => setStep((s) => NEXT[s])}
+            size="sm"
+            radius="lg"
+            className="h-14 text-base font-semibold md:h-14 md:text-lg"
+          >
             다음
           </Button>
         ) : (
-          <Button disabled={!canNext} onClick={submit} size="sm" radius="lg" className="h-14 text-base md:h-14 md:text-lg font-semibold">
+          <Button
+            disabled={!canNext}
+            onClick={submit}
+            size="sm"
+            radius="lg"
+            className="h-14 text-base font-semibold md:h-14 md:text-lg"
+          >
             모임 만들기
           </Button>
         )}
