@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/Calendar";
 import { Input } from "@/components/common/Input";
 import { Calendar as CalendarIcon } from "lucide-react";
