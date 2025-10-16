@@ -37,7 +37,7 @@ export class ApiClient {
   // private static readonly BASE_URL = "https://fe-adv-project-together-dallaem.vercel.app";
   // private static readonly TEAM_ID = "11-6";
   /** 환경변수 기반 (commonConfig) */
-  private static readonly BASE_URL = API_BASE_URL.replace(/\/+$/, ""); // 뒤 슬래시 제거
+  private static readonly BASE_URL = (API_BASE_URL || "").replace(/\/+$/, ""); // 뒤 슬래시 제거
   private static readonly TEAM_ID = TEAM_ID;
 
   private authToken?: string; // 선택: 인스턴스 보관 토큰
