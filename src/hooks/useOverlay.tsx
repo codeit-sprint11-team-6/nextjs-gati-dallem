@@ -33,7 +33,7 @@ export function useOverlay() {
     setTimeout(() => {
       setIsOpen(false);
       setOverlay();
-    }, 300);
+    }, 280);
   }
   function handleSetOverlay(modal: JSX.Element) {
     setIsOpen(true);

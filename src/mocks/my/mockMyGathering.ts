@@ -12,7 +12,7 @@ export const mockMyGathering: Gathering[] = [
     participantCount: 1,
     capacity: 28,
     image:
-      "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1758264082588_images.jpeg",
+      "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1760431482840_68747470733a2f2f7365637572652e6d65657475707374617469632e636f6d2f70686f746f732f6576656e742f322f622f392f632f686967687265735f3531383239313136342e6a706567.avif",
     createdBy: 2227,
     canceledAt: null,
   },
@@ -27,7 +27,7 @@ export const mockMyGathering: Gathering[] = [
     participantCount: 1,
     capacity: 28,
     image:
-      "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1758264082588_images.jpeg",
+      "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1760431482840_68747470733a2f2f7365637572652e6d65657475707374617469632e636f6d2f70686f746f732f6576656e742f322f622f392f632f686967687265735f3531383239313136342e6a706567.avif",
     createdBy: 2227,
     canceledAt: null,
   },
@@ -42,7 +42,7 @@ export const mockMyGathering: Gathering[] = [
     participantCount: 1,
     capacity: 28,
     image:
-      "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1758264082588_images.jpeg",
+      "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1760431482840_68747470733a2f2f7365637572652e6d65657475707374617469632e636f6d2f70686f746f732f6576656e742f322f622f392f632f686967687265735f3531383239313136342e6a706567.avif",
     createdBy: 2227,
     canceledAt: null,
   },

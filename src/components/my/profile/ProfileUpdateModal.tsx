@@ -1,12 +1,12 @@
 "use client";
 
 import { useUpdateAuthUser } from "@/apis/auths/auths.query";
+import Modal from "@/components/common/Modal";
 import { useOverlay } from "@/hooks/useOverlay";
 import { useAuthStore } from "@/store/authStore";
 import { AuthUser } from "@/types";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import Modal from "../../common/Modal";
 import ProfileUpdateForm from "./ProfileUpdateForm";
 
 const initialProfileData = { image: null, name: "", companyName: "", email: "" };
