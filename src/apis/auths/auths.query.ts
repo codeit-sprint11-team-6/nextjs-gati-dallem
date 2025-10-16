@@ -1,13 +1,12 @@
-// TODO: 훅 통합 여부 결정 후 활성화하거나 삭제
-// 현재 사용안하는 파일
+// TODO: 일부 훅 통합 여부 결정 후 활성화하거나 삭제
 
 // /src/apis/auths/auths.query.ts
-// import { authActions } from "@/store/authStore";
-// import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-// import { queryKeys } from "../_react_query/keys";
-// import { invalidateAuth } from "../_react_query/utils";
-// import { GetAuthUserResponse } from "./auths.schema";
-// import { getAuthUser, signin, signout, signup, updateAuthUser } from "./auths.service";
+import { authActions } from "@/store/authStore";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "../_react_query/keys";
+import { invalidateAuth } from "../_react_query/utils";
+import { GetAuthUserResponse } from "./auths.schema";
+import { getAuthUser, signin, signout, signup, updateAuthUser } from "./auths.service";
 
 // /** GET /auths/user */
 // export function useAuthUser(options?: {
@@ -60,14 +59,12 @@
 // }
 
 /** PUT /auths/user (multipart) */
-// export function useUpdateAuthUser() {
-//   const queryClient = useQueryClient();
-//   return useMutation({
-//     mutationFn: updateAuthUser,
-//     onSuccess: async () => {
-//       await queryClient.invalidateQueries({ queryKey: queryKeys.auth.me() });
-//     },
-//   });
-// }
-
-export {}; // 빈 모듈로 유지 (번들/타입 문제 방지)
+export function useUpdateAuthUser() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: updateAuthUser,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: queryKeys.auth.me() });
+    },
+  });
+}
