@@ -3,6 +3,7 @@ import { ZodType } from "zod";
 import { ApiErrorSchema } from "./_shared.schema";
 import { tokenStore } from "@/utils/auth/token.store";
 import { getErrorMessage } from "./_errorMessage";
+import { API_BASE_URL, TEAM_ID } from "@/configs/commonConfig";
 
 interface ReqOptionsType<T> extends RequestInit {
   /** 응답 Zod 스키마 (성공 응답) */
@@ -33,11 +34,11 @@ export class HttpApiError extends Error {
  */
 
 export class ApiClient {
-  // TODO: commonConfig/env로 이동 (배포 시 환경별 분리)
-  private static readonly BASE_URL = "https://fe-adv-project-together-dallaem.vercel.app";
-  private static readonly TEAM_ID = "11-6";
-  // private static readonly BASE_URL = API_BASE_URL;
-  // private static readonly TEAM_ID = TEAM_ID;
+  // private static readonly BASE_URL = "https://fe-adv-project-together-dallaem.vercel.app";
+  // private static readonly TEAM_ID = "11-6";
+  /** 환경변수 기반 (commonConfig) */
+  private static readonly BASE_URL = API_BASE_URL.replace(/\/+$/, ""); // 뒤 슬래시 제거
+  private static readonly TEAM_ID = TEAM_ID;
 
   private authToken?: string; // 선택: 인스턴스 보관 토큰
 
@@ -78,8 +79,9 @@ export class ApiClient {
   private async _request<T>(path: string, options: ReqOptionsType<T> = {}): Promise<T> {
     const { responseSchema, emptyResponse, query, ...init } = options;
 
-    // URL + 쿼리
-    const url = `${ApiClient.BASE_URL}/${ApiClient.TEAM_ID}${path}${this._buildQuery(query)}`;
+    // URL + 쿼리 (이중 슬래시 방지)
+    const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+    const url = `${ApiClient.BASE_URL}/${ApiClient.TEAM_ID}${normalizedPath}${this._buildQuery(query)}`;
 
     // 공통 헤더 (최신 토큰 우선)
     const headers = this.buildHeaders(init.headers, init.body);
