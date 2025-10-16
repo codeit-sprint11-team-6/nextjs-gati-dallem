@@ -95,8 +95,8 @@ function SelectContent({
           // Popper 위치 보정
           position === "popper" &&
             "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
-          // Z-index
-          "z-50",
+          // Z-index (Modal보다 높게)
+          "z-[150]",
           className,
         )}
         position={position}
@@ -140,19 +140,21 @@ function SelectItem({
         // 레이아웃 & 배치
         "relative flex w-full items-center gap-2",
         // 상호작용 & 선택 불가 상태
-        "cursor-default select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        "cursor-pointer select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         // 패딩 & 크기 & 타이포
-        "py-1.5 pr-8 pl-2 text-sm",
+        "py-2.5 pr-8 pl-3 text-sm",
         // 모양
         "rounded-lg",
-        // 포커스 / 활성 스타일
-        "focus:bg-accent focus:text-accent-foreground",
+        // 포커스 / 활성 스타일 (보라색 계열)
+        "focus:bg-purple-50 focus:text-purple-900 hover:bg-purple-50",
         // 아이콘 표준화
         "[&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         // 내부 span 정렬
         "*:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
         // 아웃라인 제거
         "outline-hidden",
+        // 트랜지션
+        "transition-colors",
         className,
       )}
       {...props}
