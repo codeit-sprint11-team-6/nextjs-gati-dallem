@@ -7,17 +7,7 @@ import CreateMeetingWizard from "./CreateMeetingWizard";
 export default function CreateMeetingModal() {
   const { close } = useOverlay();
 
-  const handleFinish = (draft: {
-    type: string | null;
-    name: string;
-    location: string;
-    imageFile: File | null;
-    startDate: string;
-    endDate: string;
-    capacity: number | "";
-  }) => {
-    console.log("모임 생성 완료:", draft);
-    // TODO: API 연동
+  const handleFinish = () => {
     close();
   };
 

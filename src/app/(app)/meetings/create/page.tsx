@@ -1,32 +1,26 @@
-// app/(app)/@modal/(..)meetings/create/page.tsx
+// app/(app)/meetings/create/page.tsx
 "use client";
 
-import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Modal from "@/components/common/Modal";
-import { OverlayContext } from "@/hooks/useOverlay"; 
- 
-export default function CreateMeetingInterceptPage() {
+import CreateMeetingWizard from "@/components/meeting/create/CreateMeetingWizard";
+
+export default function CreateMeetingPage() {
   const router = useRouter();
-  const value = useMemo(
-    () => ({
-      close: () => router.back(),
-      setIsOpen: () => {}, // TODO: implement or connect to actual logic
-      setOverlay: () => {}, // TODO: implement or connect to actual logic
-    }),
-    [router]
-  );
+
+  const handleFinish = () => {
+    router.push("/meetings");
+  };
+
+  const handleCancel = () => {
+    router.back();
+  };
 
   return (
-    <OverlayContext.Provider value={value}>
-      <Modal>
-        <Modal.Header>모임 만들기 1/3</Modal.Header>
-        <Modal.TwoButton
-          rightBtnText="다음"
-          rightBtnDisabled={false}
-          onRightBtnClick={() => {/* setStep(2) */}}
-        />
+    <main className="mx-auto max-w-2xl px-4 py-8">
+      <Modal className="gap-6">
+        <CreateMeetingWizard onCancel={handleCancel} onFinished={handleFinish} />
       </Modal>
-    </OverlayContext.Provider>
+    </main>
   );
 }

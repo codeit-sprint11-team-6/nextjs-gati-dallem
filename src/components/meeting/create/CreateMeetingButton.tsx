@@ -1,8 +1,12 @@
 "use client";
+import { Plus } from "lucide-react";
 import { useOverlay } from "@/hooks/useOverlay";
+import { Button } from "@/components/common/Button";
 import CreateMeetingModal from "./CreateMeetingModal";
 
-interface Props { className?: string; }
+interface Props {
+  className?: string;
+}
 export default function CreateMeetingFAB({ className }: Props) {
   const { overlay } = useOverlay();
 
@@ -11,21 +15,16 @@ export default function CreateMeetingFAB({ className }: Props) {
   };
 
   return (
-    <button
+    <Button
       onClick={handleClick}
-      className={`fixed bottom-8 right-8 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-2xl transition-all hover:bg-emerald-600 hover:scale-110 ${className ?? ""}`}
+      variant="primary"
+      size="icon"
+      radius="round"
+      className={`fixed right-8 bottom-8 z-30 h-14 w-14 cursor-pointer shadow-2xl hover:bg-purple-600 ${className ?? ""}`}
       aria-label="모임 만들기"
+      leftIcon={<Plus className="h-6 w-6" />}
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={2.5}
-        stroke="currentColor"
-        className="h-6 w-6"
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-      </svg>
-    </button>
+      모임 만들기
+    </Button>
   );
 }
