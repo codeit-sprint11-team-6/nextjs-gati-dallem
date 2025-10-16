@@ -6,6 +6,7 @@ import "../styles/globals.css";
 import Providers from "./providers";
 import MainNav from "@/layout/Header";
 import AppInitializer from "./AppInitializer";
+import GlobalAuthHydrator from "./GlobalAuthHydrator";
 
 export const metadata: Metadata = {
   title: {
@@ -27,8 +28,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko" className={`${pretendard.variable} ${tenada.variable}`}>
       <body className="flex min-h-dvh flex-col bg-gray-50">
-        {/* 앱 전역 초기화 (토큰 동기화, 리스너 등록)  */}
+        {/* Authorization 헤더 동기화 (토큰 변경 시 apiClient에 반영)  */}
         <AppInitializer />
+        {/* 토큰 존재 시 로그인 사용자 정보 하이드레이트 */}
+        <GlobalAuthHydrator />
         <Providers>
           <MainNav />
           {/* 메인이 남는 공간만 차지 = 헤더+푸터 있어도 100dvh 초과 안 함 */}
