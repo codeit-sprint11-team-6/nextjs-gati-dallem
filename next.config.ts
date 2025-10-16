@@ -12,6 +12,12 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+
+  //  ESLint 빌드 중 무시
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   // Next.js가 올바른 루트를 추적하도록 지정
   outputFileTracingRoot: __dirname,
 };

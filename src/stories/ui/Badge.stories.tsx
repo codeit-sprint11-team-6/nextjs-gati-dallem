@@ -63,13 +63,14 @@ const meta = {
       options: ["small", "large"],
       description: "배지의 크기를 설정합니다. small은 작은 배지, large는 큰 배지입니다.",
       table: {
-        type: { summary: "\"small\" | \"large\"" },
-        defaultValue: { summary: "\"small\"" },
+        type: { summary: '"small" | "large"' },
+        defaultValue: { summary: '"small"' },
       },
     },
     className: {
       control: { type: "text" },
-      description: "추가 CSS 클래스. Tailwind CSS 클래스를 사용하여 스타일을 커스터마이징할 수 있습니다.",
+      description:
+        "추가 CSS 클래스. Tailwind CSS 클래스를 사용하여 스타일을 커스터마이징할 수 있습니다.",
       table: {
         type: { summary: "string" },
         defaultValue: { summary: "undefined" },
@@ -165,7 +166,8 @@ export const Overflow: Story = {
   parameters: {
     docs: {
       description: {
-        story: "최대값을 초과할 때 '99+' 형태로 표시되는 배지입니다. 많은 알림이 있을 때 사용됩니다.",
+        story:
+          "최대값을 초과할 때 '99+' 형태로 표시되는 배지입니다. 많은 알림이 있을 때 사용됩니다.",
       },
     },
   },
@@ -212,7 +214,8 @@ export const WithCustomStyle: Story = {
   parameters: {
     docs: {
       description: {
-        story: "커스텀 스타일이 적용된 배지입니다. className prop을 사용하여 배경색과 텍스트 색상을 변경할 수 있습니다.",
+        story:
+          "커스텀 스타일이 적용된 배지입니다. className prop을 사용하여 배경색과 텍스트 색상을 변경할 수 있습니다.",
       },
     },
   },
@@ -220,22 +223,25 @@ export const WithCustomStyle: Story = {
 
 // 크기 비교
 export const SizeComparison: Story = {
+  args: { count: 1 },
   render: () => (
     <div className="flex items-center gap-4">
       <div className="text-center">
         <Badge count={5} size="small" />
-        <p className="text-xs mt-2">Small</p>
+        <p className="mt-2 text-xs">Small</p>
       </div>
       <div className="text-center">
         <Badge count={5} size="large" />
-        <p className="text-xs mt-2">Large</p>
+        <p className="mt-2 text-xs">Large</p>
       </div>
     </div>
   ),
+
   parameters: {
     docs: {
       description: {
-        story: "Small과 Large 크기의 배지를 비교할 수 있습니다. 같은 숫자라도 크기에 따라 시각적 강조가 달라집니다.",
+        story:
+          "Small과 Large 크기의 배지를 비교할 수 있습니다. 같은 숫자라도 크기에 따라 시각적 강조가 달라집니다.",
       },
     },
   },
@@ -243,6 +249,7 @@ export const SizeComparison: Story = {
 
 // 다양한 숫자 예시
 export const NumberExamples: Story = {
+  args: { count: 1 },
   render: () => (
     <div className="flex flex-wrap gap-2">
       <Badge count={1} size="small" />
@@ -258,7 +265,8 @@ export const NumberExamples: Story = {
   parameters: {
     docs: {
       description: {
-        story: "다양한 숫자 값의 배지 예시입니다. 1부터 150까지의 숫자가 어떻게 표시되는지 확인할 수 있습니다.",
+        story:
+          "다양한 숫자 값의 배지 예시입니다. 1부터 150까지의 숫자가 어떻게 표시되는지 확인할 수 있습니다.",
       },
     },
   },
@@ -266,6 +274,7 @@ export const NumberExamples: Story = {
 
 // 큰 크기 다양한 숫자 예시
 export const LargeNumberExamples: Story = {
+  args: { count: 1 },
   render: () => (
     <div className="flex flex-wrap gap-2">
       <Badge count={1} size="large" />
@@ -281,7 +290,8 @@ export const LargeNumberExamples: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Large 크기의 다양한 숫자 배지 예시입니다. 큰 크기에서도 동일한 숫자 표시 규칙이 적용됩니다.",
+        story:
+          "Large 크기의 다양한 숫자 배지 예시입니다. 큰 크기에서도 동일한 숫자 표시 규칙이 적용됩니다.",
       },
     },
   },
