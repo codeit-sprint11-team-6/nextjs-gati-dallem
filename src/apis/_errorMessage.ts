@@ -12,8 +12,8 @@ const ALLOW_SERVER_MSG = new Set([
   "VALIDATION_ERROR", // 400: 유효성 검증 실패 (parameter: 필드명 포함)
   "INVALID_CREDENTIALS", // 401: 비밀번호/아이디 불일치
   "USER_NOT_FOUND", // 404: 없는 계정
-  // "EMAIL_ALREADY_TAKEN", // 필요 시 서버 문구 그대로 노출 가능
   // "SERVER_ERROR" // 500: 서버 오류 (필요 시 활성화)
+  "EMAIL_EXISTS", // 이미 사용 중인 이메일입니다
 ]);
 
 export const getErrorMessage = (status?: number, code?: string, serverMsg?: string) => {
