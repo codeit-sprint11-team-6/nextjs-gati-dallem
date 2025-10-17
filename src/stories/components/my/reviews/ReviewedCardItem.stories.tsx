@@ -15,7 +15,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const CardReviewed: Story = {
-  args: { ...mockReviewed[0] },
+  args: { ...mockReviewed.data[0] },
   render: (args) => (
     <div className="grid justify-stretch gap-4 divide-gray-100">
       <ReviewedCardItem {...args} />
