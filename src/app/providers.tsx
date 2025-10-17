@@ -1,10 +1,41 @@
+// src/app/providers.tsx
 "use client";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import MessageModal from "@/components/common/MessageModal";
+import { useInitAuthClient } from "@/hooks/system/useInitAuthClient";
+import { OverlayProvider, useOverlay } from "@/hooks/useOverlay";
+import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, useState } from "react";
 
 export default function Providers({ children }: { children: ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
+  const ready = useInitAuthClient();
+
+  // 토큰 초기화 완료 전에는 렌더링 지연 (필요 시 스켈레톤 교체 가능)
+  if (!ready) return null;
+
+  return <OverlayProvider>{children}</OverlayProvider>;
+}
+
+export function QueryProvider({ children }: { children: ReactNode }) {
+  const { overlay } = useOverlay();
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        queryCache: new QueryCache({
+          onError: (error) => {
+            const message = error.message ?? "문제가 발생했습니다. 다시 시도해주세요.";
+            overlay(<MessageModal message={message} />);
+          },
+        }),
+        mutationCache: new MutationCache({
+          onError: (error) => {
+            const message = error.message ?? "문제가 발생했습니다. 다시 시도해주세요.";
+            overlay(<MessageModal message={message} />);
+          },
+        }),
+        defaultOptions: { queries: { retry: 0 }, mutations: { retry: 0 } },
+      }),
+  );
 
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

@@ -1,0 +1,92 @@
+import { Meta, ColorPalette, ColorItem } from "@storybook/addon-docs/blocks";
+
+<Meta title="Foundation/Colors" />
+
+# Color Palette
+
+## Main Color
+
+<ColorPalette>
+  <ColorItem title="primary" subtitle="Main Brand Color" colors={{ 500: "#5865f2" }} />
+  <ColorItem title="secondary" subtitle="Sub Brand Color" colors={{ 500: "#ff4cd2" }} />
+</ColorPalette>
+
+## Color Scales
+
+<ColorPalette>
+  <ColorItem
+    title="gray"
+    subtitle="Some of the greys"
+    colors={{
+      50: "#f9fafb",
+      100: "#f3f4f6",
+      200: "#e5e7eb",
+      300: "#d1d5dc",
+      400: "#9CA3AF",
+      500: "#6a7282",
+      600: "#4a5565",
+      700: "#364153",
+      800: "#1e2939",
+    }}
+  />
+  <ColorItem
+    title="purple"
+    subtitle="Main Brand Color"
+    colors={{
+      50: "#dee0fc",
+      100: "#c3c8fa",
+      200: "#a8aff8",
+      300: "#8d96f6",
+      400: "#737ef4",
+      500: "#5865f2",
+      600: "#4d59d5",
+      700: "#434db8",
+      800: "#38419b",
+      900: "#2e357e",
+      950: "#232861",
+    }}
+  />
+  <ColorItem
+    title="pink"
+    subtitle="Sub Brand Color"
+    colors={{
+      50: "#ffdbf6",
+      100: "#ffbfef",
+      200: "#ffa2e8",
+      300: "#ff85e0",
+      400: "#ff69d9",
+      500: "#ff4cd2",
+      600: "#e043b9",
+      700: "#c23aa0",
+      800: "#a33186",
+      900: "#85286d",
+      950: "#661e54",
+    }}
+  />
+</ColorPalette>
+
+## Gradient
+
+<ColorPalette>
+  <ColorItem
+    title="gradient-100"
+    subtitle="light gradient"
+    colors={{
+      Gradient: "linear-gradient(90deg,#DEE0FC,#FFDBF6)",
+    }}
+  />
+  <ColorItem
+    title="gradient-300"
+    subtitle="brand gradient"
+    colors={{
+      Gradient: "linear-gradient(90deg,#8D96F6,#FF85E0)",
+    }}
+  />
+  <ColorItem
+    title="gradient-500"
+    subtitle="dark gradient"
+    colors={{
+      Gradient: "linear-gradient(90deg,#5865F2,#FF4CD2)",
+    }}
+  />
+</ColorPalette>

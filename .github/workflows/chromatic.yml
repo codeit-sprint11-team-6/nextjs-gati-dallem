@@ -1,0 +1,59 @@
+name: "Chromatic"
+
+on:
+  pull_request:
+  push:
+    branches: [develop, main]
+
+jobs:
+  chromatic:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # - uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 22.18.0
+
+      - name: Install dependencies
+        # ⚠️ See your package manager's documentation for the correct command to install dependencies in a CI environment.
+        run: npm ci
+
+      # - name: Run Chromatic
+      #   uses: chromaui/action@latest
+      #   with:
+      #     # ⚠️ Make sure to configure a `CHROMATIC_PROJECT_TOKEN` repository secret
+      #     projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # 1) 스토리북 빌드만 먼저 (로그 자세히 보기 위함)
+      - name: Build Storybook (debug)
+        run: |
+          npm run build-storybook -- --output-dir=storybook-static
+          # 경고가 CI에서 에러 취급되면 아래 라인으로 바꿔 시도:
+          # CI=false npm run build-storybook -- --output-dir=storybook-static
+
+      # 빌드 실패 시 로그 파일 찾아서 출력 (원인 파악용)
+      - name: Print Storybook logs on failure
+        if: failure()
+        run: |
+          echo "=== searching build-storybook.log ==="
+          find . -type f -name "build-storybook.log" -print -exec sed -n '1,200p' {} \; || true
+          sudo find /home/runner -type f -name "build-storybook.log" -print -exec sed -n '1,200p' {} \; || true
+
+      # 2) 빌드 산출물 업로드만 Chromatic으로
+      - name: Run Chromatic (upload only)
+        uses: chromaui/action@v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          storybookBuildDir: storybook-static
+          exitOnceUploaded: true
+          debug: true
