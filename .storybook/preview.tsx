@@ -77,6 +77,21 @@ const preview: Preview = {
       // 'off' - skip a11y checks entirely
       test: "todo",
     },
+    options: {
+      storySort: {
+        order: [
+          "Foundation",
+          "Components",
+          [
+            "UI",
+            "Common",
+            "Meeting",
+            "My",
+            ["Bookings", "Reviews", ["UnreviewedCardItem", "ReviewedCardItem"], "Hosted"],
+          ],
+        ],
+      },
+    },
     nextjs: {
       appDirectory: true, // App Router 사용 시 필요
       navigation: {

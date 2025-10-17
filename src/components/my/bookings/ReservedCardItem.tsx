@@ -22,7 +22,10 @@ export default function ReservedCardItem({
       <Card.Image image={image} />
       <Card.Detail>
         <div className="flex flex-col gap-3.5 md:gap-4">
-          <Card.Tags {...{ isCompleted, canceledAt }} isConfirmed={participantCount >= capacity} />
+          <Card.Tags
+            {...{ isCompleted, canceledAt }}
+            isConfirmed={isCompleted || participantCount >= 5}
+          />
           <div className="flex flex-col items-start justify-between gap-4">
             <Card.Title id={id}>
               <div className="flex gap-1.5 md:gap-2">{name}</div>

@@ -82,6 +82,7 @@ function ReviewedCardList() {
   const [page, setPage] = useState(1);
   const { isLoading, data: reviewResult } = useReviews({ userId: user?.id, offset: page - 1 });
   const { data, totalPages } = reviewResult ?? { data: [], totalPages: 1 };
+
   return isLoading ? (
     <SkeletonList />
   ) : data.length === 0 ? (
