@@ -100,9 +100,9 @@ export class ApiClient {
       }
       const parsed = ApiErrorSchema.safeParse(raw);
       if (parsed.success) {
-        const { code, message } = parsed.data;
+        const { code, message, parameter } = parsed.data as any;
         const uiMsg = getErrorMessage(resp.status, code, message);
-        throw new HttpApiError(resp.status, uiMsg);
+        throw new HttpApiError(resp.status, uiMsg, code, parameter);
       }
 
       // 알 수 없는 포맷
