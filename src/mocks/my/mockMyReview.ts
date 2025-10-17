@@ -66,8 +66,7 @@ export const mockReviewed: ReviewList = {
       teamId: "11-6",
       id: 1,
       score: 5,
-      comment:
-        "좋아요 너무 좋아요 1\n좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 ",
+      comment: "첫 줄\n둘째 줄",
       createdAt: "2025-10-01T09:33:25.213Z",
       Gathering: {
         teamId: "11-6",
@@ -271,46 +270,6 @@ export const mockReviewed: ReviewList = {
       User: {
         teamId: "11-6",
         id: 10,
-        name: "이수정",
-      },
-    },
-    {
-      teamId: "11-6",
-      id: 11,
-      score: 5,
-      comment: "좋아요 너무 좋아요 2",
-      createdAt: "2025-10-01T09:33:25.213Z",
-      Gathering: {
-        teamId: "11-6",
-        id: 2,
-        type: "MINDFULNESS",
-        name: "Zustand로 우아하게 상태 관리 하기",
-        dateTime: "2025-10-01T09:33:25.213Z",
-        location: "을지로3가",
-      },
-      User: {
-        teamId: "11-6",
-        id: 11,
-        name: "이수정",
-      },
-    },
-    {
-      teamId: "11-6",
-      id: 12,
-      score: 5,
-      comment: "좋아요 너무 좋아요 3",
-      createdAt: "2025-10-01T09:33:25.213Z",
-      Gathering: {
-        teamId: "11-6",
-        id: 3,
-        type: "OFFICE_STRETCHING",
-        name: "Framer Motion으로 우아하게 애니메이션 구현하기",
-        dateTime: "2025-10-01T09:33:25.213Z",
-        location: "건대입구",
-      },
-      User: {
-        teamId: "11-6",
-        id: 12,
         name: "이수정",
       },
     },
