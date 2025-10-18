@@ -29,9 +29,9 @@ function Calendar({
     <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn(
-        "bg-background p-3",
+        "bg-background p-4",
         "group/calendar",
-        "[--cell-size:--spacing(8)]",
+        "[--cell-size:--spacing(9)]",
         "[[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
         String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
         String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
@@ -165,8 +165,8 @@ function CalendarDayButton({
         "data-[range-end=true]:bg-purple-500 data-[range-end=true]:text-white",
         // ✅ 범위 중간: 옅은 배경
         "data-[range-middle=true]:bg-purple-500/15 dark:data-[range-middle=true]:bg-purple-500/20",
-        // ✅ 오늘 = 선택된 날짜가 없을 때만 표시
-        "data-[today=true]:bg-purple-500 data-[today=true]:text-white",
+        // ✅ 오늘 = 선택된 날짜가 없을 때만 텍스트 색깔만 변경
+        "data-[today=true]:text-purple-600 data-[today=true]:font-semibold",
         // 비활성/외부
         "aria-disabled:opacity-40 aria-disabled:cursor-not-allowed",
         defaultClassNames.day,
