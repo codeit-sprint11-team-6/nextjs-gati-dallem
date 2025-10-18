@@ -1,5 +1,5 @@
 // /src/apis/gatherings/gatherings.query.ts
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../_react_query/keys";
 import { invalidateGatherings } from "../_react_query/utils";
 import {
@@ -34,6 +34,34 @@ export function useGatherings(
     queryFn: () => getGatherings(query),
     enabled: options?.enabled ?? true,
     select: options?.select as any,
+  });
+}
+
+/** GET /gatherings (무한스크롤) */
+export function useInfiniteGatherings(
+  query?: Omit<GetGatheringsQuery, "limit" | "offset">,
+  options?: {
+    enabled?: boolean;
+  },
+) {
+  const LIMIT = 10;
+
+  return useInfiniteQuery({
+    queryKey: queryKeys.gatherings.list({ ...query, limit: LIMIT }),
+    queryFn: ({ pageParam = 0 }) =>
+      getGatherings({
+        ...query,
+        limit: LIMIT,
+        offset: pageParam,
+      }),
+    enabled: options?.enabled ?? true,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      // 마지막 페이지의 데이터가 LIMIT보다 적으면 더 이상 데이터가 없음
+      if (lastPage.length < LIMIT) return undefined;
+      // 다음 페이지의 offset 반환
+      return allPages.length * LIMIT;
+    },
   });
 }
 
