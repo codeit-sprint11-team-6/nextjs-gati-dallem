@@ -4,8 +4,8 @@ import { MeetingFilters } from "@/components/meeting/list/FilterBar";
 
 const DEFAULT_FILTERS: MeetingFilters = {
   keyword: "",
-  category: "all",
-  region: "all",
+  category: "DALLAEMFIT",
+  location: "",
   date: "",
   sort: "latest",
 };
@@ -24,7 +24,7 @@ export function useUrlFilters() {
   const [filters, setFilters] = useState<MeetingFilters>(() => ({
     keyword: searchParams.get("q") ?? DEFAULT_FILTERS.keyword,
     category: (searchParams.get("category") as MeetingFilters["category"]) ?? DEFAULT_FILTERS.category,
-    region: (searchParams.get("region") as MeetingFilters["region"]) ?? DEFAULT_FILTERS.region,
+    location: searchParams.get("location") ?? DEFAULT_FILTERS.location,
     date: searchParams.get("date") ?? DEFAULT_FILTERS.date,
     sort: (searchParams.get("sort") as MeetingFilters["sort"]) ?? DEFAULT_FILTERS.sort,
   }));
@@ -34,8 +34,8 @@ export function useUrlFilters() {
     const params = new URLSearchParams();
 
     if (filters.keyword) params.set("q", filters.keyword);
-    if (filters.category !== "all") params.set("category", filters.category);
-    if (filters.region !== "all") params.set("region", filters.region);
+    if (filters.category !== "DALLAEMFIT") params.set("category", filters.category);
+    if (filters.location) params.set("location", filters.location);
     if (filters.date) params.set("date", filters.date);
     if (filters.sort !== "latest") params.set("sort", filters.sort);
 
