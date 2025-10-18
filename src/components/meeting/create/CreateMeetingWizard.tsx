@@ -3,10 +3,13 @@
 import { useMemo, useState } from "react";
 import { Button } from "@/components/common/Button";
 import { Input } from "@/components/common/Input";
-import { SelectField, DateField, FileField } from "@/components/fields/index";
+import { SelectField, FileField } from "@/components/fields/index";
+import { DateTimeField } from "@/components/fields/DateTimeField";
 import { Label } from "@/components/ui/Label";
 import { useCreateGathering } from "@/apis/gatherings/gatherings.query";
 import type { CreateGatheringBody } from "@/apis/gatherings/gatherings.schema";
+import { X } from "lucide-react";
+import { DefaultGatheringType, GatheringMapper } from "@/types/gathering";
 
 type Step = 1 | 2 | 3;
 type MeetingType = "OFFICE_STRETCHING" | "MINDFULNESS" | "WORKATION";
@@ -38,19 +41,29 @@ const PREV: Record<Step, Step> = { 1: 1, 2: 1, 3: 2 };
 
 const TYPE_OPTIONS = [
   {
-    key: "OFFICE_STRETCHING" as const,
-    title: "오피스 스트레칭",
-    desc: "업무 중 스트레칭",
-    emoji: "🧘",
+    key: DefaultGatheringType.OFFICE_STRETCHING,
+    title: GatheringMapper.OFFICE_STRETCHING, // "개발자 커뮤니티"
+    desc: "개발자들의 커뮤니티",
+    emoji: "💻",
   },
-  { key: "MINDFULNESS" as const, title: "마인드풀니스", desc: "명상과 힐링", emoji: "🧠" },
-  { key: "WORKATION" as const, title: "워케이션", desc: "일과 휴가의 결합", emoji: "🏝️" },
+  {
+    key: DefaultGatheringType.MINDFULNESS,
+    title: GatheringMapper.MINDFULNESS, // "비개발자도 함께 하는 커뮤니티"
+    desc: "누구나 참여 가능",
+    emoji: "🤝",
+  },
+  {
+    key: DefaultGatheringType.WORKATION,
+    title: GatheringMapper.WORKATION, // "세미나"
+    desc: "지식 공유의 장",
+    emoji: "💼",
+  },
 ] as const;
 
 export default function CreateMeetingWizard({ onCancel, onFinished }: Props) {
   const [step, setStep] = useState<Step>(1);
   const [draft, setDraft] = useState<Draft>({
-    type: "OFFICE_STRETCHING",
+    type: null,
     name: "",
     location: "",
     imageFile: null,
@@ -106,50 +119,64 @@ export default function CreateMeetingWizard({ onCancel, onFinished }: Props) {
       await createGatheringMutation.mutateAsync(body);
       onFinished();
     } catch (error) {
-      // 에러는 QueryCache에서 전역으로 처리됨
       console.error("모임 생성 실패:", error);
     }
   };
 
   return (
     <div>
-      <h2 className="mb-4 text-lg font-semibold">모임 만들기 {step}/3</h2>
+      <div className="mb-6 flex items-center justify-between">
+        <h2 className="text-lg font-semibold">모임 만들기 {step}/3</h2>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onCancel();
+          }}
+          className="cursor-pointer rounded-lg p-1 transition-colors hover:bg-gray-100"
+          aria-label="모달 닫기"
+        >
+          <X className="h-5 w-5 text-gray-500" />
+        </button>
+      </div>
 
-      <div className="min-h-[280px]">
+      <div className="min-h-[400px]">
+        {/* Step 1: 모임 타입 선택 */}
         {step === 1 && (
           <>
-            <p className="mb-4 text-sm text-slate-600">원하시는 모임 타입을 선택해주세요.</p>
-            <div className="space-y-3">
+            <p className="mb-6 text-sm text-slate-600">원하시는 모임 타입을 선택해주세요.</p>
+            <div className="space-y-4">
               {TYPE_OPTIONS.map((opt) => {
                 const active = draft.type === opt.key;
                 return (
-                  <Button
+                  <button
                     key={opt.key}
-                    onClick={() => setDraft((d) => ({ ...d, type: opt.key }) as Draft)}
-                    variant={active ? "selected" : "outlineWhite"}
-                    size="lg"
-                    radius="lg"
-                    className="h-auto w-full justify-start py-4"
+                    onClick={() => setDraft((d) => ({ ...d, type: opt.key }))}
+                    className={`flex h-auto w-full cursor-pointer items-center gap-4 rounded-xl p-4 transition-all ${
+                      active
+                        ? "border-2 border-transparent bg-purple-100/70 [background-image:linear-gradient(rgb(243_232_255_/_0.7),rgb(243_232_255_/_0.7)),linear-gradient(to_right,var(--color-purple-500),var(--color-blue-500))] [background-clip:padding-box,border-box] bg-origin-border"
+                        : "border-2 border-gray-50 bg-gray-50 hover:border-gray-200"
+                    }`}
                   >
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-100">
-                      <span aria-hidden className="text-xl">
+                    <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center">
+                      <span aria-hidden className="text-4xl">
                         {opt.emoji}
                       </span>
                     </div>
-                    <div className="text-left">
-                      <div className="font-semibold">{opt.title}</div>
-                      <div className="text-xs font-normal text-slate-500">{opt.desc}</div>
+                    <div className="flex flex-1 flex-col items-start gap-1 text-left">
+                      <div className="text-base font-semibold text-gray-900">{opt.title}</div>
+                      <div className="text-sm font-normal text-slate-500">{opt.desc}</div>
                     </div>
-                  </Button>
+                  </button>
                 );
               })}
             </div>
           </>
         )}
 
+        {/* Step 2: 모임 정보 입력 */}
         {step === 2 && (
-          <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
-            <div className="space-y-2">
+          <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
+            <div className="space-y-3">
               <Label htmlFor="meeting-name">모임 이름</Label>
               <Input
                 id="meeting-name"
@@ -160,7 +187,7 @@ export default function CreateMeetingWizard({ onCancel, onFinished }: Props) {
               />
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-3">
               <Label>장소</Label>
               <SelectField
                 value={draft.location}
@@ -171,7 +198,7 @@ export default function CreateMeetingWizard({ onCancel, onFinished }: Props) {
               />
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-3">
               <Label>이미지</Label>
               <FileField
                 onFileSelect={(file) => setDraft((d) => ({ ...d, imageFile: file }))}
@@ -183,27 +210,28 @@ export default function CreateMeetingWizard({ onCancel, onFinished }: Props) {
           </form>
         )}
 
+        {/* Step 3: 날짜 및 정원 입력 */}
         {step === 3 && (
-          <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
-            <div className="space-y-2">
+          <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
+            <div className="space-y-3">
               <Label>모임 날짜</Label>
-              <DateField
+              <DateTimeField
                 value={draft.startDate}
                 onChange={(date) => setDraft((d) => ({ ...d, startDate: date }))}
                 size="lg"
-                placeholder="날짜를 선택해주세요"
+                placeholder="날짜와 시간을 선택해주세요"
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-3">
               <Label>마감 날짜</Label>
-              <DateField
+              <DateTimeField
                 value={draft.endDate}
                 onChange={(date) => setDraft((d) => ({ ...d, endDate: date }))}
                 size="lg"
-                placeholder="마감 날짜를 선택해주세요"
+                placeholder="마감 날짜와 시간을 선택해주세요"
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-3">
               <Label htmlFor="capacity">모임 정원</Label>
               <Input
                 id="capacity"
@@ -230,7 +258,7 @@ export default function CreateMeetingWizard({ onCancel, onFinished }: Props) {
           onClick={step === 1 ? onCancel : () => setStep((s) => PREV[s])}
           size="sm"
           radius="lg"
-          className="h-14 text-base font-semibold md:h-14 md:text-lg"
+          className="h-14 cursor-pointer text-base font-semibold md:h-14 md:text-lg"
         >
           {step === 1 ? "취소" : "이전"}
         </Button>
@@ -240,7 +268,7 @@ export default function CreateMeetingWizard({ onCancel, onFinished }: Props) {
             onClick={() => setStep((s) => NEXT[s])}
             size="sm"
             radius="lg"
-            className="h-14 text-base font-semibold md:h-14 md:text-lg"
+            className="h-14 cursor-pointer text-base font-semibold md:h-14 md:text-lg"
           >
             다음
           </Button>
@@ -250,7 +278,7 @@ export default function CreateMeetingWizard({ onCancel, onFinished }: Props) {
             onClick={submit}
             size="sm"
             radius="lg"
-            className="h-14 text-base font-semibold md:h-14 md:text-lg"
+            className="h-14 cursor-pointer text-base font-semibold md:h-14 md:text-lg"
           >
             모임 만들기
           </Button>
