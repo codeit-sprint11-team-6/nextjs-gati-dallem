@@ -42,7 +42,7 @@ export const AUTH_ERROR_MESSAGES = {
   codes: {
     INVALID_CREDENTIALS: "아이디 또는 비밀번호가 올바르지 않아요.",
     USER_NOT_FOUND: "가입되지 않은 계정이에요.",
-    EMAIL_ALREADY_TAKEN: "이미 사용 중인 이메일이에요.", // 서버 중복 응답 폴백
+    EMAIL_EXISTS: "이미 사용 중인 이메일이에요.", // 서버 중복 응답 폴백
     VALIDATION_ERROR: "입력값을 다시 확인해 주세요.",
   },
 

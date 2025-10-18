@@ -18,18 +18,32 @@ export default function Providers({ children }: { children: ReactNode }) {
 
 export function QueryProvider({ children }: { children: ReactNode }) {
   const { overlay } = useOverlay();
+
+  // _client.ts에서 401 응답은 이미 리다이렉트 처리함.
+  // 단순히 401이면 모달을 띄우지 않도록 방지하는 역할만 수행
+  const getStatus = (e: unknown) => {
+    const err = e as any;
+    const status = err?.response?.status ?? err?.status;
+    const code = err?.code;
+    if (status === 401 || code === "401") return 401;
+    return undefined;
+  };
+
+  const DEFAULT_ERROR_MSG = "문제가 발생했습니다. 다시 시도해주세요.";
   const [queryClient] = useState(
     () =>
       new QueryClient({
         queryCache: new QueryCache({
-          onError: (error) => {
-            const message = error.message ?? "문제가 발생했습니다. 다시 시도해주세요.";
+          onError: (error: unknown) => {
+            if (getStatus(error) === 401) return; // 401 리다이렉트는 _client.ts에서 처리
+            const message = (error as any)?.message ?? DEFAULT_ERROR_MSG;
             overlay(<MessageModal message={message} />);
           },
         }),
         mutationCache: new MutationCache({
-          onError: (error) => {
-            const message = error.message ?? "문제가 발생했습니다. 다시 시도해주세요.";
+          onError: (error: unknown) => {
+            if (getStatus(error) === 401) return; // 401이면 모달 띄우지 않음
+            const message = (error as any)?.message ?? DEFAULT_ERROR_MSG;
             overlay(<MessageModal message={message} />);
           },
         }),
