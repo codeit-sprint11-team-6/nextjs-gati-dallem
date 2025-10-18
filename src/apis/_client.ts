@@ -4,6 +4,7 @@ import { ApiErrorSchema } from "./_shared.schema";
 import { tokenStore } from "@/utils/auth/token.store";
 import { getErrorMessage } from "./_errorMessage";
 import { API_BASE_URL, TEAM_ID } from "@/configs/commonConfig";
+import { authActions } from "@/store/authStore";
 
 interface ReqOptionsType<T> extends RequestInit {
   /** 응답 Zod 스키마 (성공 응답) */
@@ -102,6 +103,25 @@ export class ApiClient {
       if (parsed.success) {
         const { code, message, parameter } = parsed.data as any;
         const uiMsg = getErrorMessage(resp.status, code, message);
+
+        if (resp.status === 401 && !/\/auths\/(signin|signup)/.test(path)) {
+          try {
+            await authActions.clear();
+          } catch {}
+          if (typeof window !== "undefined") {
+            const redirect = encodeURIComponent(
+              window.location.pathname + window.location.search + window.location.hash,
+            );
+            // [DEV ONLY] 개발 중 401 리다이렉트 테스트 로그
+            // - 실제 배포 시 제거 가능
+            if (process.env.NODE_ENV === "development") {
+              console.info("[apiClient] 401 → redirect to /signin", { path, code, redirect });
+            }
+            window.location.replace(`/signin?redirect=${redirect}`);
+          }
+          // 브라우저/SSR 모두 흐름 종료
+          return Promise.reject(new HttpApiError(401, uiMsg, code, parameter));
+        }
         throw new HttpApiError(resp.status, uiMsg, code, parameter);
       }
 
@@ -117,7 +137,6 @@ export class ApiClient {
 
     // 성공 응답 파싱
     const data = await resp.json();
-    // if (!options.responseSchema) return data as T;
     if (!responseSchema) return data as T;
 
     // 스키마 미스매치 시 바로 에러
