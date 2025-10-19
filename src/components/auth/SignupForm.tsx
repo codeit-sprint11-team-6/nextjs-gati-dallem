@@ -15,7 +15,7 @@ import {
 } from "@/apis/_errorMessage";
 import { AUTH_ERROR_MESSAGES } from "@/constants/auth/errorMessages";
 import { validateSignup } from "@/utils/auth/validateSignup";
-import { MIN_PASSWORD_LEN } from "@/constants/auth/constraints";
+import { EMAIL_REGEX, MIN_PASSWORD_LEN } from "@/constants/auth/constraints";
 
 type Props = { redirect?: string };
 
@@ -41,12 +41,12 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
   const isPwMatch = pw2.length > 0 && pw === pw2;
   const isPwStrongEnough = pw.length >= MIN_PASSWORD_LEN; // 필요시 강화 규칙 추가(영문/숫자/특수문자 등)
 
-  // 버튼 활성: 값 존재 & 요청 중 아님 (검증은 submit 시 validateSignup이 최종 담당)
-  const canSubmit = useMemo(
-    () =>
-      !!(name.trim() && email.trim() && company.trim() && pw && pw2 && pw === pw2) && !isPending,
-    [name, email, company, pw, pw2, isPending],
-  );
+  const canSubmit = useMemo(() => {
+    const filled = !!(name.trim() && email.trim() && company.trim() && pw && pw2);
+    const basicValid =
+      EMAIL_REGEX.test(email.trim()) && pw.length >= MIN_PASSWORD_LEN && pw === pw2;
+    return filled && basicValid && !isPending;
+  }, [name, email, company, pw, pw2, isPending]);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -170,6 +170,11 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
         </p>
       )}
 
+      {/* 이메일 형식 선검증 */}
+      {email.length > 0 && !EMAIL_REGEX.test(email.trim()) && !emailError && (
+        <p className="mt-1 text-xs text-[#FF2727]">올바른 이메일 형식을 입력해 주세요.</p>
+      )}
+
       {/* 회사명 */}
       <label className="mt-4 mb-1 text-[13px] font-medium text-slate-500">회사명</label>
       <AuthInput
@@ -220,13 +225,17 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
           if (pw2Error) setPw2Error("");
         }}
         invalid={!!pw2Error || (pw2.length > 0 && !isPwMatch)}
-        errorMessage={
-          pw2Error || (pw2.length > 0 && !isPwMatch ? "비밀번호가 일치하지 않습니다." : undefined)
-        }
+        errorMessage={pw2Error}
         aria-describedby="pw2-error"
         autoComplete="new-password"
         className="bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]"
       />
+
+      {(pw2Error || (pw2.length > 0 && !isPwMatch)) && (
+        <p id="pw2-error" className="mt-1 text-xs text-[#FF2727]">
+          {pw2Error || "비밀번호가 일치하지 않습니다."}
+        </p>
+      )}
 
       <AuthButton type="submit" disabled={!canSubmit} loading={isPending} className="mt-6">
         회원가입
