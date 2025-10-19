@@ -1,24 +1,20 @@
 import { useMemo } from "react";
 import { MeetingFilters } from "@/components/meeting/list/FilterBar";
-import { MeetingListItem } from "@/components/meeting/list/ListGrid";
+import { Gathering } from "@/types/gathering";
 
 type SortType = MeetingFilters["sort"];
 
 /**
  * 모임 목록을 필터링하고 정렬하는 로직
  */
-export function useMeetingFilter(meetings: MeetingListItem[], filters: MeetingFilters) {
+export function useMeetingFilter(meetings: Gathering[], filters: MeetingFilters) {
   return useMemo(() => {
     let result = [...meetings];
 
     // 키워드 필터
     if (filters.keyword) {
       const keyword = filters.keyword.toLowerCase();
-      result = result.filter(
-        (meeting) =>
-          meeting.name.toLowerCase().includes(keyword) ||
-          (meeting.host ?? "").toLowerCase().includes(keyword),
-      );
+      result = result.filter((meeting) => meeting.name.toLowerCase().includes(keyword));
     }
 
     // 카테고리 필터
@@ -27,8 +23,8 @@ export function useMeetingFilter(meetings: MeetingListItem[], filters: MeetingFi
     }
 
     // 지역 필터
-    if (filters.region !== "all") {
-      result = result.filter((meeting) => meeting.location === filters.region);
+    if (filters.location) {
+      result = result.filter((meeting) => meeting.location === filters.location);
     }
 
     // 날짜 필터
@@ -47,7 +43,7 @@ export function useMeetingFilter(meetings: MeetingListItem[], filters: MeetingFi
 /**
  * 모임 목록 정렬
  */
-function sortMeetings(meetings: MeetingListItem[], sortType: SortType): MeetingListItem[] {
+function sortMeetings(meetings: Gathering[], sortType: SortType): Gathering[] {
   const sorted = [...meetings];
 
   switch (sortType) {
