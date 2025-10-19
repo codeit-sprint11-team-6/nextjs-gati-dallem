@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toSafePath } from "@/utils/auth/safePath";
 import { toUserErrorMessage } from "@/apis/_errorMessage";
-import { EMAIL_REGEX, MIN_PASSWORD_LEN } from "@/constants/auth/constraints";
+import { EMAIL_REGEX } from "@/constants/auth/constraints";
 
 type Props = { redirect?: string };
 
@@ -34,8 +34,7 @@ const LoginForm = ({ redirect = "/" }: Props) => {
   const canSubmit = useMemo(() => {
     const filled = email.trim().length > 0 && pw.trim().length > 0;
     const validEmail = EMAIL_REGEX.test(email.trim());
-    const pwLenOk = pw.length >= MIN_PASSWORD_LEN;
-    return filled && validEmail && pwLenOk && !isPending;
+    return filled && validEmail && !isPending;
   }, [email, pw, isPending]);
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -45,17 +44,12 @@ const LoginForm = ({ redirect = "/" }: Props) => {
     setEmailError("");
     setPwError("");
     setServerMsg("");
+    reset();
 
     // 간단한 클라이언트 유효성 예시
     if (!email) setEmailError("이메일을 입력해 주세요.");
     if (!pw) setPwError("비밀번호를 입력해 주세요.");
     if (!email || !pw) return;
-
-    // 최소 길이 선검증 (서버 호출 차단)
-    if (pw.length < MIN_PASSWORD_LEN) {
-      setPwError(`비밀번호는 ${MIN_PASSWORD_LEN}자 이상이어야 합니다.`);
-      return;
-    }
 
     // 로그인 API 호출 (useSignin 활용)
     try {
@@ -87,6 +81,7 @@ const LoginForm = ({ redirect = "/" }: Props) => {
         value={email}
         onChange={(e) => {
           setEmail(e.target.value);
+          if (emailError) setEmailError("");
           if (serverMsg) setServerMsg("");
           if (error) reset();
         }}
@@ -111,6 +106,7 @@ const LoginForm = ({ redirect = "/" }: Props) => {
         value={pw}
         onChange={(e) => {
           setPw(e.target.value);
+          if (pwError) setPwError("");
           if (serverMsg) setServerMsg("");
           if (error) reset();
         }}
@@ -123,11 +119,6 @@ const LoginForm = ({ redirect = "/" }: Props) => {
       {pwError && (
         <p id="pw-error" className="mt-1 text-xs text-[#FF2727]">
           {pwError}
-        </p>
-      )}
-      {pw.length > 0 && pw.length < MIN_PASSWORD_LEN && !pwError && (
-        <p className="mt-1 text-xs text-[#FF2727]">
-          비밀번호는 {MIN_PASSWORD_LEN}자 이상이어야 합니다.
         </p>
       )}
 
