@@ -3,11 +3,13 @@
 import { useJoinedGatherings } from "@/apis/gatherings/gatherings.query";
 import { useReviews } from "@/apis/reviews/reviews.query";
 import Chip from "@/components/ui/Chip";
-import { useAuthStore } from "@/store/authStore";
+import Pagination from "@/components/ui/Pagination";
+import { selectUser, useAuthStore } from "@/store/authStore";
 import Image from "next/image";
-import { createContext, useContext, useState } from "react";
-import ReviewedCardItem, { ReviewCardSkeleton } from "./ReviewedCardItem";
-import UnreviewedCardItem, { UnreviewedCardSkeleton } from "./UnreviewedCardItem";
+import { useRouter, useSearchParams } from "next/navigation";
+import { createContext, useContext, useEffect, useState } from "react";
+import ReviewedCardItem, { ReviewCardSkeleton } from "./reviewed/ReviewedCardItem";
+import UnreviewedCardItem, { UnreviewedCardSkeleton } from "./unreviewed/UnreviewedCardItem";
 
 interface ReviewCardListContextType {
   writable: boolean;
@@ -21,21 +23,33 @@ function useReviewCardList() {
 }
 
 export default function ReviewCardList() {
-  const [writable, setWritable] = useState(true);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const isWritable = searchParams.get("writable") === "true";
+  const [writable, setWritable] = useState(isWritable);
+
+  function handleClickFilter() {
+    router.push(`/my/reviews?writable=${writable ? "false" : "true"}`);
+  }
+
+  useEffect(() => {
+    setWritable(isWritable);
+  }, [searchParams, isWritable]);
+
   return (
     <div className="mt-1 flex w-full flex-col items-start justify-start gap-4 md:gap-8">
       <div className="flex-start gap-2.5 lg:ml-2">
         <button
           className="cursor-pointer"
           aria-label="작성 가능한 리뷰"
-          onClick={() => !writable && setWritable(true)}
+          onClick={() => !writable && handleClickFilter()}
         >
           <Chip variant={writable ? "active" : "default"}>작성 가능한 리뷰</Chip>
         </button>
         <button
           className="cursor-pointer"
           aria-label="작성한 리뷰"
-          onClick={() => writable && setWritable(false)}
+          onClick={() => writable && handleClickFilter()}
         >
           <Chip variant={writable ? "default" : "active"}>작성한 리뷰</Chip>
         </button>
@@ -64,17 +78,24 @@ function UnreviewedCardList() {
   );
 }
 function ReviewedCardList() {
-  const { user } = useAuthStore();
-  const { isLoading, data } = useReviews({ userId: user?.id });
+  const user = useAuthStore(selectUser);
+  const [page, setPage] = useState(1);
+  const { isLoading, data: reviewResult } = useReviews({ userId: user?.id, offset: page - 1 });
+  const { data, totalPages } = reviewResult ?? { data: [], totalPages: 1 };
   return isLoading ? (
     <SkeletonList />
-  ) : data?.data.length === 0 ? (
+  ) : data.length === 0 ? (
     <EmptyList />
   ) : (
-    <div className="grid justify-stretch gap-6 divide-y-1 divide-slate-200 rounded-3xl bg-white p-6 pb-0 md:rounded-4xl lg:px-8 lg:pb-2">
-      {data?.data.map((review) => (
-        <ReviewedCardItem key={review.id} {...review} />
-      ))}
+    <div className="grid justify-stretch gap-5 md:gap-10">
+      <div className="grid justify-stretch gap-6 divide-y-1 divide-slate-200 rounded-3xl bg-white p-6 pb-0 md:rounded-4xl lg:px-8 lg:pb-2">
+        {data.map((review) => (
+          <ReviewedCardItem key={review.id} {...review} />
+        ))}
+      </div>
+      {totalPages > 1 && (
+        <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
+      )}
     </div>
   );
 }

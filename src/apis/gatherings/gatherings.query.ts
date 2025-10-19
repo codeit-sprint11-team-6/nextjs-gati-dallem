@@ -85,12 +85,7 @@ export function useCreateGathering() {
   return useMutation({
     mutationFn: (body: CreateGatheringBody): Promise<CreateGatheringResponse> =>
       createGathering(body),
-    onSuccess: async (created) => {
-      // 목록/참석목록/상세 등 갱신
-      await invalidateGatherings(queryClient);
-      // 상세는 바로 프리페치해두면 UX 좋아짐
-      await queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.detail(created.id) });
-    },
+    onSuccess: async () => await invalidateGatherings(queryClient),
   });
 }
 
@@ -99,10 +94,7 @@ export function useCancelGathering() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: number) => cancelGathering(id),
-    onSuccess: async (_, id) => {
-      await invalidateGatherings(queryClient);
-      await queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.detail(id) });
-    },
+    onSuccess: async () => await invalidateGatherings(queryClient),
   });
 }
 
@@ -133,15 +125,7 @@ export function useJoinGathering() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: number) => joinGathering(id),
-    onSuccess: async (_, id) => {
-      await invalidateGatherings(queryClient);
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.detail(id) }),
-        queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.joined() }),
-        queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.list() }),
-        queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.participants(id) }),
-      ]);
-    },
+    onSuccess: async () => await invalidateGatherings(queryClient),
   });
 }
 
@@ -150,14 +134,6 @@ export function useLeaveGathering() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: number) => leaveGathering(id),
-    onSuccess: async (_, id) => {
-      await invalidateGatherings(queryClient);
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.detail(id) }),
-        queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.joined() }),
-        queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.list() }),
-        queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.participants(id) }),
-      ]);
-    },
+    onSuccess: async () => await invalidateGatherings(queryClient),
   });
 }

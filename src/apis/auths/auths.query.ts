@@ -1,3 +1,5 @@
+// TODO: 일부 훅 통합 여부 결정 후 활성화하거나 삭제
+
 // /src/apis/auths/auths.query.ts
 import { authActions } from "@/store/authStore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -61,8 +63,7 @@ export function useUpdateAuthUser() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateAuthUser,
-    onSuccess: async (res) => {
-      authActions.setUser({ ...res });
+    onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: queryKeys.auth.me() });
     },
   });

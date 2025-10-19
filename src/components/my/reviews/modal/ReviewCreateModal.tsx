@@ -1,20 +1,30 @@
 "use client";
 
-import { useOverlay } from "@/hooks/useOverlay";
-import Modal from "../../common/Modal";
-import ScoreInput from "./ScoreInput";
-import { useState } from "react";
 import { useCreateReview } from "@/apis/reviews/reviews.query";
+import Modal from "@/components/common/Modal";
+import { useOverlay } from "@/hooks/useOverlay";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import ScoreInput from "./ScoreInput";
 
 export default function ReviewCreateModal({ id }: { id: number }) {
   const [score, setScore] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
 
   const { mutate: createReviewMutate } = useCreateReview();
+  const router = useRouter();
   const { close } = useOverlay();
 
   function handleBtnClick() {
-    createReviewMutate({ gatheringId: id, score, comment }, { onSuccess: () => close() });
+    createReviewMutate(
+      { gatheringId: id, score, comment },
+      {
+        onSuccess: async () => {
+          await router.push("/my/reviews?writable=false");
+          close();
+        },
+      },
+    );
   }
   return (
     <Modal>

@@ -1,12 +1,12 @@
 "use client";
 
 import { useGatherings } from "@/apis/gatherings/gatherings.query";
-import { useAuthStore } from "@/store/authStore";
+import { selectUser, useAuthStore } from "@/store/authStore";
 import Image from "next/image";
 import CreatedCardItem, { CreatedCardSkeleton } from "./CreatedCardItem";
 
 export default function CreatedCardList() {
-  const { user } = useAuthStore();
+  const user = useAuthStore(selectUser);
   const { isLoading, data } = useGatherings({ createdBy: user?.id });
 
   return isLoading ? (
