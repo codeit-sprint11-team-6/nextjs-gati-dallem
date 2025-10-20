@@ -5,7 +5,7 @@ import { useMemo, useState, type FormEvent } from "react";
 import AuthInput from "./ui/AuthInput";
 import AuthButton from "./ui/AuthButton";
 import { AuthPasswordInput } from "./ui/AuthPasswordInput";
-import { useSignin } from "@/hooks/auths/useSignin";
+import { useHydrateUser } from "@/apis/auths/auths.query";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toSafePath } from "@/utils/auth/safePath";
@@ -22,8 +22,16 @@ type Props = { redirect?: string };
 
 const LoginForm = ({ redirect = "/" }: Props) => {
   const router = useRouter();
+<<<<<<< Updated upstream
   // error 지우고 HttpApiError 통합 예정
+<<<<<<< HEAD
   const { mutateAsync: signinMutate, isPending, error, reset } = useSignin();
+=======
+  const { mutateAsync: signinMutate, isPending, error } = useSignin();
+=======
+  const { mutateAsync: signinMutate, isPending, error } = useHydrateUser();
+>>>>>>> Stashed changes
+>>>>>>> d5d24c6 (resolve: merge conflicts after updating develop)
 
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
