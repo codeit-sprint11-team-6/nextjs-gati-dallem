@@ -1,6 +1,26 @@
 // app/(app)/meetings/create/page.tsx
+"use client";
 
-// 빌트 통과용 코드
+import { useRouter } from "next/navigation";
+import Modal from "@/components/common/Modal";
+import CreateMeetingWizard from "@/components/meeting/create/CreateMeetingWizard";
+
 export default function CreateMeetingPage() {
-  return null; // 실제 구현 전까지 렌더링 비활성화
+  const router = useRouter();
+
+  const handleFinish = () => {
+    router.push("/meetings");
+  };
+
+  const handleCancel = () => {
+    router.back();
+  };
+
+  return (
+    <main className="mx-auto max-w-2xl px-4 py-8">
+      <Modal className="gap-6">
+        <CreateMeetingWizard onCancel={handleCancel} onFinished={handleFinish} />
+      </Modal>
+    </main>
+  );
 }

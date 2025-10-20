@@ -1,4 +1,5 @@
-/* build를 위해서 이게 필요 */
+import CreateMeetingModal from "@/components/meeting/create/CreateMeetingModal";
+
 export default function CreateMeetingPage() {
-  return <div>회의 생성</div>;
+  return <CreateMeetingModal />;
 }

@@ -1,4 +1,5 @@
 import { useOverlay } from "@/hooks/useOverlay";
+import { useModalHistory } from "@/hooks/useModalHistory";
 import { cn } from "@/utils/classNames";
 import Image from "next/image";
 import { ButtonHTMLAttributes } from "react";
@@ -13,6 +14,11 @@ export default function Modal({
   children?: React.ReactNode;
   className?: string;
 }) {
+  const { close } = useOverlay();
+
+  // 뒤로가기로 모달 닫기 기능
+  useModalHistory(true, close);
+
   return (
     <div
       className="animate-fade-in fixed inset-0 z-100 flex items-center justify-center bg-[rgba(0,0,0,0.5)]"
