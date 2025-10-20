@@ -30,7 +30,7 @@ export default function MeetingDetailPage() {
   const { data: participants = [], isLoading: participantsLoading } = useParticipants(meetingId);
   const { data: reviewList, isLoading: reviewsLoading } = useReviews({
     gatheringId: meetingId,
-    page: currentPage,
+    offset: (currentPage - 1) * 10, // 페이지당 10개 아이템으로 가정
   });
 
   // Mutation hooks
