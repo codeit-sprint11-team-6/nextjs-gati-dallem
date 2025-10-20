@@ -1,12 +1,9 @@
 // src/apis/auths/auths.endpoints.ts
-// const TEAM_ID = process.env.NEXT_PUBLIC_TEAM_ID ?? "11-6";
 
-// export const authEndpoints = {
-//   signup: () => `/${TEAM_ID}/auths/signup`,
-//   signin: () => `/${TEAM_ID}/auths/signin`,
-//   signout: () => `/${TEAM_ID}/auths/signout`,
-//   me: () => `/${TEAM_ID}/auths/user`,
-// };
+/**
+ * Auth 관련 API 엔드포인트 정의
+ * - ApiClient가 BASE_URL과 TEAM_ID를 이어 붙여 최종 요청 URL을 생성합니다.
+ */
 
 export const authEndpoints = {
   signup: () => "/auths/signup",

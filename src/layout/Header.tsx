@@ -16,6 +16,7 @@ interface HeaderProps {
   favoriteCount?: number;
   userProfile?: UserProfile;
   logoAltText?: string;
+  className?: string;
 }
 
 /**

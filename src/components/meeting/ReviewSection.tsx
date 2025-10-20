@@ -92,6 +92,8 @@ interface ReviewSectionProps {
   reviewList?: ReviewList;
   // 또는 개별 props로 전달
   reviews?: Review[];
+  averageRating?: number;
+  totalReviews?: number;
   currentPage?: number;
   totalPages?: number;
   totalItemCount?: number;

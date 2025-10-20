@@ -19,7 +19,7 @@ export default function MyPageTab() {
           <Link href="/my/bookings">나의 모임</Link>
         </li>
         <li className={cn(listItemClassName, cond(isReviews, activeItemClassName))}>
-          <Link href="/my/reviews">나의 리뷰</Link>
+          <Link href="/my/reviews?writable=true">나의 리뷰</Link>
         </li>
         <li className={cn(listItemClassName, cond(isHosted, activeItemClassName))}>
           <Link href="/my/hosted">내가 만든 모임</Link>

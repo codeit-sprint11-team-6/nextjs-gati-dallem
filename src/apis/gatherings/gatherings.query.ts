@@ -1,5 +1,5 @@
 // /src/apis/gatherings/gatherings.query.ts
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../_react_query/keys";
 import { invalidateGatherings } from "../_react_query/utils";
 import {
@@ -37,6 +37,34 @@ export function useGatherings(
   });
 }
 
+/** GET /gatherings (무한스크롤) */
+export function useInfiniteGatherings(
+  query?: Omit<GetGatheringsQuery, "limit" | "offset">,
+  options?: {
+    enabled?: boolean;
+  },
+) {
+  const LIMIT = 10;
+
+  return useInfiniteQuery({
+    queryKey: queryKeys.gatherings.list({ ...query, limit: LIMIT }),
+    queryFn: ({ pageParam = 0 }) =>
+      getGatherings({
+        ...query,
+        limit: LIMIT,
+        offset: pageParam,
+      }),
+    enabled: options?.enabled ?? true,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      // 마지막 페이지의 데이터가 LIMIT보다 적으면 더 이상 데이터가 없음
+      if (lastPage.length < LIMIT) return undefined;
+      // 다음 페이지의 offset 반환
+      return allPages.length * LIMIT;
+    },
+  });
+}
+
 /** GET /gatherings/{id} */
 export function useGatheringDetail(
   id: number | undefined,
@@ -57,12 +85,7 @@ export function useCreateGathering() {
   return useMutation({
     mutationFn: (body: CreateGatheringBody): Promise<CreateGatheringResponse> =>
       createGathering(body),
-    onSuccess: async (created) => {
-      // 목록/참석목록/상세 등 갱신
-      await invalidateGatherings(queryClient);
-      // 상세는 바로 프리페치해두면 UX 좋아짐
-      await queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.detail(created.id) });
-    },
+    onSuccess: async () => await invalidateGatherings(queryClient),
   });
 }
 
@@ -71,10 +94,7 @@ export function useCancelGathering() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: number) => cancelGathering(id),
-    onSuccess: async (_, id) => {
-      await invalidateGatherings(queryClient);
-      await queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.detail(id) });
-    },
+    onSuccess: async () => await invalidateGatherings(queryClient),
   });
 }
 
@@ -105,15 +125,7 @@ export function useJoinGathering() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: number) => joinGathering(id),
-    onSuccess: async (_, id) => {
-      await invalidateGatherings(queryClient);
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.detail(id) }),
-        queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.joined() }),
-        queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.list() }),
-        queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.participants(id) }),
-      ]);
-    },
+    onSuccess: async () => await invalidateGatherings(queryClient),
   });
 }
 
@@ -122,14 +134,6 @@ export function useLeaveGathering() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: number) => leaveGathering(id),
-    onSuccess: async (_, id) => {
-      await invalidateGatherings(queryClient);
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.detail(id) }),
-        queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.joined() }),
-        queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.list() }),
-        queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.participants(id) }),
-      ]);
-    },
+    onSuccess: async () => await invalidateGatherings(queryClient),
   });
 }

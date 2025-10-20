@@ -1,4 +1,5 @@
 import { useOverlay } from "@/hooks/useOverlay";
+import { useModalHistory } from "@/hooks/useModalHistory";
 import { cn } from "@/utils/classNames";
 import Image from "next/image";
 import { ButtonHTMLAttributes } from "react";
@@ -13,6 +14,11 @@ export default function Modal({
   children?: React.ReactNode;
   className?: string;
 }) {
+  const { close } = useOverlay();
+
+  // 뒤로가기로 모달 닫기 기능
+  useModalHistory(true, close);
+
   return (
     <div
       className="animate-fade-in fixed inset-0 z-100 flex items-center justify-center bg-[rgba(0,0,0,0.5)]"
@@ -59,10 +65,12 @@ function ModalOneButton({ children, ...props }: ButtonHTMLAttributes<HTMLButtonE
 Modal.OneButton = ModalOneButton;
 
 function ModalTwoButton({
+  leftBtnText = "취소",
   rightBtnText = "확인",
   rightBtnDisabled = false,
   onRightBtnClick = () => {},
 }: {
+  leftBtnText?: string;
   rightBtnText?: string;
   rightBtnDisabled?: boolean;
   onRightBtnClick?: () => void;
@@ -74,7 +82,7 @@ function ModalTwoButton({
         className="btn rounded-2xl border-1 border-[#DDDDDD] bg-white p-3 text-[#737373] md:p-4 md:text-xl"
         onClick={close}
       >
-        취소
+        {leftBtnText}
       </button>
       <button
         className="btn rounded-2xl bg-purple-500 p-3 font-bold text-white disabled:cursor-not-allowed disabled:bg-gray-300 md:p-4 md:text-xl"

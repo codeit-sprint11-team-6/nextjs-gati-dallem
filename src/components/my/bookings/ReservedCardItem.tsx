@@ -1,8 +1,8 @@
 "use client";
 
+import { Card } from "@/components/common/Card";
 import { JoinedGathering } from "@/types";
 import { cn } from "@/utils/classNames";
-import { Card } from "../../common/Card";
 
 /** 마이페이지 나의 모임 카드 컴포넌트 */
 export default function ReservedCardItem({
@@ -15,13 +15,17 @@ export default function ReservedCardItem({
   location,
   isCompleted,
   isReviewed,
+  canceledAt,
 }: JoinedGathering) {
   return (
     <Card>
       <Card.Image image={image} />
       <Card.Detail>
         <div className="flex flex-col gap-3.5 md:gap-4">
-          <Card.Tags isCompleted={isCompleted} isConfirmed={participantCount >= capacity} />
+          <Card.Tags
+            {...{ isCompleted, canceledAt }}
+            isConfirmed={isCompleted || participantCount >= 5}
+          />
           <div className="flex flex-col items-start justify-between gap-4">
             <Card.Title id={id}>
               <div className="flex gap-1.5 md:gap-2">{name}</div>

@@ -1,13 +1,13 @@
 "use client";
 
-import { useLeaveGathering } from "@/apis/gatherings/gatherings.query";
 import { useOverlay } from "@/hooks/useOverlay";
 import { cn } from "@/utils/classNames";
 import { formatDateAndTime } from "@/utils/datetime";
 import Image from "next/image";
 import Link from "next/link";
-import ReviewCreateModal from "../my/reviews/ReviewCreateModal";
-import { CompletedChip, ConfirmChip } from "../ui/Chip";
+import ConfirmLeaveModal from "../my/bookings/ConfirmLeaveModal";
+import ReviewCreateModal from "../my/reviews/modal/ReviewCreateModal";
+import Chip, { CompletedChip, ConfirmChip } from "../ui/Chip";
 
 /**
  * CCP로 직접 구현하는 모임 카드 컴포넌트
@@ -40,7 +40,7 @@ function CardImage({ image }: { image?: string }) {
           sizes="100vw, (min-width: 768px) 200px"
         />
       ) : (
-        <div className="h-full w-full bg-gray-200" />
+        <div className="h-full w-full bg-gray-200" data-testid="no-card-image" />
       )}
     </div>
   );
@@ -59,14 +59,20 @@ Card.Detail = CardDetail;
 function CardTags({
   isCompleted = false,
   isConfirmed = false,
+  canceledAt = null,
 }: {
   isCompleted?: boolean;
   isConfirmed?: boolean;
+  canceledAt?: string | null;
 }) {
-  return (
+  return isCompleted || canceledAt === null ? (
     <div className="flex-start gap-2">
       <CompletedChip isCompleted={isCompleted} />
       <ConfirmChip isConfirmed={isConfirmed} />
+    </div>
+  ) : (
+    <div className="flex-start">
+      <Chip variant="disabled">취소된 모임</Chip>
     </div>
   );
 }
@@ -123,7 +129,7 @@ Card.GatheringDetail = CardGatheringDetail;
 /** 모임 찜하기 버튼 */
 function CardLikeButton({ isLiked = false }: { isLiked?: boolean }) {
   function handleLikeGathering() {
-    // TODO
+    // TODO: 찜하기/취소 기능 구현
   }
   return (
     <button
@@ -159,10 +165,9 @@ function CardReservedButton({
   isReviewed?: boolean;
 }) {
   const { overlay } = useOverlay();
-  const { mutate: leaveGatheringMutate } = useLeaveGathering();
 
   function handleCancel() {
-    leaveGatheringMutate(id);
+    overlay(<ConfirmLeaveModal id={id} />);
   }
 
   function handleWriteReview() {
@@ -185,7 +190,7 @@ function CardReservedButton({
           className="btn rounded-2xl border-1 border-purple-500 px-6 py-2.5 text-base font-semibold text-purple-500"
           onClick={handleCancel}
         >
-          예약 취소하기
+          참여 취소하기
         </button>
       )}
     </div>
@@ -194,7 +199,7 @@ function CardReservedButton({
 Card.ReservedButton = CardReservedButton;
 
 /** 나의 리뷰 카드 버튼 */
-function CardReviewButton({ id, isReviewed = false }: { id: number; isReviewed?: boolean }) {
+function CardReviewButton({ id }: { id: number }) {
   const { overlay } = useOverlay();
 
   function handleWriteReview() {
@@ -203,16 +208,12 @@ function CardReviewButton({ id, isReviewed = false }: { id: number; isReviewed?:
 
   return (
     <div className="flex-end w-full md:w-fit">
-      {!isReviewed ? (
-        <button
-          className="btn rounded-2xl bg-purple-100 px-6 py-2.5 text-base font-bold text-purple-500"
-          onClick={handleWriteReview}
-        >
-          리뷰 작성하기
-        </button>
-      ) : (
-        <></>
-      )}
+      <button
+        className="btn rounded-2xl bg-purple-100 px-6 py-2.5 text-base font-bold text-purple-500"
+        onClick={handleWriteReview}
+      >
+        리뷰 작성하기
+      </button>
     </div>
   );
 }

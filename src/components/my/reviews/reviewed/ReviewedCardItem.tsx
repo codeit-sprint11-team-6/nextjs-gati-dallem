@@ -7,9 +7,10 @@ import Image from "next/image";
 import Link from "next/link";
 import HeartScore from "./HeartScore";
 
+/** 마이페이지 나의 리뷰 - 작성한 리뷰 카드 컴포넌트 */
 export default function ReviewedCardItem({ Gathering, User, score, createdAt, comment }: Review) {
   return (
-    <div className="flex items-start justify-start gap-4 pb-6">
+    <div className="flex items-start justify-start gap-4 pb-6" data-testid="reviewed-item">
       {Gathering.image && (
         <div className="relative hidden aspect-square w-20 shrink-0 overflow-hidden rounded-xl border-1 border-slate-100 md:block md:w-[160px] md:rounded-3xl">
           <Image
@@ -17,7 +18,7 @@ export default function ReviewedCardItem({ Gathering, User, score, createdAt, co
             src={Gathering.image}
             alt="모임 이미지"
             fill
-            sizes="80px, (min-width: 768px) 160px"
+            sizes="200px"
           />
         </div>
       )}
@@ -67,7 +68,10 @@ export default function ReviewedCardItem({ Gathering, User, score, createdAt, co
 
 export function ReviewCardSkeleton() {
   return (
-    <div className="flex animate-pulse items-start justify-start gap-4 pb-6">
+    <div
+      className="flex animate-pulse items-start justify-start gap-4 pb-6"
+      aria-label="작성한 리뷰 목록 스켈레톤"
+    >
       <div className="hidden aspect-square w-20 rounded-xl bg-slate-100 md:block md:w-[160px] md:rounded-3xl" />
       <div className="grid w-full gap-4">
         <div className="grid gap-2">

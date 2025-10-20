@@ -1,4 +1,4 @@
-import { JoinedGathering, Review } from "@/types";
+import { JoinedGathering, ReviewList } from "@/types";
 
 export const mockUnreviewed: JoinedGathering[] = [
   {
@@ -12,7 +12,7 @@ export const mockUnreviewed: JoinedGathering[] = [
     participantCount: 1,
     capacity: 28,
     image:
-      "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1758264082588_images.jpeg",
+      "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1760431482840_68747470733a2f2f7365637572652e6d65657475707374617469632e636f6d2f70686f746f732f6576656e742f322f622f392f632f686967687265735f3531383239313136342e6a706567.avif",
     createdBy: 2227,
     canceledAt: null,
     joinedAt: "2025-09-25T07:22:04.094Z",
@@ -30,7 +30,7 @@ export const mockUnreviewed: JoinedGathering[] = [
     participantCount: 1,
     capacity: 28,
     image:
-      "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1758264082588_images.jpeg",
+      "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1760431482840_68747470733a2f2f7365637572652e6d65657475707374617469632e636f6d2f70686f746f732f6576656e742f322f622f392f632f686967687265735f3531383239313136342e6a706567.avif",
     createdBy: 2227,
     canceledAt: null,
     joinedAt: "2025-09-25T07:22:04.094Z",
@@ -48,7 +48,7 @@ export const mockUnreviewed: JoinedGathering[] = [
     participantCount: 1,
     capacity: 28,
     image:
-      "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1758264082588_images.jpeg",
+      "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1760431482840_68747470733a2f2f7365637572652e6d65657475707374617469632e636f6d2f70686f746f732f6576656e742f322f622f392f632f686967687265735f3531383239313136342e6a706567.avif",
     createdBy: 2227,
     canceledAt: null,
     joinedAt: "2025-09-25T07:22:04.094Z",
@@ -57,68 +57,221 @@ export const mockUnreviewed: JoinedGathering[] = [
   },
 ];
 
-export const mockReviewed: Review[] = [
-  {
-    teamId: "11-6",
-    id: 1,
-    score: 5,
-    comment:
-      "좋아요 너무 좋아요 1\n좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 ",
-    createdAt: "2025-10-01T09:33:25.213Z",
-    Gathering: {
+export const mockReviewed: ReviewList = {
+  totalItemCount: 12,
+  currentPage: 1,
+  totalPages: 2,
+  data: [
+    {
       teamId: "11-6",
       id: 1,
-      type: "WORKATION",
-      name: "React-Query로 우아하게 상태 관리 하기",
-      dateTime: "2025-10-01T09:33:25.213Z",
-      location: "홍대입구",
-      image:
-        "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1758264082588_images.jpeg",
+      score: 5,
+      comment: "첫 줄\n둘째 줄",
+      createdAt: "2025-10-01T09:33:25.213Z",
+      Gathering: {
+        teamId: "11-6",
+        id: 1,
+        type: "WORKATION",
+        name: "React-Query로 우아하게 상태 관리 하기",
+        dateTime: "2025-10-01T09:33:25.213Z",
+        location: "홍대입구",
+        image:
+          "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1760431482840_68747470733a2f2f7365637572652e6d65657475707374617469632e636f6d2f70686f746f732f6576656e742f322f622f392f632f686967687265735f3531383239313136342e6a706567.avif",
+      },
+      User: {
+        teamId: "11-6",
+        id: 1,
+        name: "이수정",
+      },
     },
-    User: {
-      teamId: "11-6",
-      id: 1,
-      name: "이수정",
-    },
-  },
-  {
-    teamId: "11-6",
-    id: 2,
-    score: 5,
-    comment: "좋아요 너무 좋아요 2",
-    createdAt: "2025-10-01T09:33:25.213Z",
-    Gathering: {
+    {
       teamId: "11-6",
       id: 2,
-      type: "MINDFULNESS",
-      name: "Zustand로 우아하게 상태 관리 하기",
-      dateTime: "2025-10-01T09:33:25.213Z",
-      location: "을지로3가",
+      score: 5,
+      comment: "좋아요 너무 좋아요 2",
+      createdAt: "2025-10-01T09:33:25.213Z",
+      Gathering: {
+        teamId: "11-6",
+        id: 2,
+        type: "MINDFULNESS",
+        name: "Zustand로 우아하게 상태 관리 하기",
+        dateTime: "2025-10-01T09:33:25.213Z",
+        location: "을지로3가",
+      },
+      User: {
+        teamId: "11-6",
+        id: 1,
+        name: "이수정",
+      },
     },
-    User: {
-      teamId: "11-6",
-      id: 1,
-      name: "이수정",
-    },
-  },
-  {
-    teamId: "11-6",
-    id: 3,
-    score: 5,
-    comment: "좋아요 너무 좋아요 3",
-    createdAt: "2025-10-01T09:33:25.213Z",
-    Gathering: {
+    {
       teamId: "11-6",
       id: 3,
-      type: "OFFICE_STRETCHING",
-      name: "Framer Motion으로 우아하게 애니메이션 구현하기",
-      dateTime: "2025-10-01T09:33:25.213Z",
-      location: "건대입구",
+      score: 5,
+      comment: "좋아요 너무 좋아요 3",
+      createdAt: "2025-10-01T09:33:25.213Z",
+      Gathering: {
+        teamId: "11-6",
+        id: 3,
+        type: "OFFICE_STRETCHING",
+        name: "Framer Motion으로 우아하게 애니메이션 구현하기",
+        dateTime: "2025-10-01T09:33:25.213Z",
+        location: "건대입구",
+      },
+      User: {
+        teamId: "11-6",
+        id: 1,
+        name: "이수정",
+      },
     },
-    User: {
+    {
       teamId: "11-6",
-      id: 1,
-      name: "이수정",
+      id: 4,
+      score: 5,
+      comment:
+        "좋아요 너무 좋아요 1\n좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 ",
+      createdAt: "2025-10-01T09:33:25.213Z",
+      Gathering: {
+        teamId: "11-6",
+        id: 4,
+        type: "WORKATION",
+        name: "React-Query로 우아하게 상태 관리 하기",
+        dateTime: "2025-10-01T09:33:25.213Z",
+        location: "홍대입구",
+        image:
+          "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1760431482840_68747470733a2f2f7365637572652e6d65657475707374617469632e636f6d2f70686f746f732f6576656e742f322f622f392f632f686967687265735f3531383239313136342e6a706567.avif",
+      },
+      User: {
+        teamId: "11-6",
+        id: 1,
+        name: "이수정",
+      },
     },
-  },
-];
+    {
+      teamId: "11-6",
+      id: 5,
+      score: 5,
+      comment: "좋아요 너무 좋아요 2",
+      createdAt: "2025-10-01T09:33:25.213Z",
+      Gathering: {
+        teamId: "11-6",
+        id: 5,
+        type: "MINDFULNESS",
+        name: "Zustand로 우아하게 상태 관리 하기",
+        dateTime: "2025-10-01T09:33:25.213Z",
+        location: "을지로3가",
+      },
+      User: {
+        teamId: "11-6",
+        id: 1,
+        name: "이수정",
+      },
+    },
+    {
+      teamId: "11-6",
+      id: 6,
+      score: 5,
+      comment: "좋아요 너무 좋아요 3",
+      createdAt: "2025-10-01T09:33:25.213Z",
+      Gathering: {
+        teamId: "11-6",
+        id: 3,
+        type: "OFFICE_STRETCHING",
+        name: "Framer Motion으로 우아하게 애니메이션 구현하기",
+        dateTime: "2025-10-01T09:33:25.213Z",
+        location: "건대입구",
+      },
+      User: {
+        teamId: "11-6",
+        id: 6,
+        name: "이수정",
+      },
+    },
+    {
+      teamId: "11-6",
+      id: 7,
+      score: 5,
+      comment:
+        "좋아요 너무 좋아요 1\n좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 ",
+      createdAt: "2025-10-01T09:33:25.213Z",
+      Gathering: {
+        teamId: "11-6",
+        id: 7,
+        type: "WORKATION",
+        name: "React-Query로 우아하게 상태 관리 하기",
+        dateTime: "2025-10-01T09:33:25.213Z",
+        location: "홍대입구",
+        image:
+          "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1760431482840_68747470733a2f2f7365637572652e6d65657475707374617469632e636f6d2f70686f746f732f6576656e742f322f622f392f632f686967687265735f3531383239313136342e6a706567.avif",
+      },
+      User: {
+        teamId: "11-6",
+        id: 1,
+        name: "이수정",
+      },
+    },
+    {
+      teamId: "11-6",
+      id: 8,
+      score: 5,
+      comment: "좋아요 너무 좋아요 2",
+      createdAt: "2025-10-01T09:33:25.213Z",
+      Gathering: {
+        teamId: "11-6",
+        id: 8,
+        type: "MINDFULNESS",
+        name: "Zustand로 우아하게 상태 관리 하기",
+        dateTime: "2025-10-01T09:33:25.213Z",
+        location: "을지로3가",
+      },
+      User: {
+        teamId: "11-6",
+        id: 1,
+        name: "이수정",
+      },
+    },
+    {
+      teamId: "11-6",
+      id: 9,
+      score: 5,
+      comment: "좋아요 너무 좋아요 3",
+      createdAt: "2025-10-01T09:33:25.213Z",
+      Gathering: {
+        teamId: "11-6",
+        id: 9,
+        type: "OFFICE_STRETCHING",
+        name: "Framer Motion으로 우아하게 애니메이션 구현하기",
+        dateTime: "2025-10-01T09:33:25.213Z",
+        location: "건대입구",
+      },
+      User: {
+        teamId: "11-6",
+        id: 1,
+        name: "이수정",
+      },
+    },
+    {
+      teamId: "11-6",
+      id: 10,
+      score: 5,
+      comment:
+        "좋아요 너무 좋아요 1\n좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 좋아요 너무 좋아요 1 ",
+      createdAt: "2025-10-01T09:33:25.213Z",
+      Gathering: {
+        teamId: "11-6",
+        id: 10,
+        type: "WORKATION",
+        name: "React-Query로 우아하게 상태 관리 하기",
+        dateTime: "2025-10-01T09:33:25.213Z",
+        location: "홍대입구",
+        image:
+          "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1760431482840_68747470733a2f2f7365637572652e6d65657475707374617469632e636f6d2f70686f746f732f6576656e742f322f622f392f632f686967687265735f3531383239313136342e6a706567.avif",
+      },
+      User: {
+        teamId: "11-6",
+        id: 10,
+        name: "이수정",
+      },
+    },
+  ],
+};

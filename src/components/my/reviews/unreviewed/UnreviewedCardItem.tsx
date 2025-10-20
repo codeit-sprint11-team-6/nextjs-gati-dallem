@@ -1,10 +1,10 @@
 "use client";
 
+import { Card } from "@/components/common/Card";
 import { JoinedGathering } from "@/types";
-import { Card } from "../../common/Card";
 import { cn } from "@/utils/classNames";
 
-/** 마이페이지 나의 리뷰 카드 컴포넌트 */
+/** 마이페이지 나의 리뷰 - 작성 가능한 리뷰 카드 컴포넌트 */
 export default function UnreviewedCardItem({
   id,
   name,
@@ -13,7 +13,6 @@ export default function UnreviewedCardItem({
   capacity,
   dateTime,
   location,
-  isReviewed,
 }: JoinedGathering) {
   return (
     <Card>
@@ -25,7 +24,7 @@ export default function UnreviewedCardItem({
           </Card.Title>
           <div className="flex-between w-full flex-col gap-6 md:flex-row md:gap-3">
             <Card.GatheringDetail {...{ participantCount, capacity, location, dateTime }} />
-            <Card.ReviewButton id={id} isReviewed={isReviewed} />
+            <Card.ReviewButton id={id} />
           </div>
         </div>
       </Card.Detail>

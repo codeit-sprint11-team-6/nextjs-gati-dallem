@@ -10,8 +10,9 @@ import type {
 
 /** 단일 Gathering DTO → Domain */
 export function toGathering(
-  dto: GetGatheringDetailResponse | GetGatheringsResponse[number] | CreateGatheringResponse,
+  data: GetGatheringDetailResponse | GetGatheringsResponse[number] | CreateGatheringResponse,
 ): Gathering {
+  const dto = { canceledAt: null, ...data };
   return {
     teamId: dto.teamId,
     id: dto.id,
@@ -22,8 +23,9 @@ export function toGathering(
     location: dto.location,
     participantCount: dto.participantCount,
     capacity: dto.capacity,
-    image: dto.image,
+    image: dto.image ?? undefined,
     createdBy: dto.createdBy,
+    canceledAt: dto.canceledAt,
   };
 }
 

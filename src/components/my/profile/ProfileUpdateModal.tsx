@@ -1,12 +1,12 @@
 "use client";
 
 import { useUpdateAuthUser } from "@/apis/auths/auths.query";
+import Modal from "@/components/common/Modal";
 import { useOverlay } from "@/hooks/useOverlay";
 import { useAuthStore } from "@/store/authStore";
 import { AuthUser } from "@/types";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import Modal from "../../common/Modal";
 import ProfileUpdateForm from "./ProfileUpdateForm";
 
 const initialProfileData = { image: null, name: "", companyName: "", email: "" };
@@ -54,7 +54,7 @@ export default function ProfileUpdateModal() {
     updateMutate.mutate({ companyName, image }, { onSuccess: () => close() });
   }
   return (
-    <Modal>
+    <Modal data-testid="profile-update-modal">
       <Modal.Header>프로필 수정하기</Modal.Header>
       <div className="grid justify-stretch gap-8">
         <div className="flex-center">
@@ -65,6 +65,7 @@ export default function ProfileUpdateModal() {
               accept="image/*"
               className="absolute top-0 bottom-0 z-1 w-[114px] cursor-pointer rounded-full opacity-0"
               onChange={handleChangeProfileImage}
+              data-testid="profile-image-input"
             />
             <div className="relative h-[114px] w-[114px] overflow-hidden rounded-full border-1 border-slate-200">
               <Image

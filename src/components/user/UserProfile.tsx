@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
 import Avatar, { type UserProfile } from "@/components/ui/Avatar";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 interface UserProfileProps {
@@ -49,32 +49,40 @@ function ProfileDropdown({ setIsProfileOpen, onLogout }: ProfileDropdownProps) {
   };
 
   return (
-    <div className="absolute right-0 z-50 mt-2 w-48 rounded-md border border-gray-200 bg-white py-1 shadow-lg">
+    <div className="absolute right-0 z-50 mt-2 w-48 overflow-hidden rounded-md border border-gray-200 bg-white shadow-lg">
       <Link
-        href="/my/profile"
-        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+        href="/my/bookings?profileEdit=true"
+        className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100"
         onClick={() => setIsProfileOpen(false)}
       >
-        프로필
+        내 정보 수정
       </Link>
+      <hr className="border-slate-200" />
       <Link
         href="/my/bookings"
+        className="block px-4 pt-3 pb-2 text-sm text-gray-700 hover:bg-gray-100"
+        onClick={() => setIsProfileOpen(false)}
+      >
+        참여 내역
+      </Link>
+      <Link
+        href="/my/reviews?writable=true"
         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
         onClick={() => setIsProfileOpen(false)}
       >
-        예약 내역
+        리뷰 작성
       </Link>
       <Link
         href="/my/hosted"
-        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+        className="block px-4 pt-2 pb-3 text-sm text-gray-700 hover:bg-gray-100"
         onClick={() => setIsProfileOpen(false)}
       >
         내가 만든 모임
       </Link>
-      <hr className="my-1" />
+      <hr className="h-2 border-y-1 border-slate-200 bg-slate-100" />
       <button
         type="button"
-        className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+        className="block w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-100"
         onClick={handleLogout}
       >
         로그아웃
