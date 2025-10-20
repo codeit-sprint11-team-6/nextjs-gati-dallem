@@ -25,13 +25,18 @@ import { tokenStore } from "@/utils/auth/token.store";
 
 /** 회원가입 (메시지 DTO) */
 export const signup = async (body: SignupBody): Promise<SignupResponse> => {
-  const parsed = SignupBodySchema.parse(body);
-  const res = await apiClient.post<SignupResponse>(
-    authEndpoints.signup(),
-    parsed,
-    SignupResponseSchema,
-  );
-  return res;
+  const parsed = SignupBodySchema.safeParse(body);
+  if (!parsed.success) {
+    const first = parsed.error.issues[0];
+    const field = Array.isArray(first?.path) ? String(first.path[0]) : undefined;
+    throw new HttpApiError(
+      400,
+      first?.message ?? "입력값을 확인해주세요.",
+      "VALIDATION_ERROR",
+      field,
+    );
+  }
+  return apiClient.post<SignupResponse>(authEndpoints.signup(), parsed.data, SignupResponseSchema);
 };
 
 /** 로그인 (토큰/메시지 DTO) - 토큰 저장 후 응답 반환 */

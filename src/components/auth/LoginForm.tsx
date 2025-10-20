@@ -91,7 +91,6 @@ const LoginForm = ({ redirect = "/" }: Props) => {
 
       <label className="mt-4 mb-1 text-[13px] font-medium text-slate-500">비밀번호</label>
       <AuthPasswordInput
-        type="password"
         placeholder="비밀번호를 입력해 주세요"
         value={pw}
         onChange={(e) => setPw(e.target.value)}
