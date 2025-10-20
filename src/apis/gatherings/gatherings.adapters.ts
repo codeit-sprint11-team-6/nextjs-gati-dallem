@@ -23,7 +23,7 @@ export function toGathering(
     location: dto.location,
     participantCount: dto.participantCount,
     capacity: dto.capacity,
-    image: dto.image,
+    image: dto.image ?? undefined,
     createdBy: dto.createdBy,
     canceledAt: dto.canceledAt,
   };

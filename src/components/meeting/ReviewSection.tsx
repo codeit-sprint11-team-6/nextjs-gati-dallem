@@ -127,7 +127,7 @@ export default function ReviewSection({
       {/* 리뷰 목록 또는 빈 상태 */}
       {isEmpty ? (
         // 빈 상태
-        <div className="flex flex-col items-center justify-center rounded-3xl bg-white py-16">
+        <div className="flex flex-col items-center justify-center rounded-xl bg-white py-16 md:rounded-3xl">
           <div className="relative mb-6 flex h-24 w-24 items-center justify-center sm:h-32 sm:w-32">
             <Image
               src="/image/empty.svg"
@@ -139,7 +139,7 @@ export default function ReviewSection({
           <h3 className="mb-2 text-lg font-semibold text-gray-400">아직 리뷰가 없어요</h3>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-3xl bg-white px-12 pt-10 pb-12">
+        <div className="overflow-hidden rounded-xl bg-white px-12 pt-10 pb-12 md:rounded-3xl">
           {displayReviews.map((review: Review, index: number) => (
             <ReviewCard
               key={review.id}

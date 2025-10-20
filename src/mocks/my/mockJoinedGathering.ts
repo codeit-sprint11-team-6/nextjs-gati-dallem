@@ -34,7 +34,7 @@ export const mockJoinedGathering: JoinedGathering[] = [
     createdBy: 2227,
     canceledAt: null,
     joinedAt: "2025-09-25T07:22:04.094Z",
-    isCompleted: false,
+    isCompleted: true,
     isReviewed: false,
   },
   {
@@ -53,6 +53,6 @@ export const mockJoinedGathering: JoinedGathering[] = [
     canceledAt: null,
     joinedAt: "2025-09-25T07:22:04.094Z",
     isCompleted: true,
-    isReviewed: false,
+    isReviewed: true,
   },
 ];

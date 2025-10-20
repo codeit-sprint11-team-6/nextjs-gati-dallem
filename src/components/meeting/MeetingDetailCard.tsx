@@ -155,7 +155,7 @@ export default function MeetingDetailCard({
                 size="lg"
                 className="h-12 flex-1 border-2 border-purple-200 text-base font-medium text-purple-600 hover:border-purple-300 hover:bg-purple-50"
               >
-                {isLeaving ? "취소 중..." : "모임 취소"}
+                {isLeaving ? "취소 중..." : "취소하기"}
               </Button>
 
               {/* 공유하기 버튼 */}
@@ -178,9 +178,9 @@ export default function MeetingDetailCard({
                   isLoading={isLeaving}
                   variant="outline"
                   size="lg"
-                  className="h-12 flex-1 border-2 border-purple-200 text-base font-medium text-purple-600 hover:border-purple-300 hover:bg-purple-50"
+                  className="h-12 flex-1 rounded-xl border-2 border-purple-200 text-base font-medium text-purple-600 hover:border-purple-300 hover:bg-purple-50 md:rounded-2xl"
                 >
-                  {isLeaving ? "취소 중..." : "참여 취소"}
+                  {isLeaving ? "취소 중..." : "참여 취소하기"}
                 </Button>
               ) : (
                 <Button
@@ -189,7 +189,7 @@ export default function MeetingDetailCard({
                   isLoading={isJoining}
                   variant={isRegistrationEnded || isFullCapacity ? "gray" : "primary"}
                   size="lg"
-                  className="h-12 flex-1 text-base font-bold"
+                  className="h-12 flex-1 rounded-xl text-base font-bold md:rounded-2xl"
                 >
                   {isJoining
                     ? "참여 중..."
