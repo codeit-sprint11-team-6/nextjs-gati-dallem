@@ -51,6 +51,7 @@ export default function MeetingDetailCard({
     gathering.registrationEnd && new Date(gathering.registrationEnd) < new Date();
   const isFullCapacity = gathering.participantCount >= gathering.capacity;
   const isConfirmed = gathering.participantCount >= 5; // 최소 5명 이상이면 개설확정
+  const isCanceled = gathering.canceledAt !== null; // 모임이 취소되었는지 확인
 
   const handleJoin = async () => {
     if (onJoin) {
@@ -89,7 +90,11 @@ export default function MeetingDetailCard({
         <div className="flex-between w-full">
           <div className="flex-start gap-2">
             {/* 마감 알림 태그 */}
-            {isRegistrationEnded ? (
+            {isCanceled ? (
+              <div className="flex-start gap-2 rounded-lg bg-red-50 px-3 py-1.5">
+                <span className="text-sm font-semibold text-red-600">모임 취소</span>
+              </div>
+            ) : isRegistrationEnded ? (
               <div className="flex-start gap-2 rounded-lg bg-pink-50 px-3 py-1.5">
                 <span className="text-sm font-semibold text-pink-600">신청 마감</span>
               </div>
@@ -171,16 +176,25 @@ export default function MeetingDetailCard({
           ) : (
             <>
               {/* 참여/참여 취소 버튼 (참가자용) */}
-              {isJoined ? (
+              {isCanceled ? (
+                <Button
+                  disabled={true}
+                  variant="gray"
+                  size="lg"
+                  className="h-12 flex-1 rounded-xl text-base font-bold md:rounded-2xl"
+                >
+                  모임 취소됨
+                </Button>
+              ) : isJoined ? (
                 <Button
                   onClick={handleLeave}
-                  disabled={isLeaving}
+                  disabled={isLeaving || !!isRegistrationEnded}
                   isLoading={isLeaving}
                   variant="outline"
                   size="lg"
                   className="h-12 flex-1 rounded-xl border-2 border-purple-200 text-base font-medium text-purple-600 hover:border-purple-300 hover:bg-purple-50 md:rounded-2xl"
                 >
-                  {isLeaving ? "취소 중..." : "참여 취소하기"}
+                  {isLeaving ? "취소 중..." : isRegistrationEnded ? "신청 마감" : "참여 취소하기"}
                 </Button>
               ) : (
                 <Button
