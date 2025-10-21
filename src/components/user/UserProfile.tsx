@@ -65,13 +65,13 @@ function ProfileDropdown({ setIsProfileOpen, onLogout }: ProfileDropdownProps) {
       >
         참여 내역
       </Link>
-      {/* <Link
+      <Link
         href="/my/reviews?writable=true"
         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
         onClick={() => setIsProfileOpen(false)}
       >
         리뷰 작성
-      </Link> */}
+      </Link>
       <Link
         href="/my/hosted"
         className="block px-4 pt-2 pb-3 text-sm text-gray-700 hover:bg-gray-100"
