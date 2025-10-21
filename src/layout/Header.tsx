@@ -68,7 +68,7 @@ export default function Header({ favoriteCount = 0, logoAltText }: HeaderProps) 
     ...(isAuthed
       ? [{ label: "찜한 모임", href: "/favorites", isActive: pathname === "/favorites" }]
       : []),
-    { label: "모든 리뷰", href: "/reviews", isActive: pathname === "/reviews" },
+    // { label: "모든 리뷰", href: "/reviews", isActive: pathname === "/reviews" },
   ];
 
   return (
