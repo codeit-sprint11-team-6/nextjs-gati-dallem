@@ -19,7 +19,7 @@ export default function ReservedCardItem({
 }: JoinedGathering) {
   return (
     <Card>
-      <Card.Image image={image} />
+      <Card.Image image={image ?? undefined} />
       <Card.Detail>
         <div className="flex flex-col gap-3.5 md:gap-4">
           <Card.Tags
