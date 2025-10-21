@@ -71,7 +71,7 @@ function ProfileDropdown({ setIsProfileOpen, onLogout }: ProfileDropdownProps) {
         onClick={() => setIsProfileOpen(false)}
       >
         리뷰 작성
-      </Link>
+      </Link> */}
       <Link
         href="/my/hosted"
         className="block px-4 pt-2 pb-3 text-sm text-gray-700 hover:bg-gray-100"
