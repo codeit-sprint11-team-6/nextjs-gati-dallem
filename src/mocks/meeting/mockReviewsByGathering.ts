@@ -19,7 +19,7 @@ export const mockReviewsByGathering: Record<number, ReviewList> = {
           image:
             "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center",
         },
-        User: { teamId: "team-1", id: 1, name: "김철수", image: "/avatars/male.svg" },
+        User: { teamId: "team-1", id: 1, name: "김철수", image: "/image/avatars/male.svg" },
       },
       {
         teamId: "team-1",
@@ -37,7 +37,7 @@ export const mockReviewsByGathering: Record<number, ReviewList> = {
           image:
             "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center",
         },
-        User: { teamId: "team-1", id: 2, name: "이영희", image: "/avatars/female.svg" },
+        User: { teamId: "team-1", id: 2, name: "이영희", image: "/image/avatars/female.svg" },
       },
       {
         teamId: "team-1",
@@ -55,7 +55,7 @@ export const mockReviewsByGathering: Record<number, ReviewList> = {
           image:
             "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center",
         },
-        User: { teamId: "team-1", id: 3, name: "박민수", image: "/avatars/male.svg" },
+        User: { teamId: "team-1", id: 3, name: "박민수", image: "/image/avatars/male.svg" },
       },
       {
         teamId: "team-1",
@@ -73,7 +73,7 @@ export const mockReviewsByGathering: Record<number, ReviewList> = {
           image:
             "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center",
         },
-        User: { teamId: "team-1", id: 4, name: "김지수", image: "/avatars/female.svg" },
+        User: { teamId: "team-1", id: 4, name: "김지수", image: "/image/avatars/female.svg" },
       },
     ],
     totalItemCount: 15,
@@ -98,7 +98,7 @@ export const mockReviewsByGathering: Record<number, ReviewList> = {
           image:
             "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&crop=center",
         },
-        User: { teamId: "team-1", id: 5, name: "최현우", image: "/avatars/male.svg" },
+        User: { teamId: "team-1", id: 5, name: "최현우", image: "/image/avatars/male.svg" },
       },
       {
         teamId: "team-1",
@@ -116,7 +116,7 @@ export const mockReviewsByGathering: Record<number, ReviewList> = {
           image:
             "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop&crop=center",
         },
-        User: { teamId: "team-1", id: 6, name: "정수진", image: "/avatars/female.svg" },
+        User: { teamId: "team-1", id: 6, name: "정수진", image: "/image/avatars/female.svg" },
       },
     ],
     totalItemCount: 8,
@@ -141,7 +141,7 @@ export const mockReviewsByGathering: Record<number, ReviewList> = {
           image:
             "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&crop=center",
         },
-        User: { teamId: "team-1", id: 7, name: "한지영", image: "/avatars/female.svg" },
+        User: { teamId: "team-1", id: 7, name: "한지영", image: "/image/avatars/female.svg" },
       },
     ],
     totalItemCount: 5,
