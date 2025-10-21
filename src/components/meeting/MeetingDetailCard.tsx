@@ -5,6 +5,7 @@ import { Button } from "@/components/common/Button";
 import Image from "next/image";
 import { Card } from "@/components/common/Card";
 import { useState } from "react";
+import { formatDateAndTime } from "@/utils/datetime";
 
 interface MeetingDetailCardProps {
   gathering: Gathering;
@@ -32,21 +33,7 @@ export default function MeetingDetailCard({
   const [isJoining, setIsJoining] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
 
-  const formatDateTime = (dateTime: string) => {
-    const date = new Date(dateTime);
-    return {
-      date: date.toLocaleDateString("ko-KR", {
-        month: "short",
-        day: "numeric",
-      }),
-      time: date.toLocaleTimeString("ko-KR", {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-    };
-  };
-
-  const { date, time } = formatDateTime(gathering.dateTime);
+  const [date, time] = formatDateAndTime(gathering.dateTime);
   const isRegistrationEnded =
     gathering.registrationEnd && new Date(gathering.registrationEnd) < new Date();
   const isFullCapacity = gathering.participantCount >= gathering.capacity;
