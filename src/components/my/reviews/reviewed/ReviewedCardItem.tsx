@@ -27,7 +27,7 @@ function ReviewedCardImage({
       <Image
         className="object-cover"
         src={image}
-        alt={`리뷰 작성한 모임 이미지${showOnlyMobile ? " (모바일용)" : ""}`}
+        alt="리뷰 작성한 모임 이미지"
         fill
         sizes="100px, (min-width: 768px) 200px"
         priority={showOnlyMobile ? false : true}
