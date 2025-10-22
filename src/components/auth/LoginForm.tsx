@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toSafePath } from "@/utils/auth/safePath";
 import { toUserErrorMessage } from "@/apis/_errorMessage";
+import { EMAIL_REGEX } from "@/constants/auth/constraints";
 
 type Props = { redirect?: string };
 
@@ -22,7 +23,7 @@ type Props = { redirect?: string };
 const LoginForm = ({ redirect = "/" }: Props) => {
   const router = useRouter();
   // error 지우고 HttpApiError 통합 예정
-  const { mutateAsync: signinMutate, isPending, error } = useSignin();
+  const { mutateAsync: signinMutate, isPending, error, reset } = useSignin();
 
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
@@ -30,10 +31,11 @@ const LoginForm = ({ redirect = "/" }: Props) => {
   const [pwError, setPwError] = useState("");
   const [serverMsg, setServerMsg] = useState("");
 
-  const canSubmit = useMemo(
-    () => email.trim().length > 0 && pw.trim().length > 0 && !isPending,
-    [email, pw, isPending],
-  );
+  const canSubmit = useMemo(() => {
+    const filled = email.trim().length > 0 && pw.trim().length > 0;
+    const validEmail = EMAIL_REGEX.test(email.trim());
+    return filled && validEmail && !isPending;
+  }, [email, pw, isPending]);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,6 +44,7 @@ const LoginForm = ({ redirect = "/" }: Props) => {
     setEmailError("");
     setPwError("");
     setServerMsg("");
+    reset();
 
     // 간단한 클라이언트 유효성 예시
     if (!email) setEmailError("이메일을 입력해 주세요.");
@@ -76,7 +79,12 @@ const LoginForm = ({ redirect = "/" }: Props) => {
         type="email"
         placeholder="이메일을 입력해 주세요"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => {
+          setEmail(e.target.value);
+          if (emailError) setEmailError("");
+          if (serverMsg) setServerMsg("");
+          if (error) reset();
+        }}
         invalid={!!emailError}
         className={`bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]`}
         aria-describedby="email-error"
@@ -88,13 +96,20 @@ const LoginForm = ({ redirect = "/" }: Props) => {
           {emailError}
         </p>
       )}
-
+      {/* 실시간 이메일 형식 안내 */}
+      {email.length > 0 && !EMAIL_REGEX.test(email.trim()) && !emailError && (
+        <p className="mt-1 text-xs text-[#FF2727]">올바른 이메일 형식을 입력해 주세요.</p>
+      )}
       <label className="mt-4 mb-1 text-[13px] font-medium text-slate-500">비밀번호</label>
       <AuthPasswordInput
-        type="password"
         placeholder="비밀번호를 입력해 주세요"
         value={pw}
-        onChange={(e) => setPw(e.target.value)}
+        onChange={(e) => {
+          setPw(e.target.value);
+          if (pwError) setPwError("");
+          if (serverMsg) setServerMsg("");
+          if (error) reset();
+        }}
         invalid={!!pwError}
         className={`bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]`}
         aria-describedby="pw-error"
@@ -107,14 +122,9 @@ const LoginForm = ({ redirect = "/" }: Props) => {
         </p>
       )}
 
-      <AuthButton
-        type="submit"
-        disabled={!canSubmit}
-        className={`mt-6 h-12 w-full rounded-xl bg-[#5865F2] text-white transition-colors hover:bg-[#5865F2] focus-visible:ring-2 focus-visible:ring-[#5865F2] focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-40`}
-      >
+      <AuthButton type="submit" disabled={!canSubmit} className="mt-6">
         {isPending ? "로그인 중..." : "로그인"}
       </AuthButton>
-
       <p className="mt-3 text-center text-xs text-slate-500">
         같이 달램이 처음이신가요?{" "}
         <Link href="/signup" className="underline underline-offset-2 hover:text-slate-700">

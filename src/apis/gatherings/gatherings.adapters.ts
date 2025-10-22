@@ -23,7 +23,7 @@ export function toGathering(
     location: dto.location,
     participantCount: dto.participantCount,
     capacity: dto.capacity,
-    image: dto.image,
+    image: dto.image ?? undefined,
     createdBy: dto.createdBy,
     canceledAt: dto.canceledAt,
   };
@@ -65,7 +65,7 @@ export function toGatheringParticipant(
       email: dto.User.email,
       name: dto.User.name,
       companyName: dto.User.companyName,
-      image: dto.User.image,
+      image: dto.User.image ?? undefined,
     },
   };
 }

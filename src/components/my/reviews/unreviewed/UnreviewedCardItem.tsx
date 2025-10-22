@@ -13,11 +13,10 @@ export default function UnreviewedCardItem({
   capacity,
   dateTime,
   location,
-  isReviewed,
 }: JoinedGathering) {
   return (
     <Card>
-      <Card.Image image={image} />
+      <Card.Image image={image ?? undefined} />
       <Card.Detail>
         <div className="flex h-full flex-col items-start justify-between gap-4">
           <Card.Title id={id}>
@@ -25,7 +24,7 @@ export default function UnreviewedCardItem({
           </Card.Title>
           <div className="flex-between w-full flex-col gap-6 md:flex-row md:gap-3">
             <Card.GatheringDetail {...{ participantCount, capacity, location, dateTime }} />
-            <Card.ReviewButton id={id} isReviewed={isReviewed} />
+            <Card.ReviewButton id={id} />
           </div>
         </div>
       </Card.Detail>

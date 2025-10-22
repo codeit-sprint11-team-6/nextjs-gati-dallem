@@ -38,7 +38,7 @@ export const GatheringItemSchema = z.object({
   location: z.string(),
   participantCount: z.number(),
   capacity: z.number(),
-  image: z.string().optional(),
+  image: z.string().nullable().optional(),
   createdBy: z.number(),
   canceledAt: IsoDateTime.nullish(),
 });
@@ -76,8 +76,9 @@ export const CreateGatheringResponseSchema = z.object({
   location: z.string(),
   participantCount: z.number(),
   capacity: z.number(),
-  image: z.string().optional(),
+  image: z.string().nullable().optional(),
   createdBy: z.number(),
+  canceledAt: IsoDateTime.nullish(),
 });
 export type CreateGatheringResponse = z.infer<typeof CreateGatheringResponseSchema>;
 
@@ -125,7 +126,7 @@ export const ParticipantItemSchema = z.object({
     email: z.string(),
     name: z.string(),
     companyName: z.string().optional(),
-    image: z.string().optional(),
+    image: z.string().nullable().optional(),
   }),
 });
 export const GetParticipantsResponseSchema = z.array(ParticipantItemSchema);

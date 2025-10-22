@@ -21,8 +21,7 @@ export default function AuthButton({
   label,
   ...props
 }: Props) {
-  // const isEnabled = !disabled && !loading;
-  const isEnabled = !disabled && !loading && false;
+  const isEnabled = !disabled && !loading;
 
   return (
     <Button
@@ -35,10 +34,10 @@ export default function AuthButton({
         "h-12 rounded-2xl text-base font-semibold",
         fullWidth && "w-full",
         !isEnabled && [
-          "cursor-not-allowed",
-          "bg-[color:var(--color-gray-200)] text-[color:var(--color-gray-600)]",
-          "disabled:bg-[color:var(--color-gray-200)] disabled:text-[color:var(--color-gray-600)]",
-          "disabled:opacity-100", // Shadcn 기본 opacity-50 무효화
+          "pointer-events-none cursor-not-allowed",
+          "bg-[color:var(--color-gray-200)] text-[#9CA3AF]", // 비활성 텍스트 연회색
+          "disabled:bg-[color:var(--color-gray-200)] disabled:text-[#9CA3AF]", // disabled 시도 동일
+          "disabled:opacity-40",
         ],
         isEnabled && [
           "bg-[color:var(--color-purple-500)] text-white",

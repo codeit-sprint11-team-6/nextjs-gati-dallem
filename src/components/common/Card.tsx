@@ -40,7 +40,7 @@ function CardImage({ image }: { image?: string }) {
           sizes="100vw, (min-width: 768px) 200px"
         />
       ) : (
-        <div className="h-full w-full bg-gray-200" />
+        <div className="h-full w-full bg-gray-200" data-testid="no-card-image" />
       )}
     </div>
   );
@@ -199,7 +199,7 @@ function CardReservedButton({
 Card.ReservedButton = CardReservedButton;
 
 /** 나의 리뷰 카드 버튼 */
-function CardReviewButton({ id, isReviewed = false }: { id: number; isReviewed?: boolean }) {
+function CardReviewButton({ id }: { id: number }) {
   const { overlay } = useOverlay();
 
   function handleWriteReview() {
@@ -208,16 +208,12 @@ function CardReviewButton({ id, isReviewed = false }: { id: number; isReviewed?:
 
   return (
     <div className="flex-end w-full md:w-fit">
-      {!isReviewed ? (
-        <button
-          className="btn rounded-2xl bg-purple-100 px-6 py-2.5 text-base font-bold text-purple-500"
-          onClick={handleWriteReview}
-        >
-          리뷰 작성하기
-        </button>
-      ) : (
-        <></>
-      )}
+      <button
+        className="btn rounded-2xl bg-purple-100 px-6 py-2.5 text-base font-bold text-purple-500"
+        onClick={handleWriteReview}
+      >
+        리뷰 작성하기
+      </button>
     </div>
   );
 }

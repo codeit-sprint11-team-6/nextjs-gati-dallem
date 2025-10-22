@@ -22,10 +22,10 @@ type Story = StoryObj<typeof meta>;
  */
 export const CustomCardExample: Story = {
   render: () => {
-    const { id, name, image } = mockMyGathering[1];
+    const { id, name, image } = mockMyGathering[0];
     return (
       <Card>
-        <Card.Image image={image} />
+        <Card.Image image={image ?? undefined} />
         <Card.Detail>
           <div className="flex h-full flex-col items-start justify-between gap-4">
             <Card.Title id={id}>

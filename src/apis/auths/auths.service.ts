@@ -25,18 +25,22 @@ import { tokenStore } from "@/utils/auth/token.store";
 
 /** 회원가입 (메시지 DTO) */
 export const signup = async (body: SignupBody): Promise<SignupResponse> => {
-  const parsed = SignupBodySchema.parse(body);
-  const res = await apiClient.post<SignupResponse>(
-    authEndpoints.signup(),
-    parsed,
-    SignupResponseSchema,
-  );
-  return res;
+  const parsed = SignupBodySchema.safeParse(body);
+  if (!parsed.success) {
+    const first = parsed.error.issues[0];
+    const field = Array.isArray(first?.path) ? String(first.path[0]) : undefined;
+    throw new HttpApiError(
+      400,
+      first?.message ?? "입력값을 확인해주세요.",
+      "VALIDATION_ERROR",
+      field,
+    );
+  }
+  return apiClient.post<SignupResponse>(authEndpoints.signup(), parsed.data, SignupResponseSchema);
 };
 
 /** 로그인 (토큰/메시지 DTO) - 토큰 저장 후 응답 반환 */
 export const signin = async (body: SigninBody): Promise<SigninResponse> => {
-  // const parsed = SigninBodySchema.parse(body);
   const parsed = SigninBodySchema.safeParse(body);
 
   // 실패 시 HttpApiError로 변환해서 던지기 (폼에서 잡아서 message만 보여줌)
@@ -83,29 +87,18 @@ export const getAuthUser = async (): Promise<AuthUser | null> => {
       undefined,
       GetAuthUserResponseSchema,
     );
-    // const domain: AuthUser = toAuthUserFromGet(dto);
     return toAuthUserFromGet(dto);
   } catch (e: unknown) {
-    if (e instanceof HttpApiError) {
-      if (e.status === 401 /* || e.status === 404 || e.status === 500 */) {
-        tokenStore.clear?.();
-        return null;
-      }
-    }
+    // 401 응답은 ApiClient/AuthGuard에서 처리하므로 중복 방지를 위해 주석 처리
+    // if (e instanceof HttpApiError) {
+    //   if (e.status === 401 /* || e.status === 404 || e.status === 500 */) {
+    //     tokenStore.clear?.();
+    //     return null;
+    //   }
+    // }
     throw e;
   }
 };
-
-// /** 내 정보 조회 → 도메인 반환 */
-// export async function getAuthUser() {
-//   const dto = await apiClient.get<GetAuthUserResponse>(
-//     `/auths/user`,
-//     undefined,
-//     GetAuthUserResponseSchema,
-//   );
-//   const domain: AuthUser = toAuthUserFromGet(dto);
-//   return domain;
-// }
 
 /** 내 정보 수정(multipart) → 도메인 반환 */
 export async function updateAuthUser(body: UpdateAuthUserBody) {
