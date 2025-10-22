@@ -80,7 +80,7 @@ export const DateTimeField = React.forwardRef<HTMLDivElement, DateTimeFieldProps
             </div>
           </PopoverTrigger>
           <PopoverContent align="end" className="w-auto rounded-xl border bg-white p-0 shadow-md">
-            <div className="flex">
+            <div className="flex flex-col md:flex-row">
               {/* 캘린더 */}
               <Calendar
                 mode="single"
@@ -94,15 +94,15 @@ export const DateTimeField = React.forwardRef<HTMLDivElement, DateTimeFieldProps
               />
 
               {/* 구분선 (캘린더 | 시간) */}
-              <div className="relative py-8">
-                <div className="h-full w-px bg-gray-200"></div>
+              <div className="relative py-0 md:py-8">
+                <div className="h-px w-full md:h-full md:w-px bg-gray-200"></div>
               </div>
 
               {/* 시간 선택 - 세로 3개 컬럼 */}
-              <div className="flex pt-4">
+              <div className="flex justify-center pt-1 pb-2 md:justify-start md:pt-4 md:pb-0">
                 {/* 시 */}
                 <div className="flex flex-col w-20">
-                  <div className="h-[280px] overflow-y-auto thin-scrollbar px-2 py-4">
+                  <div className="h-[118px] md:h-[280px] overflow-y-auto thin-scrollbar px-2 py-2 md:py-4">
                     {hourOptions.map((hour) => (
                       <button
                         key={hour}
@@ -128,7 +128,7 @@ export const DateTimeField = React.forwardRef<HTMLDivElement, DateTimeFieldProps
 
                 {/* 분 */}
                 <div className="flex flex-col w-20">
-                  <div className="h-[280px] overflow-y-auto thin-scrollbar px-2 py-4">
+                  <div className="h-[118px] md:h-[280px] overflow-y-auto thin-scrollbar px-2 py-2 md:py-4">
                     {minuteOptions.map((minute) => (
                       <button
                         key={minute}
@@ -154,7 +154,7 @@ export const DateTimeField = React.forwardRef<HTMLDivElement, DateTimeFieldProps
 
                 {/* 오전/오후 */}
                 <div className="flex flex-col w-20">
-                  <div className="h-[280px] overflow-y-auto thin-scrollbar px-2 py-4">
+                  <div className="h-[118px] md:h-[280px] overflow-y-auto thin-scrollbar px-2 py-2 md:py-4">
                     <button
                       type="button"
                       onClick={() => setPeriod("AM")}
