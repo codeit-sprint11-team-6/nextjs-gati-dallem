@@ -1,8 +1,9 @@
-import { useOverlay } from "@/hooks/useOverlay";
 import { useModalHistory } from "@/hooks/useModalHistory";
+import { useOverlay } from "@/hooks/useOverlay";
 import { cn } from "@/utils/classNames";
 import Image from "next/image";
 import { ButtonHTMLAttributes } from "react";
+import { Button } from "./Button";
 
 /**
  * CCP로 직접 구현하는 모달 컴포넌트
@@ -53,12 +54,13 @@ Modal.Header = ModalHeader;
 function ModalOneButton({ children, ...props }: ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <div className="flex-center">
-      <button
-        className="btn w-[140px] rounded-2xl bg-purple-500 py-3 font-bold text-white md:w-[254px] md:p-4 md:text-xl"
+      <Button
+        variant="primary"
+        className="btn w-[140px] rounded-2xl py-3 font-bold md:w-[254px] md:p-4 md:text-xl"
         {...props}
       >
         {children}
-      </button>
+      </Button>
     </div>
   );
 }
@@ -78,19 +80,21 @@ function ModalTwoButton({
   const { close } = useOverlay();
   return (
     <div className="grid grid-cols-2 gap-3">
-      <button
-        className="btn rounded-2xl border-1 border-[#DDDDDD] bg-white p-3 text-[#737373] md:p-4 md:text-xl"
+      <Button
+        variant="outline"
+        className="btn rounded-2xl border-1 border-[#DDDDDD] bg-white p-3 text-[#737373] hover:bg-purple-300 md:p-4 md:text-xl"
         onClick={close}
       >
         {leftBtnText}
-      </button>
-      <button
-        className="btn rounded-2xl bg-purple-500 p-3 font-bold text-white disabled:cursor-not-allowed disabled:bg-gray-300 md:p-4 md:text-xl"
+      </Button>
+      <Button
+        variant="primary"
+        className="btn rounded-2xl p-3 font-bold disabled:cursor-not-allowed disabled:bg-gray-300 md:p-4 md:text-xl"
         disabled={rightBtnDisabled}
         onClick={onRightBtnClick}
       >
         {rightBtnText}
-      </button>
+      </Button>
     </div>
   );
 }
