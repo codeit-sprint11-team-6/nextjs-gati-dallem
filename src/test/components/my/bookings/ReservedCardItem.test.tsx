@@ -1,5 +1,6 @@
 import ReservedCardItem from "@/components/my/bookings/ReservedCardItem";
 import { mockJoinedGathering } from "@/mocks/my/mockJoinedGathering";
+import { pushSpy } from "@/test/__mocks__/next";
 import { overlaySpy, resetOverlaySpy } from "@/test/__mocks__/overlay";
 import { fireEvent, render, screen } from "@testing-library/react";
 
@@ -110,12 +111,13 @@ describe("마이페이지 - 나의 모임 - 나의 모임 카드 컴포넌트 (R
       expect(screen.queryByRole("button", { name: "참여 취소하기" })).not.toBeInTheDocument();
     });
 
-    test("모임 이름 클릭 시 링크 경로(id 전달) 확인", () => {
+    test("모임 카드 클릭 시 router.push 호출 확인", () => {
       const mockData = mockJoinedGathering[2];
       render(<ReservedCardItem {...mockData} />);
 
-      const link = screen.getByTestId("next-link");
-      expect(link).toHaveAttribute("href", `/meetings/${mockData.id}`);
+      const card = screen.getByLabelText("모임 목록 아이템");
+      fireEvent.click(card);
+      expect(pushSpy).toHaveBeenCalledTimes(1);
     });
 
     // TODO: 찜하기 버튼 렌더링

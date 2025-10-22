@@ -1,29 +1,43 @@
 "use client";
 
 import { useOverlay } from "@/hooks/useOverlay";
-import { cn } from "@/utils/classNames";
+import { cn, cond } from "@/utils/classNames";
 import { formatDateAndTime } from "@/utils/datetime";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { HTMLAttributes } from "react";
 import ConfirmLeaveModal from "../my/bookings/ConfirmLeaveModal";
 import ReviewCreateModal from "../my/reviews/modal/ReviewCreateModal";
 import Chip, { CompletedChip, ConfirmChip } from "../ui/Chip";
+import { Button } from "./Button";
 
+interface CardProps extends HTMLAttributes<HTMLElement> {
+  children?: React.ReactNode;
+  className?: string;
+  meetingId?: number;
+}
 /**
  * CCP로 직접 구현하는 모임 카드 컴포넌트
  */
-export function Card({ children, className }: { children?: React.ReactNode; className?: string }) {
+export function Card({ children, className, meetingId }: CardProps) {
+  const router = useRouter();
+
+  function handleClickCard() {
+    if (meetingId) router.push(`/meetings/${meetingId}`);
+  }
   return (
-    <article
+    <section
       className={cn(
         "relative overflow-hidden rounded-3xl bg-white hover:drop-shadow-sm",
         "md:items-upper md:flex md:min-w-[650px] md:justify-start md:gap-6 md:rounded-4xl md:p-6 md:pr-9",
+        cond(!!meetingId, "cursor-pointer"),
         className,
       )}
       aria-label="모임 목록 아이템"
+      onClick={handleClickCard}
     >
       {children}
-    </article>
+    </section>
   );
 }
 
@@ -79,12 +93,8 @@ function CardTags({
 Card.Tags = CardTags;
 
 /** 모임명 영역 */
-function CardTitle({ id, children }: { id: number; children: React.ReactNode }) {
-  return (
-    <Link href={`/meetings/${id}`} className="text-xl font-semibold break-all text-ellipsis">
-      {children}
-    </Link>
-  );
+function CardTitle({ children }: { children: React.ReactNode }) {
+  return <h3 className="text-xl font-semibold break-all text-ellipsis">{children}</h3>;
 }
 Card.Title = CardTitle;
 
@@ -166,12 +176,14 @@ function CardReservedButton({
 }) {
   const { overlay } = useOverlay();
 
-  function handleCancel() {
-    overlay(<ConfirmLeaveModal id={id} />);
+  function handleWriteReview(e: React.MouseEvent) {
+    e.stopPropagation();
+    overlay(<ReviewCreateModal id={id} />);
   }
 
-  function handleWriteReview() {
-    overlay(<ReviewCreateModal id={id} />);
+  function handleCancel(e: React.MouseEvent) {
+    e.stopPropagation();
+    overlay(<ConfirmLeaveModal id={id} />);
   }
 
   return isReviewed ? (
@@ -179,19 +191,21 @@ function CardReservedButton({
   ) : (
     <div className="flex-end w-full md:w-fit">
       {isCompleted ? (
-        <button
-          className="btn rounded-2xl bg-purple-100 px-6 py-2.5 text-base font-bold text-purple-500"
+        <Button
+          variant="primary"
+          className="btn rounded-2xl px-6 py-2.5 text-base font-bold"
           onClick={handleWriteReview}
         >
           리뷰 작성하기
-        </button>
+        </Button>
       ) : (
-        <button
-          className="btn rounded-2xl border-1 border-purple-500 px-6 py-2.5 text-base font-semibold text-purple-500"
+        <Button
+          variant="outline"
+          className="btn rounded-2xl px-6 py-2.5 text-base font-semibold hover:bg-purple-300"
           onClick={handleCancel}
         >
           참여 취소하기
-        </button>
+        </Button>
       )}
     </div>
   );
@@ -202,18 +216,20 @@ Card.ReservedButton = CardReservedButton;
 function CardReviewButton({ id }: { id: number }) {
   const { overlay } = useOverlay();
 
-  function handleWriteReview() {
+  function handleWriteReview(e: React.MouseEvent<HTMLButtonElement>) {
+    e.stopPropagation();
     overlay(<ReviewCreateModal id={id} />);
   }
 
   return (
     <div className="flex-end w-full md:w-fit">
-      <button
-        className="btn rounded-2xl bg-purple-100 px-6 py-2.5 text-base font-bold text-purple-500"
+      <Button
+        variant="primary"
+        className="btn rounded-2xl px-6 py-2.5 text-base font-bold"
         onClick={handleWriteReview}
       >
         리뷰 작성하기
-      </button>
+      </Button>
     </div>
   );
 }
