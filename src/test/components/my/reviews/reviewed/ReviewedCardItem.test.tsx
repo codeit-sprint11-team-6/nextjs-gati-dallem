@@ -19,7 +19,7 @@ describe("마이페이지 - 나의 리뷰 - 작성한 리뷰 카드 컴포넌트
     const dateStr = formatDate(mockData.createdAt);
     expect(screen.getByText(dateStr)).toBeInTheDocument();
 
-    const meetingImg = screen.getByAltText("모임 이미지") as HTMLImageElement;
+    const meetingImg = screen.getByAltText("리뷰 작성한 모임 이미지") as HTMLImageElement;
     expect(meetingImg).toHaveAttribute("src", mockData.Gathering.image);
 
     const link = screen.getByTestId("next-link");
@@ -43,6 +43,6 @@ describe("마이페이지 - 나의 리뷰 - 작성한 리뷰 카드 컴포넌트
     const props = { ...mockData, Gathering: { ...mockData.Gathering, image: undefined } };
     render(<ReviewedCardItem {...props} />);
 
-    expect(screen.queryByAltText("모임 이미지")).not.toBeInTheDocument();
+    expect(screen.queryByAltText("리뷰 작성한 모임 이미지")).not.toBeInTheDocument();
   });
 });

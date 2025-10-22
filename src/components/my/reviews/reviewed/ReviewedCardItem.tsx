@@ -7,21 +7,38 @@ import Image from "next/image";
 import Link from "next/link";
 import HeartScore from "./HeartScore";
 
+function ReviewedCardImage({
+  image,
+  isHidden = false,
+}: {
+  image?: string | null;
+  isHidden?: boolean;
+}) {
+  return image ? (
+    <div
+      className={cn(
+        "relative aspect-square w-20 shrink-0 overflow-hidden rounded-xl border-1 border-slate-100 md:w-[160px] md:rounded-3xl",
+        isHidden ? "block md:hidden" : "hidden md:block",
+      )}
+    >
+      <Image
+        className="object-cover"
+        src={image}
+        alt={`리뷰 작성한 모임 이미지${isHidden ? " (모바일용)" : ""}`}
+        fill
+        sizes="100px, (min-width: 768px) 200px"
+        priority={isHidden ? false : true}
+      />
+    </div>
+  ) : (
+    <></>
+  );
+}
 /** 마이페이지 나의 리뷰 - 작성한 리뷰 카드 컴포넌트 */
 export default function ReviewedCardItem({ Gathering, User, score, createdAt, comment }: Review) {
   return (
-    <div className="flex items-start justify-start gap-4 pb-6" data-testid="reviewed-item">
-      {Gathering.image && (
-        <div className="relative hidden aspect-square w-20 shrink-0 overflow-hidden rounded-xl border-1 border-slate-100 md:block md:w-[160px] md:rounded-3xl">
-          <Image
-            className="object-cover"
-            src={Gathering.image}
-            alt="모임 이미지"
-            fill
-            sizes="200px"
-          />
-        </div>
-      )}
+    <section className="flex items-start justify-start gap-4 pb-6" data-testid="reviewed-item">
+      <ReviewedCardImage image={Gathering.image} />
       <div className="grid gap-4">
         <div className="grid gap-2">
           <div className="flex-start gap-3">
@@ -57,12 +74,17 @@ export default function ReviewedCardItem({ Gathering, User, score, createdAt, co
           </div>
         </div>
         <div className="grow-1">
-          {comment.split("\n").map((line, idx) => (
-            <p key={idx}>{line}</p>
-          ))}
+          <div className="flex-between gap-3">
+            <ReviewedCardImage image={Gathering.image} isHidden={true} />
+            <div className="grow-1">
+              {comment.split("\n").map((line, idx) => (
+                <p key={idx}>{line}</p>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
