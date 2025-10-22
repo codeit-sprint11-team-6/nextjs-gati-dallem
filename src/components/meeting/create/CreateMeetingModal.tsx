@@ -13,7 +13,13 @@ export default function CreateMeetingModal() {
 
   return (
     <Modal className="gap-6">
-      <CreateMeetingWizard onCancel={close} onFinished={handleFinish} />
+      <CreateMeetingWizard onCancel={close} onFinished={handleFinish}>
+        <CreateMeetingWizard.Header />
+        <CreateMeetingWizard.Step1 />
+        <CreateMeetingWizard.Step2 />
+        <CreateMeetingWizard.Step3 />
+        <CreateMeetingWizard.Navigation />
+      </CreateMeetingWizard>
     </Modal>
   );
 }

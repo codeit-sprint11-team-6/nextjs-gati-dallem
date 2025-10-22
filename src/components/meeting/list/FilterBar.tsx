@@ -37,10 +37,10 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
   const set = <K extends keyof MeetingFilters>(k: K, v: MeetingFilters[K]) =>
     onChange({ ...value, [k]: v });
 
-  // 대분류 탭 (커뮤니티, 세미나)
+  // 대분류 탭 (네트워킹, 세미나)
   const mainTabs = useMemo(
     () => [
-      { key: "DALLAEMFIT", label: "커뮤니티", emoji: "💻" },
+      { key: "DALLAEMFIT", label: "네트워킹", emoji: "💻" },
       { key: "WORKATION", label: "세미나", emoji: "💼" },
     ],
     [],
@@ -85,9 +85,9 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
   };
 
   return (
-    <div className={cn("space-y-10", className)}>
+    <div className={cn("space-y-4 md:space-y-8", className)}>
       {/* 대분류 탭 */}
-      <div className="flex items-center overflow-x-auto border-b border-gray-200">
+      <div className="flex items-center border-b border-gray-200">
         {mainTabs.map((t) => {
           const isActive =
             (t.key === "DALLAEMFIT" &&
@@ -103,11 +103,12 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
                 set("category", t.key as MeetingFilters["category"]);
               }}
               className={cn(
-                "relative flex items-center gap-2 px-8 py-4 text-lg font-semibold whitespace-nowrap transition-colors",
+                "relative flex flex-1 items-center justify-center gap-1.5 px-4 py-3 text-base font-semibold transition-colors",
+                "md:flex-initial md:gap-2 md:px-8 md:py-4 md:text-lg",
                 isActive ? "text-purple-500" : "text-gray-600 hover:text-gray-900",
               )}
             >
-              <span className="text-2xl">{t.emoji}</span>
+              <span className="text-xl md:text-2xl">{t.emoji}</span>
               <span>{t.label}</span>
               {isActive && <div className="absolute right-0 bottom-0 left-0 h-0.5 bg-purple-500" />}
             </button>
@@ -115,11 +116,11 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
         })}
       </div>
 
-      {/* 소분류 탭 */}
-      <div className="flex items-center justify-between gap-4">
+      {/* 소분류 탭 + 필터 */}
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-6">
         {/* 왼쪽: 소분류 탭 */}
         {subTabs.length > 0 && (
-          <div className="flex items-center gap-2 overflow-x-auto">
+          <div className="flex min-w-0 flex-1 items-center gap-2 overflow-x-auto scrollbar-hide">
             {subTabs.map((tab) => (
               <button
                 key={tab.key}
@@ -138,7 +139,7 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
         )}
 
         {/* 오른쪽: 필터 */}
-        <div className="flex flex-shrink-0 items-center gap-6 text-sm">
+        <div className="flex flex-shrink-0 items-center gap-3 md:gap-4 text-sm">
           {/* 지역 필터 */}
           <Select
             value={value.location || "all"}
@@ -161,26 +162,10 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
           <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
             <PopoverTrigger asChild>
               <div>
-                <Select
-                  value={selectedDate ? "selected" : "all"}
-                  onValueChange={(v) => {
-                    if (v === "all") {
-                      set("date", "");
-                      setSelectedDate(undefined);
-                    } else {
-                      setDatePickerOpen(true);
-                    }
-                  }}
-                >
+                <Select value={selectedDate ? "selected" : "all"} open={false}>
                   <SelectTrigger aria-label="날짜" className="w-auto border-none">
-                    <SelectValue>
-                      {selectedDate ? format(selectedDate, "yyyy-MM-dd") : "날짜 전체"}
-                    </SelectValue>
+                    {selectedDate ? format(selectedDate, "yyyy-MM-dd") : "날짜 전체"}
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">날짜 전체</SelectItem>
-                    <SelectItem value="select">날짜 선택</SelectItem>
-                  </SelectContent>
                 </Select>
               </div>
             </PopoverTrigger>

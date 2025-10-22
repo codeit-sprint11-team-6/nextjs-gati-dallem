@@ -29,9 +29,9 @@ function Calendar({
     <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn(
-        "bg-background p-4",
+        "bg-background p-3 md:p-4",
         "group/calendar",
-        "[--cell-size:--spacing(9)]",
+        "[--cell-size:--spacing(8)] md:[--cell-size:--spacing(9)]",
         "[[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
         String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
         String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
@@ -45,8 +45,8 @@ function Calendar({
       }}
       classNames={{
         root: cn("w-fit", defaultClassNames.root),
-        months: cn("flex flex-col md:flex-row gap-4 relative", defaultClassNames.months),
-        month: cn("flex flex-col w-full gap-4", defaultClassNames.month),
+        months: cn("flex flex-col md:flex-row gap-2 md:gap-4 relative", defaultClassNames.months),
+        month: cn("flex flex-col w-full gap-2 md:gap-4", defaultClassNames.month),
         nav: cn("flex items-center gap-1 w-full absolute top-0 inset-x-0 justify-between", defaultClassNames.nav),
         button_previous: cn(
           buttonVariants({ variant: buttonVariant }),

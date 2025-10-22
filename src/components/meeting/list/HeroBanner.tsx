@@ -19,28 +19,29 @@ export default function HeroBanner({
   return (
     <section
       className={cn(
-        "relative overflow-hidden rounded-3xl p-8 md:p-12",
+        "relative overflow-hidden h-48 px-5 md:h-auto md:rounded-2xl md:p-8 lg:rounded-3xl lg:p-12",
         "bg-gradient-to-r from-purple-50 to-teal-50",
+        "-mx-4 md:mx-0",
         className,
       )}
     >
-      <div className="relative z-10 flex items-center justify-between">
-        <div className="flex flex-1 items-center justify-center">
-          <div className="text-center md:text-left">
-            <p className="mb-2 text-lg text-purple-600">함께할 사람을 찾고 계신가요?</p>
-            <h2 className="text-3xl leading-tight font-bold text-gray-900 md:text-4xl">
+      <div className="relative z-10 flex h-full items-center justify-center gap-6 py-5 md:justify-between md:py-0">
+        <div className="flex flex-1 items-center justify-start md:items-start md:justify-start">
+          <div className="text-left">
+            <p className="mb-1 text-sm text-purple-600 md:mb-2 md:text-base lg:text-lg">함께할 사람을 찾고 계신가요?</p>
+            <h2 className="text-lg leading-tight font-bold text-gray-900 md:text-2xl lg:text-4xl">
               {subtitle}
             </h2>
           </div>
         </div>
 
-        <div className="relative h-48 w-48 flex-shrink-0 md:h-56 md:w-56">
+        <div className="relative h-32 w-32 flex-shrink-0 md:h-48 md:w-48 lg:h-64 lg:w-64">
           <Image
             src={imageSrc}
             alt={imageAlt}
             fill
             className="object-contain"
-            sizes="(min-width: 768px) 224px, 192px"
+            sizes="(min-width: 1024px) 256px, (min-width: 768px) 192px, 128px"
             priority
           />
         </div>

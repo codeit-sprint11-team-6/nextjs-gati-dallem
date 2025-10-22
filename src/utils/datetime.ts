@@ -24,6 +24,7 @@ export const formatDate = (datetime: string | Date) => {
 
 /**
  * registrationEnd까지 남은 시간을 계산하여 텍스트 반환
+ * 마감 7일 이내인 경우만 표시
  * @param registrationEnd ISO 문자열 (optional)
  */
 export const getDeadlineText = (registrationEnd?: string): string | null => {
@@ -39,6 +40,7 @@ export const getDeadlineText = (registrationEnd?: string): string | null => {
   const todayStr = formatInTimeZone(now, timeZone, "yyyy-MM-dd");
   const deadlineStr = formatInTimeZone(naive, timeZone, "yyyy-MM-dd");
 
+  // 당일인 경우 시간까지 표시
   if (todayStr === deadlineStr) {
     const hour = formatInTimeZone(naive, timeZone, "HH");
     return `오늘 ${hour}시 마감`;
@@ -46,6 +48,9 @@ export const getDeadlineText = (registrationEnd?: string): string | null => {
 
   const diffMs = deadline.getTime() - now.getTime();
   const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+  // 마감 7일 이내인 경우만 표시
+  if (diffDays > 7) return null;
 
   return `마감 ${diffDays}일 전`;
 };
