@@ -29,7 +29,7 @@ function ReviewedCardImage({
         src={image}
         alt="리뷰 작성한 모임 이미지"
         fill
-        sizes="100px, (min-width: 768px) 200px"
+        sizes="(min-width: 768px) 200px, 100px"
         priority={showOnlyMobile ? false : true}
       />
     </Link>
@@ -40,7 +40,11 @@ function ReviewedCardImage({
 /** 마이페이지 나의 리뷰 - 작성한 리뷰 카드 컴포넌트 */
 export default function ReviewedCardItem({ Gathering, User, score, createdAt, comment }: Review) {
   return (
-    <section className="flex items-start justify-start gap-4 pb-6" data-testid="reviewed-item">
+    <section
+      className="flex items-start justify-start gap-4 pb-6"
+      aria-label="작성한 리뷰 목록 아이템"
+      data-testid="reviewed-item"
+    >
       <ReviewedCardImage id={Gathering.id} image={Gathering.image} />
       <div className="grid gap-4">
         <div className="grid gap-2">

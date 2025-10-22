@@ -1,6 +1,5 @@
 import ReviewedCardItem from "@/components/my/reviews/reviewed/ReviewedCardItem";
 import { mockReviewed } from "@/mocks/my/mockMyReview";
-import { GatheringMapper } from "@/types";
 import { formatDate } from "@/utils/datetime";
 import { render, screen } from "@testing-library/react";
 
@@ -19,8 +18,10 @@ describe("마이페이지 - 나의 리뷰 - 작성한 리뷰 카드 컴포넌트
     const dateStr = formatDate(mockData.createdAt);
     expect(screen.getByText(dateStr)).toBeInTheDocument();
 
-    const meetingImg = screen.getByAltText("리뷰 작성한 모임 이미지") as HTMLImageElement;
-    expect(meetingImg).toHaveAttribute("src", mockData.Gathering.image);
+    const meetingImgs = screen.getAllByAltText("리뷰 작성한 모임 이미지") as HTMLImageElement[];
+    for (const img of meetingImgs) {
+      expect(img).toHaveAttribute("src", mockData.Gathering.image);
+    }
 
     const links = screen.getAllByTestId("next-link") as HTMLElement[];
     expect(links.length).toBe(3);

@@ -129,7 +129,7 @@ describe("마이페이지 - 나의 리뷰 - 목록 조회 기능", () => {
       reviewedQueryFn.mockReturnValue({ isLoading: false, data: mockReviewed });
       render(<ReviewCardList />);
 
-      const items = screen.getAllByTestId("reviewed-item");
+      const items = screen.getAllByLabelText("작성한 리뷰 목록 아이템");
       expect(items).toHaveLength(mockReviewed.data.length);
       expect(screen.getByTestId("pagination")).toBeInTheDocument();
       expect(reviewedQueryFn).toHaveBeenCalledWith({ userId: mockProfile.id, offset: 0 });

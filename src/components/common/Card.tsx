@@ -62,7 +62,7 @@ function CardImage({ image }: { image?: string }) {
           src={image}
           alt="모임 이미지 미리보기"
           fill
-          sizes="100vw, (min-width: 768px) 200px"
+          sizes="(min-width: 768px) 200px, 100vw"
           priority
         />
       ) : (
