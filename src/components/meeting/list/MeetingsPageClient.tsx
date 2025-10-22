@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useEffect, useRef } from "react";
+import { formatInTimeZone } from "date-fns-tz";
 import FilterBar from "./FilterBar";
 import ListGrid from "./ListGrid";
 import { useUrlFilters } from "@/hooks/meeting/useUrlFilters";
@@ -24,10 +25,7 @@ export default function MeetingsPageClient() {
       params.location = filters.location as GetGatheringsQuery["location"];
     }
 
-    // 날짜 필터
-    if (filters.date) {
-      params.date = filters.date;
-    }
+    // 날짜 필터는 클라이언트에서 한국 시간대 기준으로 처리
 
     if (filters.sort === "latest") {
       params.sortBy = "registrationEnd";
@@ -47,12 +45,34 @@ export default function MeetingsPageClient() {
     return data?.pages.flat() ?? [];
   }, [data]);
 
-  // 키워드 필터링
   const filteredMeetings = useMemo(() => {
-    if (!filters.keyword) return meetings;
-    const keyword = filters.keyword.toLowerCase();
-    return meetings.filter((m) => m.name.toLowerCase().includes(keyword));
-  }, [meetings, filters.keyword]);
+    const now = new Date();
+    let result = meetings;
+
+    // 날짜 필터링 (한국 시간 기준)
+    if (filters.date) {
+      result = result.filter((m) => {
+        const koreaDateStr = formatInTimeZone(m.dateTime, 'Asia/Seoul', 'yyyy-MM-dd');
+        return koreaDateStr === filters.date;
+      });
+    }
+
+    // 참여 가능한 모임만 필터링
+    result = result.filter((m) => {
+      const isCompleted = new Date(m.dateTime) < now;
+      const isRegistrationClosed = m.registrationEnd ? new Date(m.registrationEnd) < now : false;
+      const isFull = m.participantCount >= m.capacity;
+      return !isCompleted && !isRegistrationClosed && !isFull;
+    });
+
+    // 키워드 필터링
+    if (filters.keyword) {
+      const keyword = filters.keyword.toLowerCase();
+      result = result.filter((m) => m.name.toLowerCase().includes(keyword));
+    }
+
+    return result;
+  }, [meetings, filters.keyword, filters.date]);
 
   // 무한스크롤
   useEffect(() => {
@@ -80,11 +100,11 @@ export default function MeetingsPageClient() {
   return (
     <>
       <FilterBar value={filters} onChange={setFilters} />
-      <div className="mt-8">
+      <div className="mt-6 md:mt-7 lg:mt-8">
         {isLoading ? (
-          <div className="py-12 text-center text-gray-500">로딩 중...</div>
+          <div className="py-8 md:py-10 lg:py-12 text-center text-sm md:text-base text-gray-500">로딩 중...</div>
         ) : error ? (
-          <div className="py-12 text-center text-red-500">모임 목록을 불러오는데 실패했습니다.</div>
+          <div className="py-8 md:py-10 lg:py-12 text-center text-sm md:text-base text-red-500">모임 목록을 불러오는데 실패했습니다.</div>
         ) : (
           <>
             <ListGrid items={filteredMeetings} />
@@ -92,7 +112,7 @@ export default function MeetingsPageClient() {
             {/* 무한스크롤 */}
             <div ref={observerTarget} className="mt-4 h-10">
               {isFetchingNextPage && (
-                <div className="py-4 text-center text-gray-500">더 불러오는 중...</div>
+                <div className="py-4 text-center text-sm md:text-base text-gray-500">더 불러오는 중...</div>
               )}
             </div>
           </>
