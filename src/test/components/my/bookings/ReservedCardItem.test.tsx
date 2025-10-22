@@ -22,6 +22,7 @@ jest.mock("@/components/ui/Chip", () => {
 describe("마이페이지 - 나의 모임 - 나의 모임 카드 컴포넌트 (ReservedCardItem)", () => {
   describe("나의 모임 카드 컴포넌트 렌더링 - CCP 조립 통합 테스트", () => {
     beforeEach(() => {
+      +pushSpy.mockClear();
       resetOverlaySpy();
     });
 

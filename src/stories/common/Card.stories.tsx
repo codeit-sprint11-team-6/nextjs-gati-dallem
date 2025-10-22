@@ -23,7 +23,7 @@ type Story = StoryObj<typeof meta>;
  */
 export const CustomCardExample: Story = {
   render: () => {
-    const { id, name, image } = mockMyGathering[0];
+    const { name, image } = mockMyGathering[0];
     return (
       <Card>
         <Card.Image image={image ?? undefined} />

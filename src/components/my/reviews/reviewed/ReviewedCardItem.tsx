@@ -8,28 +8,31 @@ import Link from "next/link";
 import HeartScore from "./HeartScore";
 
 function ReviewedCardImage({
+  id,
   image,
-  isHidden = false,
+  showOnlyMobile = false,
 }: {
+  id: number;
   image?: string | null;
-  isHidden?: boolean;
+  showOnlyMobile?: boolean;
 }) {
   return image ? (
-    <div
+    <Link
+      href={`/meetings/${id}`}
       className={cn(
         "relative aspect-square w-20 shrink-0 overflow-hidden rounded-xl border-1 border-slate-100 md:w-[160px] md:rounded-3xl",
-        isHidden ? "block md:hidden" : "hidden md:block",
+        showOnlyMobile ? "block md:hidden" : "hidden md:block",
       )}
     >
       <Image
         className="object-cover"
         src={image}
-        alt={`리뷰 작성한 모임 이미지${isHidden ? " (모바일용)" : ""}`}
+        alt={`리뷰 작성한 모임 이미지${showOnlyMobile ? " (모바일용)" : ""}`}
         fill
         sizes="100px, (min-width: 768px) 200px"
-        priority={isHidden ? false : true}
+        priority={showOnlyMobile ? false : true}
       />
-    </div>
+    </Link>
   ) : (
     <></>
   );
@@ -38,7 +41,7 @@ function ReviewedCardImage({
 export default function ReviewedCardItem({ Gathering, User, score, createdAt, comment }: Review) {
   return (
     <section className="flex items-start justify-start gap-4 pb-6" data-testid="reviewed-item">
-      <ReviewedCardImage image={Gathering.image} />
+      <ReviewedCardImage id={Gathering.id} image={Gathering.image} />
       <div className="grid gap-4">
         <div className="grid gap-2">
           <div className="flex-start gap-3">
@@ -75,7 +78,7 @@ export default function ReviewedCardItem({ Gathering, User, score, createdAt, co
         </div>
         <div className="grow-1">
           <div className="flex-between gap-3">
-            <ReviewedCardImage image={Gathering.image} isHidden={true} />
+            <ReviewedCardImage id={Gathering.id} image={Gathering.image} showOnlyMobile={true} />
             <div className="grow-1">
               {comment.split("\n").map((line, idx) => (
                 <p key={idx}>{line}</p>

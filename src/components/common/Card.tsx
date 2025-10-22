@@ -21,9 +21,17 @@ interface CardProps extends HTMLAttributes<HTMLElement> {
  */
 export function Card({ children, className, meetingId }: CardProps) {
   const router = useRouter();
+  const moveToDetailPage = () => router.push(`/meetings/${meetingId}`);
 
   function handleClickCard() {
-    if (meetingId) router.push(`/meetings/${meetingId}`);
+    if (meetingId) moveToDetailPage();
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent) {
+    if (meetingId && (e.key === "Enter" || e.key === " ")) {
+      e.preventDefault();
+      moveToDetailPage();
+    }
   }
   return (
     <section
@@ -35,6 +43,9 @@ export function Card({ children, className, meetingId }: CardProps) {
       )}
       aria-label="모임 목록 아이템"
       onClick={handleClickCard}
+      onKeyDown={handleKeyDown}
+      role={meetingId ? "button" : undefined}
+      tabIndex={meetingId ? 0 : undefined}
     >
       {children}
     </section>
@@ -52,9 +63,12 @@ function CardImage({ image }: { image?: string }) {
           alt="모임 이미지 미리보기"
           fill
           sizes="100vw, (min-width: 768px) 200px"
+          priority
         />
       ) : (
-        <div className="h-full w-full bg-gray-200" data-testid="no-card-image" />
+        <div className="flex-center h-full w-full bg-gray-100" data-testid="no-card-image">
+          <Image src="/image/empty.svg" alt="모임 이미지 썸네일" width={100} height={100} />
+        </div>
       )}
     </div>
   );
