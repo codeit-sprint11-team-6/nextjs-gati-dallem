@@ -26,8 +26,8 @@ export enum GatheringLocation {
  */
 export enum GatheringMapper {
   DALLAEMFIT = "네트워킹",
-  OFFICE_STRETCHING = "개발자 커뮤니티",
-  MINDFULNESS = "비개발자도 함께 하는 커뮤니티",
+  OFFICE_STRETCHING = "개발자 모임",
+  MINDFULNESS = "비개발자와 함께하는 모임",
   WORKATION = "세미나",
 }
 
