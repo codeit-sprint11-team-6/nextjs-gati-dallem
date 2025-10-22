@@ -61,7 +61,7 @@ export default function AuthAction({
         >
           <Link href={loginHref} className="flex items-center gap-2">
             <LogIn className="size-4" aria-hidden />
-            <span className="leading-none">로그인</span>
+            <span className="hidden md:inline leading-none">로그인</span>
           </Link>
         </Button>
       )}
@@ -97,7 +97,10 @@ export default function AuthAction({
           size="sm"
           className="h-12 text-lg text-white md:h-22 lg:h-22"
         >
-          <Link href="/signin">다시 로그인</Link>
+          <Link href="/signin" className="flex items-center gap-2">
+            <LogIn className="size-4" aria-hidden />
+            <span className="hidden md:inline">다시 로그인</span>
+          </Link>
         </Button>
       )}
       {/* (선택) 5) 기타 에러 시 재시도 버튼/메시지 - 테스트 후 삭제하기 */}

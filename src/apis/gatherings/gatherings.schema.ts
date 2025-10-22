@@ -126,7 +126,7 @@ export const ParticipantItemSchema = z.object({
     email: z.string(),
     name: z.string(),
     companyName: z.string().optional(),
-    image: z.string().optional(),
+    image: z.string().nullable().optional(),
   }),
 });
 export const GetParticipantsResponseSchema = z.array(ParticipantItemSchema);

@@ -16,7 +16,7 @@ export default function UnreviewedCardItem({
 }: JoinedGathering) {
   return (
     <Card>
-      <Card.Image image={image} />
+      <Card.Image image={image ?? undefined} />
       <Card.Detail>
         <div className="flex h-full flex-col items-start justify-between gap-4">
           <Card.Title id={id}>

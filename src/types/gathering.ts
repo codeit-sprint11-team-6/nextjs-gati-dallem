@@ -49,7 +49,7 @@ export interface Gathering {
   location: string;
   participantCount: number;
   capacity: number;
-  image?: string;
+  image?: string | null;
   createdBy: UserId;
   canceledAt?: ISODateTimeString | null;
 }

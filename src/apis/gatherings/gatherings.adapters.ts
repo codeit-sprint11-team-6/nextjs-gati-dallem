@@ -65,7 +65,7 @@ export function toGatheringParticipant(
       email: dto.User.email,
       name: dto.User.name,
       companyName: dto.User.companyName,
-      image: dto.User.image,
+      image: dto.User.image ?? undefined,
     },
   };
 }
