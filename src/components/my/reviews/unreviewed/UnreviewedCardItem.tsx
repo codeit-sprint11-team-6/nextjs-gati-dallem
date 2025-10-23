@@ -15,11 +15,11 @@ export default function UnreviewedCardItem({
   location,
 }: JoinedGathering) {
   return (
-    <Card>
+    <Card meetingId={id}>
       <Card.Image image={image ?? undefined} />
       <Card.Detail>
         <div className="flex h-full flex-col items-start justify-between gap-4">
-          <Card.Title id={id}>
+          <Card.Title>
             <div className="flex gap-1.5 md:gap-2">{name}</div>
           </Card.Title>
           <div className="flex-between w-full flex-col gap-6 md:flex-row md:gap-3">

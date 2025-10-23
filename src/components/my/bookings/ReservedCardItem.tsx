@@ -18,7 +18,7 @@ export default function ReservedCardItem({
   canceledAt,
 }: JoinedGathering) {
   return (
-    <Card>
+    <Card meetingId={id}>
       <Card.Image image={image ?? undefined} />
       <Card.Detail>
         <div className="flex flex-col gap-3.5 md:gap-4">
@@ -27,7 +27,7 @@ export default function ReservedCardItem({
             isConfirmed={isCompleted || participantCount >= 5}
           />
           <div className="flex flex-col items-start justify-between gap-4">
-            <Card.Title id={id}>
+            <Card.Title>
               <div className="flex gap-1.5 md:gap-2">{name}</div>
             </Card.Title>
             <div className="flex-between flex-col items-center gap-6 md:w-full md:flex-row md:gap-3">

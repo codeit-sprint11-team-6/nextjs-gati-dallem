@@ -7,21 +7,45 @@ import Image from "next/image";
 import Link from "next/link";
 import HeartScore from "./HeartScore";
 
+function ReviewedCardImage({
+  id,
+  image,
+  showOnlyMobile = false,
+}: {
+  id: number;
+  image?: string | null;
+  showOnlyMobile?: boolean;
+}) {
+  return image ? (
+    <Link
+      href={`/meetings/${id}`}
+      className={cn(
+        "relative aspect-square w-20 shrink-0 overflow-hidden rounded-xl border-1 border-slate-100 md:w-[160px] md:rounded-3xl",
+        showOnlyMobile ? "block md:hidden" : "hidden md:block",
+      )}
+    >
+      <Image
+        className="object-cover"
+        src={image}
+        alt="리뷰 작성한 모임 이미지"
+        fill
+        sizes="(min-width: 768px) 200px, 100px"
+        priority={showOnlyMobile ? false : true}
+      />
+    </Link>
+  ) : (
+    <></>
+  );
+}
 /** 마이페이지 나의 리뷰 - 작성한 리뷰 카드 컴포넌트 */
 export default function ReviewedCardItem({ Gathering, User, score, createdAt, comment }: Review) {
   return (
-    <div className="flex items-start justify-start gap-4 pb-6" data-testid="reviewed-item">
-      {Gathering.image && (
-        <div className="relative hidden aspect-square w-20 shrink-0 overflow-hidden rounded-xl border-1 border-slate-100 md:block md:w-[160px] md:rounded-3xl">
-          <Image
-            className="object-cover"
-            src={Gathering.image}
-            alt="모임 이미지"
-            fill
-            sizes="200px"
-          />
-        </div>
-      )}
+    <section
+      className="flex items-start justify-start gap-4 pb-6"
+      aria-label="작성한 리뷰 목록 아이템"
+      data-testid="reviewed-item"
+    >
+      <ReviewedCardImage id={Gathering.id} image={Gathering.image} />
       <div className="grid gap-4">
         <div className="grid gap-2">
           <div className="flex-start gap-3">
@@ -57,12 +81,17 @@ export default function ReviewedCardItem({ Gathering, User, score, createdAt, co
           </div>
         </div>
         <div className="grow-1">
-          {comment.split("\n").map((line, idx) => (
-            <p key={idx}>{line}</p>
-          ))}
+          <div className="flex-between gap-3">
+            <ReviewedCardImage id={Gathering.id} image={Gathering.image} showOnlyMobile={true} />
+            <div className="grow-1">
+              {comment.split("\n").map((line, idx) => (
+                <p key={idx}>{line}</p>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

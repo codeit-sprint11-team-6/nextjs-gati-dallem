@@ -1,9 +1,11 @@
 import { Card } from "@/components/common/Card";
+import { pushSpy } from "@/test/__mocks__/next";
 import { overlaySpy, resetOverlaySpy } from "@/test/__mocks__/overlay";
 import { fireEvent, render, screen } from "@testing-library/react";
 
 describe("Card 컴포넌트", () => {
   beforeEach(() => {
+    pushSpy.mockClear();
     resetOverlaySpy();
   });
 
@@ -18,6 +20,26 @@ describe("Card 컴포넌트", () => {
       const article = screen.getByLabelText("모임 목록 아이템");
       expect(article).toBeInTheDocument();
       expect(screen.getByText("child")).toBeInTheDocument();
+    });
+
+    test("meetingId가 있으면 클릭 시 router.push 호출 + cursor-pointer 클래스", () => {
+      render(<Card meetingId={123}>x</Card>);
+
+      const section = screen.getByLabelText("모임 목록 아이템");
+      expect(section).toHaveClass("cursor-pointer");
+
+      fireEvent.click(section);
+      expect(pushSpy).toHaveBeenCalledWith("/meetings/123");
+    });
+
+    test("meetingId가 없으면 클릭해도 push되지 않음 + cursor-pointer 없음", () => {
+      render(<Card>x</Card>);
+
+      const section = screen.getByLabelText("모임 목록 아이템");
+      expect(section).not.toHaveClass("cursor-pointer");
+
+      fireEvent.click(section);
+      expect(pushSpy).not.toHaveBeenCalled();
     });
   });
 
@@ -89,15 +111,14 @@ describe("Card 컴포넌트", () => {
   });
 
   describe("Card.Title", () => {
-    test("id에 맞는 링크로 이동", () => {
+    test("모임명 텍스트 렌더", () => {
       render(
         <Card>
-          <Card.Title id={123}>모임명</Card.Title>
+          <Card.Title>모임명</Card.Title>
         </Card>,
       );
-      const a = screen.getByTestId("next-link");
-      expect(a).toHaveAttribute("href", "/meetings/123");
-      expect(a).toHaveTextContent("모임명");
+      const card = screen.getByLabelText("모임 목록 아이템");
+      expect(card).toHaveTextContent("모임명");
     });
   });
 

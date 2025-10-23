@@ -1,3 +1,4 @@
+import { Button } from "@/components/common/Button";
 import { Card } from "@/components/common/Card";
 import { ChipInfo } from "@/components/ui/Chip";
 import { mockMyGathering } from "@/mocks/my/mockMyGathering";
@@ -22,13 +23,13 @@ type Story = StoryObj<typeof meta>;
  */
 export const CustomCardExample: Story = {
   render: () => {
-    const { id, name, image } = mockMyGathering[0];
+    const { name, image } = mockMyGathering[0];
     return (
       <Card>
         <Card.Image image={image ?? undefined} />
         <Card.Detail>
           <div className="flex h-full flex-col items-start justify-between gap-4">
-            <Card.Title id={id}>
+            <Card.Title>
               <div className="flex gap-1.5 md:gap-2">{name}</div>
             </Card.Title>
             <div className="flex-start gap-2">
@@ -36,9 +37,9 @@ export const CustomCardExample: Story = {
               <ChipInfo>00:00</ChipInfo>
             </div>
             <div className="flex-end w-full">
-              <button className="rounded-2xl bg-purple-100 px-6 py-2.5 text-base font-bold text-purple-500">
+              <Button variant="primary" className="rounded-2xl px-6 py-2.5 text-base font-bold">
                 리뷰 작성하기
-              </button>
+              </Button>
             </div>
           </div>
         </Card.Detail>
