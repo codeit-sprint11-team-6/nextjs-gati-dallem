@@ -1,18 +1,7 @@
 import Image from "next/image";
 import Avatar from "@/components/ui/Avatar";
 import { formatDate } from "@/utils/datetime";
-
-interface ReviewListItemProps {
-  id: number;
-  userName: string;
-  userImage?: string;
-  score: number;
-  createdAt?: string;
-  gatheringType: string;
-  gatheringLocation: string;
-  gatheringImage?: string;
-  comment: string;
-}
+import type { Review } from "@/types/review";
 
 const DISPLAY_DATE_FALLBACK = "날짜 없음";
 
@@ -27,24 +16,21 @@ const formatCreatedAt = (value?: string) => {
 };
 
 export default function ReviewListItem({
-  userName,
-  userImage,
+  User,
+  Gathering,
   score,
   createdAt,
-  gatheringType,
-  gatheringLocation,
-  gatheringImage,
   comment,
-}: ReviewListItemProps) {
+}: Review) {
   const formattedCreatedAt = formatCreatedAt(createdAt);
 
   return (
     <div className="flex flex-col justify-center bg-white md:h-[200px] md:flex-row md:items-center md:gap-8">
       {/* Image Section - Desktop & Tablet */}
-      {gatheringImage && (
+      {Gathering.image && (
         <div className="relative hidden aspect-square w-20 shrink-0 overflow-hidden rounded-xl md:block md:h-[200px] md:w-[200px] md:rounded-3xl lg:h-[200px] lg:w-[296px]">
           <Image
-            src={gatheringImage}
+            src={Gathering.image}
             alt="모임 이미지"
             fill
             className="object-cover"
@@ -61,14 +47,14 @@ export default function ReviewListItem({
           <div className="flex items-center gap-3">
             <Avatar
               userProfile={
-                userImage
+                User.image
                   ? {
-                      teamId: "11-6",
-                      id: 1,
+                      teamId: User.teamId,
+                      id: User.id,
                       email: "",
-                      name: userName,
+                      name: User.name,
                       companyName: "",
-                      image: userImage,
+                      image: User.image,
                       createdAt: "",
                       updatedAt: "",
                     }
@@ -78,7 +64,7 @@ export default function ReviewListItem({
               type="female"
             />
             <div className="flex flex-col gap-1">
-              <p className="text-sm leading-5 font-medium text-slate-500">{userName}</p>
+              <p className="text-sm leading-5 font-medium text-slate-500">{User.name}</p>
               <div className="flex items-center gap-2">
                 {/* Heart Score */}
                 <div className="flex items-center gap-[1px]">
@@ -104,17 +90,17 @@ export default function ReviewListItem({
           <div className="flex items-center gap-2 pl-1">
             <div className="h-4 w-[3px] bg-slate-200" />
             <p className="text-base leading-6 font-medium text-slate-400">
-              {gatheringType} · {gatheringLocation}
+              {Gathering.name} · {Gathering.location}
             </p>
           </div>
         </div>
 
         {/* Mobile Image */}
-        {gatheringImage && (
+        {Gathering.image && (
           <div className="flex items-center gap-3 md:hidden">
             <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl">
               <Image
-                src={gatheringImage}
+                src={Gathering.image}
                 alt="모임 이미지"
                 fill
                 className="object-cover"

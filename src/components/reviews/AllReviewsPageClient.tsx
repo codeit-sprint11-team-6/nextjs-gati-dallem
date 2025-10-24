@@ -4,8 +4,7 @@ import { useState, useMemo } from "react";
 import Image from "next/image";
 import FilterBar, { MeetingFilters } from "@/components/meeting/list/FilterBar";
 import ReviewsRatingSummary from "@/components/reviews/ReviewsRatingSummary";
-import ReviewsEmptyState from "@/components/reviews/ReviewsEmptyState";
-import ReviewListItem from "@/components/reviews/ReviewListItem";
+import ReviewList from "@/components/reviews/ReviewList";
 import { mockAllReviews, mockRatingSummary } from "@/mocks/reviews/mockAllReviews";
 
 export default function AllReviewsPageClient() {
@@ -34,8 +33,6 @@ export default function AllReviewsPageClient() {
       return true;
     });
   }, [filters]);
-
-  const hasReviews = filteredReviews.length > 0;
 
   return (
     <div className="mx-auto max-w-7xl">
@@ -68,17 +65,7 @@ export default function AllReviewsPageClient() {
 
       {/* Reviews List / Empty State */}
       <div className="mt-6 lg:mt-8">
-        {hasReviews ? (
-          <div className="divide-y divide-slate-200 rounded-3xl bg-white p-6 md:rounded-[32px] md:p-8 lg:p-8">
-            {filteredReviews.map((review) => (
-              <div key={review.id} className="py-6 first:pt-0 last:pb-0">
-                <ReviewListItem {...review} />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <ReviewsEmptyState />
-        )}
+        <ReviewList reviews={filteredReviews} />
       </div>
     </div>
   );
