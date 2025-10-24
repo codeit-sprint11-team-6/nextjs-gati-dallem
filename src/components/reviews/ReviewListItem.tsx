@@ -7,12 +7,24 @@ interface ReviewListItemProps {
   userName: string;
   userImage?: string;
   score: number;
-  createdAt: string;
+  createdAt?: string;
   gatheringType: string;
   gatheringLocation: string;
   gatheringImage?: string;
   comment: string;
 }
+
+const DISPLAY_DATE_FALLBACK = "날짜 없음";
+
+const formatCreatedAt = (value?: string) => {
+  if (!value) return DISPLAY_DATE_FALLBACK;
+
+  try {
+    return formatDate(value);
+  } catch {
+    return DISPLAY_DATE_FALLBACK;
+  }
+};
 
 export default function ReviewListItem({
   userName,
@@ -24,6 +36,8 @@ export default function ReviewListItem({
   gatheringImage,
   comment,
 }: ReviewListItemProps) {
+  const formattedCreatedAt = formatCreatedAt(createdAt);
+
   return (
     <div className="flex flex-col justify-center bg-white md:h-[200px] md:flex-row md:items-center md:gap-8">
       {/* Image Section - Desktop & Tablet */}
@@ -64,7 +78,7 @@ export default function ReviewListItem({
               type="female"
             />
             <div className="flex flex-col gap-1">
-              <p className="text-sm font-medium leading-5 text-slate-500">{userName}</p>
+              <p className="text-sm leading-5 font-medium text-slate-500">{userName}</p>
               <div className="flex items-center gap-2">
                 {/* Heart Score */}
                 <div className="flex items-center gap-[1px]">
@@ -79,8 +93,8 @@ export default function ReviewListItem({
                     </div>
                   ))}
                 </div>
-                <span className="text-sm font-normal leading-5 text-slate-400">
-                  {formatDate(createdAt)}
+                <span className="text-sm leading-5 font-normal text-slate-400">
+                  {formattedCreatedAt}
                 </span>
               </div>
             </div>
@@ -89,7 +103,7 @@ export default function ReviewListItem({
           {/* Gathering Info */}
           <div className="flex items-center gap-2 pl-1">
             <div className="h-4 w-[3px] bg-slate-200" />
-            <p className="text-base font-medium leading-6 text-slate-400">
+            <p className="text-base leading-6 font-medium text-slate-400">
               {gatheringType} · {gatheringLocation}
             </p>
           </div>
@@ -108,7 +122,7 @@ export default function ReviewListItem({
               />
             </div>
             <div className="flex-1">
-              <p className="line-clamp-4 text-sm font-medium leading-5 text-gray-700 md:text-base md:leading-6">
+              <p className="line-clamp-4 text-sm leading-5 font-medium text-gray-700 md:text-base md:leading-6">
                 {comment}
               </p>
             </div>
@@ -117,7 +131,7 @@ export default function ReviewListItem({
 
         {/* Comment - Desktop & Tablet */}
         <div className="hidden md:block">
-          <p className="line-clamp-2 text-base font-medium leading-6 text-gray-700 lg:text-base lg:leading-6">
+          <p className="line-clamp-2 text-base leading-6 font-medium text-gray-700 lg:text-base lg:leading-6">
             {comment}
           </p>
         </div>

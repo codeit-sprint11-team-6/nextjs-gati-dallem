@@ -14,22 +14,22 @@ function ScoreBar({ label, count, total, isHighlighted = false }: ScoreBarProps)
     <div className="flex items-center gap-2 md:gap-2">
       <span
         className={`text-xs font-semibold leading-4 md:text-base md:leading-6 ${
-          isHighlighted ? "text-green-600" : "text-slate-500"
+          isHighlighted ? "text-purple-600" : "text-slate-500"
         }`}
       >
         {label}
       </span>
-      <div className="relative h-1.5 flex-1 overflow-hidden rounded-md bg-[#DAE3E3] md:h-2">
+      <div className="relative h-1.5 flex-1 overflow-hidden rounded-md bg-gray-200 md:h-2">
         {percentage > 0 && (
           <div
-            className="absolute left-0 top-0 h-full rounded-md bg-gradient-to-r from-[#5DD996] to-[#68E3E3] transition-all"
+            className="absolute left-0 top-0 h-full rounded-md bg-gradient-to-r from-purple-400 to-pink-400 transition-all"
             style={{ width: `${percentage}%` }}
           />
         )}
       </div>
       <span
         className={`text-xs font-semibold leading-4 md:text-base md:leading-6 ${
-          isHighlighted ? "text-green-600" : "text-slate-500"
+          isHighlighted ? "text-purple-600" : "text-slate-500"
         }`}
       >
         {count}
@@ -58,7 +58,7 @@ export default function ReviewsRatingSummary({
   const filledHearts = Math.floor(averageScore);
 
   return (
-    <div className="rounded-3xl border border-[#AFEFD1] bg-gradient-to-r from-[#DEF8EA] to-[#D9F6F4] p-6 md:rounded-[32px] md:px-6 md:py-10 lg:px-[151px] lg:py-[41px]">
+    <div className="rounded-3xl border border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50 p-6 md:rounded-[32px] md:px-6 md:py-10 lg:px-[151px] lg:py-[41px]">
       <div className="flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-center md:gap-6 lg:gap-[142px]">
         {/* Left: Average Score */}
         <div className="flex flex-col items-center gap-2 md:gap-3">
@@ -89,7 +89,7 @@ export default function ReviewsRatingSummary({
         </div>
 
         {/* Divider */}
-        <div className="hidden h-[141px] w-px bg-[#CCE5DA] md:block" />
+        <div className="hidden h-[141px] w-px bg-purple-200 md:block" />
 
         {/* Right: Score Breakdown */}
         <div className="w-full space-y-2 md:w-[337px]">
