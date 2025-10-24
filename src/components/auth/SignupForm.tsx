@@ -19,23 +19,37 @@ import { EMAIL_REGEX, MIN_PASSWORD_LEN } from "@/constants/auth/constraints";
 
 type Props = { redirect?: string };
 
+type SignupFields = {
+  name: string;
+  email: string;
+  company: string;
+  pw: string;
+  pw2: string;
+};
+
+type SignupErrors = Partial<Record<keyof SignupFields | "global", string>>;
+
 const SignupForm = ({ redirect = "/signin" }: Props) => {
   const { mutateAsync: signupMutate, isPending } = useSignup();
 
   // form states
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [company, setCompany] = useState("");
-  const [pw, setPw] = useState("");
-  const [pw2, setPw2] = useState("");
-
+  const [values, setValues] = useState<SignupFields>({
+    name: "",
+    email: "",
+    company: "",
+    pw: "",
+    pw2: "",
+  });
   // field error states
-  const [nameError, setNameError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [companyError, setCompanyError] = useState("");
-  const [pwError, setPwError] = useState("");
-  const [pw2Error, setPw2Error] = useState("");
-  //   const [serverMsg, setServerMsg] = useState("");
+  const [errors, setErrors] = useState<SignupErrors>({});
+
+  const { name, email, company, pw, pw2 } = values;
+
+  // 공통 change 핸들러 (값 업데이트 + 해당 필드 에러 초기화)
+  function handleChange<K extends keyof SignupFields>(key: K, value: string) {
+    setValues((prev) => ({ ...prev, [key]: value }));
+    if (errors[key]) setErrors((prev) => ({ ...prev, [key]: "" }));
+  }
 
   // 앞단 검증
   const isPwMatch = pw2.length > 0 && pw === pw2;
@@ -53,15 +67,12 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
     if (isPending) return;
 
     // 에러 초기화
-    setNameError("");
-    setEmailError("");
-    setCompanyError("");
-    setPwError("");
-    setPw2Error("");
+    setErrors({});
+
     // setServerMsg("");
 
     // 1) 클라이언트 선검증
-    const errs = validateSignup({
+    const vErrs = validateSignup({
       name,
       email,
       company,
@@ -69,12 +80,17 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
       confirmPassword: pw2,
     });
 
-    if (errs.name) setNameError(errs.name);
-    if (errs.email) setEmailError(errs.email);
-    if (errs.company) setCompanyError(errs.company);
-    if (errs.password) setPwError(errs.password);
-    if (errs.confirmPassword) setPw2Error(errs.confirmPassword);
-    if (Object.keys(errs).length) return; // 선검증 실패 시 API 호출 중단
+    // 선검증 실패 시 API 호출 중단
+    if (Object.keys(vErrs).length) {
+      setErrors({
+        name: vErrs.name,
+        email: vErrs.email,
+        company: vErrs.company,
+        pw: vErrs.password,
+        pw2: vErrs.confirmPassword,
+      });
+      return;
+    }
 
     // 2) API
     try {
@@ -89,35 +105,41 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
       // 필요 시: router.replace(redirect);
     } catch (err) {
       // 서버 필드 에러 매핑(있으면)
-      const { code, status } = toUserErrorDetails(err, "");
+      const { code, status, message } = toUserErrorDetails(err, "");
 
       // 이메일 중복(서버: 400 + code "EMAIL_EXISTS")
       if (code === "EMAIL_EXISTS") {
-        setEmailError(AUTH_ERROR_MESSAGES.fields.email.DUPLICATE);
+        setErrors((prev) => ({
+          ...prev,
+          email: AUTH_ERROR_MESSAGES.fields.email.DUPLICATE,
+        }));
         return;
       }
 
-      // 서버 유효성 오류 → 각 필드로 매핑하지만, 대부분은 프론트에서 선검증됨
+      // 서버 유효성 오류 매핑 → 각 필드로 매핑하지만, 대부분은 프론트에서 선검증됨
       if (code === "VALIDATION_ERROR" || status === 400 || status === 422) {
         const items = extractValidationItems(err);
+        const next: SignupErrors = {};
         for (const it of items) {
           switch (it.parameter) {
             case "email":
-              setEmailError(it.message || AUTH_ERROR_MESSAGES.fields.email.INVALID);
+              next.email = it.message || AUTH_ERROR_MESSAGES.fields.email.INVALID;
               break;
             case "name":
-              setNameError(it.message || AUTH_ERROR_MESSAGES.fields.name.REQUIRED);
+              next.name = it.message || AUTH_ERROR_MESSAGES.fields.name.REQUIRED;
               break;
             case "companyName":
-              setCompanyError(it.message || AUTH_ERROR_MESSAGES.fields.companyName.REQUIRED);
+              next.company = it.message || AUTH_ERROR_MESSAGES.fields.companyName.REQUIRED;
               break;
             case "password":
-              setPwError(it.message || AUTH_ERROR_MESSAGES.fields.password.WEAK);
+              next.pw = it.message || AUTH_ERROR_MESSAGES.fields.password.WEAK;
               break;
           }
         }
+        setErrors((prev) => ({ ...prev, ...next }));
         return;
       }
+      setErrors((prev) => ({ ...prev, global: message }));
     }
   };
 
@@ -133,19 +155,16 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
       <label className="mb-1 text-[13px] font-medium text-slate-500">이름</label>
       <AuthInput
         placeholder="이름을 입력해 주세요"
-        value={name}
-        onChange={(e) => {
-          setName(e.target.value);
-          if (nameError) setNameError("");
-        }}
-        invalid={!!nameError}
+        value={values.name}
+        onChange={(e) => handleChange("name", e.target.value)}
+        invalid={!!errors.name}
         aria-describedby="name-error"
         autoComplete="name"
         className="bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]"
       />
-      {nameError && (
+      {errors.name && (
         <p id="name-error" className="mt-1 text-xs text-[#FF2727]">
-          {nameError}
+          {errors.name}
         </p>
       )}
 
@@ -155,23 +174,20 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
         type="email"
         placeholder="이메일을 입력해 주세요"
         value={email}
-        onChange={(e) => {
-          setEmail(e.target.value);
-          if (emailError) setEmailError("");
-        }}
-        invalid={!!emailError}
+        onChange={(e) => handleChange("email", e.target.value)}
+        invalid={!!errors.email}
         aria-describedby="email-error"
         autoComplete="username"
         className="bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]"
       />
-      {emailError && (
+      {errors.email && (
         <p id="email-error" className="mt-1 text-xs text-[#FF2727]">
-          {emailError}
+          {errors.email}
         </p>
       )}
 
       {/* 이메일 형식 선검증 */}
-      {email.length > 0 && !EMAIL_REGEX.test(email.trim()) && !emailError && (
+      {email.length > 0 && !EMAIL_REGEX.test(email.trim()) && !errors.email && (
         <p className="mt-1 text-xs text-[#FF2727]">올바른 이메일 형식을 입력해 주세요.</p>
       )}
 
@@ -180,17 +196,14 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
       <AuthInput
         placeholder="회사명을 입력해 주세요"
         value={company}
-        onChange={(e) => {
-          setCompany(e.target.value);
-          if (companyError) setCompanyError("");
-        }}
-        invalid={!!companyError}
+        onChange={(e) => handleChange("company", e.target.value)}
+        invalid={!!errors.company}
         autoComplete="organization"
         className="bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]"
       />
-      {companyError && (
+      {errors.company && (
         <p id="company-error" className="mt-1 text-xs text-[#FF2727]">
-          {companyError}
+          {errors.company}
         </p>
       )}
       {/* 비밀번호 */}
@@ -198,19 +211,16 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
       <AuthPasswordInput
         placeholder="비밀번호를 입력해 주세요"
         value={pw}
-        onChange={(e) => {
-          setPw(e.target.value);
-          if (pwError) setPwError("");
-        }}
-        invalid={!!pwError}
-        errorMessage={pwError}
+        onChange={(e) => handleChange("pw", e.target.value)}
+        invalid={!!errors.pw}
+        errorMessage={errors.pw}
         aria-describedby="pw-error"
         autoComplete="new-password"
         className="bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]"
       />
 
       {/* 실시간 힌트(선택): 최소 길이 */}
-      {pw.length > 0 && !isPwStrongEnough && !pwError && (
+      {pw.length > 0 && !isPwStrongEnough && !errors.pw && (
         <p className="mt-1 text-xs text-[#FF2727]">
           비밀번호는 {MIN_PASSWORD_LEN}자 이상이어야 합니다.
         </p>
@@ -220,20 +230,17 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
       <AuthPasswordInput
         placeholder="비밀번호를 작성해 주세요"
         value={pw2}
-        onChange={(e) => {
-          setPw2(e.target.value);
-          if (pw2Error) setPw2Error("");
-        }}
-        invalid={!!pw2Error || (pw2.length > 0 && !isPwMatch)}
-        errorMessage={pw2Error}
+        onChange={(e) => handleChange("pw2", e.target.value)}
+        invalid={!!errors.pw2 || (pw2.length > 0 && !isPwMatch)}
+        errorMessage={errors.pw2}
         aria-describedby="pw2-error"
         autoComplete="new-password"
         className="bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]"
       />
 
-      {(pw2Error || (pw2.length > 0 && !isPwMatch)) && (
+      {(errors.pw2 || (pw2.length > 0 && !isPwMatch)) && (
         <p id="pw2-error" className="mt-1 text-xs text-[#FF2727]">
-          {pw2Error || "비밀번호가 일치하지 않습니다."}
+          {errors.pw2 || "비밀번호가 일치하지 않습니다."}
         </p>
       )}
 
