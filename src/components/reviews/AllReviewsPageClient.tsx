@@ -17,22 +17,15 @@ export default function AllReviewsPageClient() {
   });
 
   // Filter reviews based on selected filters
-  const filteredReviews = useMemo(() => {
-    return mockAllReviews.filter((review) => {
-      // Category filter
-      if (filters.category !== "all" && review.category !== filters.category) return false;
+  const filteredReviews = mockAllReviews.filter((review) => {
+    // Category filter
+    if (filters.category !== "all" && review.Gathering.type !== filters.category) return false;
 
-      // Sub-category filter (OFFICE_STRETCHING, MINDFULNESS)
-      if (filters.category === "OFFICE_STRETCHING" || filters.category === "MINDFULNESS") {
-        if (review.subCategory !== filters.category) return false;
-      }
+    // Location filter
+    if (filters.location && review.Gathering.location !== filters.location) return false;
 
-      // Location filter
-      if (filters.location && review.location !== filters.location) return false;
-
-      return true;
-    });
-  }, [filters]);
+    return true;
+  });
 
   return (
     <div className="mx-auto max-w-7xl">
