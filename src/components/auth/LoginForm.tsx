@@ -11,6 +11,7 @@ import Link from "next/link";
 import { toSafePath } from "@/utils/auth/safePath";
 import { toUserErrorMessage } from "@/apis/_errorMessage";
 import { EMAIL_REGEX } from "@/constants/auth/constraints";
+import FormErrorBanner from "./ui/FormErrorBanner";
 
 type Props = { redirect?: string };
 
@@ -70,9 +71,7 @@ const LoginForm = ({ redirect = "/" }: Props) => {
       noValidate // 브라우저 기본 검증 비활성 (커스텀 메시지 사용)
     >
       <h1 className="mb-4 text-center text-lg font-bold text-slate-900">로그인</h1>
-      {displayError && (
-        <p className="mb-2 rounded-md bg-red-50 px-3 py-2 text-xs text-red-600">{displayError}</p>
-      )}
+      {displayError && <FormErrorBanner message={displayError} />}
 
       <label className="mb-1 text-[13px] font-medium text-slate-500">이메일</label>
       <AuthInput

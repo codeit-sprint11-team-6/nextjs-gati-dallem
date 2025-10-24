@@ -44,6 +44,7 @@ export const AUTH_ERROR_MESSAGES = {
     USER_NOT_FOUND: "가입되지 않은 계정이에요.",
     EMAIL_EXISTS: "이미 사용 중인 이메일이에요.", // 서버 중복 응답 폴백
     VALIDATION_ERROR: "입력값을 다시 확인해 주세요.",
+    TOKEN_EXPIRED: "세션이 만료되었습니다. 다시 로그인해 주세요.",
   },
 
   // 공통 배너/토스트/성공 문구 등
@@ -51,5 +52,6 @@ export const AUTH_ERROR_MESSAGES = {
     LOGIN_FAILED: "로그인에 실패했습니다. 다시 시도해 주세요.",
     SIGNUP_FAILED: "회원가입에 실패했습니다. 잠시 후 다시 시도해 주세요.",
     SIGNUP_SUCCESS: "회원가입이 완료되었습니다.",
+    UNKNOWN: "요청을 처리할 수 없습니다. 잠시 후 다시 시도해 주세요.",
   },
 } as const;
