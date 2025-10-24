@@ -1,0 +1,127 @@
+import Image from "next/image";
+import Avatar from "@/components/ui/Avatar";
+import { formatDate } from "@/utils/datetime";
+
+interface ReviewListItemProps {
+  id: number;
+  userName: string;
+  userImage?: string;
+  score: number;
+  createdAt: string;
+  gatheringType: string;
+  gatheringLocation: string;
+  gatheringImage?: string;
+  comment: string;
+}
+
+export default function ReviewListItem({
+  userName,
+  userImage,
+  score,
+  createdAt,
+  gatheringType,
+  gatheringLocation,
+  gatheringImage,
+  comment,
+}: ReviewListItemProps) {
+  return (
+    <div className="flex flex-col justify-center bg-white md:h-[200px] md:flex-row md:items-center md:gap-8">
+      {/* Image Section - Desktop & Tablet */}
+      {gatheringImage && (
+        <div className="relative hidden aspect-square w-20 shrink-0 overflow-hidden rounded-xl md:block md:h-[200px] md:w-[200px] md:rounded-3xl lg:h-[200px] lg:w-[296px]">
+          <Image
+            src={gatheringImage}
+            alt="모임 이미지"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 80px, (max-width: 1024px) 200px, 296px"
+          />
+        </div>
+      )}
+
+      {/* Content Section */}
+      <div className="flex flex-1 flex-col gap-8 md:justify-center md:py-2 lg:gap-8">
+        {/* User Info & Rating */}
+        <div className="flex flex-col gap-4">
+          {/* User Profile */}
+          <div className="flex items-center gap-3">
+            <Avatar
+              userProfile={
+                userImage
+                  ? {
+                      teamId: "11-6",
+                      id: 1,
+                      email: "",
+                      name: userName,
+                      companyName: "",
+                      image: userImage,
+                      createdAt: "",
+                      updatedAt: "",
+                    }
+                  : undefined
+              }
+              size="small"
+              type="female"
+            />
+            <div className="flex flex-col gap-1">
+              <p className="text-sm font-medium leading-5 text-slate-500">{userName}</p>
+              <div className="flex items-center gap-2">
+                {/* Heart Score */}
+                <div className="flex items-center gap-[1px]">
+                  {Array.from({ length: 5 }).map((_, idx) => (
+                    <div key={idx} className="relative h-5 w-5 md:h-6 md:w-6">
+                      <Image
+                        src={`/icon/heart_${score >= idx + 1 ? "active" : "inactive"}.svg`}
+                        alt={`${idx + 1}번째 하트`}
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                  ))}
+                </div>
+                <span className="text-sm font-normal leading-5 text-slate-400">
+                  {formatDate(createdAt)}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Gathering Info */}
+          <div className="flex items-center gap-2 pl-1">
+            <div className="h-4 w-[3px] bg-slate-200" />
+            <p className="text-base font-medium leading-6 text-slate-400">
+              {gatheringType} · {gatheringLocation}
+            </p>
+          </div>
+        </div>
+
+        {/* Mobile Image */}
+        {gatheringImage && (
+          <div className="flex items-center gap-3 md:hidden">
+            <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl">
+              <Image
+                src={gatheringImage}
+                alt="모임 이미지"
+                fill
+                className="object-cover"
+                sizes="80px"
+              />
+            </div>
+            <div className="flex-1">
+              <p className="line-clamp-4 text-sm font-medium leading-5 text-gray-700 md:text-base md:leading-6">
+                {comment}
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Comment - Desktop & Tablet */}
+        <div className="hidden md:block">
+          <p className="line-clamp-2 text-base font-medium leading-6 text-gray-700 lg:text-base lg:leading-6">
+            {comment}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}

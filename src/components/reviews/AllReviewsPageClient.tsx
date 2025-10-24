@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Chip from "@/components/ui/Chip";
@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/Select";
 import ReviewsRatingSummary from "@/components/reviews/ReviewsRatingSummary";
 import ReviewsEmptyState from "@/components/reviews/ReviewsEmptyState";
+import ReviewListItem from "@/components/reviews/ReviewListItem";
+import { mockAllReviews, mockRatingSummary } from "@/mocks/reviews/mockAllReviews";
 
 type CategoryTab = "DALLAEMFIT" | "WORKATION";
 type SubCategory = "all" | "OFFICE_STRETCHING" | "MINDFULNESS";
@@ -26,19 +28,30 @@ export default function AllReviewsPageClient() {
 
   const locationOptions = ["전체", "건대입구", "을지로3가", "신림", "홍대입구"];
 
+  // Filter reviews based on selected filters
+  const filteredReviews = useMemo(() => {
+    return mockAllReviews.filter((review) => {
+      if (review.category !== activeCategory) return false;
+      if (activeSubCategory !== "all" && review.subCategory !== activeSubCategory) return false;
+      return true;
+    });
+  }, [activeCategory, activeSubCategory]);
+
+  const hasReviews = filteredReviews.length > 0;
+
   return (
     <div className="mx-auto max-w-7xl">
       {/* Header Section */}
-      <div className="mb-6 flex items-end gap-6 md:gap-7 lg:mb-8 lg:gap-[33px]">
+      <div className="mb-6 flex items-end gap-3 md:gap-7 lg:mb-8 lg:gap-[33px]">
         <div className="relative h-14 w-[70px] flex-shrink-0 md:h-[57px] md:w-[70px] lg:h-[91px] lg:w-[97px]">
           <Image src="/image/empty.svg" alt="리뷰 헤더 일러스트" fill className="object-contain" />
         </div>
-        <div className="flex flex-col gap-2 md:gap-4">
-          <h1 className="text-lg leading-7 font-semibold text-gray-900 md:text-2xl lg:text-[32px] lg:leading-9">
+        <div className="flex flex-col gap-1 md:gap-4">
+          <h1 className="text-lg font-semibold leading-7 text-gray-900 md:text-2xl lg:text-[32px] lg:leading-9">
             모든 리뷰
           </h1>
-          <p className="text-base leading-6 font-medium text-slate-400 md:text-lg md:leading-7 lg:text-xl lg:leading-7">
-            같이달램을 이용한 분들은 이렇게 느꼈어요 🫶
+          <p className="text-base font-medium leading-6 text-slate-400 md:text-lg md:leading-7 lg:text-xl lg:leading-7">
+            같이달램을 이용자들은 이렇게 느꼈어요 🫶
           </p>
         </div>
       </div>
@@ -61,7 +74,7 @@ export default function AllReviewsPageClient() {
             <div className="relative h-8 w-8 flex-shrink-0 md:h-11 md:w-11">
               <Image src="/image/empty.svg" alt="달램핏 아이콘" fill className="object-contain" />
             </div>
-            <span className="text-base md:text-lg lg:text-xl">달램핏</span>
+            <span className="text-base font-semibold md:text-lg lg:text-xl">달램핏</span>
             {activeCategory === "DALLAEMFIT" && (
               <div className="absolute inset-x-0 bottom-0 h-0.5 bg-green-500" />
             )}
@@ -82,7 +95,7 @@ export default function AllReviewsPageClient() {
             <div className="relative h-8 w-8 flex-shrink-0 md:h-11 md:w-11">
               <Image src="/image/empty.svg" alt="워케이션 아이콘" fill className="object-contain" />
             </div>
-            <span className="text-base md:text-lg lg:text-xl">워케이션</span>
+            <span className="text-base font-semibold md:text-lg lg:text-xl">워케이션</span>
             {activeCategory === "WORKATION" && (
               <div className="absolute inset-x-0 bottom-0 h-0.5 bg-green-500" />
             )}
@@ -97,7 +110,7 @@ export default function AllReviewsPageClient() {
           <Chip
             variant={activeSubCategory === "all" ? "active" : "default"}
             onClick={() => setActiveSubCategory("all")}
-            className="cursor-pointer text-sm font-semibold whitespace-nowrap md:text-base"
+            className="cursor-pointer whitespace-nowrap text-sm font-semibold md:text-base"
           >
             전체
           </Chip>
@@ -106,14 +119,14 @@ export default function AllReviewsPageClient() {
               <Chip
                 variant={activeSubCategory === "OFFICE_STRETCHING" ? "active" : "default"}
                 onClick={() => setActiveSubCategory("OFFICE_STRETCHING")}
-                className="cursor-pointer text-sm font-medium whitespace-nowrap md:text-base"
+                className="cursor-pointer whitespace-nowrap text-sm font-medium md:text-base"
               >
                 오피스 스트레칭
               </Chip>
               <Chip
                 variant={activeSubCategory === "MINDFULNESS" ? "active" : "default"}
                 onClick={() => setActiveSubCategory("MINDFULNESS")}
-                className="cursor-pointer text-sm font-medium whitespace-nowrap md:text-base"
+                className="cursor-pointer whitespace-nowrap text-sm font-medium md:text-base"
               >
                 마인드풀니스
               </Chip>
@@ -165,11 +178,25 @@ export default function AllReviewsPageClient() {
       </div>
 
       {/* Rating Summary */}
-      <ReviewsRatingSummary />
+      <ReviewsRatingSummary
+        averageScore={mockRatingSummary.averageScore}
+        totalReviews={mockRatingSummary.totalReviews}
+        scoreBreakdown={mockRatingSummary.scoreBreakdown}
+      />
 
       {/* Reviews List / Empty State */}
       <div className="mt-6 lg:mt-8">
-        <ReviewsEmptyState />
+        {hasReviews ? (
+          <div className="divide-y divide-slate-200 rounded-3xl bg-white p-6 md:rounded-[32px] md:p-8 lg:p-8">
+            {filteredReviews.map((review) => (
+              <div key={review.id} className="py-6 first:pt-0 last:pb-0">
+                <ReviewListItem {...review} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <ReviewsEmptyState />
+        )}
       </div>
     </div>
   );
