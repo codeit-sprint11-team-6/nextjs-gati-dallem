@@ -14,26 +14,24 @@ import {
   extractValidationItems,
 } from "@/apis/_errorMessage";
 import { AUTH_ERROR_MESSAGES } from "@/constants/auth/errorMessages";
-import { validateSignup } from "@/utils/auth/validateSignup";
+import { validateSignup, SignupFields as ValidationFields } from "@/utils/auth/validateSignup";
 import { EMAIL_REGEX, MIN_PASSWORD_LEN } from "@/constants/auth/constraints";
+import FormErrorBanner from "./ui/FormErrorBanner";
 
 type Props = { redirect?: string };
 
-type SignupFields = {
-  name: string;
-  email: string;
-  company: string;
+type FormFields = Omit<ValidationFields, "password" | "confirmPassword"> & {
   pw: string;
   pw2: string;
 };
 
-type SignupErrors = Partial<Record<keyof SignupFields | "global", string>>;
+type SignupErrors = Partial<Record<keyof FormFields | "global", string>>;
 
 const SignupForm = ({ redirect = "/signin" }: Props) => {
   const { mutateAsync: signupMutate, isPending } = useSignup();
 
   // form states
-  const [values, setValues] = useState<SignupFields>({
+  const [values, setValues] = useState<FormFields>({
     name: "",
     email: "",
     company: "",
@@ -46,9 +44,9 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
   const { name, email, company, pw, pw2 } = values;
 
   // 공통 change 핸들러 (값 업데이트 + 해당 필드 에러 초기화)
-  function handleChange<K extends keyof SignupFields>(key: K, value: string) {
+  function handleChange<K extends keyof FormFields>(key: K, value: string) {
     setValues((prev) => ({ ...prev, [key]: value }));
-    if (errors[key]) setErrors((prev) => ({ ...prev, [key]: "" }));
+    if (errors[key]) setErrors((prev) => ({ ...prev, [key]: "" as SignupErrors[K], global: "" }));
   }
 
   // 앞단 검증
@@ -150,7 +148,7 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
       className="flex w-[680px] max-w-full flex-col gap-2 rounded-2xl bg-white pt-14 pr-11 pb-11 pl-14 shadow-sm [box-shadow:0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(16,24,40,0.08)]"
     >
       <h1 className="mb-6 text-center text-lg font-bold text-slate-900">회원가입</h1>
-
+      {errors.global && <FormErrorBanner message={errors.global} />}
       {/* 이름 */}
       <label className="mb-1 text-[13px] font-medium text-slate-500">이름</label>
       <AuthInput
