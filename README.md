@@ -151,7 +151,7 @@
   - 컴포넌트의 상태나 props 값에 따라 clsx, twMerge, cva 등을 활용해
     variant, size, state 별로 클래스를 유연하게 조합할 수 있었습니다.
 
-    → 불필요한 스타일 중복을 줄이고 **컴포넌트 변이(variants)**를 명확히 관리할 수 있었습니다.
+    → 불필요한 스타일 중복을 줄이고 <strong>컴포넌트 변이(variants)</strong>를 명확히 관리할 수 있었습니다.
 
   - Tailwind는 JIT(Just-In-Time) 컴파일 방식을 사용해 실제 사용된 클래스만 CSS로 빌드합니다.
 
