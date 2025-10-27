@@ -56,11 +56,7 @@ jobs:
         # --deployment-group-name: 배포 그룹
         # --s3-location: 배포할 파일 위치
         run: aws deploy create-deployment
-          # codeDeploy에서 확인 가능한 배포 그룹 애플리케이션 이름
           --application-name nextjs-aws-test
-          # 한 번에 교체하다 -> 보통 여러 대의 서버에 배포할 때 한 번에 한다는 뜻
           --deployment-config-name CodeDeployDefault.AllAtOnce
-          # 배포 그룹 이름
           --deployment-group-name Production
-          # 배포할 파일 위치
           --s3-location bucket=codeit-nextjs-aws-storage,bundleType=tgz,key=$GITHUB_SHA.tar.gz
