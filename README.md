@@ -91,12 +91,12 @@
             <p>프론트엔드</p>
           </td>
           <td>
-            <img src="https://img.shields.io/badge/Next.js-000000?logo=Next.js&logoColor=white">
-            <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=ffffff">
-            <img src="https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=333333">
-            <img src="https://img.shields.io/badge/TailwindCSS-06B6D4?logo=tailwindCSS&logoColor=white">
-            <img src="https://img.shields.io/badge/React Query-FF4154?logo=reactquery&logoColor=white">
-            <img src="https://img.shields.io/badge/Zod-EC5990?logo=reacthookform&logoColor=white">
+            <img src="https://img.shields.io/badge/Next.js-000000?logo=Next.js&logoColor=white" alt="Next.js">
+            <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=ffffff" alt="TypeScript">
+            <img src="https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=333333" alt="React">
+            <img src="https://img.shields.io/badge/TailwindCSS-06B6D4?logo=tailwindCSS&logoColor=white" alt="TailwindCSS">
+            <img src="https://img.shields.io/badge/React Query-FF4154?logo=reactquery&logoColor=white" alt="React Query">
+            <img src="https://img.shields.io/badge/Zod-EC5990?logo=reacthookform&logoColor=white" alt="Zod">
           </td>
         </tr>
         <tr>
@@ -104,8 +104,8 @@
                 <p>테스트</p>
             </td>
             <td>
-              <img src="https://img.shields.io/badge/Jest-C21325?logo=Jest&logoColor=ffffff">
-              <img src="https://img.shields.io/badge/Testing library-E33332?logo=testinglibrary&logoColor=ffffff">
+              <img src="https://img.shields.io/badge/Jest-C21325?logo=Jest&logoColor=ffffff" alt="Jest">
+              <img src="https://img.shields.io/badge/Testing library-E33332?logo=testinglibrary&logoColor=ffffff" alt="Testing Library">
             </td>
         </tr>
                 <tr>
@@ -113,8 +113,8 @@
                 <p>CI / CD</p>
             </td>
             <td>
-                <img src="https://img.shields.io/badge/Github Actions-2088FF?logo=githubactions&logoColor=white">
-                <img src="https://img.shields.io/badge/Vercel-000000?logo=Vercel&logoColor=white">
+                <img src="https://img.shields.io/badge/Github Actions-2088FF?logo=githubactions&logoColor=white" alt="GitHub Actions">
+                <img src="https://img.shields.io/badge/Vercel-000000?logo=Vercel&logoColor=white" alt="Vercel">
             </td>
         </tr>
         <tr>
@@ -122,10 +122,10 @@
                 <p>협업</p>
             </td>
             <td>
-                <img src="https://img.shields.io/badge/Git-F05032?logo=git&logoColor=ffffff">
-                <img src="https://img.shields.io/badge/Github-181717?logo=github&logoColor=ffffff">
-                <img src="https://img.shields.io/badge/Figma-F24E1E?logo=Figma&logoColor=ffffff">
-                <img src="https://img.shields.io/badge/notion-000000?logo=notion&logoColor=ffffff">
+                <img src="https://img.shields.io/badge/Git-F05032?logo=git&logoColor=ffffff" alt="Git">
+                <img src="https://img.shields.io/badge/Github-181717?logo=github&logoColor=ffffff" alt="GitHub">
+                <img src="https://img.shields.io/badge/Figma-F24E1E?logo=Figma&logoColor=ffffff" alt="Figma">
+                <img src="https://img.shields.io/badge/notion-000000?logo=notion&logoColor=ffffff" alt="Notion">
             </td>
         </tr>
     </tbody>
