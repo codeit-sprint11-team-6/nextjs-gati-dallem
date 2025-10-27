@@ -96,7 +96,7 @@
             <img src="https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=333333" alt="React">
             <img src="https://img.shields.io/badge/TailwindCSS-06B6D4?logo=tailwindCSS&logoColor=white" alt="TailwindCSS">
             <img src="https://img.shields.io/badge/React Query-FF4154?logo=reactquery&logoColor=white" alt="React Query">
-            <img src="https://img.shields.io/badge/Zod-EC5990?logo=reacthookform&logoColor=white" alt="Zod">
+            <img src="https://img.shields.io/badge/Zod-EC5990?logo=Zod&logoColor=white" alt="Zod">
           </td>
         </tr>
         <tr>
