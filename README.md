@@ -5,7 +5,7 @@
 
 ![devmeeting_mockup2](https://github.com/user-attachments/assets/6cbd8159-412d-4308-a607-3f6f8f7e0161)
 
-- 배포 URL : https://devmeet-net.vercel.app/
+- 배포 URL : [https://devmeet-net.vercel.app/](https://devmeet-net.vercel.app/)
 - Test ID : devmeeting@test.com
 - Test PW : 123123
 
@@ -24,10 +24,10 @@
 
 <div align="center">
 
-|                                     강예영                                      |                                     김대건                                     |                                     이수정                                     |                                     유상훈                                     |
-| :-----------------------------------------------------------------------------: | :----------------------------------------------------------------------------: | :----------------------------------------------------------------------------: | :----------------------------------------------------------------------------: |
-| <img src="https://avatars.githubusercontent.com/u/217539366?v=4" width="100" /> | <img src="https://avatars.githubusercontent.com/u/85499788?v=4" width="100" /> | <img src="https://avatars.githubusercontent.com/u/49125725?v=4" width="100" /> | <img src="https://avatars.githubusercontent.com/u/95310496?v=4" width="100" /> |
-|    <a href="https://github.com/hey-anna-wp" target="_blank">@hey-anna-wp</a>    |    <a href="https://github.com/Farmer-Kim" target="_blank">@Farmer-Kim</a>     |        <a href="https://github.com/callu9" target="_blank">@callu9</a>         |        <a href="https://github.com/Yoos99" target="_blank">@yoos99</a>         |
+|                                                    강예영                                                    |                                                   김대건                                                    |                                                   이수정                                                   |                                                   유상훈                                                   |
+| :----------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: |
+| <img src="https://avatars.githubusercontent.com/u/217539366?v=4" width="100" alt="강예영의 GitHub 프로필" /> | <img src="https://avatars.githubusercontent.com/u/85499788?v=4" width="100" alt="김대건의 GitHub 프로필" /> | <img src="https://avatars.githubusercontent.com/u/49125725?v=4" width="100" alt="이수정의 GitHub 프로필"/> | <img src="https://avatars.githubusercontent.com/u/95310496?v=4" width="100" alt="유상훈의 GitHub 프로필"/> |
+|                  <a href="https://github.com/hey-anna-wp" target="_blank">@hey-anna-wp</a>                   |                   <a href="https://github.com/Farmer-Kim" target="_blank">@Farmer-Kim</a>                   |                      <a href="https://github.com/callu9" target="_blank">@callu9</a>                       |                      <a href="https://github.com/Yoos99" target="_blank">@yoos99</a>                       |
 
 </div>
 
@@ -187,7 +187,7 @@
 
 ## 3. 프로젝트 구조
 
-```
+```bash
 src/
 ├─ apis/                 # HTTP 클라이언트, 공통 스키마, 도메인 API
 │  ├─ _client.ts
@@ -210,7 +210,7 @@ src/
 
 <br>
 
-## 6. 신경 쓴 부분
+## 4. 신경 쓴 부분
 
 - [접근제한 설정](https://github.com/codeit-sprint11-team-6/nextjs-gati-dallem/wiki/README-6.%EC%A0%91%EA%B7%BC%EC%A0%9C%ED%95%9C-%EC%84%A4%EC%A0%95)
 
@@ -218,7 +218,7 @@ src/
 
 <br>
 
-## 7. 페이지별 기능
+## 5. 페이지별 기능
 
 ## 🔐 로그인 / 회원가입 페이지
 
@@ -388,7 +388,7 @@ src/
 
 ---
 
-## 8. 트러블 슈팅
+## 6. 트러블 슈팅
 
 - [로그인 인증/인가 이슈](https://github.com/codeit-sprint11-team-6/nextjs-gati-dallem/wiki/README-8.%EC%9D%B8%EC%A6%9D-%EC%9D%B8%EA%B0%80-%EC%84%B8%EC%85%98-%EC%98%A4%EB%A5%98)
 
@@ -400,7 +400,7 @@ src/
 
 <br>
 
-## 9. 프로젝트 후기
+## 7. 프로젝트 후기
 
 ### 🍊 강예영
 
