@@ -11,8 +11,17 @@ const isClient = typeof window !== "undefined";
 /** 전체 맵 읽기 (유효성 검증 포함, 실패 시 {}) */
 export function readFavoritesMap(): FavoritesMap {
   if (!isClient) return {};
+
   const raw = localStorage.getItem(FAVORITES_STORAGE_KEY);
-  const parsed = FavoritesMapSchema.safeParse(raw ? JSON.parse(raw) : {});
+  let data: unknown = {};
+
+  try {
+    data = raw ? JSON.parse(raw) : {};
+  } catch {
+    data = {};
+  }
+  const parsed = FavoritesMapSchema.safeParse(data);
+
   return parsed.success ? (parsed.data as FavoritesMapDTO) : {};
 }
 

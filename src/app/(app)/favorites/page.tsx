@@ -13,10 +13,10 @@ import Image from "next/image";
 
 export default function FavoriteGatheringsPage() {
   const { user } = useAuthStore();
-  if (!user) return <LoginModal />;
-
   const [filters, setFilters] = useUrlFilters();
-  const { data = [] } = useFavoriteGatheringsQuery(user.id, {
+
+  const userId = user?.id ?? -1;
+  const { data = [] } = useFavoriteGatheringsQuery(userId, {
     type: filters.category as DefaultGatheringType | undefined,
     location: filters.location as GatheringLocation | undefined,
     date: filters.date,
@@ -24,6 +24,7 @@ export default function FavoriteGatheringsPage() {
     sortOrder: "desc",
   });
 
+  if (!user) return <LoginModal />;
   return (
     <div
       className={cn(
