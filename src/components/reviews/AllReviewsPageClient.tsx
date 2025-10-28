@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import PageHeader from "@/components/common/PageHeader";
 import FilterBar, { MeetingFilters } from "@/components/common/FilterBar";
 import ReviewsRatingSummary from "@/components/reviews/ReviewsRatingSummary";
 import ReviewList from "@/components/reviews/ReviewList";
-import { useReviews, useReviewScores } from "@/apis/reviews/reviews.query";
+import { getReviews } from "@/apis/reviews/reviews.service";
+import { useReviewScores } from "@/apis/reviews/reviews.query";
 
 export default function AllReviewsPageClient() {
   const [filters, setFilters] = useState<MeetingFilters>({
@@ -17,9 +19,9 @@ export default function AllReviewsPageClient() {
   });
 
   // API 호출을 위한 쿼리 파라미터 변환
-  const queryParams = (() => {
+  const getQueryParams = (pageParam: number = 0) => {
     const params: any = {
-      offset: 0,
+      offset: pageParam * 20,
       limit: 20,
     };
 
@@ -43,37 +45,125 @@ export default function AllReviewsPageClient() {
       if (filters.sort === "latest") {
         params.sortBy = "createdAt";
         params.sortOrder = "desc";
-      } else if (filters.sort === "score") {
-        params.sortBy = "score";
-        params.sortOrder = "desc";
-      } else if (filters.sort === "participants") {
+      } else if (filters.sort === "popular") {
         params.sortBy = "participantCount";
         params.sortOrder = "desc";
+      } else if (filters.sort === "closing") {
+        params.sortBy = "registrationEnd";
+        params.sortOrder = "asc";
       }
     }
 
     return params;
-  })();
+  };
 
-  // API 호출
+  // 무한 스크롤 쿼리
   const {
-    data: reviewList,
+    data: infiniteData,
     isLoading: reviewsLoading,
     error: reviewsError,
-  } = useReviews(queryParams);
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["reviews", filters],
+    queryFn: ({ pageParam = 0 }) => getReviews(getQueryParams(pageParam)),
+    getNextPageParam: (lastPage, allPages) => {
+      const totalPages = Math.ceil(lastPage.totalItemCount / 20);
+      return allPages.length < totalPages ? allPages.length : undefined;
+    },
+    initialPageParam: 0,
+  });
+
+  // 평점 요약을 위한 쿼리 (지역 필터가 없을 때만 서버에서 가져옴)
+  const queryParams = getQueryParams(0);
+
+  // 지역 필터가 있으면 서버 API를 사용하지 않음 (API가 location을 지원하지 않음)
+  const hasLocationFilter = filters.location && filters.location !== "";
+
   const {
     data: ratingScores,
     isLoading: scoresLoading,
     error: scoresError,
-  } = useReviewScores(queryParams);
+  } = useReviewScores(hasLocationFilter ? undefined : queryParams, {
+    enabled: !hasLocationFilter,
+  });
 
-  // 리뷰 데이터
-  const reviews = reviewList?.data || [];
-  const totalCount = reviewList?.totalItemCount || 0;
+  // 리뷰 데이터 (무한 스크롤에서 모든 페이지 데이터 합치기)
+  const reviews = infiniteData?.pages.flatMap((page) => page.data) || [];
+  const totalCount = infiniteData?.pages[0]?.totalItemCount || 0;
 
-  // 평점 요약 데이터 변환
+  // 전체 로딩 상태 (첫 페이지 로딩 중일 때만)
+  const isInitialLoading = reviewsLoading && reviews.length === 0;
+
+  // 필터 변경 중인지 확인 (이전 데이터가 있으면 필터 변경 중)
+  const isFilterChanging = reviewsLoading && reviews.length > 0;
+
+  // 필터 변경 핸들러
+  const handleFilterChange = (newFilters: MeetingFilters) => {
+    setFilters(newFilters);
+  };
+
+  // 무한 스크롤을 위한 Intersection Observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 0.1 },
+    );
+
+    const loadMoreElement = document.getElementById("load-more-trigger");
+    if (loadMoreElement) {
+      observer.observe(loadMoreElement);
+    }
+
+    return () => {
+      if (loadMoreElement) {
+        observer.unobserve(loadMoreElement);
+      }
+    };
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  // 평점 요약 데이터 변환 (지역 필터가 있으면 클라이언트 계산, 없으면 서버 데이터 사용)
   const ratingSummary = (() => {
-    if (scoresError) {
+    // 지역 필터가 있으면 클라이언트에서 계산
+    if (hasLocationFilter) {
+      if (reviews.length > 0) {
+        const scores = reviews.map((review) => review.score).filter((score) => score != null);
+        const totalReviews = scores.length;
+
+        if (totalReviews === 0) {
+          return {
+            averageScore: 0,
+            totalReviews: 0,
+            scoreBreakdown: [
+              { score: 5, count: 0 },
+              { score: 4, count: 0 },
+              { score: 3, count: 0 },
+              { score: 2, count: 0 },
+              { score: 1, count: 0 },
+            ],
+          };
+        }
+
+        const averageScore = scores.reduce((sum, score) => sum + score, 0) / totalReviews;
+
+        const scoreBreakdown = [1, 2, 3, 4, 5].map((score) => {
+          const count = scores.filter((s) => s === score).length;
+          return { score, count };
+        });
+
+        return {
+          averageScore: Math.round(averageScore * 10) / 10,
+          totalReviews,
+          scoreBreakdown,
+        };
+      }
+
+      // 리뷰가 없으면 0으로 표시
       return {
         averageScore: 0,
         totalReviews: 0,
@@ -87,56 +177,56 @@ export default function AllReviewsPageClient() {
       };
     }
 
-    if (!ratingScores || ratingScores.length === 0) {
-      return {
-        averageScore: 0,
-        totalReviews: 0,
-        scoreBreakdown: [
-          { score: 5, count: 0 },
-          { score: 4, count: 0 },
-          { score: 3, count: 0 },
-          { score: 2, count: 0 },
-          { score: 1, count: 0 },
-        ],
-      };
-    }
-
-    // 첫 번째 항목에서 총 리뷰 수와 평균 점수 계산
-    const firstScore = ratingScores[0];
-    const totalReviews = firstScore
-      ? firstScore.oneStar +
-        firstScore.twoStars +
-        firstScore.threeStars +
-        firstScore.fourStars +
-        firstScore.fiveStars
-      : 0;
-    const averageScore = firstScore ? firstScore.averageScore : 0;
-
-    const scoreBreakdown = [1, 2, 3, 4, 5].map((score) => {
-      // ratingScores는 ReviewScoreAggregate[] 형태이므로 첫 번째 항목에서 해당 점수 개수 추출
+    // 지역 필터가 없으면 서버에서 받은 필터된 평점 데이터 사용
+    if (ratingScores && ratingScores.length > 0) {
       const firstScore = ratingScores[0];
-      if (!firstScore) return { score, count: 0 };
+      const totalReviews = firstScore
+        ? firstScore.oneStar +
+          firstScore.twoStars +
+          firstScore.threeStars +
+          firstScore.fourStars +
+          firstScore.fiveStars
+        : 0;
+      const averageScore = firstScore ? firstScore.averageScore : 0;
 
-      const count =
-        score === 1
-          ? firstScore.oneStar
-          : score === 2
-            ? firstScore.twoStars
-            : score === 3
-              ? firstScore.threeStars
-              : score === 4
-                ? firstScore.fourStars
-                : score === 5
-                  ? firstScore.fiveStars
-                  : 0;
+      const scoreBreakdown = [1, 2, 3, 4, 5].map((score) => {
+        const firstScore = ratingScores[0];
+        if (!firstScore) return { score, count: 0 };
 
-      return { score, count };
-    });
+        const count =
+          score === 1
+            ? firstScore.oneStar
+            : score === 2
+              ? firstScore.twoStars
+              : score === 3
+                ? firstScore.threeStars
+                : score === 4
+                  ? firstScore.fourStars
+                  : score === 5
+                    ? firstScore.fiveStars
+                    : 0;
 
+        return { score, count };
+      });
+
+      return {
+        averageScore: Math.round(averageScore * 10) / 10,
+        totalReviews,
+        scoreBreakdown,
+      };
+    }
+
+    // API 데이터가 없으면 0으로 표시
     return {
-      averageScore: Math.round(averageScore * 10) / 10, // 소수점 첫째자리까지
-      totalReviews,
-      scoreBreakdown,
+      averageScore: 0,
+      totalReviews: 0,
+      scoreBreakdown: [
+        { score: 5, count: 0 },
+        { score: 4, count: 0 },
+        { score: 3, count: 0 },
+        { score: 2, count: 0 },
+        { score: 1, count: 0 },
+      ],
     };
   })();
 
@@ -151,7 +241,7 @@ export default function AllReviewsPageClient() {
       />
 
       {/* Filter Bar */}
-      <FilterBar value={filters} onChange={setFilters} />
+      <FilterBar value={filters} onChange={handleFilterChange} />
 
       {/* Rating Summary */}
       <div className="mt-4 md:mt-8">
@@ -160,26 +250,59 @@ export default function AllReviewsPageClient() {
           totalReviews={ratingSummary.totalReviews}
           scoreBreakdown={ratingSummary.scoreBreakdown}
         />
+        {isInitialLoading && (
+          <div className="mt-2 flex justify-center">
+            <div className="text-sm text-gray-500">평점을 계산하는 중...</div>
+          </div>
+        )}
       </div>
 
       {/* Reviews List / Empty State */}
-      <div className="mt-6 lg:mt-8">
-        {reviewsLoading ? (
-          <div className="flex justify-center py-8">
-            <div className="text-gray-500">리뷰를 불러오는 중...</div>
+      <div className="relative mt-6 lg:mt-8">
+        {isInitialLoading ? (
+          <div className="flex justify-center py-12">
+            <div className="flex items-center gap-2">
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-purple-600 border-t-transparent"></div>
+              <span className="text-gray-500">리뷰를 불러오는 중...</span>
+            </div>
           </div>
         ) : reviewsError ? (
           <div className="flex flex-col items-center justify-center py-12">
-            <div className="text-red-500 text-lg font-medium mb-2">리뷰를 불러오는데 실패했습니다</div>
-            <div className="text-gray-500 text-sm">잠시 후 다시 시도해주세요</div>
+            <div className="mb-2 text-lg font-medium text-red-500">
+              리뷰를 불러오는데 실패했습니다
+            </div>
+            <div className="text-sm text-gray-500">잠시 후 다시 시도해주세요</div>
           </div>
         ) : reviews.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12">
-            <div className="text-gray-400 text-lg font-medium mb-2">아직 리뷰가 없습니다</div>
-            <div className="text-gray-500 text-sm">첫 번째 리뷰를 작성해보세요!</div>
+            <div className="mb-2 text-lg font-medium text-gray-400">아직 리뷰가 없습니다</div>
+            <div className="text-sm text-gray-500">첫 번째 리뷰를 작성해보세요!</div>
           </div>
         ) : (
-          <ReviewList reviews={reviews} />
+          <>
+            <ReviewList reviews={reviews} />
+            {hasNextPage && (
+              <div id="load-more-trigger" className="mt-8 flex justify-center">
+                {isFetchingNextPage ? (
+                  <div className="text-gray-500">더 많은 리뷰를 불러오는 중...</div>
+                ) : (
+                  <div className="text-sm text-gray-400">스크롤하여 더 보기</div>
+                )}
+              </div>
+            )}
+          </>
+        )}
+
+        {/* 필터 변경 중 오버레이 */}
+        {isFilterChanging && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/50 backdrop-blur-sm">
+            <div className="rounded-lg bg-white px-4 py-2 shadow-lg">
+              <div className="flex items-center gap-2">
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-purple-600 border-t-transparent"></div>
+                <span className="text-sm text-gray-600">필터 적용 중...</span>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </div>
