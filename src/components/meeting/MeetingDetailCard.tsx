@@ -6,6 +6,9 @@ import Image from "next/image";
 import { Card } from "@/components/common/Card";
 import { useState } from "react";
 import { formatDateAndTime } from "@/utils/datetime";
+import { useRequireAuthAction } from "@/hooks/auths/useRequireAuthAction";
+import LoginModal from "../common/LoginModal";
+import { useOverlay } from "@/hooks/useOverlay";
 
 interface MeetingDetailCardProps {
   gathering: Gathering;
@@ -32,6 +35,14 @@ export default function MeetingDetailCard({
 }: MeetingDetailCardProps) {
   const [isJoining, setIsJoining] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
+  const [favoritePending, setFavoritePending] = useState(false);
+
+  const { overlay: open } = useOverlay();
+  const { requireAuthAction } = useRequireAuthAction({
+    // 로그인 안 되어 있을 때 이 콜백 실행
+    onBlocked: () => open(<LoginModal />),
+    redirectOnBlocked: false, // 모달 띄우고, 바로 리다이렉트 X
+  });
 
   const [date, time] = formatDateAndTime(gathering.dateTime);
   const isRegistrationEnded =
@@ -62,9 +73,15 @@ export default function MeetingDetailCard({
     }
   };
 
-  const handleToggleFavorite = () => {
-    onToggleFavorite?.();
-  };
+  const handleToggleFavorite = requireAuthAction(async () => {
+    if (favoritePending) return;
+    try {
+      setFavoritePending(true);
+      await onToggleFavorite?.(); // 기존 구현한 토글 처리
+    } finally {
+      setFavoritePending(false);
+    }
+  });
 
   const handleShare = () => {
     onShare?.();
@@ -141,7 +158,7 @@ export default function MeetingDetailCard({
               {/* 모임 취소 버튼 (주최자용) */}
               <Button
                 onClick={handleLeave}
-                disabled={isLeaving}
+                disabled={favoritePending}
                 isLoading={isLeaving}
                 variant="outline"
                 size="lg"
