@@ -26,7 +26,7 @@ const LoadingSpinner: React.FC<Props> = ({
       {dots.map((i) => (
         <span
           key={i}
-          className="[animation:sync_var(--dur)_ease-in-out_infinite] rounded-full"
+          className="[animation:syncOpposite_var(--dur)_ease-in-out_infinite] rounded-full"
           style={{
             width: size,
             height: size,

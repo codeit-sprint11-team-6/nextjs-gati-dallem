@@ -24,6 +24,7 @@ function actuallyShow() {
   const node = el();
   if (!node || isShown) return;
   node.classList.remove("hidden");
+  node.classList.add("flex");
   document.body.dataset.loading = "true";
   isShown = true;
   shownAt = Date.now();
@@ -32,6 +33,7 @@ function actuallyShow() {
 function actuallyHide() {
   const node = el();
   if (!node || !isShown) return;
+  node.classList.remove("flex");
   node.classList.add("hidden");
   delete document.body.dataset.loading;
   isShown = false;
