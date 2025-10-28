@@ -1,13 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import PageHeader from "@/components/common/PageHeader";
 import FilterBar, { MeetingFilters } from "@/components/common/FilterBar";
 import ReviewsRatingSummary from "@/components/reviews/ReviewsRatingSummary";
 import ReviewList from "@/components/reviews/ReviewList";
-import { getReviews } from "@/apis/reviews/reviews.service";
-import { useReviewScores } from "@/apis/reviews/reviews.query";
+import { useInfiniteReviews, useReviewScores } from "@/apis/reviews/reviews.query";
 
 export default function AllReviewsPageClient() {
   const [filters, setFilters] = useState<MeetingFilters>({
@@ -19,9 +17,8 @@ export default function AllReviewsPageClient() {
   });
 
   // API 호출을 위한 쿼리 파라미터 변환
-  const getQueryParams = (pageParam: number = 0) => {
+  const getQueryParams = () => {
     const params: any = {
-      offset: pageParam * 20,
       limit: 20,
     };
 
@@ -65,18 +62,10 @@ export default function AllReviewsPageClient() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfiniteQuery({
-    queryKey: ["reviews", filters],
-    queryFn: ({ pageParam = 0 }) => getReviews(getQueryParams(pageParam)),
-    getNextPageParam: (lastPage, allPages) => {
-      const totalPages = Math.ceil(lastPage.totalItemCount / 20);
-      return allPages.length < totalPages ? allPages.length : undefined;
-    },
-    initialPageParam: 0,
-  });
+  } = useInfiniteReviews(getQueryParams());
 
   // 평점 요약을 위한 쿼리 (지역 필터가 없을 때만 서버에서 가져옴)
-  const queryParams = getQueryParams(0);
+  const queryParams = getQueryParams();
 
   // 지역 필터가 있으면 서버 API를 사용하지 않음 (API가 location을 지원하지 않음)
   const hasLocationFilter = filters.location && filters.location !== "";
