@@ -47,7 +47,8 @@ export function Card({ gathering, className, children }: CardProps) {
   }
 
   function handleKeyDown(e: React.KeyboardEvent) {
-    if (meetingId && (e.key === "Enter" || e.key === " ")) {
+    if (e.currentTarget !== e.target) return;
+    if (meetingId && (e.key === "Enter" || e.key === " " || e.key === "Spacebar")) {
       e.preventDefault();
       router.push(`/meetings/${meetingId}`);
     }
