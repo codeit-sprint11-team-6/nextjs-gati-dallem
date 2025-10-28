@@ -1,4 +1,5 @@
 // src/app/api/favorites/route.ts
+
 import { GetGatheringsQuery, GetGatheringsQuerySchema } from "@/apis/gatherings/gatherings.schema";
 import { getGatherings } from "@/apis/gatherings/gatherings.service";
 import { NextResponse } from "next/server";
@@ -17,6 +18,3 @@ export async function GET(req: Request) {
 
   return NextResponse.json(list);
 }
-
-// export function POST(req: Request) {
-// }

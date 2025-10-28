@@ -2,7 +2,7 @@
 "use client";
 
 import { Gathering, GatheringId, UserId } from "@/types";
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../_react_query/keys";
 import { GetGatheringsQuery } from "../gatherings/gatherings.schema";
 import { fetchFavoriteGatherings } from "./favorites.service";
@@ -19,11 +19,11 @@ export function useFavoriteGatheringsQuery(userId: UserId, query?: Partial<GetGa
 }
 
 export function useFavoriteToggle(userId: number | undefined, gatheringId: GatheringId) {
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: () => {
-      userId && useFavoriteStore.getState().toggle(userId, gatheringId);
-      return new Promise(() => true);
+    mutationFn: async () => {
+      if (userId) useFavoriteStore.getState().toggle(userId, gatheringId);
+      return true;
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: queryKeys.favorites.all() });

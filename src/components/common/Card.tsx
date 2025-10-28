@@ -1,6 +1,9 @@
 "use client";
 
+import { useFavoriteToggle } from "@/apis/favorites/favorites.query";
+import { useFavorites } from "@/hooks/favorites/useFavorites";
 import { useOverlay } from "@/hooks/useOverlay";
+import { useAuthStore } from "@/store/authStore";
 import { Gathering, JoinedGathering } from "@/types";
 import { cn, cond } from "@/utils/classNames";
 import { formatDateAndTime } from "@/utils/datetime";
@@ -12,10 +15,7 @@ import ConfirmLeaveModal from "../my/bookings/ConfirmLeaveModal";
 import ReviewCreateModal from "../my/reviews/modal/ReviewCreateModal";
 import Chip, { CompletedChip, ConfirmChip } from "../ui/Chip";
 import { Button } from "./Button";
-import { useFavorite } from "@/hooks/favorites/useFavorites";
-import { useAuthStore } from "@/store/authStore";
 import LoginModal from "./LoginModal";
-import { useFavoriteToggle } from "@/apis/favorites/favorites.query";
 
 interface CardCtxProps extends Gathering {
   isCompleted?: boolean;
@@ -163,14 +163,14 @@ function CardLikeButton() {
   const { user } = useAuthStore();
   const { overlay } = useOverlay();
   const { id: gatheringId, canceledAt } = useCardCtx();
-  if (!!canceledAt) return <></>;
 
+  const fav = useFavorites(user?.id);
   const { mutate } = useFavoriteToggle(user?.id, gatheringId);
   const handleLoginModal = () => overlay(<LoginModal />);
 
-  const { isLiked, toggleLike } = user
-    ? { isLiked: useFavorite(user.id).isLiked(gatheringId), toggleLike: mutate }
-    : { isLiked: false, toggleLike: handleLoginModal };
+  const isLiked = user ? !!fav.isLiked?.(gatheringId) : false;
+  const toggleLike = user ? () => mutate() : handleLoginModal;
+  if (canceledAt) return null;
 
   function handleClickLike(e: React.MouseEvent) {
     e.stopPropagation();
