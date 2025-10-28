@@ -6,7 +6,6 @@ import FilterBar, { MeetingFilters } from "@/components/common/FilterBar";
 import ReviewsRatingSummary from "@/components/reviews/ReviewsRatingSummary";
 import ReviewList from "@/components/reviews/ReviewList";
 import { useReviews, useReviewScores } from "@/apis/reviews/reviews.query";
-import { mockAllReviews, mockRatingSummary } from "@/mocks/reviews/mockAllReviews";
 
 export default function AllReviewsPageClient() {
   const [filters, setFilters] = useState<MeetingFilters>({
@@ -68,17 +67,23 @@ export default function AllReviewsPageClient() {
     error: scoresError,
   } = useReviewScores(queryParams);
 
-  // 리뷰 데이터 (API 실패 시 mock 데이터 사용)
-  const reviews = reviewsError ? mockAllReviews : reviewList?.data || [];
-  const totalCount = reviewsError ? mockAllReviews.length : reviewList?.totalItemCount || 0;
+  // 리뷰 데이터
+  const reviews = reviewList?.data || [];
+  const totalCount = reviewList?.totalItemCount || 0;
 
-  // 평점 요약 데이터 변환 (API 실패 시 mock 데이터 사용)
+  // 평점 요약 데이터 변환
   const ratingSummary = (() => {
     if (scoresError) {
       return {
-        averageScore: mockRatingSummary.averageScore,
-        totalReviews: mockRatingSummary.totalReviews,
-        scoreBreakdown: mockRatingSummary.scoreBreakdown,
+        averageScore: 0,
+        totalReviews: 0,
+        scoreBreakdown: [
+          { score: 5, count: 0 },
+          { score: 4, count: 0 },
+          { score: 3, count: 0 },
+          { score: 2, count: 0 },
+          { score: 1, count: 0 },
+        ],
       };
     }
 
@@ -164,8 +169,14 @@ export default function AllReviewsPageClient() {
             <div className="text-gray-500">리뷰를 불러오는 중...</div>
           </div>
         ) : reviewsError ? (
-          <div className="flex justify-center py-8">
-            <div className="text-red-500">리뷰를 불러오는데 실패했습니다.</div>
+          <div className="flex flex-col items-center justify-center py-12">
+            <div className="text-red-500 text-lg font-medium mb-2">리뷰를 불러오는데 실패했습니다</div>
+            <div className="text-gray-500 text-sm">잠시 후 다시 시도해주세요</div>
+          </div>
+        ) : reviews.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-12">
+            <div className="text-gray-400 text-lg font-medium mb-2">아직 리뷰가 없습니다</div>
+            <div className="text-gray-500 text-sm">첫 번째 리뷰를 작성해보세요!</div>
           </div>
         ) : (
           <ReviewList reviews={reviews} />
