@@ -11,6 +11,7 @@ import { useAuthUser } from "@/hooks/auths/useAuthUser";
 import { useSignout } from "@/hooks/auths/useSignout";
 import { useAuthToken } from "@/hooks/auths/useAuthToken";
 import { authQueryKeys } from "@/utils/auth/authQueryKeys";
+import { useFavorite } from "@/hooks/favorites/useFavorites";
 
 interface HeaderProps {
   favoriteCount?: number;
@@ -25,7 +26,7 @@ interface HeaderProps {
  * - /me를 즉시 재검증하여 프로필/401 상태 반영
  */
 
-export default function Header({ favoriteCount = 0, logoAltText }: HeaderProps) {
+export default function Header({ logoAltText }: HeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -78,7 +79,7 @@ export default function Header({ favoriteCount = 0, logoAltText }: HeaderProps) 
         <div className="flex-between h-12 md:h-22 lg:h-22">
           <div className="flex-center h-12 md:h-22 lg:h-22">
             <Logo altText={logoAltText} />
-            <Navigation items={navigationItems} favoriteCount={favoriteCount} />
+            <Navigation items={navigationItems} />
           </div>
           {/* <UserProfile
             userProfile={userProfile}
