@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import FilterBar, { MeetingFilters } from "@/components/meeting/list/FilterBar";
 import ReviewsRatingSummary from "@/components/reviews/ReviewsRatingSummary";
@@ -18,7 +18,7 @@ export default function AllReviewsPageClient() {
   });
 
   // API 호출을 위한 쿼리 파라미터 변환
-  const queryParams = useMemo(() => {
+  const queryParams = (() => {
     const params: any = {
       offset: 0,
       limit: 20,
@@ -54,7 +54,7 @@ export default function AllReviewsPageClient() {
     }
 
     return params;
-  }, [filters]);
+  })();
 
   // API 호출
   const {
@@ -73,7 +73,7 @@ export default function AllReviewsPageClient() {
   const totalCount = reviewsError ? mockAllReviews.length : reviewList?.totalItemCount || 0;
 
   // 평점 요약 데이터 변환 (API 실패 시 mock 데이터 사용)
-  const ratingSummary = useMemo(() => {
+  const ratingSummary = (() => {
     if (scoresError) {
       return {
         averageScore: mockRatingSummary.averageScore,
@@ -133,8 +133,7 @@ export default function AllReviewsPageClient() {
       totalReviews,
       scoreBreakdown,
     };
-  }, [ratingScores]);
-
+  })();
 
   return (
     <div className="mx-auto max-w-7xl">
@@ -155,7 +154,6 @@ export default function AllReviewsPageClient() {
 
       {/* Filter Bar */}
       <FilterBar value={filters} onChange={setFilters} />
-
 
       {/* Rating Summary */}
       <div className="mt-4 md:mt-8">
