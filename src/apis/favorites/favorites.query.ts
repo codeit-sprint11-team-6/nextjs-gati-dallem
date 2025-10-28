@@ -10,10 +10,13 @@ import { useFavoriteStore } from "@/store/favoriteStore";
 
 /** 로컬스토리지 → /api/favorites 프록시 → 모임 목록 */
 export function useFavoriteGatheringsQuery(userId: UserId, query?: Partial<GetGatheringsQuery>) {
+  const count = useFavoriteStore((s) => s.favorites[String(userId)]?.count ?? 0);
+  const enabled = userId > 0 && count >= 1;
+
   return useQuery<Gathering[]>({
     queryKey: queryKeys.favorites.list(userId, query),
     queryFn: () => fetchFavoriteGatherings(userId, query),
-    enabled: useFavoriteStore.getState().favorites[userId]?.count >= 1,
+    enabled,
     staleTime: 5 * 60 * 1000,
   });
 }

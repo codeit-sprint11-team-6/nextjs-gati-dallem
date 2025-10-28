@@ -52,13 +52,11 @@ export async function fetchFavoriteGatherings(
   query?: Partial<GetGatheringsQuery>,
 ): Promise<Gathering[]> {
   const { ids = [] } = getFavoriteFor(userId);
-  // console.log(ids);
 
   const urlSearchParams = new URLSearchParams();
 
   Object.entries(query ?? {}).forEach(([k, v]) => {
-    if (v === undefined || v === null || v === "") return;
-    urlSearchParams.set(k, String(v));
+    if (!!v) urlSearchParams.set(k, String(v));
   });
   if (ids.length > 0) urlSearchParams.append("id", ids.join(","));
 
