@@ -114,7 +114,7 @@ export class ApiClient {
           const { code, message, parameter } = parsed.data as any;
           const uiMsg = getErrorMessage(resp.status, code, message);
 
-          if (resp.status === 401 && !/\/auths\/(signin|signup)/.test(path)) {
+          if (resp.status === 401 && !/\/auths\/(signin|signup)/.test(normalizedPath)) {
             try {
               await authActions.clear();
             } catch {}

@@ -32,10 +32,17 @@ function actuallyShow() {
 
 function actuallyHide() {
   const node = el();
-  if (!node || !isShown) return;
+  if (!isShown) return;
+  // body 상태는 노드 존재 여부와 무관하게 정리
+  delete document.body.dataset.loading;
+  document.body.removeAttribute("aria-busy");
+  if (!node) {
+    isShown = false;
+    shownAt = 0;
+    return;
+  }
   node.classList.remove("flex");
   node.classList.add("hidden");
-  delete document.body.dataset.loading;
   isShown = false;
   shownAt = 0;
 }
