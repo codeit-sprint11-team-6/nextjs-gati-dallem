@@ -55,11 +55,15 @@
   }
 
   /* 입력 요소 기본 스타일 */
-  input, textarea, select {
+  input,
+  textarea,
+  select {
     @apply transition-colors duration-200;
   }
 
-  input:focus, textarea:focus, select:focus {
+  input:focus,
+  textarea:focus,
+  select:focus {
     @apply ring-2 ring-purple-500 ring-offset-1 outline-none;
   }
 
