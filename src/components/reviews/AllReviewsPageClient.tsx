@@ -38,17 +38,16 @@ export default function AllReviewsPageClient() {
     }
 
     // 정렬 (API 스키마에 맞게 수정)
-    if (filters.sort) {
-      if (filters.sort === "latest") {
-        params.sortBy = "createdAt";
-        params.sortOrder = "desc";
-      } else if (filters.sort === "popular") {
-        params.sortBy = "participantCount";
-        params.sortOrder = "desc";
-      } else if (filters.sort === "closing") {
-        params.sortBy = "registrationEnd";
-        params.sortOrder = "asc";
-      }
+    const sortConfig = {
+      latest: { sortBy: "createdAt", sortOrder: "desc" },
+      popular: { sortBy: "participantCount", sortOrder: "desc" },
+      closing: { sortBy: "createdAt", sortOrder: "asc" }, // registrationEnd는 정렬 필드가 아니므로 createdAt으로 대체
+    };
+
+    if (filters.sort && sortConfig[filters.sort]) {
+      const { sortBy, sortOrder } = sortConfig[filters.sort];
+      params.sortBy = sortBy;
+      params.sortOrder = sortOrder;
     }
 
     return params;
@@ -79,8 +78,14 @@ export default function AllReviewsPageClient() {
   });
 
   // 리뷰 데이터 (무한 스크롤에서 모든 페이지 데이터 합치기)
-  const reviews = infiniteData?.pages.flatMap((page) => page.data) || [];
+  const allReviews = infiniteData?.pages.flatMap((page) => page.data) || [];
   const totalCount = infiniteData?.pages[0]?.totalItemCount || 0;
+
+  // 클라이언트 사이드 필터링 (지역 필터만)
+  const reviews = allReviews.filter((review) => {
+    if (!filters.location || filters.location === "") return true;
+    return review.location === filters.location;
+  });
 
   // 전체 로딩 상태 (첫 페이지 로딩 중일 때만)
   const isInitialLoading = reviewsLoading && reviews.length === 0;
