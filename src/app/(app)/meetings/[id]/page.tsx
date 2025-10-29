@@ -126,6 +126,7 @@ export default function MeetingDetailPage() {
             ) : (
               <div className="relative flex h-full w-full items-center justify-center rounded-3xl bg-gray-200">
                 <Image
+                  loader={() => "/image/empty.svg"}
                   src="/image/empty.svg"
                   alt="모임 이미지 없음"
                   fill
