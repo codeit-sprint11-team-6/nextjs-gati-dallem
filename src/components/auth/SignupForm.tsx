@@ -53,14 +53,14 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
   const isPwMatch = pw2.length > 0 && pw === pw2;
   const isPwStrongEnough = pw.length >= MIN_PASSWORD_LEN; // 필요시 강화 규칙 추가(영문/숫자/특수문자 등)
 
-  const canSubmit = useMemo(() => {
+  const isFormValid = useMemo(() => {
     const filled = !!(name.trim() && email.trim() && company.trim() && pw && pw2);
     const basicValid =
       EMAIL_REGEX.test(email.trim()) && pw.length >= MIN_PASSWORD_LEN && pw === pw2;
     return filled && basicValid && !isPending;
   }, [name, email, company, pw, pw2, isPending]);
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const handleOnSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isPending) return;
 
@@ -143,7 +143,7 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
 
   return (
     <form
-      onSubmit={onSubmit}
+      onSubmit={handleOnSubmit}
       noValidate
       className="flex w-[680px] max-w-full flex-col gap-2 rounded-2xl bg-white pt-14 pr-11 pb-11 pl-14 shadow-sm [box-shadow:0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(16,24,40,0.08)]"
     >
@@ -241,7 +241,7 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
         </p>
       )}
 
-      <AuthButton type="submit" disabled={!canSubmit} loading={isPending} className="mt-6">
+      <AuthButton type="submit" disabled={!isFormValid} loading={isPending} className="mt-6">
         회원가입
       </AuthButton>
 
