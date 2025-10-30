@@ -85,7 +85,7 @@ export const useSignin = () => {
       await queryClient.invalidateQueries({ queryKey: authQueryKeys.all(), refetchType: "active" });
 
       // 4) 새 토큰으로 /me 강제 조회(캐시에 자동 반영)
-      const me = await queryClient.fetchQuery({
+      await queryClient.fetchQuery({
         queryKey: meKey(true),
         queryFn: getAuthUser,
       });
