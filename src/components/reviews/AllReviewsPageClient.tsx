@@ -94,7 +94,7 @@ export default function AllReviewsPageClient() {
 
   // 지역 필터 적용된 리뷰
   const filteredReviews = hasLocationFilter
-    ? reviews.filter((r) => r.location === filters.location)
+    ? reviews.filter((r) => r.Gathering?.location === filters.location)
     : reviews;
 
   // 전체 로딩 상태 (첫 페이지 로딩 중일 때만)
