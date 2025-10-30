@@ -61,7 +61,6 @@ export const useAuthStore = create<AuthState>()(
               (e as { response?: { status?: number } })?.response?.status ??
               (e as { cause?: { status?: number } })?.cause?.status;
 
-            // await get().actions.clear();
             if (status === 401) {
               await get().actions.clear();
             } else {

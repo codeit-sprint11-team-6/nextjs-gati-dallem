@@ -6,7 +6,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../_react_query/keys";
 import { updateAuthUser } from "./auths.service";
 import { signin, signout, getAuthUser } from "./auths.service";
-import { authQueryKeys } from "@/utils/auth/authQueryKeys";
+import { authQueryKeys, meKey } from "@/utils/auth/authQueryKeys";
 import { AuthUser } from "@/types";
 import { tokenStore } from "@/utils/auth/token.store";
 import { AuthUserQueryOptions } from "./auths.types";
@@ -28,7 +28,7 @@ export const useAuthUser = <T = AuthUser>(opts?: AuthUserQueryOptions<T>) => {
 
   return useQuery<AuthUser | null, Error, T | null>({
     // 토큰 유무를 키에 포함해 상태 전환 시 캐시를 재초기화
-    queryKey: [...authQueryKeys.me(), authed ? "authed" : "guest"], // 상태 전환 시 캐시 초기화
+    queryKey: meKey(authed),
 
     // 서버 요청: 401 응답 시 null 반환
     queryFn: async () => {
@@ -86,7 +86,7 @@ export const useSignin = () => {
 
       // 4) 새 토큰으로 /me 강제 조회(캐시에 자동 반영)
       const me = await queryClient.fetchQuery({
-        queryKey: authQueryKeys.me(),
+        queryKey: meKey(true),
         queryFn: getAuthUser,
       });
     },
@@ -104,13 +104,12 @@ export const useSignout = () => {
     // 요청 직전: 즉시 로그아웃 UI 반영 (업데이트)
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: authQueryKeys.all() });
+      tokenStore.clear?.();
 
-      tokenStore.clear?.(); // 로컬스토리지 토큰 제거
+      queryClient.setQueryData(meKey(true), null);
+      queryClient.setQueryData(meKey(false), null);
 
-      const prevMe = queryClient.getQueryData(authQueryKeys.me());
-      queryClient.setQueryData(authQueryKeys.me(), null); // me 캐시 → null (UI 즉시 반영)
-
-      return { prevMe };
+      return {};
     },
 
     // 요청 완료 후: me/roles 등 인증 캐시 전체 무효화

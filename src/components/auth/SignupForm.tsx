@@ -108,7 +108,7 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
       overlay(
         <SignupModal
           message={`"같이달램" 회원가입이 정상적으로 완료되었습니다.\n로그인 페이지로 이동합니다.`}
-          onConfirm={() => router.push("/signin")}
+          onConfirm={() => router.push(redirect)}
         />,
       );
     } catch (err) {
