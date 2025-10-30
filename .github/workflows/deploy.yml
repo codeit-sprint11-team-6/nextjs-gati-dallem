@@ -6,7 +6,6 @@ on:
   push:
     branches:
       - main
-      - test-deploy # 테스트용 브랜치 추가
 
 jobs:
   deploy:
@@ -32,7 +31,7 @@ jobs:
       - name: 압축
         # NODE_MODULES 폴더는 압축하지 않는다.
         # 커밋 해시를 파일명으로 사용하여 고유한 파일명을 생성한다.
-        run: tar -czvf $GITHUB_SHA.tar.gz appspec.yml scripts .next/standalone .next/static .env public
+        run: tar -czvf $GITHUB_SHA.tar.gz appspec.yml scripts .next/standalone .next/static .env
 
       - name: AWS 서비스에 접근할 수 있게 AWS credentials 설정
         uses: aws-actions/configure-aws-credentials@v4
