@@ -6,6 +6,7 @@ import FilterBar, { MeetingFilters } from "@/components/common/FilterBar";
 import ReviewsRatingSummary from "@/components/reviews/ReviewsRatingSummary";
 import ReviewList from "@/components/reviews/ReviewList";
 import { useInfiniteReviews, useReviewScores } from "@/apis/reviews/reviews.query";
+import type { GetReviewsQuery } from "@/apis/reviews/reviews.schema";
 
 export default function AllReviewsPageClient() {
   const [filters, setFilters] = useState<MeetingFilters>({
@@ -18,7 +19,7 @@ export default function AllReviewsPageClient() {
 
   // API 호출을 위한 쿼리 파라미터 변환
   const getQueryParams = () => {
-    const params: any = {
+    const params: GetReviewsQuery = {
       limit: 20,
     };
 
@@ -78,14 +79,12 @@ export default function AllReviewsPageClient() {
   });
 
   // 리뷰 데이터 (무한 스크롤에서 모든 페이지 데이터 합치기)
-  const allReviews = infiniteData?.pages.flatMap((page) => page.data) || [];
-  const totalCount = infiniteData?.pages[0]?.totalItemCount || 0;
+  const reviews = infiniteData?.pages.flatMap((page) => page.data) || [];
 
-  // 클라이언트 사이드 필터링 (지역 필터만)
-  const reviews = allReviews.filter((review) => {
-    if (!filters.location || filters.location === "") return true;
-    return review.location === filters.location;
-  });
+  // 지역 필터 적용된 리뷰
+  const filteredReviews = hasLocationFilter
+    ? reviews.filter((r) => r.location === filters.location)
+    : reviews;
 
   // 전체 로딩 상태 (첫 페이지 로딩 중일 때만)
   const isInitialLoading = reviewsLoading && reviews.length === 0;
@@ -125,8 +124,10 @@ export default function AllReviewsPageClient() {
   const ratingSummary = (() => {
     // 지역 필터가 있으면 클라이언트에서 계산
     if (hasLocationFilter) {
-      if (reviews.length > 0) {
-        const scores = reviews.map((review) => review.score).filter((score) => score != null);
+      if (filteredReviews.length > 0) {
+        const scores = filteredReviews
+          .map((review) => review.score)
+          .filter((score) => score != null);
         const totalReviews = scores.length;
 
         if (totalReviews === 0) {
@@ -172,7 +173,7 @@ export default function AllReviewsPageClient() {
     }
 
     // 지역 필터가 없으면 서버에서 받은 필터된 평점 데이터 사용
-    if (ratingScores && ratingScores.length > 0) {
+    if (!hasLocationFilter && ratingScores && ratingScores.length > 0) {
       const firstScore = ratingScores[0];
       const totalReviews = firstScore
         ? firstScore.oneStar +
@@ -267,14 +268,14 @@ export default function AllReviewsPageClient() {
             </div>
             <div className="text-sm text-gray-500">잠시 후 다시 시도해주세요</div>
           </div>
-        ) : reviews.length === 0 ? (
+        ) : filteredReviews.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12">
             <div className="mb-2 text-lg font-medium text-gray-400">아직 리뷰가 없습니다</div>
             <div className="text-sm text-gray-500">첫 번째 리뷰를 작성해보세요!</div>
           </div>
         ) : (
           <>
-            <ReviewList reviews={reviews} />
+            <ReviewList reviews={filteredReviews} />
             {hasNextPage && (
               <div id="load-more-trigger" className="mt-8 flex justify-center">
                 {isFetchingNextPage ? (
