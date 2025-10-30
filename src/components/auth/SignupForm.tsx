@@ -6,7 +6,7 @@ import Link from "next/link";
 import AuthInput from "./ui/AuthInput";
 import { AuthPasswordInput } from "./ui/AuthPasswordInput";
 import AuthButton from "./ui/AuthButton";
-import { useSignup } from "@/hooks/auths/useSignup";
+import { useSignup } from "@/apis/auths/auths.query";
 // import { toSafePath } from "@/utils/auth/safePath";
 import {
   // toUserErrorMessage,
@@ -17,6 +17,10 @@ import { AUTH_ERROR_MESSAGES } from "@/constants/auth/errorMessages";
 import { validateSignup, SignupFields as ValidationFields } from "@/utils/auth/validateSignup";
 import { EMAIL_REGEX, MIN_PASSWORD_LEN } from "@/constants/auth/constraints";
 import FormErrorBanner from "./ui/FormErrorBanner";
+import { useOverlay } from "@/hooks/useOverlay";
+import { useRouter } from "next/navigation";
+import { SignupBody } from "@/apis/auths/auths.schema";
+import SignupModal from "../common/SignupModal";
 
 type Props = { redirect?: string };
 
@@ -28,6 +32,9 @@ type FormFields = Omit<ValidationFields, "password" | "confirmPassword"> & {
 type SignupErrors = Partial<Record<keyof FormFields | "global", string>>;
 
 const SignupForm = ({ redirect = "/signin" }: Props) => {
+  const { overlay } = useOverlay();
+  const router = useRouter();
+
   const { mutateAsync: signupMutate, isPending } = useSignup();
 
   // form states
@@ -64,10 +71,7 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
     e.preventDefault();
     if (isPending) return;
 
-    // 에러 초기화
-    setErrors({});
-
-    // setServerMsg("");
+    setErrors({}); // 에러 초기화
 
     // 1) 클라이언트 선검증
     const vErrs = validateSignup({
@@ -92,7 +96,7 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
 
     // 2) API
     try {
-      const body = {
+      const body: SignupBody = {
         name: name.trim(),
         email: email.trim().toLowerCase(),
         companyName: company.trim(),
@@ -101,6 +105,12 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
       await signupMutate(body);
       // 성공 모달은 useSignup 내부에서 처리 중
       // 필요 시: router.replace(redirect);
+      overlay(
+        <SignupModal
+          message={`"같이달램" 회원가입이 정상적으로 완료되었습니다.\n로그인 페이지로 이동합니다.`}
+          onConfirm={() => router.push("/signin")}
+        />,
+      );
     } catch (err) {
       // 서버 필드 에러 매핑(있으면)
       const { code, status, message } = toUserErrorDetails(err, "");

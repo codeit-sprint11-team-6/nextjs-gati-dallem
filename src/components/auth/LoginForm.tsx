@@ -5,7 +5,7 @@ import { useMemo, useState, type FormEvent } from "react";
 import AuthInput from "./ui/AuthInput";
 import AuthButton from "./ui/AuthButton";
 import { AuthPasswordInput } from "./ui/AuthPasswordInput";
-import { useSignin } from "@/hooks/auths/useSignin";
+import { useSignin } from "@/apis/auths/auths.query";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toSafePath } from "@/utils/auth/safePath";
