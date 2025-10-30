@@ -6,7 +6,7 @@ import FilterBar, { MeetingFilters } from "@/components/common/FilterBar";
 import ReviewsRatingSummary from "@/components/reviews/ReviewsRatingSummary";
 import ReviewList from "@/components/reviews/ReviewList";
 import { useInfiniteReviews, useReviewScores } from "@/apis/reviews/reviews.query";
-import type { GetReviewsQuery } from "@/apis/reviews/reviews.schema";
+import type { GetReviewsQuery, GetReviewScoresQuery } from "@/apis/reviews/reviews.schema";
 
 export default function AllReviewsPageClient() {
   const [filters, setFilters] = useState<MeetingFilters>({
@@ -68,14 +68,24 @@ export default function AllReviewsPageClient() {
   // 평점 요약을 위한 쿼리 (지역 필터가 없을 때만 서버에서 가져옴)
   const queryParams = getQueryParams();
 
-  // 지역 필터가 있으면 서버 API를 사용하지 않음 (API가 location을 지원하지 않음)
+  // 지역 필터가 있으면 서버 API를 사용하지 않음 (scores API는 location을 받지 않음)
   const hasLocationFilter = filters.location && filters.location !== "";
+
+  // scores API 스키마에 맞게 파라미터 축소(type, gatheringId CSV)
+  const scoresQuery: GetReviewScoresQuery | undefined = hasLocationFilter
+    ? undefined
+    : (() => {
+        const q: GetReviewScoresQuery = {};
+        if (queryParams.type) q.type = queryParams.type;
+        // gatheringId가 필요하다면 CSV string으로 변환 필요. 현재는 사용하지 않음.
+        return q;
+      })();
 
   const {
     data: ratingScores,
     isLoading: scoresLoading,
     error: scoresError,
-  } = useReviewScores(hasLocationFilter ? undefined : queryParams, {
+  } = useReviewScores(scoresQuery, {
     enabled: !hasLocationFilter,
   });
 
