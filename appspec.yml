@@ -15,5 +15,5 @@ permissions:
 hooks:
   ApplicationStart:
     - location: scripts/start-nextjs.sh
-      timeout: 120
+      timeout: 60
       runas: ubuntu
