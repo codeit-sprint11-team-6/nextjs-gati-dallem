@@ -28,9 +28,10 @@ export default function AllReviewsPageClient() {
       params.type = filters.category;
     }
 
-    // 위치 필터 (API 스키마에 정의된 값만 허용)
-    if (filters.location) {
-      params.location = filters.location;
+    // 위치 필터 (API 스키마에 정의된 enum 값만 허용)
+    const allowedLocations = ["건대입구", "을지로3가", "신림", "홍대입구"] as const;
+    if (filters.location && (allowedLocations as readonly string[]).includes(filters.location)) {
+      params.location = filters.location as (typeof allowedLocations)[number];
     }
 
     // 날짜 필터
