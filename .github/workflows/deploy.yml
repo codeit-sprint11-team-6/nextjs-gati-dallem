@@ -31,7 +31,7 @@ jobs:
       - name: 압축
         # NODE_MODULES 폴더는 압축하지 않는다.
         # 커밋 해시를 파일명으로 사용하여 고유한 파일명을 생성한다.
-        run: tar -czvf $GITHUB_SHA.tar.gz appspec.yml scripts .next .env package.json package-lock.json
+        run: tar -czvf $GITHUB_SHA.tar.gz appspec.yml public scripts .next/standalone .next/static .env
 
       - name: AWS 서비스에 접근할 수 있게 AWS credentials 설정
         uses: aws-actions/configure-aws-credentials@v4
@@ -56,7 +56,7 @@ jobs:
         # --deployment-group-name: 배포 그룹
         # --s3-location: 배포할 파일 위치
         run: aws deploy create-deployment
-          --application-name nextjs-aws-test
+          --application-name nextjs-aws
           --deployment-config-name CodeDeployDefault.AllAtOnce
           --deployment-group-name Production
           --s3-location bucket=codeit-nextjs-aws-storage,bundleType=tgz,key=$GITHUB_SHA.tar.gz
