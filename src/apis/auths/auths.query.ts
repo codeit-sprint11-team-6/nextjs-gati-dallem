@@ -75,22 +75,20 @@ export const useSignin = () => {
 
     /** 로그인 성공 시: 토큰 저장 + 인증 캐시 갱신 */
     onSuccess: async (res) => {
-      // 서버 응답 토큰 (token | accessToken 모두 대응)
+      // 1) 토큰 저장 (token | accessToken 모두 대응)
       const t = (res as any)?.token ?? (res as any)?.accessToken;
       if (typeof t === "string" && t) tokenStore.set(t); // 로컬 스토리지에 토큰 저장
 
-      // 진행 중인 /me 요청 취소 + 캐시 무효화
-      await queryClient.cancelQueries({ queryKey: authQueryKeys.me() });
-      await queryClient.invalidateQueries({ queryKey: authQueryKeys.me() });
+      // 2) auth 전부: 진행 중 요청 취소
+      await queryClient.cancelQueries({ queryKey: authQueryKeys.all() });
+      // 3) auth 전부: 무효화(활성 쿼리만 즉시 재요청)
+      await queryClient.invalidateQueries({ queryKey: authQueryKeys.all(), refetchType: "active" });
 
-      //  새 토큰으로 /me 강제 조회 → 헤더 즉시 갱신
+      // 4) 새 토큰으로 /me 강제 조회(캐시에 자동 반영)
       const me = await queryClient.fetchQuery({
         queryKey: authQueryKeys.me(),
         queryFn: getAuthUser,
       });
-
-      // 캐시에 최신 사용자 정보 저장
-      queryClient.setQueryData(authQueryKeys.me(), me);
     },
   });
 };
