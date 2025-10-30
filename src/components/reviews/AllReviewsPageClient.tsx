@@ -44,7 +44,7 @@ export default function AllReviewsPageClient() {
       latest: { sortBy: "createdAt", sortOrder: "desc" },
       popular: { sortBy: "participantCount", sortOrder: "desc" },
       closing: { sortBy: "createdAt", sortOrder: "asc" }, // registrationEnd는 정렬 필드가 아니므로 createdAt으로 대체
-    };
+    } as const;
 
     if (filters.sort && sortConfig[filters.sort]) {
       const { sortBy, sortOrder } = sortConfig[filters.sort];
