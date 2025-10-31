@@ -38,7 +38,7 @@ const LoginForm = ({ redirect = "/" }: Props) => {
     return filled && validEmail && !isPending;
   }, [email, pw, isPending]);
 
-  const handleOnSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isPending) return; // 중복 제출 방지
 
@@ -66,7 +66,7 @@ const LoginForm = ({ redirect = "/" }: Props) => {
 
   return (
     <form
-      onSubmit={handleOnSubmit}
+      onSubmit={handleSubmit}
       className={`flex w-[568px] max-w-full flex-col gap-2 rounded-2xl bg-white pt-14 pr-11 pb-11 pl-14 shadow-sm [box-shadow:0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(16,24,40,0.08)]`}
       noValidate // 브라우저 기본 검증 비활성 (커스텀 메시지 사용)
     >

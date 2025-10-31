@@ -67,7 +67,7 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
     return filled && basicValid && !isPending;
   }, [name, email, company, pw, pw2, isPending]);
 
-  const handleOnSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isPending) return;
 
@@ -153,7 +153,7 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
 
   return (
     <form
-      onSubmit={handleOnSubmit}
+      onSubmit={handleSubmit}
       noValidate
       className="flex w-[680px] max-w-full flex-col gap-2 rounded-2xl bg-white pt-14 pr-11 pb-11 pl-14 shadow-sm [box-shadow:0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(16,24,40,0.08)]"
     >
