@@ -1,5 +1,5 @@
 // src/app/layout.tsx
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { pretendard, tenada } from "@/lib/fonts";
 import "../styles/globals.css";
 
@@ -22,6 +22,12 @@ export const metadata: Metadata = {
     title: "11기 6조 모임 플랫폼",
     description: "다양한 모임을 찾고 참여하세요",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

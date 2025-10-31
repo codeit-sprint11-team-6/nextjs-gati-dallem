@@ -6,23 +6,24 @@ const nextConfig: NextConfig = {
   },
   images: {
     remotePatterns: [
-      new URL("https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/**"),
+      {
+        protocol: "https",
+        hostname: "sprint-fe-project.s3.ap-northeast-2.amazonaws.com",
+        pathname: "/together-dallaem/**",
+      },
       {
         protocol: "https",
         hostname: "images.unsplash.com",
-        port: "",
         pathname: "/**",
       },
     ],
   },
-
-  //  ESLint 빌드 중 무시
   eslint: {
     ignoreDuringBuilds: true,
   },
-
-  // Next.js가 올바른 루트를 추적하도록 지정
   outputFileTracingRoot: __dirname,
+  // 서버 배포 최적화 (EC2 환경 개선)
+  output: "standalone",
 };
 
 export default nextConfig;
