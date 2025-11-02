@@ -44,7 +44,7 @@ export default function FavoriteGatheringsPage() {
           />
         </div>
         <div className="grid gap-2 md:gap-4">
-          <h1 className="text-lg leading-7 font-semibold text-gray-900 md:text-2xl lg:text-[32px] lg:leading-9">
+          <h1 className="text-lg leading-7 font-semibold md:text-2xl lg:text-[32px] lg:leading-9">
             찜한 모임
           </h1>
           <p className="text-base leading-6 font-medium text-slate-400 md:text-lg md:leading-7 lg:text-xl lg:leading-7">

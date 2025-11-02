@@ -56,15 +56,13 @@ export function Card({ gathering, className, children }: CardProps) {
   return (
     <CardCtx.Provider value={gathering}>
       <section
-        aria-label="모임 목록 아이템"
-        role="region"
-        tabIndex={meetingId ? 0 : -1} // 키보드 포커스 허용
         className={cn(
-          "relative overflow-hidden rounded-3xl bg-white hover:drop-shadow-sm",
+          "relative overflow-hidden rounded-3xl bg-white hover:drop-shadow-sm dark:bg-gray-900",
           "md:items-upper md:flex md:justify-start md:gap-6 md:rounded-4xl md:p-6 md:pr-9",
           cond(!!meetingId, "cursor-pointer"),
           className,
         )}
+        aria-label="모임 목록 아이템"
         onClick={handleClickCard}
         onKeyDown={handleKeyDown}
       >
@@ -78,7 +76,7 @@ export function Card({ gathering, className, children }: CardProps) {
 function CardImage() {
   const { image } = useCardCtx();
   return (
-    <div className="border-slate-120 relative aspect-[2.2] shrink-0 overflow-hidden border md:aspect-square md:w-[170px] md:rounded-3xl">
+    <div className="relative aspect-[2.2] shrink-0 overflow-hidden border border-slate-200 md:aspect-square md:w-[170px] md:rounded-3xl dark:border-slate-700">
       {image ? (
         <Image
           className="object-cover"
@@ -89,8 +87,17 @@ function CardImage() {
           priority
         />
       ) : (
-        <div className="flex-center h-full w-full bg-gray-100" data-testid="no-card-image">
-          <Image src="/image/empty.svg" alt="모임 이미지 썸네일" width={100} height={100} />
+        <div
+          className="flex-center h-full w-full bg-gray-100 dark:bg-gray-700"
+          data-testid="no-card-image"
+        >
+          <Image
+            className="dark:opacity-50"
+            src="/image/empty.svg"
+            alt="모임 이미지 썸네일"
+            width={100}
+            height={100}
+          />
         </div>
       )}
     </div>
@@ -100,7 +107,7 @@ Card.Image = CardImage;
 
 /** 모임 상세 정보 영역 */
 function CardDetail({ children, className }: { children?: React.ReactNode; className?: string }) {
-  return <div className={cn("bg-white p-4 pb-5 md:px-0 md:py-2", className)}>{children}</div>;
+  return <div className={cn("grow p-4 pb-5 md:px-0 md:py-2", className)}>{children}</div>;
 }
 Card.Detail = CardDetail;
 
@@ -125,7 +132,11 @@ Card.Tags = CardTags;
 /** 모임명 영역 */
 function CardTitle({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <h3 className={cn("text-xl font-semibold break-all text-ellipsis", className)}>{children}</h3>
+    <h3
+      className={cn("text-xl font-semibold break-all text-ellipsis dark:text-gray-200", className)}
+    >
+      {children}
+    </h3>
   );
 }
 Card.Title = CardTitle;
@@ -136,8 +147,21 @@ function CardGatheringDetail() {
   const [date, time] = formatDateAndTime(dateTime);
   return (
     <div className="flex flex-col gap-2.5">
-      <div className="flex-start gap-1 text-sm font-medium">
-        <Image src="/icon/person.svg" width={16} height={16} alt="모임 이용인원 정보 아이콘" />
+      <div className="flex-start gap-1 text-sm font-medium dark:text-gray-200">
+        <Image
+          className="block dark:hidden"
+          src="/icon/person.svg"
+          width={16}
+          height={16}
+          alt="모임 이용인원 정보 아이콘"
+        />
+        <Image
+          className="hidden dark:block"
+          src="/icon/person_white.svg"
+          width={16}
+          height={16}
+          alt="모임 이용인원 정보 아이콘"
+        />
         {participantCount}/{capacity}
       </div>
       <ul className="flex gap-2.5 divide-x divide-slate-200 text-sm font-medium">
@@ -184,7 +208,7 @@ function CardLikeButton() {
       animate={{ scale: 1, transition: { duration: 0.2 } }}
       onClick={handleClickLike}
       aria-label={isLiked ? "찜 취소" : "찜하기"}
-      className="flex-center absolute top-4 right-4 h-12 w-12 cursor-pointer rounded-full border bg-white shadow-sm hover:shadow-md"
+      className="flex-center absolute top-4 right-4 h-12 w-12 cursor-pointer rounded-full border bg-white shadow-sm hover:shadow-md dark:bg-gray-800"
     >
       <Image
         src={isLiked ? "/icon/heart_active.svg" : "/icon/heart_inactive.svg"}

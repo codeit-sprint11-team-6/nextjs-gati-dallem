@@ -33,7 +33,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko" className={`${pretendard.variable} ${tenada.variable}`}>
-      <body className="flex min-h-dvh flex-col bg-gray-50">
+      <body className="flex min-h-dvh flex-col bg-gray-50 dark:bg-gray-800 dark:text-gray-100">
         <Providers>
           {/* Authorization 헤더 동기화 (토큰 변경 시 apiClient에 반영)  */}
           <AppInitializer />

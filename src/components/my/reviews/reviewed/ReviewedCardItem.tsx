@@ -20,7 +20,8 @@ function ReviewedCardImage({
     <Link
       href={`/meetings/${id}`}
       className={cn(
-        "relative aspect-square w-20 shrink-0 overflow-hidden rounded-xl border-1 border-slate-100 md:w-[160px] md:rounded-3xl",
+        "relative aspect-square w-20 shrink-0 overflow-hidden rounded-xl md:w-40 md:rounded-3xl",
+        "border border-slate-100 dark:border-slate-800",
         showOnlyMobile ? "block md:hidden" : "hidden md:block",
       )}
     >
@@ -59,19 +60,23 @@ export default function ReviewedCardItem({ Gathering, User, score, createdAt, co
               />
             </div>
             <div className="grid gap-1">
-              <div className="text-sm font-medium text-slate-600">{User.name}</div>
+              <div className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                {User.name}
+              </div>
               <div className="flex-start gap-2">
                 <HeartScore score={score} />
-                <div className="text-sm text-slate-500">{formatDate(createdAt)}</div>
+                <div className="text-sm text-slate-500 dark:text-slate-400">
+                  {formatDate(createdAt)}
+                </div>
               </div>
             </div>
           </div>
-          <div className="flex-start max-w-full gap-2 overflow-hidden text-sm font-medium text-slate-500">
-            <div className="ml-0.5 h-4 w-[3px] bg-slate-200" />
+          <div className="flex-start max-w-full gap-2 overflow-hidden text-sm font-medium text-slate-500 dark:text-slate-400">
+            <div className="ml-0.5 h-4 w-[3px] bg-slate-200 dark:text-slate-700" />
             <Link
               href={`/meetings/${Gathering.id}`}
               className={cn(
-                "flex-start gap-0.5 overflow-hidden text-sm font-medium whitespace-nowrap text-slate-500",
+                "flex-start gap-0.5 overflow-hidden text-sm font-medium whitespace-nowrap text-slate-500 dark:text-slate-400",
               )}
             >
               <span>{GatheringMapper[Gathering.type]}</span>
@@ -80,10 +85,10 @@ export default function ReviewedCardItem({ Gathering, User, score, createdAt, co
             </Link>
           </div>
         </div>
-        <div className="grow-1">
+        <div className="grow">
           <div className="flex-between gap-3">
             <ReviewedCardImage id={Gathering.id} image={Gathering.image} showOnlyMobile={true} />
-            <div className="grow-1">
+            <div className="grow dark:text-gray-200">
               {comment.split("\n").map((line, idx) => (
                 <p key={idx}>{line}</p>
               ))}
@@ -101,32 +106,32 @@ export function ReviewCardSkeleton() {
       className="flex animate-pulse items-start justify-start gap-4 pb-6"
       aria-label="작성한 리뷰 목록 스켈레톤"
     >
-      <div className="hidden aspect-square w-20 rounded-xl bg-slate-100 md:block md:w-[160px] md:rounded-3xl" />
+      <div className="hidden aspect-square w-20 rounded-xl bg-slate-100 md:block md:w-[160px] md:rounded-3xl dark:bg-slate-800" />
       <div className="grid w-full gap-4">
         <div className="grid gap-2">
           <div className="flex-start gap-3">
-            <div className="aspect-square w-10 rounded-full bg-slate-100" />
+            <div className="aspect-square w-10 rounded-full bg-slate-100 dark:bg-slate-800" />
             <div className="grid gap-1">
-              <div className="h-5 w-17 rounded-xl bg-slate-100" />
+              <div className="h-5 w-17 rounded-xl bg-slate-100 dark:bg-slate-800" />
               <div className="flex-start gap-2">
-                <div className="h-5 w-25.5 rounded-xl bg-slate-100 md:h-6 md:w-31" />
-                <div className="h-5 w-17 rounded-xl bg-slate-100" />
+                <div className="h-5 w-25.5 rounded-xl bg-slate-100 md:h-6 md:w-31 dark:bg-slate-800" />
+                <div className="h-5 w-17 rounded-xl bg-slate-100 dark:bg-slate-800" />
               </div>
             </div>
           </div>
-          <div className="flex-start max-w-full gap-2 overflow-hidden text-sm font-medium text-slate-500">
-            <div className="ml-0.5 h-4 w-[3px] bg-slate-200" />
+          <div className="flex-start max-w-full gap-2 overflow-hidden text-sm font-medium text-slate-500 dark:text-slate-400">
+            <div className="ml-0.5 h-4 w-[3px] bg-slate-200 dark:bg-slate-700" />
             <div className="flex-start gap-1">
-              <div className="h-5 w-17 rounded-xl bg-slate-100" />
-              <span className="text-slate-300">·</span>
-              <div className="h-5 w-17 rounded-xl bg-slate-100" />
+              <div className="h-5 w-17 rounded-xl bg-slate-100 dark:bg-slate-800" />
+              <span className="text-slate-300 dark:text-slate-600">·</span>
+              <div className="h-5 w-17 rounded-xl bg-slate-100 dark:bg-slate-800" />
             </div>
           </div>
         </div>
         <div className="grid w-full gap-2">
-          <div className="h-5 w-full rounded-xl bg-slate-100" />
-          <div className="h-5 w-full rounded-xl bg-slate-100" />
-          <div className="h-5 w-17 rounded-xl bg-slate-100" />
+          <div className="h-5 w-full rounded-xl bg-slate-100 dark:bg-slate-800" />
+          <div className="h-5 w-full rounded-xl bg-slate-100 dark:bg-slate-800" />
+          <div className="h-5 w-17 rounded-xl bg-slate-100 dark:bg-slate-800" />
         </div>
       </div>
     </div>
