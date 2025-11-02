@@ -187,7 +187,7 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
     <form
       onSubmit={handleSubmit}
       noValidate
-      className="flex w-[680px] max-w-full flex-col gap-2 rounded-2xl bg-white pt-14 pr-11 pb-11 pl-14 shadow-sm [box-shadow:0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(16,24,40,0.08)]"
+      className="flex w-[680px] max-w-full flex-col gap-2 rounded-2xl bg-white pt-14 pr-11 pb-11 pl-14 shadow-sm [box-shadow:0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(16,24,40,0.08)] max-sm:px-6"
     >
       <h1 className="mb-6 text-center text-lg font-bold text-slate-900">회원가입</h1>
       {errors.global && <FormErrorBanner message={errors.global} />}

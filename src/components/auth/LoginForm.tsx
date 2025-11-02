@@ -65,10 +65,10 @@ const LoginForm = ({ redirect = "/" }: Props) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className={`flex w-[568px] max-w-full flex-col gap-2 rounded-2xl bg-white pt-14 pr-11 pb-11 pl-14 shadow-sm [box-shadow:0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(16,24,40,0.08)]`}
+      className={`flex w-[680px] max-w-full flex-col gap-2 rounded-2xl bg-white pt-14 pr-11 pb-11 pl-14 shadow-sm [box-shadow:0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(16,24,40,0.08)] max-sm:px-6`}
       noValidate // 브라우저 기본 검증 비활성 (커스텀 메시지 사용)
     >
-      <h1 className="mb-4 text-center text-lg font-bold text-slate-900">로그인</h1>
+      <h1 className="mb-6 text-center text-lg font-bold text-slate-900">로그인</h1>
       {displayError && <FormErrorBanner message={displayError} />}
 
       <label htmlFor="login-email" className="mb-1 text-[13px] font-medium text-slate-500">
