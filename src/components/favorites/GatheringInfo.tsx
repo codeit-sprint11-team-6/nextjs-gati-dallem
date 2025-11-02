@@ -42,7 +42,20 @@ export function GatheringCapacityGraph({
   const participantPercentage = (participantCount / capacity) * 100;
   return (
     <div className="flex-center gap-2">
-      <Image src="/icon/person.svg" width={16} height={16} alt="인원" />
+      <Image
+        className="block dark:hidden"
+        src="/icon/person.svg"
+        width={16}
+        height={16}
+        alt="인원"
+      />
+      <Image
+        className="hidden dark:block"
+        src="/icon/person_white.svg"
+        width={16}
+        height={16}
+        alt="인원"
+      />
       <div className="h-1.5 min-w-28 flex-1 overflow-hidden rounded-full bg-gray-100">
         <div
           className="h-full bg-linear-to-r from-purple-400 via-purple-500 to-pink-400 transition-all"
