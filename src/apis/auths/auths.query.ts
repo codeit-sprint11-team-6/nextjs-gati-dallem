@@ -19,6 +19,7 @@ import {
 } from "./auths.schema";
 import { signup } from "./auths.service";
 import { invalidateAuth } from "../_react_query/utils";
+import { HttpApiError } from "../_client";
 
 // /** GET /auths/user */
 export const useAuthUser = <T = AuthUser>(opts?: AuthUserQueryOptions<T>) => {
@@ -46,9 +47,8 @@ export const useAuthUser = <T = AuthUser>(opts?: AuthUserQueryOptions<T>) => {
     queryFn: async () => {
       try {
         return await getAuthUser(); // 서버가 401이면 서비스에서 null 반환
-      } catch (e: any) {
-        const status = e?.status ?? e?.response?.status;
-        if (status === 401) return null;
+      } catch (e: unknown) {
+        if (e instanceof HttpApiError && e.status === 401) return null;
         throw e;
       }
     },
