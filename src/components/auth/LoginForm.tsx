@@ -35,7 +35,7 @@ const LoginForm = ({ redirect = "/" }: Props) => {
     const filled = emailTrim.length > 0 && pw.length > 0;
     const validEmail = EMAIL_REGEX.test(emailTrim);
     return filled && validEmail && !isPending;
-  }, [email, pw, isPending]);
+  }, [emailTrim, pw, isPending]);
 
   useDebouncedValidation([emailTrim, touched.email], DEBOUNCE_MS, () => {
     if (!touched.email) return;
