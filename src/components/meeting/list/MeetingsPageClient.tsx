@@ -49,6 +49,12 @@ export default function MeetingsPageClient() {
     const now = new Date();
     let result = meetings;
 
+    // 종료된 모임 제외
+    result = result.filter((m) => {
+      const isCompleted = new Date(m.dateTime) < now;
+      return !isCompleted;
+    });
+
     // 날짜 필터링 (한국 시간 기준)
     if (filters.date) {
       result = result.filter((m) => {
@@ -57,19 +63,14 @@ export default function MeetingsPageClient() {
       });
     }
 
-    // 참여 가능한 모임만 필터링
-    result = result.filter((m) => {
-      const isCompleted = new Date(m.dateTime) < now;
-      const isRegistrationClosed = m.registrationEnd ? new Date(m.registrationEnd) < now : false;
-      const isFull = m.participantCount >= m.capacity;
-      return !isCompleted && !isRegistrationClosed && !isFull;
-    });
-
     // 키워드 필터링
     if (filters.keyword) {
       const keyword = filters.keyword.toLowerCase();
       result = result.filter((m) => m.name.toLowerCase().includes(keyword));
     }
+
+    // 클라이언트 정렬 제거 - 서버 정렬 순서 유지
+    // 서버에서 이미 sortBy, sortOrder로 정렬되어 옴
 
     return result;
   }, [meetings, filters.keyword, filters.date]);
