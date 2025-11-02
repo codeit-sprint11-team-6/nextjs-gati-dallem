@@ -21,6 +21,8 @@ import { useOverlay } from "@/hooks/useOverlay";
 import { useRouter } from "next/navigation";
 import { SignupBody } from "@/apis/auths/auths.schema";
 import SignupModal from "../common/SignupModal";
+import { useDebouncedValidation } from "@/hooks/auths/useDebouncedValidation";
+import { DEBOUNCE_MS } from "@/constants/auth/validation";
 
 type Props = { redirect?: string };
 
@@ -45,21 +47,28 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
     pw: "",
     pw2: "",
   });
+
   // field error states
   const [errors, setErrors] = useState<SignupErrors>({});
+
+  const [touched, setTouched] = useState<Record<keyof FormFields, boolean>>({
+    name: false,
+    email: false,
+    company: false,
+    pw: false,
+    pw2: false,
+  });
 
   const { name, email, company, pw, pw2 } = values;
 
   // 공통 change 핸들러 (값 업데이트 + 해당 필드 에러 초기화)
   function handleChange<K extends keyof FormFields>(key: K, value: string) {
     setValues((prev) => ({ ...prev, [key]: value }));
+    setTouched((prev) => ({ ...prev, [key]: true }));
     if (errors[key]) setErrors((prev) => ({ ...prev, [key]: "" as SignupErrors[K], global: "" }));
   }
 
   // 앞단 검증
-  const isPwMatch = pw2.length > 0 && pw === pw2;
-  const isPwStrongEnough = pw.length >= MIN_PASSWORD_LEN; // 필요시 강화 규칙 추가(영문/숫자/특수문자 등)
-
   const isFormValid = useMemo(() => {
     const filled = !!(name.trim() && email.trim() && company.trim() && pw && pw2);
     const basicValid =
@@ -67,7 +76,30 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
     return filled && basicValid && !isPending;
   }, [name, email, company, pw, pw2, isPending]);
 
-  const handleOnSubmit = async (e: React.FormEvent) => {
+  useDebouncedValidation(
+    [values.name, values.email, values.company, values.pw, values.pw2, touched],
+    DEBOUNCE_MS,
+    () => {
+      const vErrs = validateSignup({
+        name,
+        email,
+        company,
+        password: pw,
+        confirmPassword: pw2,
+      });
+
+      const next: SignupErrors = {};
+      if (touched.name) next.name = vErrs.name || "";
+      if (touched.email) next.email = vErrs.email || "";
+      if (touched.company) next.company = vErrs.company || "";
+      if (touched.pw) next.pw = vErrs.password || "";
+      if (touched.pw2) next.pw2 = vErrs.confirmPassword || "";
+
+      setErrors((prev) => ({ ...prev, ...next }));
+    },
+  );
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isPending) return;
 
@@ -125,7 +157,7 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
       }
 
       // 서버 유효성 오류 매핑 → 각 필드로 매핑하지만, 대부분은 프론트에서 선검증됨
-      if (code === "VALIDATION_ERROR" || status === 400 || status === 422) {
+      if (code === "VALIDATION_ERROR" || status === 400) {
         const items = extractValidationItems(err);
         const next: SignupErrors = {};
         for (const it of items) {
@@ -153,103 +185,86 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
 
   return (
     <form
-      onSubmit={handleOnSubmit}
+      onSubmit={handleSubmit}
       noValidate
       className="flex w-[680px] max-w-full flex-col gap-2 rounded-2xl bg-white pt-14 pr-11 pb-11 pl-14 shadow-sm [box-shadow:0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(16,24,40,0.08)]"
     >
       <h1 className="mb-6 text-center text-lg font-bold text-slate-900">회원가입</h1>
       {errors.global && <FormErrorBanner message={errors.global} />}
       {/* 이름 */}
-      <label className="mb-1 text-[13px] font-medium text-slate-500">이름</label>
+      <label htmlFor="signup-name" className="mb-1 text-[13px] font-medium text-slate-500">
+        이름
+      </label>
       <AuthInput
+        id="signup-name"
         placeholder="이름을 입력해 주세요"
         value={values.name}
         onChange={(e) => handleChange("name", e.target.value)}
         invalid={!!errors.name}
-        aria-describedby="name-error"
-        autoComplete="name"
+        errorMessage={errors.name}
         className="bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]"
+        autoComplete="name"
       />
-      {errors.name && (
-        <p id="name-error" className="mt-1 text-xs text-[#FF2727]">
-          {errors.name}
-        </p>
-      )}
-
       {/* 아이디(이메일) */}
-      <label className="mt-4 mb-1 text-[13px] font-medium text-slate-500">아이디</label>
+      <label htmlFor="signup-email" className="mt-4 mb-1 text-[13px] font-medium text-slate-500">
+        이메일
+      </label>
       <AuthInput
+        id="signup-email"
         type="email"
         placeholder="이메일을 입력해 주세요"
         value={email}
         onChange={(e) => handleChange("email", e.target.value)}
         invalid={!!errors.email}
-        aria-describedby="email-error"
-        autoComplete="username"
+        errorMessage={errors.email}
         className="bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]"
+        autoComplete="username"
       />
-      {errors.email && (
-        <p id="email-error" className="mt-1 text-xs text-[#FF2727]">
-          {errors.email}
-        </p>
-      )}
-
-      {/* 이메일 형식 선검증 */}
-      {email.length > 0 && !EMAIL_REGEX.test(email.trim()) && !errors.email && (
-        <p className="mt-1 text-xs text-[#FF2727]">올바른 이메일 형식을 입력해 주세요.</p>
-      )}
-
       {/* 회사명 */}
-      <label className="mt-4 mb-1 text-[13px] font-medium text-slate-500">회사명</label>
+      <label htmlFor="signup-company" className="mt-4 mb-1 text-[13px] font-medium text-slate-500">
+        회사명
+      </label>
       <AuthInput
+        id="signup-company"
         placeholder="회사명을 입력해 주세요"
         value={company}
         onChange={(e) => handleChange("company", e.target.value)}
         invalid={!!errors.company}
-        autoComplete="organization"
+        errorMessage={errors.company}
         className="bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]"
+        autoComplete="organization"
       />
-      {errors.company && (
-        <p id="company-error" className="mt-1 text-xs text-[#FF2727]">
-          {errors.company}
-        </p>
-      )}
       {/* 비밀번호 */}
-      <label className="mt-4 mb-1 text-[13px] font-medium text-slate-500">비밀번호</label>
+      <label htmlFor="signup-password" className="mt-4 mb-1 text-[13px] font-medium text-slate-500">
+        비밀번호
+      </label>
       <AuthPasswordInput
-        placeholder="비밀번호를 입력해 주세요"
+        id="signup-password"
+        placeholder="새 비밀번호를 입력해 주세요"
         value={pw}
         onChange={(e) => handleChange("pw", e.target.value)}
         invalid={!!errors.pw}
         errorMessage={errors.pw}
-        autoComplete="new-password"
         className="bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]"
+        autoComplete="new-password"
       />
-
-      {/* 실시간 힌트(선택): 최소 길이 */}
-      {pw.length > 0 && !isPwStrongEnough && !errors.pw && (
-        <p className="mt-1 text-xs text-[#FF2727]">
-          비밀번호는 {MIN_PASSWORD_LEN}자 이상이어야 합니다.
-        </p>
-      )}
-      {/* 비밀번호 확인 (이미지처럼 에러 보더 + 하단 메시지)  */}
-      <label className="mt-4 mb-1 text-[13px] font-medium text-slate-500">비밀번호 확인</label>
+      {/* 비밀번호 확인  */}
+      <label
+        htmlFor="signup-password-confirm"
+        className="mt-4 mb-1 text-[13px] font-medium text-slate-500"
+      >
+        비밀번호 확인
+      </label>
       <AuthPasswordInput
-        placeholder="비밀번호를 작성해 주세요"
+        id="signup-password-confirm"
+        placeholder="비밀번호를 한 번 더 입력해 주세요"
         value={pw2}
         onChange={(e) => handleChange("pw2", e.target.value)}
-        invalid={!!errors.pw2 || (pw2.length > 0 && !isPwMatch)}
+        invalid={!!errors.pw2}
         errorMessage={errors.pw2}
-        aria-describedby="pw2-error"
-        autoComplete="new-password"
         className="bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]"
+        autoComplete="new-password"
       />
-
-      {(errors.pw2 || (pw2.length > 0 && !isPwMatch)) && (
-        <p id="pw2-error" className="mt-1 text-xs text-[#FF2727]">
-          {errors.pw2 || "비밀번호가 일치하지 않습니다."}
-        </p>
-      )}
 
       <AuthButton type="submit" disabled={!isFormValid} loading={isPending} className="mt-6">
         회원가입

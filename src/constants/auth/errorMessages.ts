@@ -1,36 +1,29 @@
 // src/constants/auth/errorMessages.ts
 
-/**
- * 인증(로그인/회원가입) 도메인 고정 메시지 모음
- *
- * 사용 위치:
- * - [클라이언트 선검증] 제출 전 유효성 검사 시 → `AUTH_ERROR_MESSAGES.fields.*`
- * - [서버 검증 반영] 400 에러 + parameter 존재 시 → 해당 필드 메시지 매핑
- * - [코드 기반 폴백] 서버에서 message 누락 또는 숨김 시 → `AUTH_ERROR_MESSAGES.codes.*`
- *
- * 주의:
- * - 이 파일은 **UI 문구 상수 전용**입니다.
- *   (파싱/매핑 로직은 `/src/apis/_errorMessage.ts`에서 처리)
- *
- */
 export const AUTH_ERROR_MESSAGES = {
-  // 필드별 메시지(클라이언트 선검증 + 서버 400 parameter 매핑)
   fields: {
     email: {
       REQUIRED: "아이디(이메일)를 입력해 주세요.",
       INVALID: "유효한 이메일 주소를 입력해 주세요.",
-      // 서버 중복 결과를 선검증처럼 보여줄 때도 재사용 가능
       DUPLICATE: "중복된 이메일입니다.",
     },
     name: {
       REQUIRED: "이름을 입력해 주세요.",
+      TOO_SHORT: "이름은 2자 이상이어야 합니다.",
+      TOO_LONG: "이름은 30자 이하여야 합니다.",
+      INVALID: "이름에는 한글/영문, 공백, -, ·, ' 만 사용할 수 있습니다.",
     },
     companyName: {
       REQUIRED: "회사명을 입력해 주세요.",
+      TOO_SHORT: "회사명은 2자 이상이어야 합니다.",
+      TOO_LONG: "회사명은 40자 이하여야 합니다.",
+      INVALID: "회사명에는 한글/영문/숫자 및 공백, & . , - ( ) / 만 사용할 수 있습니다.",
     },
     password: {
       REQUIRED: "비밀번호를 입력해 주세요.",
       WEAK: "비밀번호는 8자 이상이어야 합니다.",
+      WHITESPACE: "비밀번호에는 공백을 포함할 수 없습니다.",
+      COMPLEXITY: "영문, 숫자, 특수문자를 모두 포함해 주세요.",
     },
     confirmPassword: {
       REQUIRED: "비밀번호 확인을 입력해 주세요.",
