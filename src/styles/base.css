@@ -8,6 +8,17 @@
     scroll-behavior: smooth;
   }
 
+  html,
+  body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
   body {
     @apply text-gray-900 antialiased;
     background-color: #f8f8f8;
