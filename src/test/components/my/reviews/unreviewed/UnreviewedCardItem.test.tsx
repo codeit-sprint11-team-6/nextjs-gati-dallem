@@ -2,8 +2,9 @@ import UnreviewedCardItem from "@/components/my/reviews/unreviewed/UnreviewedCar
 import { mockUnreviewed } from "@/mocks/my/mockMyReview";
 import { pushSpy } from "@/test/__mocks__/next";
 import { overlaySpy, resetOverlaySpy } from "@/test/__mocks__/overlay";
+import { renderWithQueryClient } from "@/test/renderWithQueryClient";
 import { formatDateAndTime } from "@/utils/datetime";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 
 describe("마이페이지 - 나의 리뷰 - 작성 가능한 리뷰 카드 컴포넌트 (UnreviewedCardItem)", () => {
   const mockData = mockUnreviewed[0];
@@ -11,7 +12,7 @@ describe("마이페이지 - 나의 리뷰 - 작성 가능한 리뷰 카드 컴�
   beforeEach(() => {
     pushSpy.mockClear();
     resetOverlaySpy();
-    render(<UnreviewedCardItem {...mockData} />);
+    renderWithQueryClient(<UnreviewedCardItem {...mockData} />);
   });
 
   test("기본 렌더링 테스트 (아티클/이미지/제목/인원/위치/날짜/시간)", () => {

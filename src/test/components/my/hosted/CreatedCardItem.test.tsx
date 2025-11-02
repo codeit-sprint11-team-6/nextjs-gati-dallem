@@ -2,7 +2,8 @@ import CreatedCardItem from "@/components/my/hosted/CreatedCardItem";
 import { mockMyGathering } from "@/mocks/my/mockMyGathering";
 import { pushSpy } from "@/test/__mocks__/next";
 import { resetOverlaySpy } from "@/test/__mocks__/overlay";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { renderWithQueryClient } from "@/test/renderWithQueryClient";
+import { fireEvent, screen } from "@testing-library/react";
 
 describe("마이페이지 - 내가 만든 모임 - 내가 만든 모임 카드 컴포넌트 (CreatedCardItem)", () => {
   beforeEach(() => {
@@ -12,7 +13,7 @@ describe("마이페이지 - 내가 만든 모임 - 내가 만든 모임 카드 �
 
   test("기본 렌더링 테스트 (이미지/제목/인원/위치/날짜/시간)", () => {
     const mockData = mockMyGathering[0];
-    render(<CreatedCardItem {...mockData} />);
+    renderWithQueryClient(<CreatedCardItem {...mockData} />);
 
     const card = screen.getByLabelText("모임 목록 아이템");
     expect(card).toBeInTheDocument();
@@ -35,7 +36,7 @@ describe("마이페이지 - 내가 만든 모임 - 내가 만든 모임 카드 �
 
   test("나의 모임 카드 클릭 시 router.push 호출 확인", () => {
     const mockData = mockMyGathering[0];
-    render(<CreatedCardItem {...mockData} />);
+    renderWithQueryClient(<CreatedCardItem {...mockData} />);
 
     const card = screen.getByLabelText("모임 목록 아이템");
     fireEvent.click(card);
