@@ -118,12 +118,14 @@ export default function CreateMeetingWizard({ onCancel, onFinished, children }: 
     }
 
     const formatDateTime = (date: Date): string => {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-      const hours = String(date.getHours()).padStart(2, "0");
-      const minutes = String(date.getMinutes()).padStart(2, "0");
-      const seconds = String(date.getSeconds()).padStart(2, "0");
+      // 로컬 시간(KST)을 UTC로 변환
+      const year = date.getUTCFullYear();
+      const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+      const day = String(date.getUTCDate()).padStart(2, "0");
+      const hours = String(date.getUTCHours()).padStart(2, "0");
+      const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+      const seconds = String(date.getUTCSeconds()).padStart(2, "0");
+      // API 스펙에 맞춰 YYYY-MM-DDTHH:MM:SS 형식으로 반환 (밀리초/Z 제외)
       return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
     };
 
