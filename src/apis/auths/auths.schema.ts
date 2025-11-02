@@ -103,6 +103,7 @@ export type UpdateAuthUserBody = z.infer<typeof UpdateAuthUserBodySchema>;
 // 1) 공통 유저 코어
 const UserCoreSchema = z
   .object({
+    teamId: z.string().optional(),
     id: z.number(),
     email: EmailResponseSchema,
     name: z.string(),
@@ -115,7 +116,9 @@ const UserCoreSchema = z
 export type UserCore = z.infer<typeof UserCoreSchema>;
 
 /** GET /{teamId}/auths/user */
-export const GetAuthUserResponseSchema = UserCoreSchema;
+export const GetAuthUserResponseSchema = UserCoreSchema.extend({
+  teamId: z.string(),
+}).strict();
 export type GetAuthUserResponse = z.infer<typeof GetAuthUserResponseSchema>;
 
 /** PUT /{teamId}/auths/user */
