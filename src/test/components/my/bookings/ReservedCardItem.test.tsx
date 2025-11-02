@@ -2,7 +2,8 @@ import ReservedCardItem from "@/components/my/bookings/ReservedCardItem";
 import { mockJoinedGathering } from "@/mocks/my/mockJoinedGathering";
 import { pushSpy } from "@/test/__mocks__/next";
 import { overlaySpy, resetOverlaySpy } from "@/test/__mocks__/overlay";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { renderWithQueryClient } from "@/test/renderWithQueryClient";
+import { fireEvent, screen } from "@testing-library/react";
 
 jest.mock("@/components/ui/Chip", () => {
   const Chip = ({ children, variant }: any) => (
@@ -28,7 +29,7 @@ describe("마이페이지 - 나의 모임 - 나의 모임 카드 컴포넌트 (R
 
     test("기본 렌더링 테스트 (이미지/제목/인원/위치/날짜/시간)", () => {
       const mockData = mockJoinedGathering[0];
-      render(<ReservedCardItem {...mockData} />);
+      renderWithQueryClient(<ReservedCardItem {...mockData} />);
 
       expect(screen.getByLabelText("모임 목록 아이템")).toBeInTheDocument();
 
@@ -47,7 +48,7 @@ describe("마이페이지 - 나의 모임 - 나의 모임 카드 컴포넌트 (R
 
     test("이용예정/개설대기 상태 - [참여 취소하기] 렌더링", () => {
       const mockData = mockJoinedGathering[0];
-      render(<ReservedCardItem {...mockData} />);
+      renderWithQueryClient(<ReservedCardItem {...mockData} />);
 
       const cancelBtn = screen.getByRole("button", { name: "참여 취소하기" });
       fireEvent.click(cancelBtn);
@@ -60,7 +61,7 @@ describe("마이페이지 - 나의 모임 - 나의 모임 카드 컴포넌트 (R
     test("취소된 모임 상태", () => {
       const canceledAt = "2025-10-10T00:00:00.000Z";
       const mockData = { ...mockJoinedGathering[0], canceledAt };
-      render(<ReservedCardItem {...mockData} />);
+      renderWithQueryClient(<ReservedCardItem {...mockData} />);
 
       expect(screen.getByTestId("chip")).toHaveTextContent("취소된 모임");
       expect(screen.queryByTestId("completed-chip")).not.toBeInTheDocument();
@@ -69,7 +70,7 @@ describe("마이페이지 - 나의 모임 - 나의 모임 카드 컴포넌트 (R
 
     test("이용예정/개설확정 상태", () => {
       const mockData = { ...mockJoinedGathering[0], participantCount: 5 };
-      render(<ReservedCardItem {...mockData} />);
+      renderWithQueryClient(<ReservedCardItem {...mockData} />);
 
       expect(screen.getByTestId("completed-chip")).toHaveTextContent("이용예정");
       expect(screen.getByTestId("confirm-chip")).toHaveTextContent("개설확정");
@@ -83,7 +84,7 @@ describe("마이페이지 - 나의 모임 - 나의 모임 카드 컴포넌트 (R
 
     test("이용완료/개설대기 상태", () => {
       const mockData = mockJoinedGathering[1];
-      render(<ReservedCardItem {...mockData} />);
+      renderWithQueryClient(<ReservedCardItem {...mockData} />);
 
       expect(screen.getByTestId("completed-chip")).toHaveTextContent("이용완료");
       // 이용완료 상태면 무조건 개설확정 표시
@@ -93,7 +94,7 @@ describe("마이페이지 - 나의 모임 - 나의 모임 카드 컴포넌트 (R
 
     test("이용완료 상태 - 리뷰 미작성 시 [리뷰 작성하기] 렌더링", () => {
       const mockData = { ...mockJoinedGathering[1], participantCount: 5 };
-      render(<ReservedCardItem {...mockData} />);
+      renderWithQueryClient(<ReservedCardItem {...mockData} />);
 
       expect(screen.getByTestId("completed-chip")).toHaveTextContent("이용완료");
       expect(screen.getByTestId("confirm-chip")).toHaveTextContent("개설확정");
@@ -106,7 +107,7 @@ describe("마이페이지 - 나의 모임 - 나의 모임 카드 컴포넌트 (R
 
     test("이용완료 상태 - 리뷰 작성 시 버튼 미렌더링", () => {
       const mockData = mockJoinedGathering[2];
-      render(<ReservedCardItem {...mockData} />);
+      renderWithQueryClient(<ReservedCardItem {...mockData} />);
 
       expect(screen.queryByRole("button", { name: "리뷰 작성하기" })).not.toBeInTheDocument();
       expect(screen.queryByRole("button", { name: "참여 취소하기" })).not.toBeInTheDocument();
@@ -114,7 +115,7 @@ describe("마이페이지 - 나의 모임 - 나의 모임 카드 컴포넌트 (R
 
     test("모임 카드 클릭 시 router.push 호출 확인", () => {
       const mockData = mockJoinedGathering[2];
-      render(<ReservedCardItem {...mockData} />);
+      renderWithQueryClient(<ReservedCardItem {...mockData} />);
 
       const card = screen.getByLabelText("모임 목록 아이템");
       fireEvent.click(card);

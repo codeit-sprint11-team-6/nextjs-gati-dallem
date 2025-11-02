@@ -5,9 +5,18 @@ import { useAuthStore } from "@/store/authStore";
 import { useFavoriteStore } from "@/store/favoriteStore";
 import { pushSpy } from "@/test/__mocks__/next";
 import { overlaySpy, resetOverlaySpy } from "@/test/__mocks__/overlay";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { renderWithQueryClient } from "@/test/renderWithQueryClient";
+import { fireEvent, screen } from "@testing-library/react";
 
 const mockData = mockMyGathering[0];
+
+const favoritesMutateMock = jest.fn();
+jest.mock("@/apis/favorites/favorites.query", () => ({
+  useFavoriteToggle: () => ({ mutate: favoritesMutateMock }),
+  useFavorites: (userId?: string) => ({
+    isLiked: (gid: string) => false,
+  }),
+}));
 
 describe("Card 컴포넌트", () => {
   beforeEach(() => {
@@ -17,7 +26,7 @@ describe("Card 컴포넌트", () => {
 
   describe("Card root", () => {
     test("모임 카드 렌더링 및 children 표시", () => {
-      render(
+      renderWithQueryClient(
         <Card gathering={mockData}>
           <div>child</div>
         </Card>,
@@ -30,7 +39,7 @@ describe("Card 컴포넌트", () => {
 
     test("클릭 시 router.push 호출 + cursor-pointer 클래스", () => {
       const gatheringInfo = { ...mockData, id: 123 };
-      render(<Card gathering={gatheringInfo}>x</Card>);
+      renderWithQueryClient(<Card gathering={gatheringInfo}>x</Card>);
 
       const section = screen.getByLabelText("모임 목록 아이템");
       expect(section).toHaveClass("cursor-pointer");
@@ -43,7 +52,7 @@ describe("Card 컴포넌트", () => {
   describe("Card.Image", () => {
     test("image prop이 없으면 placeholder div 렌더", () => {
       const gatheringInfo = { ...mockData, image: null };
-      render(
+      renderWithQueryClient(
         <Card gathering={gatheringInfo}>
           <Card.Image />
         </Card>,
@@ -53,7 +62,7 @@ describe("Card 컴포넌트", () => {
 
     test("image prop이 있으면 이미지(alt: 모임 이미지 미리보기) 렌더", () => {
       const gatheringInfo = { ...mockData, image: "/image/empty.svg" };
-      render(
+      renderWithQueryClient(
         <Card gathering={gatheringInfo}>
           <Card.Image />
         </Card>,
@@ -66,7 +75,7 @@ describe("Card 컴포넌트", () => {
 
   describe("Card.Detail", () => {
     test("children을 그대로 출력", () => {
-      render(
+      renderWithQueryClient(
         <Card gathering={mockData}>
           <Card.Detail>
             <p>상세내용</p>
@@ -85,7 +94,7 @@ describe("Card 컴포넌트", () => {
         isConfirmed: false,
         canceledAt: null,
       };
-      render(
+      renderWithQueryClient(
         <Card gathering={gatheringInfo}>
           <Card.Tags />
         </Card>,
@@ -96,7 +105,7 @@ describe("Card 컴포넌트", () => {
 
     test("이용완료/개설확정 표시", () => {
       const gatheringInfo = { ...mockData, isCompleted: true, isConfirmed: true, canceledAt: null };
-      render(
+      renderWithQueryClient(
         <Card gathering={gatheringInfo}>
           <Card.Tags />
         </Card>,
@@ -108,7 +117,7 @@ describe("Card 컴포넌트", () => {
 
     test("취소된 모임 표시", () => {
       const gatheringInfo = { ...mockData, canceledAt: "2025-10-01T00:00:00Z" };
-      render(
+      renderWithQueryClient(
         <Card gathering={gatheringInfo}>
           <Card.Tags />
         </Card>,
@@ -119,7 +128,7 @@ describe("Card 컴포넌트", () => {
 
   describe("Card.Title", () => {
     test("모임명 텍스트 렌더", () => {
-      render(
+      renderWithQueryClient(
         <Card gathering={mockData}>
           <Card.Title>모임명</Card.Title>
         </Card>,
@@ -138,7 +147,7 @@ describe("Card 컴포넌트", () => {
         location: "서울 강남",
         dateTime: "2025-10-17T12:30:00.000Z",
       };
-      render(
+      renderWithQueryClient(
         <Card gathering={gatheringInfo}>
           <Card.GatheringDetail />
         </Card>,
@@ -159,7 +168,7 @@ describe("Card 컴포넌트", () => {
 
   describe("Card.LikeButton", () => {
     test("heart_inactive 아이콘 적용", () => {
-      render(
+      renderWithQueryClient(
         <Card gathering={mockData}>
           <Card.LikeButton />
         </Card>,
@@ -173,7 +182,7 @@ describe("Card 컴포넌트", () => {
       useFavoriteStore.setState({
         favorites: { [mockProfile.id]: { count: 1, ids: [mockData.id], updatedAt: "" } },
       });
-      render(
+      renderWithQueryClient(
         <Card gathering={mockData}>
           <Card.LikeButton />
         </Card>,
@@ -185,34 +194,23 @@ describe("Card 컴포넌트", () => {
     test("찜하기 기능", () => {
       useAuthStore.setState({ user: mockProfile });
       const gatheringInfo = { ...mockData, id: 20 };
-      render(
+      renderWithQueryClient(
         <Card gathering={gatheringInfo}>
           <Card.LikeButton />
         </Card>,
       );
 
-      const btn = screen.getByRole("button", { name: /찜/i });
-      const img = screen.getByRole("img");
-
-      // 초기 상태: 찜 안됨
-      expect(img).toHaveAttribute("src", expect.stringContaining("heart_inactive"));
-
-      // 클릭 (찜 추가)
+      const btn = screen.getByRole("button", { name: "찜하기" });
       fireEvent.click(btn);
-      expect(img).toHaveAttribute("src", expect.stringContaining("heart_active"));
-      expect(useFavoriteStore.getState().has(1, 20)).toBe(true);
 
-      // 클릭 (찜 해제)
-      fireEvent.click(btn);
-      expect(img).toHaveAttribute("src", expect.stringContaining("heart_inactive"));
-      expect(useFavoriteStore.getState().has(1, 20)).toBe(false);
+      expect(favoritesMutateMock).toHaveBeenCalledTimes(1);
     });
   });
 
   describe("Card.ReservedButton", () => {
     test("이용 예정, 리뷰 미작성 상태 - [참여 취소하기] 버튼 렌더링, 클릭 시 overlay 호출, ConfirmLeaveModal 렌더링", () => {
       const gatheringInfo = { ...mockData, id: 77, isCompleted: false, isReviewed: false };
-      render(
+      renderWithQueryClient(
         <Card gathering={gatheringInfo}>
           <Card.ReservedButton />
         </Card>,
@@ -229,7 +227,7 @@ describe("Card 컴포넌트", () => {
 
     test("이용 완료, 리뷰 미작성 상태 - [리뷰 작성하기] 버튼 렌더링, 클릭 시 overlay 호출, ReviewCreateModal 렌더링", () => {
       const gatheringInfo = { ...mockData, id: 88, isCompleted: true, isReviewed: false };
-      const { container } = render(
+      const { container } = renderWithQueryClient(
         <Card gathering={gatheringInfo}>
           <Card.ReservedButton />
         </Card>,
@@ -244,7 +242,7 @@ describe("Card 컴포넌트", () => {
 
     test("이용 완료, 리뷰 작성 상태 - 버튼 렌더하지 않음", () => {
       const gatheringInfo = { ...mockData, id: 1, isCompleted: false, isReviewed: true };
-      const { container } = render(
+      const { container } = renderWithQueryClient(
         <Card gathering={gatheringInfo}>
           <Card.ReservedButton />
         </Card>,
@@ -257,7 +255,7 @@ describe("Card 컴포넌트", () => {
 
   describe("Card.ReviewButton", () => {
     test("[리뷰 작성하기] 클릭 시 overlay 호출, ReviewCreateModal 렌더링", () => {
-      render(
+      renderWithQueryClient(
         <Card gathering={mockData}>
           <Card.ReviewButton />
         </Card>,
