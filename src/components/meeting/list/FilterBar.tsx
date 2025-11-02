@@ -12,6 +12,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/Calendar";
 import { format } from "date-fns";
+import { ko } from "date-fns/locale/ko";
 import { GatheringMapper } from "@/types/gathering";
 
 export interface MeetingFilters {
@@ -85,7 +86,14 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
   };
 
   return (
-    <div className={cn("space-y-4 md:space-y-8", className)}>
+    <div
+      className={cn(
+        "sticky top-[60px] z-10 space-y-4 bg-white pb-4 md:space-y-8 md:pb-6",
+        "-mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8",
+        "md:-mt-7 md:pt-7 lg:-mt-8 lg:pt-8",
+        className,
+      )}
+    >
       {/* 대분류 탭 */}
       <div className="flex items-center border-b border-gray-200">
         {mainTabs.map((t) => {
@@ -120,7 +128,7 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-6">
         {/* 왼쪽: 소분류 탭 */}
         {subTabs.length > 0 && (
-          <div className="flex min-w-0 flex-1 items-center gap-2 overflow-x-auto scrollbar-hide">
+          <div className="scrollbar-hide flex min-w-0 flex-1 items-center gap-2 overflow-x-auto">
             {subTabs.map((tab) => (
               <button
                 key={tab.key}
@@ -139,7 +147,7 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
         )}
 
         {/* 오른쪽: 필터 */}
-        <div className="flex flex-shrink-0 items-center gap-3 md:gap-4 text-sm">
+        <div className="flex flex-shrink-0 items-center gap-3 text-sm md:gap-4">
           {/* 지역 필터 */}
           <Select
             value={value.location || "all"}
@@ -175,10 +183,9 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
                   mode="single"
                   selected={selectedDate}
                   onSelect={handleDateSelect}
-                  locale={require("date-fns/locale/ko").ko}
+                  locale={ko}
                   formatters={{
-                    formatWeekdayName: (date: Date) =>
-                      format(date, "EEEEE", { locale: require("date-fns/locale/ko").ko }),
+                    formatWeekdayName: (date: Date) => format(date, "EEEEE", { locale: ko }),
                   }}
                 />
                 <div className="flex gap-2 p-3">
