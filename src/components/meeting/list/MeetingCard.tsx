@@ -8,6 +8,8 @@ import { AlarmTag, ChipInfo, ConfirmChip } from "@/components/ui/Chip";
 import { Button } from "@/components/common/Button";
 import { formatDateAndTime, getDeadlineText } from "@/utils/datetime";
 import { useAuthStore } from "@/store/authStore";
+import { useOverlay } from "@/hooks/useOverlay";
+import MessageModal from "@/components/common/MessageModal";
 
 interface MeetingCardProps {
   gathering: Gathering;
@@ -17,7 +19,9 @@ interface MeetingCardProps {
 
 export default function MeetingCard({ gathering, onJoin, className }: MeetingCardProps) {
   const router = useRouter();
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const user = useAuthStore((state) => state.user);
+  const isAuthenticated = !!user; // user 존재 여부로 인증 확인
+  const { overlay } = useOverlay();
   const [date, time] = formatDateAndTime(gathering.dateTime);
   const isConfirmed = gathering.participantCount >= 5;
   const participantPercentage = (gathering.participantCount / gathering.capacity) * 100;
@@ -32,8 +36,22 @@ export default function MeetingCard({ gathering, onJoin, className }: MeetingCar
   const isFull = gathering.participantCount >= gathering.capacity; // 정원 초과
   const isDisabled = isCompleted || isRegistrationClosed || isFull;
 
-  const handleJoin = (e: React.MouseEvent) => {
+  const handleCardClick = (e: React.MouseEvent) => {
+    // 마감된 모임 클릭 시 모달 표시하고 이동 방지
+    if (isDisabled) {
+      e.preventDefault();
+      let message = "모집이 마감된 모임입니다.";
+      if (isCompleted) message = "이미 종료된 모임입니다.";
+      else if (isFull) message = "정원이 마감된 모임입니다.";
+      overlay(<MessageModal message={message} />);
+    }
+  };
+
+  const handleButtonClick = (e: React.MouseEvent) => {
+    e.preventDefault(); // Link 이동 방지
     e.stopPropagation(); // 카드 클릭 이벤트 전파 방지
+
+    // 마감된 모임은 참여 불가
     if (isDisabled) return;
 
     // 로그인 체크
@@ -41,11 +59,13 @@ export default function MeetingCard({ gathering, onJoin, className }: MeetingCar
       router.push("/signin");
       return;
     }
+
+    // 참여하기
     onJoin?.(gathering.id);
   };
 
   return (
-    <Link href={`/meetings/${gathering.id}`}>
+    <Link href={`/meetings/${gathering.id}`} onClick={handleCardClick}>
       <article
         className={`relative overflow-hidden rounded-3xl bg-white hover:drop-shadow-sm cursor-pointer md:flex md:items-start md:justify-start md:gap-6 md:rounded-4xl md:p-6 md:pr-9 ${className ?? ""}`}
       >
@@ -112,7 +132,7 @@ export default function MeetingCard({ gathering, onJoin, className }: MeetingCar
                 </div>
 
                 <Button
-                  onClick={handleJoin}
+                  onClick={handleButtonClick}
                   variant="outline"
                   size="md"
                   radius="lg"

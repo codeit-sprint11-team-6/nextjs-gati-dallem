@@ -3,6 +3,8 @@
 import { Gathering } from "@/types/gathering";
 import MeetingCard from "./MeetingCard";
 import { useJoinGathering } from "@/apis/gatherings/gatherings.query";
+import { useOverlay } from "@/hooks/useOverlay";
+import MessageModal from "@/components/common/MessageModal";
 
 interface ListGridProps {
   items: Gathering[];
@@ -11,9 +13,29 @@ interface ListGridProps {
 
 export default function ListGrid({ items, className }: ListGridProps) {
   const { mutate: joinGathering } = useJoinGathering();
+  const { overlay } = useOverlay();
 
   const handleJoin = (id: number) => {
-    joinGathering(id);
+    joinGathering(id, {
+      onSuccess: () => {
+        overlay(<MessageModal message="모임 참여가 완료되었습니다!" />);
+      },
+      onError: (error: any) => {
+        // 에러 코드별 메시지
+        let errorMessage = "모임 참여에 실패했습니다.";
+        if (error?.code === "ALREADY_JOINED") {
+          errorMessage = "이미 참여한 모임입니다.";
+        } else if (error?.code === "CAPACITY_FULL") {
+          errorMessage = "정원이 마감된 모임입니다.";
+        } else if (error?.code === "REGISTRATION_CLOSED") {
+          errorMessage = "모집이 마감된 모임입니다.";
+        } else if (error?.message) {
+          errorMessage = error.message;
+        }
+
+        overlay(<MessageModal message={errorMessage} />);
+      },
+    });
   };
 
   if (!items.length) {
@@ -27,7 +49,11 @@ export default function ListGrid({ items, className }: ListGridProps) {
   return (
     <div className={`grid grid-cols-1 gap-4 md:gap-5 lg:gap-6 lg:grid-cols-2 ${className ?? ""}`}>
       {items.map((gathering) => (
-        <MeetingCard key={gathering.id} gathering={gathering} onJoin={handleJoin} />
+        <MeetingCard
+          key={gathering.id}
+          gathering={gathering}
+          onJoin={handleJoin}
+        />
       ))}
     </div>
   );
