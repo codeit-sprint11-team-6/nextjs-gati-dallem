@@ -1,8 +1,6 @@
 // src/layout/Header.tsx
 "use client";
 
-import { useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
 import Logo from "@/components/header/Logo";
 import Navigation, { type NavigationItem } from "@/components/header/Navigation";
 import type { UserProfile } from "@/components/ui/Avatar";
@@ -10,6 +8,8 @@ import AuthAction from "@/components/header/AuthAction";
 import { useAuthUser, useSignout } from "@/apis/auths/auths.query";
 import { useAuthToken } from "@/hooks/auths/useAuthToken";
 import { authQueryKeys } from "@/utils/auth/authQueryKeys";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface HeaderProps {
   favoriteCount?: number;
@@ -24,7 +24,7 @@ interface HeaderProps {
  * - /me를 즉시 재검증하여 프로필/401 상태 반영
  */
 
-export default function Header({ favoriteCount = 0, logoAltText }: HeaderProps) {
+export default function Header({ logoAltText }: HeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -67,7 +67,7 @@ export default function Header({ favoriteCount = 0, logoAltText }: HeaderProps) 
     ...(isAuthed
       ? [{ label: "찜한 모임", href: "/favorites", isActive: pathname === "/favorites" }]
       : []),
-    // { label: "모든 리뷰", href: "/reviews", isActive: pathname === "/reviews" },
+    { label: "모든 리뷰", href: "/reviews", isActive: pathname === "/reviews" },
   ];
 
   return (
@@ -77,7 +77,7 @@ export default function Header({ favoriteCount = 0, logoAltText }: HeaderProps) 
         <div className="flex-between h-12 md:h-22 lg:h-22">
           <div className="flex-center h-12 md:h-22 lg:h-22">
             <Logo altText={logoAltText} />
-            <Navigation items={navigationItems} favoriteCount={favoriteCount} />
+            <Navigation items={navigationItems} />
           </div>
           {/* <UserProfile
             userProfile={userProfile}

@@ -36,6 +36,37 @@
     @apply ring-2 ring-purple-500 ring-offset-2 outline-none;
   }
 
+  /* Interactive Elements - 기본 스타일 개선 */
+  button {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  /* 링크 기본 스타일 */
+  a {
+    @apply transition-colors duration-200;
+  }
+
+  a:hover {
+    @apply text-purple-600;
+  }
+
+  /* 입력 요소 기본 스타일 */
+  input,
+  textarea,
+  select {
+    @apply transition-colors duration-200;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    @apply ring-2 ring-purple-500 ring-offset-1 outline-none;
+  }
+
   /* Scrollbar Styling */
   ::-webkit-scrollbar {
     width: 8px;

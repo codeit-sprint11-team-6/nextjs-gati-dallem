@@ -15,7 +15,7 @@ export default function MyPageLayout({ children }: { children: React.ReactNode }
         <h2
           className={cn(
             "pl-2 md:p-0 lg:pt-3.5 lg:pl-2.5",
-            "font-semibold text-gray-900 md:text-[32px]",
+            "font-semibold text-gray-900 md:text-[32px] dark:text-gray-100",
           )}
         >
           마이페이지
