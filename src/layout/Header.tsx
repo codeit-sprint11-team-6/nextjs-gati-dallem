@@ -7,7 +7,7 @@ import type { UserProfile } from "@/components/ui/Avatar";
 import AuthAction from "@/components/header/AuthAction";
 import { useAuthUser, useSignout } from "@/apis/auths/auths.query";
 import { useAuthToken } from "@/hooks/auths/useAuthToken";
-import { authQueryKeys } from "@/utils/auth/authQueryKeys";
+import { queryKeys } from "@/apis/_react_query/keys";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -38,7 +38,7 @@ export default function Header({ logoAltText }: HeaderProps) {
     refetchOnWindowFocus: false, // 포커스 때 깜빡임 원인이면 꺼두기
     refetchOnMount: "always", // 재시작/첫 렌더에서 꼭 새로 가져오게
     staleTime: 0,
-    queryKey: [...authQueryKeys.me(), token ?? "no-token"], // 세션 전환 시 캐시 충돌 방지
+    queryKey: [...queryKeys.auth.me(), token ?? "no-token"], // 세션 전환 시 캐시 충돌 방지
   });
 
   const { data: me, isLoading, isFetching, isSuccess, isError, isStale } = q;

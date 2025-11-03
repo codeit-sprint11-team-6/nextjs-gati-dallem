@@ -3,10 +3,9 @@
 // /src/apis/auths/auths.query.ts
 import { useAuthStore } from "@/store/authStore";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { queryKeys } from "../_react_query/keys";
+import { queryKeys, meKey } from "../_react_query/keys";
 import { updateAuthUser } from "./auths.service";
 import { signin, signout, getAuthUser } from "./auths.service";
-import { authQueryKeys, meKey } from "@/utils/auth/authQueryKeys";
 import { AuthUser } from "@/types";
 import { tokenStore } from "@/utils/auth/token.store";
 import { AuthUserQueryOptions } from "./auths.types";
@@ -74,7 +73,7 @@ export const useAuthUser = <T = AuthUser>(opts?: AuthUserQueryOptions<T>) => {
 // /** POST /auths/signup */
 export const useSignup = () => {
   return useMutation<SignupResponse, Error, SignupBody>({
-    mutationKey: authQueryKeys.mutation.signup(),
+    mutationKey: queryKeys.auth.mutation.signup(),
     mutationFn: signup,
   });
 };
@@ -84,7 +83,7 @@ export const useSignin = () => {
   const queryClient = useQueryClient();
 
   return useMutation<SigninResponse, Error, SigninBody>({
-    mutationKey: authQueryKeys.mutation.signin(),
+    mutationKey: queryKeys.auth.mutation.signin(),
     mutationFn: signin,
 
     /** 로그인 성공 시: 토큰 저장 + 인증 캐시 갱신 */
@@ -94,9 +93,12 @@ export const useSignin = () => {
       if (typeof t === "string" && t) tokenStore.set(t); // 로컬 스토리지에 토큰 저장
 
       // 2) auth 전부: 진행 중 요청 취소
-      await queryClient.cancelQueries({ queryKey: authQueryKeys.all() });
+      await queryClient.cancelQueries({ queryKey: queryKeys.auth.all() });
       // 3) auth 전부: 무효화(활성 쿼리만 즉시 재요청)
-      await queryClient.invalidateQueries({ queryKey: authQueryKeys.all(), refetchType: "active" });
+      await queryClient.invalidateQueries({
+        queryKey: queryKeys.auth.all(),
+        refetchType: "active",
+      });
 
       // 4) 새 토큰으로 /me 강제 조회(캐시에 자동 반영)
       await queryClient.fetchQuery({
@@ -112,12 +114,12 @@ export const useSignout = () => {
   const queryClient = useQueryClient();
 
   return useMutation<SignoutResponse, Error, void>({
-    mutationKey: authQueryKeys.mutation.signout(),
+    mutationKey: queryKeys.auth.mutation.signout(),
     mutationFn: signout,
 
     // 요청 직전: 즉시 로그아웃 UI 반영 (업데이트)
     onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: authQueryKeys.all() });
+      await queryClient.cancelQueries({ queryKey: queryKeys.auth.all() });
       tokenStore.clear?.();
 
       queryClient.setQueryData(meKey(true), null);

@@ -5,8 +5,17 @@ import { GetGatheringsQuery } from "../gatherings/gatherings.schema";
 export const queryKeys = {
   auth: {
     all: () => ["auth"] as const,
-    me: () => [...queryKeys.auth.all(), "me"] as const,
+    me: () => ["auth", "me"] as const,
+
+    state: (state: "authed" | "guest") => ["auth", "me", state] as const,
+
+    mutation: {
+      signin: () => ["auth", "mutation", "signin"] as const,
+      signout: () => ["auth", "mutation", "signout"] as const,
+      signup: () => ["auth", "mutation", "signup"] as const,
+    },
   },
+
   gatherings: {
     all: () => ["gatherings"] as const,
     list: (params?: unknown) => [...queryKeys.gatherings.all(), "list", params ?? {}] as const,
@@ -33,3 +42,5 @@ export const targets = {
   reviewsAll: [queryKeys.reviews.all()],
   favoritesAll: [queryKeys.favorites.all()],
 };
+
+export const meKey = (authed: boolean) => queryKeys.auth.state(authed ? "authed" : "guest");
