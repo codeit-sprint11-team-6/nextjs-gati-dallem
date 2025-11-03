@@ -4,16 +4,8 @@
     border-color: var(--color-gray-200);
   }
 
-  html,
-  body {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  html {
     scroll-behavior: smooth;
-  }
-
-  html::-webkit-scrollbar,
-  body::-webkit-scrollbar {
-    display: none;
   }
 
   body {
@@ -104,5 +96,11 @@
 
   .dark ::-webkit-scrollbar-thumb:hover {
     @apply bg-gray-500;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
