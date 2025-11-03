@@ -89,7 +89,7 @@ function ReviewedCardList() {
     <EmptyList />
   ) : (
     <div className="grid justify-stretch gap-5 md:gap-10">
-      <div className="grid justify-stretch gap-6 divide-y-1 divide-slate-200 rounded-3xl bg-white p-6 pb-0 md:rounded-4xl lg:px-8 lg:pb-2">
+      <div className="grid justify-stretch gap-6 divide-y-1 divide-slate-200 rounded-3xl bg-white p-6 pb-0 md:rounded-4xl lg:px-8 lg:pb-2 dark:divide-slate-700 dark:bg-gray-900">
         {data.map((review) => (
           <ReviewedCardItem key={review.id} {...review} />
         ))}
@@ -108,7 +108,7 @@ function EmptyList() {
       <div className="flex-center relative mb-6 h-24 w-24 sm:h-32 sm:w-32">
         <Image src="/image/empty.svg" alt="빈 페이지 표시 이미지" fill className="object-contain" />
       </div>
-      <h3 className="mb-2 text-sm font-semibold text-gray-400 md:text-lg">
+      <h3 className="mb-2 text-sm font-semibold text-gray-400 md:text-lg dark:text-gray-500">
         {writable ? "작성할 수 있는 리뷰가 없어요" : "작성한 리뷰가 없어요"}
       </h3>
     </div>
@@ -126,7 +126,7 @@ function SkeletonList() {
         ))}
     </>
   ) : (
-    <div className="grid justify-stretch gap-6 divide-y-1 divide-slate-200 rounded-3xl bg-white p-6 pb-0 md:rounded-4xl lg:px-8 lg:pb-2">
+    <div className="grid justify-stretch gap-6 divide-y-1 divide-slate-200 rounded-3xl bg-white p-6 pb-0 md:rounded-4xl lg:px-8 lg:pb-2 dark:divide-slate-700 dark:bg-gray-900">
       {Array(3)
         .fill(undefined)
         .map((_, idx) => (

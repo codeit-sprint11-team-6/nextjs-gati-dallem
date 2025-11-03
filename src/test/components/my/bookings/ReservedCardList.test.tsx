@@ -1,6 +1,7 @@
 import ReservedCardList from "@/components/my/bookings/ReservedCardList";
 import { mockJoinedGathering } from "@/mocks/my/mockJoinedGathering";
-import { render, screen } from "@testing-library/react";
+import { renderWithQueryClient } from "@/test/renderWithQueryClient";
+import { screen } from "@testing-library/react";
 
 const queryFnSpy = jest.fn();
 jest.mock("@/apis/gatherings/gatherings.query", () => ({
@@ -15,7 +16,7 @@ describe("마이페이지 - 나의 모임 - 나의 모임 목록 조회 (Reserve
   test("로딩 상태일 때 SkeletonList 렌더링", () => {
     queryFnSpy.mockReturnValue({ isLoading: true, data: undefined });
 
-    render(<ReservedCardList />);
+    renderWithQueryClient(<ReservedCardList />);
 
     const skeletons = screen.getAllByLabelText("모임 목록 스켈레톤");
     expect(skeletons).toHaveLength(5);
@@ -24,7 +25,7 @@ describe("마이페이지 - 나의 모임 - 나의 모임 목록 조회 (Reserve
   test("빈 데이터일 때 EmptyList 렌더링", () => {
     queryFnSpy.mockReturnValue({ isLoading: false, data: [] });
 
-    render(<ReservedCardList />);
+    renderWithQueryClient(<ReservedCardList />);
 
     const emptyListMessage = screen.getByText("아직 신청한 모임이 없어요");
     expect(emptyListMessage).toBeInTheDocument();
@@ -40,7 +41,7 @@ describe("마이페이지 - 나의 모임 - 나의 모임 목록 조회 (Reserve
       data: mockData,
     });
 
-    render(<ReservedCardList />);
+    renderWithQueryClient(<ReservedCardList />);
 
     const items = screen.getAllByLabelText("모임 목록 아이템");
     expect(items).toHaveLength(mockData.length);
