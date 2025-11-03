@@ -99,6 +99,11 @@
     animation: glow 2s ease-in-out infinite alternate;
   }
 
+  /* Scroll behavior on iOS Safari (관성 스크롤) */
+  .scroll-touch {
+    -webkit-overflow-scrolling: touch;
+  }
+
   /* Responsive Hide/Show */
   .hide-scrollbar {
     -ms-overflow-style: none;
