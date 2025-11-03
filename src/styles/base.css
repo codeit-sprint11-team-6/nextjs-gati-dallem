@@ -98,3 +98,9 @@
     @apply bg-gray-500;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
