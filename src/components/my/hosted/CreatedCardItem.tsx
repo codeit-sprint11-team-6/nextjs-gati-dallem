@@ -35,7 +35,7 @@ export function CreatedCardSkeleton() {
           <div className="h-8 w-[300px] rounded-3xl bg-slate-200 dark:bg-slate-600" />
           <div className="flex flex-col gap-2.5">
             <div className="h-5 w-16 rounded-3xl bg-slate-200 dark:bg-slate-600" />
-            <div className="flex gap-2.5 divide-x divide-slate-200 dark:bg-slate-600">
+            <div className="flex gap-2.5 divide-x divide-slate-200 dark:divide-slate-600">
               <div className="h-5 w-25 rounded-3xl bg-slate-200 dark:bg-slate-600" />
               <div className="h-5 w-25 rounded-3xl bg-slate-200 dark:bg-slate-600" />
               <div className="h-5 w-25 rounded-3xl bg-slate-200 dark:bg-slate-600" />
