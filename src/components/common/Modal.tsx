@@ -22,7 +22,7 @@ export default function Modal({
 
   return (
     <div
-      className="animate-fade-in fixed inset-0 z-100 flex items-center justify-center bg-[rgba(0,0,0,0.5)]"
+      className="fixed inset-0 z-100 flex items-center justify-center bg-[rgba(0,0,0,0.5)]"
       id="dimmed"
     >
       <section
