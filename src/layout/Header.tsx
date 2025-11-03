@@ -38,7 +38,6 @@ export default function Header({ logoAltText }: HeaderProps) {
     refetchOnWindowFocus: false, // 포커스 때 깜빡임 원인이면 꺼두기
     refetchOnMount: "always", // 재시작/첫 렌더에서 꼭 새로 가져오게
     staleTime: 0,
-    queryKey: meKey(isAuthed), // 세션 상태(authed/guest)에 따라 key 구분
   });
 
   const { data: me, isLoading, isFetching, isSuccess, isError, isStale } = q;
