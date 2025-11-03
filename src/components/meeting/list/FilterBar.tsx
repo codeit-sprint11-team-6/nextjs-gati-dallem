@@ -88,14 +88,14 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
   return (
     <div
       className={cn(
-        "sticky top-[60px] z-10 space-y-4 bg-white pb-4 md:space-y-8 md:pb-6",
+        "sticky top-12 md:top-[88px] z-10 space-y-4 bg-gray-50 dark:bg-gray-800 pb-4 md:space-y-8 md:pb-6",
         "-mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8",
-        "md:-mt-7 md:pt-7 lg:-mt-8 lg:pt-8",
+        "pt-4 md:-mt-7 md:pt-7 lg:-mt-8 lg:pt-8",
         className,
       )}
     >
       {/* 대분류 탭 */}
-      <div className="flex items-center border-b border-gray-200">
+      <div className="flex items-center border-b border-gray-200 dark:border-gray-700">
         {mainTabs.map((t) => {
           const isActive =
             (t.key === "DALLAEMFIT" &&
@@ -111,9 +111,11 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
                 set("category", t.key as MeetingFilters["category"]);
               }}
               className={cn(
-                "relative flex flex-1 items-center justify-center gap-1.5 px-4 py-3 text-base font-semibold transition-colors",
+                "relative flex flex-1 items-center justify-center gap-1.5 px-4 py-3 text-base font-semibold transition-colors rounded-t-lg",
                 "md:flex-initial md:gap-2 md:px-8 md:py-4 md:text-lg",
-                isActive ? "text-purple-500" : "text-gray-600 hover:text-gray-900",
+                isActive
+                  ? "text-purple-500 bg-white dark:bg-gray-700"
+                  : "text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700",
               )}
             >
               <span className="text-xl md:text-2xl">{t.emoji}</span>
@@ -137,7 +139,7 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
                   "rounded-xl px-4 py-2 text-sm font-medium whitespace-nowrap transition-all",
                   value.category === tab.key
                     ? "bg-purple-500 text-white shadow-sm"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200",
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600",
                 )}
               >
                 {tab.label}
@@ -178,7 +180,7 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
               </div>
             </PopoverTrigger>
             <PopoverContent className="z-50 w-auto overflow-hidden rounded-xl p-0" align="center">
-              <div className="flex flex-col bg-white">
+              <div className="flex flex-col bg-white dark:bg-gray-900">
                 <Calendar
                   mode="single"
                   selected={selectedDate}
@@ -191,7 +193,7 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
                 <div className="flex gap-2 p-3">
                   <button
                     onClick={handleDateReset}
-                    className="flex-1 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+                    className="flex-1 rounded-lg border border-gray-200 dark:border-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800"
                   >
                     초기화
                   </button>

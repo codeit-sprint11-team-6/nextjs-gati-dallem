@@ -40,7 +40,7 @@ export default function ListGrid({ items, className }: ListGridProps) {
 
   if (!items.length) {
     return (
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8 lg:p-10 text-center text-sm md:text-base text-slate-500">
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-gray-900 p-6 md:p-8 lg:p-10 text-center text-sm md:text-base text-slate-500 dark:text-slate-400">
         조건에 맞는 모임이 없습니다. 필터를 조정해 보세요.
       </div>
     );
