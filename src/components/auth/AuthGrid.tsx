@@ -6,13 +6,13 @@ interface AuthGridProps {
   right: ReactNode;
 }
 
-//   export default function AuthShell({ left, right, className }: Props) {
 const AuthGrid = ({ left, right }: AuthGridProps) => {
   return (
-    // <main className="grid min-h-[720px] w-full grid-cols-1 items-start gap-12 md:grid-cols-2 md:items-center">
-    <main className="grid w-full grid-cols-1 items-center gap-12 md:grid-cols-2">
-      <aside className="flex justify-center md:justify-start">{left}</aside>
-      <section className="flex justify-center md:justify-end">{right}</section>
+    <main className="grid w-full grid-cols-1 items-start gap-12 overflow-hidden md:grid-cols-2">
+      <aside className="flex items-center justify-center md:flex">{left}</aside>
+      <section className="flex h-full min-h-full items-center justify-center overflow-y-auto px-4 py-6 pt-4 md:justify-end">
+        {right}
+      </section>
     </main>
   );
 };

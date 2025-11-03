@@ -19,7 +19,7 @@ export function useRequireAuthAction(opts?: RequireAuthOptions) {
   const requireAuthAction = useCallback(
     <T extends any[]>(action: (...args: T) => Promise<void> | void) =>
       async (...args: T) => {
-        if (isAuthed) return action(...args);
+        if (isAuthed) return await action(...args);
         opts?.onBlocked?.();
         if (opts?.redirectOnBlocked ?? true) {
           const current = `${pathname}${search?.toString() ? `?${search}` : ""}`;
