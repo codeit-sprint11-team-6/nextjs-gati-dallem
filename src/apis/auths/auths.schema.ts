@@ -4,6 +4,7 @@ import { ApiErrorSchema, IsoDateTime, MessageSchema } from "../_shared.schema";
 import {
   MAX_PASSWORD_LEN,
   MIN_PASSWORD_LEN,
+  PASSWORD_DISALLOW_WHITESPACE,
   PASSWORD_REGEX,
   USE_PASSWORD_COMPLEXITY,
 } from "@/constants/auth/constraints";
@@ -20,8 +21,8 @@ import {
  *   - GET  /{teamId}/auths/user
  *   - PUT  /{teamId}/auths/user (multipart/form-data)
  * - Notes:
+ *   - 본 프로젝트는 JWT 기반 인증만 사용 (세션 방식 미지원)
  *   - 계약(Contract): 서버와 합의된 응답/요청 데이터 구조
- *   - 불확정 계약 시, JWT or 세션 메시지 둘 다 허용
  */
 
 /** ===== Primitives (Atoms) ===== */
@@ -44,6 +45,18 @@ export const PasswordSchema = z
   .max(MAX_PASSWORD_LEN, { message: `비밀번호는 최대 ${MAX_PASSWORD_LEN}자 이내여야 합니다.` })
   .refine((v) => !USE_PASSWORD_COMPLEXITY || PASSWORD_REGEX.test(v), {
     message: "영문/숫자/특수문자를 포함해 주세요.",
+  })
+  .refine((v) => !PASSWORD_DISALLOW_WHITESPACE || !/\s/.test(v), {
+    message: "비밀번호에 공백을 포함할 수 없습니다.",
+  });
+
+/** 로그인용(공란만 금지 + 길이 상한, 복잡도 X) */
+export const SigninPasswordSchema = z
+  .string()
+  .min(1, { message: "비밀번호를 입력해 주세요." })
+  .max(MAX_PASSWORD_LEN, { message: `비밀번호는 최대 ${MAX_PASSWORD_LEN}자 이내여야 합니다.` })
+  .refine((v) => !PASSWORD_DISALLOW_WHITESPACE || !/\s/.test(v), {
+    message: "비밀번호에 공백을 포함할 수 없습니다.",
   });
 
 export const NameSchema = z
@@ -71,7 +84,7 @@ export type SignupBody = z.infer<typeof SignupBodySchema>;
 export const SigninBodySchema = z
   .object({
     email: EmailInputSchema,
-    password: PasswordSchema,
+    password: SigninPasswordSchema,
   })
   .strict();
 export type SigninBody = z.infer<typeof SigninBodySchema>;
@@ -87,7 +100,7 @@ export type UpdateAuthUserBody = z.infer<typeof UpdateAuthUserBodySchema>;
 
 /** ===== Response Schemas (응답) ===== */
 
-// 1) 공통 유저 코어 (teamId 제외)
+// 1) 공통 유저 코어
 const UserCoreSchema = z
   .object({
     teamId: z.string().optional(),
@@ -113,11 +126,8 @@ export const UpdateAuthUserResponseSchema = UserCoreSchema;
 export type UpdateAuthUserResponse = z.infer<typeof UpdateAuthUserResponseSchema>;
 
 /** POST /{teamId}/auths/signin */
-// 계약 불확정: JWT or 세션 메시지
-export const SigninResponseSchema = z.union([
-  z.object({ token: z.string() }).strict(), // JWT
-  // MessageSchema, // { message: "로그인 성공" } (세션 기반)
-]);
+// 현재는 JWT 기반만 사용
+export const SigninResponseSchema = z.object({ token: z.string() }).strict();
 export type SigninResponse = z.infer<typeof SigninResponseSchema>;
 
 /** POST /{teamId}/auths/signout */
