@@ -1,14 +1,13 @@
 "use client";
 
+import { useFavoriteStore } from "@/store/favoriteStore";
 import { Gathering, GatheringId, UserId } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../_react_query/keys";
 import { GetGatheringsQuery } from "../gatherings/gatherings.schema";
 import { fetchFavoriteGatherings } from "./favorites.service";
-import { useFavoriteStore } from "@/store/favoriteStore";
 
 export function useFavoriteGatheringsQuery(userId: UserId, query?: Partial<GetGatheringsQuery>) {
-  const count = useFavoriteStore((s) => s.favorites[String(userId)]?.count ?? 0);
   const enabled = userId > 0;
 
   return useQuery<Gathering[]>({
