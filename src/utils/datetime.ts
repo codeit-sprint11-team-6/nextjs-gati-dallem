@@ -6,9 +6,11 @@ import { formatInTimeZone } from "date-fns-tz";
  * @returns [date, time]
  */
 export const formatDateAndTime = (datetime: string | Date) => {
+  // API에서 받은 시간은 이미 한국 시간이므로 Z를 제거하여 naive datetime으로 처리
+  const naive = typeof datetime === "string" ? datetime.replace(/Z$/, "") : datetime;
   const timeZone = "Asia/Seoul";
-  const date = formatInTimeZone(datetime, timeZone, "MM월 dd일");
-  const time = formatInTimeZone(datetime, timeZone, "HH:mm");
+  const date = formatInTimeZone(naive, timeZone, "MM월 dd일");
+  const time = formatInTimeZone(naive, timeZone, "HH:mm");
   return [date, time];
 };
 
@@ -18,8 +20,10 @@ export const formatDateAndTime = (datetime: string | Date) => {
  * @returns yyyy.MM.dd
  */
 export const formatDate = (datetime: string | Date) => {
+  // API에서 받은 시간은 이미 한국 시간이므로 Z를 제거하여 naive datetime으로 처리
+  const naive = typeof datetime === "string" ? datetime.replace(/Z$/, "") : datetime;
   const timeZone = "Asia/Seoul";
-  return formatInTimeZone(datetime, timeZone, "yyyy.MM.dd");
+  return formatInTimeZone(naive, timeZone, "yyyy.MM.dd");
 };
 
 /**
@@ -30,18 +34,19 @@ export const formatDate = (datetime: string | Date) => {
 export const getDeadlineText = (registrationEnd?: string): string | null => {
   if (!registrationEnd) return null;
 
+  const naive = registrationEnd.replace(/Z$/, "");
   const timeZone = "Asia/Seoul";
   const now = new Date();
-  const deadline = new Date(registrationEnd); // Z를 그대로 사용 (UTC로 올바르게 파싱)
+  const deadline = new Date(naive);
 
   if (deadline < now) return null;
 
   const todayStr = formatInTimeZone(now, timeZone, "yyyy-MM-dd");
-  const deadlineStr = formatInTimeZone(registrationEnd, timeZone, "yyyy-MM-dd");
+  const deadlineStr = formatInTimeZone(naive, timeZone, "yyyy-MM-dd");
 
   // 당일인 경우 시간까지 표시
   if (todayStr === deadlineStr) {
-    const hour = formatInTimeZone(registrationEnd, timeZone, "HH");
+    const hour = formatInTimeZone(naive, timeZone, "HH");
     return `오늘 ${hour}시 마감`;
   }
 
