@@ -19,7 +19,7 @@ export function GatheringTimeInfo({
   return (
     <div
       className={cn(
-        "shrink-0 items-center gap-2 overflow-hidden",
+        "shrink-0 flex-wrap items-center gap-2 overflow-hidden",
         showOnlyMobile ? "flex md:hidden" : "hidden md:flex",
       )}
     >
@@ -56,7 +56,7 @@ export function GatheringCapacityGraph({
         height={16}
         alt="인원"
       />
-      <div className="h-1.5 min-w-28 flex-1 overflow-hidden rounded-full bg-gray-100">
+      <div className="h-1.5 min-w-28 flex-1 overflow-hidden rounded-full bg-gray-100 md:min-w-0">
         <div
           className="h-full bg-linear-to-r from-purple-400 via-purple-500 to-pink-400 transition-all"
           style={{ width: `${Math.min(participantPercentage, 100)}%` }}
