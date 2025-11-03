@@ -21,14 +21,16 @@ export function OverlayProvider({ children }: { children: React.ReactNode }) {
         {children}
         {
           <AnimatePresence>
-            <motion.div
-              key={Number(isOpen)}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              {isOpen && overlay}
-            </motion.div>
+            {isOpen && (
+              <motion.div
+                key={Number(isOpen)}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                {overlay}
+              </motion.div>
+            )}
           </AnimatePresence>
         }
       </QueryProvider>
