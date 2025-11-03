@@ -38,17 +38,17 @@ export const validateSignup = (f: SignupFields): SignupErrors => {
   const confirmPassword = f.confirmPassword ?? "";
 
   // 이름
-  if (!req(f.name)) e.name = AUTH_ERROR_MESSAGES.fields.name.REQUIRED;
+  if (!req(name)) e.name = AUTH_ERROR_MESSAGES.fields.name.REQUIRED;
   else if (name.length < NAME_MIN_LEN) e.name = AUTH_ERROR_MESSAGES.fields.name.TOO_SHORT;
   else if (name.length > NAME_MAX_LEN) e.name = AUTH_ERROR_MESSAGES.fields.name.TOO_LONG;
   else if (!NAME_REGEX.test(name)) e.name = AUTH_ERROR_MESSAGES.fields.name.INVALID;
 
   // 이메일
-  if (!req(f.email)) e.email = AUTH_ERROR_MESSAGES.fields.email.REQUIRED;
-  else if (!isEmail(f.email)) e.email = AUTH_ERROR_MESSAGES.fields.email.INVALID;
+  if (!req(email)) e.email = AUTH_ERROR_MESSAGES.fields.email.REQUIRED;
+  else if (!isEmail(email)) e.email = AUTH_ERROR_MESSAGES.fields.email.INVALID;
 
   // 회사명
-  if (!req(f.company)) e.company = AUTH_ERROR_MESSAGES.fields.companyName.REQUIRED;
+  if (!req(company)) e.company = AUTH_ERROR_MESSAGES.fields.companyName.REQUIRED;
   else if (company.length < COMPANY_MIN_LEN)
     e.company = AUTH_ERROR_MESSAGES.fields.companyName.TOO_SHORT;
   else if (company.length > COMPANY_MAX_LEN)
@@ -56,8 +56,8 @@ export const validateSignup = (f: SignupFields): SignupErrors => {
   else if (!COMPANY_REGEX.test(company)) e.company = AUTH_ERROR_MESSAGES.fields.companyName.INVALID;
 
   // 비밀번호
-  if (!req(f.password)) e.password = AUTH_ERROR_MESSAGES.fields.password.REQUIRED;
-  else if (f.password.length < MIN_PASSWORD_LEN)
+  if (!req(password)) e.password = AUTH_ERROR_MESSAGES.fields.password.REQUIRED;
+  else if (password.length < MIN_PASSWORD_LEN)
     e.password = AUTH_ERROR_MESSAGES.fields.password.WEAK;
   else if (PASSWORD_DISALLOW_WHITESPACE && /\s/.test(password))
     e.password = AUTH_ERROR_MESSAGES.fields.password.WHITESPACE;
@@ -65,9 +65,9 @@ export const validateSignup = (f: SignupFields): SignupErrors => {
     e.password = AUTH_ERROR_MESSAGES.fields.password.COMPLEXITY;
 
   // 비밀번호 확인
-  if (!req(f.confirmPassword))
+  if (!req(confirmPassword))
     e.confirmPassword = AUTH_ERROR_MESSAGES.fields.confirmPassword.REQUIRED;
-  else if (f.password !== f.confirmPassword)
+  else if (password !== confirmPassword)
     e.confirmPassword = AUTH_ERROR_MESSAGES.fields.confirmPassword.NOT_MATCH;
 
   return e;

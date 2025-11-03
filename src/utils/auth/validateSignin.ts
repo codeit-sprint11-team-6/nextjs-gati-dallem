@@ -17,7 +17,8 @@ export const validateSignin = (f: SigninFields): SigninErrors => {
   const email = f.email?.trim() ?? "";
   const pw = f.password ?? "";
 
-  if (!req(email) || !EMAIL_REGEX.test(email)) e.email = AUTH_ERROR_MESSAGES.fields.email.INVALID;
+  if (!req(email)) e.email = AUTH_ERROR_MESSAGES.fields.email.REQUIRED;
+  else if (!EMAIL_REGEX.test(email)) e.email = AUTH_ERROR_MESSAGES.fields.email.INVALID;
   if (!req(pw)) e.password = AUTH_ERROR_MESSAGES.fields.password.REQUIRED;
 
   return e;

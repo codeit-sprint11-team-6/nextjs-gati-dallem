@@ -3,7 +3,6 @@ type Props = {
   color?: string;
   durationMs?: number;
   gap?: number;
-  amplitude?: number;
 };
 
 const LoadingSpinner: React.FC<Props> = ({
@@ -11,7 +10,6 @@ const LoadingSpinner: React.FC<Props> = ({
   color = "var(--color-purple-500)",
   durationMs = 450,
   gap = 8,
-  amplitude = 8,
 }) => {
   const dots = [0, 1, 2];
   const phase = durationMs / 2;

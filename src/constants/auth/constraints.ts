@@ -7,7 +7,7 @@ export const COMPANY_MIN_LEN = 2;
 export const COMPANY_MAX_LEN = 40;
 
 export const NAME_REGEX =
-  /^[A-Za-z\uAC00-\uD7A3][A-Za-z\uAC00-\uD7A3\s.'-]{0,28}[A-Za-z\uAC00-\uD7A3]$/;
+  /^[A-Za-z\uAC00-\uD7A3][A-Za-z\uAC00-\uD7A3\s.'\u00B7-]{0,28}[A-Za-z\uAC00-\uD7A3]$/;
 export const COMPANY_REGEX = /^[A-Za-z0-9\uAC00-\uD7A3\s&.,()/-]{2,40}$/;
 
 // 이메일 유효성 검사

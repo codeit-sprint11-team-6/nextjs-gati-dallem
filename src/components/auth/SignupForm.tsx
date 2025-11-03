@@ -135,8 +135,7 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
         password: pw,
       };
       await signupMutate(body);
-      // 성공 모달은 useSignup 내부에서 처리 중
-      // 필요 시: router.replace(redirect);
+      // 성공 시 모달 표시 후 redirect 경로로 이동
       overlay(
         <SignupModal
           message={`"같이달램" 회원가입이 정상적으로 완료되었습니다.\n로그인 페이지로 이동합니다.`}
@@ -207,12 +206,12 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
       />
       {/* 아이디(이메일) */}
       <label htmlFor="signup-email" className="mt-4 mb-1 text-[13px] font-medium text-slate-500">
-        이메일
+        아이디(이메일)
       </label>
       <AuthInput
         id="signup-email"
         type="email"
-        placeholder="이메일을 입력해 주세요"
+        placeholder="아이디(이메일)을 입력해 주세요"
         value={email}
         onChange={(e) => handleChange("email", e.target.value)}
         invalid={!!errors.email}

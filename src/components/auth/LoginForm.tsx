@@ -35,7 +35,7 @@ const LoginForm = ({ redirect = "/" }: Props) => {
     const filled = emailTrim.length > 0 && pw.length > 0;
     const validEmail = EMAIL_REGEX.test(emailTrim);
     return filled && validEmail && !isPending;
-  }, [email, pw, isPending]);
+  }, [emailTrim, pw, isPending]);
 
   useDebouncedValidation([emailTrim, touched.email], DEBOUNCE_MS, () => {
     if (!touched.email) return;
@@ -72,12 +72,12 @@ const LoginForm = ({ redirect = "/" }: Props) => {
       {displayError && <FormErrorBanner message={displayError} />}
 
       <label htmlFor="login-email" className="mb-1 text-[13px] font-medium text-slate-500">
-        이메일
+        아이디(이메일)
       </label>
       <AuthInput
         id="login-email"
         type="email"
-        placeholder="이메일을 입력해 주세요"
+        placeholder="아이디(이메일)을 입력해 주세요"
         value={email}
         onChange={(e) => {
           setEmail(e.target.value);
