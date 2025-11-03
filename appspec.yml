@@ -1,0 +1,19 @@
+version: 0.0
+os: linux
+
+files:
+  # source: 배포할 애플리케이션 파일의 경로 (S3에 업로드된 파일 기준)
+  # destination: EC2 인스턴스에서 애플리케이션이 배포될 경로
+  - source: /
+    destination: /home/ubuntu/nextjs-gati-dallem
+
+permissions:
+  - object: /
+    owner: ubuntu
+    group: ubuntu
+
+hooks:
+  ApplicationStart:
+    - location: scripts/start-nextjs.sh
+      timeout: 60
+      runas: ubuntu
