@@ -19,14 +19,20 @@ export function useRequireAuthAction(opts?: RequireAuthOptions) {
   const requireAuthAction = useCallback(
     <T extends any[]>(action: (...args: T) => Promise<void> | void) =>
       async (...args: T) => {
-        if (isAuthed) return await action(...args);
+        if (isAuthed) {
+          return await action(...args);
+        }
         opts?.onBlocked?.();
-        if (opts?.redirectOnBlocked ?? true) {
+        const shouldRedirect = opts?.redirectOnBlocked ?? true;
+        if (shouldRedirect) {
           const current = `${pathname}${search?.toString() ? `?${search}` : ""}`;
-          router.push(opts?.redirectTo ?? `/signin?redirect=${encodeURIComponent(current)}`);
+          const redirectUrl = opts?.redirectTo ?? `/signin?redirect=${encodeURIComponent(current)}`;
+          queueMicrotask(() => {
+            router.push(redirectUrl);
+          });
         }
       },
-    [isAuthed, opts, pathname, search, router],
+    [isAuthed, pathname, router, search],
   );
 
   return { isAuthed, requireAuthAction };
