@@ -14,7 +14,9 @@ function ScoreBar({ label, count, total, isHighlighted = false }: ScoreBarProps)
     <div className="flex items-center gap-2 md:gap-2">
       <span
         className={`text-xs leading-4 font-semibold md:text-base md:leading-6 ${
-          isHighlighted ? "text-purple-600" : "text-slate-500"
+          isHighlighted
+            ? "text-purple-600 dark:text-purple-400"
+            : "text-slate-500 dark:text-slate-300"
         }`}
       >
         {label}
@@ -29,7 +31,9 @@ function ScoreBar({ label, count, total, isHighlighted = false }: ScoreBarProps)
       </div>
       <span
         className={`text-xs leading-4 font-semibold md:text-base md:leading-6 ${
-          isHighlighted ? "text-purple-600" : "text-slate-500"
+          isHighlighted
+            ? "text-purple-600 dark:text-purple-400"
+            : "text-slate-500 dark:text-slate-300"
         }`}
       >
         {count}
@@ -58,17 +62,17 @@ export default function ReviewsRatingSummary({
   const filledHearts = Math.floor(averageScore);
 
   return (
-    <div className="rounded-3xl border border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50 p-6 md:rounded-[32px] md:px-6 md:py-10 lg:px-[151px] lg:py-[41px]">
+    <div className="rounded-3xl border border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50 p-6 md:rounded-[32px] md:px-6 md:py-10 lg:px-[151px] lg:py-[41px] dark:border-slate-700 dark:bg-[var(--color-gray-900)] dark:bg-none">
       <div className="flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-center md:gap-6 lg:gap-[142px]">
         {/* Left: Average Score */}
         <div className="flex flex-col items-center gap-2 md:gap-3">
           <div className="flex flex-col items-center gap-2 md:gap-3">
             <div className="flex items-start gap-1.5">
-              <div className="text-[28px] leading-9 font-bold text-gray-900 md:text-[40px] md:leading-9">
+              <div className="text-[28px] leading-9 font-bold text-gray-900 md:text-[40px] md:leading-9 dark:text-gray-50">
                 {averageScore.toFixed(1)}
               </div>
               <div className="flex items-center pt-3">
-                <span className="text-sm leading-6 font-normal text-slate-500 md:text-base">
+                <span className="text-sm leading-6 font-normal text-slate-500 md:text-base dark:text-slate-300">
                   (총 {totalReviews}명 참여)
                 </span>
               </div>

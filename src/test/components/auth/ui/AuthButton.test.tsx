@@ -4,7 +4,7 @@ import { render, screen } from "@testing-library/react";
 import AuthButton from "@/components/auth/ui/AuthButton";
 
 describe("AuthButton", () => {
-  it("loading일 때 disabled + '처리 중...' 노출", () => {
+  test("loading일 때 disabled + '처리 중...' 노출", () => {
     render(<AuthButton loading>로그인</AuthButton>);
     const btn = screen.getByRole("button");
     expect(btn).toBeDisabled();
@@ -13,7 +13,7 @@ describe("AuthButton", () => {
     expect(btn).toHaveTextContent("처리 중...");
   });
 
-  it("enabled일 때 children 렌더링, 전체폭 적용", () => {
+  test("enabled일 때 children 렌더링, 전체폭 적용", () => {
     render(<AuthButton>회원가입</AuthButton>);
     const btn = screen.getByRole("button", { name: "회원가입" });
     expect(btn).toBeEnabled();

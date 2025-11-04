@@ -18,7 +18,7 @@ jest.mock("@/apis/auths/auths.query", () => ({
 }));
 
 describe("LoginForm", () => {
-  it("유효 입력 시 버튼 활성화 & 제출 플로우", async () => {
+  test("유효 입력 시 버튼 활성화 & 제출 플로우", async () => {
     render(<LoginForm redirect="/" />);
     await userEvent.type(screen.getByLabelText(/아이디\(이메일\)/i), "tester@example.com");
     await userEvent.type(screen.getByLabelText(/^비밀번호$/i), "Abcd1234!!");
