@@ -27,15 +27,13 @@ export function useRequireAuthAction(opts?: RequireAuthOptions) {
         if (shouldRedirect) {
           const current = `${pathname}${search?.toString() ? `?${search}` : ""}`;
           const redirectUrl = opts?.redirectTo ?? `/signin?redirect=${encodeURIComponent(current)}`;
-          // React 18의 자동 배칭을 피하기 위해 queueMicrotask 사용
+          // 자동 배칭 피하기
           queueMicrotask(() => {
             router.push(redirectUrl);
           });
         }
       },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isAuthed, pathname, router],
-    // opts, search는 의도적으로 제외 (매번 새 객체/값이라 무한 리렌더링 유발)
   );
 
   return { isAuthed, requireAuthAction };
