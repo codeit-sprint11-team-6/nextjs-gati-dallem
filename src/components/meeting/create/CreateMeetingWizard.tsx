@@ -118,6 +118,8 @@ export default function CreateMeetingWizard({ onCancel, onFinished, children }: 
     }
 
     const formatDateTime = (date: Date): string => {
+      // 로컬 시간을 그대로 YYYY-MM-DDTHH:MM:SS 형식으로 변환
+      // 서버는 UTC/KST 구분 없이 날짜를 그대로 저장함
       const year = date.getFullYear();
       const month = String(date.getMonth() + 1).padStart(2, "0");
       const day = String(date.getDate()).padStart(2, "0");
@@ -168,16 +170,16 @@ function WizardHeader() {
   const { step, onCancel } = useWizardContext();
   return (
     <div className="mb-6 flex items-center justify-between">
-      <h2 className="text-lg font-semibold">모임 만들기 {step}/3</h2>
+      <h2 className="text-lg font-semibold dark:text-gray-100">모임 만들기 {step}/3</h2>
       <button
         onClick={(e) => {
           e.stopPropagation();
           onCancel();
         }}
-        className="cursor-pointer rounded-lg p-1 transition-colors hover:bg-gray-100"
+        className="cursor-pointer rounded-lg p-1 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
         aria-label="모달 닫기"
       >
-        <X className="h-5 w-5 text-gray-500" />
+        <X className="h-5 w-5 text-gray-500 dark:text-gray-400" />
       </button>
     </div>
   );
@@ -192,7 +194,7 @@ function WizardStep1() {
 
   return (
     <div className="min-h-[400px]">
-      <p className="mb-6 text-sm text-slate-600">원하시는 모임 타입을 선택해주세요.</p>
+      <p className="mb-6 text-sm text-slate-600 dark:text-slate-400">원하시는 모임 타입을 선택해주세요.</p>
       <div className="space-y-4">
         {TYPE_OPTIONS.map((opt) => {
           const active = draft.type === opt.key;
@@ -202,8 +204,8 @@ function WizardStep1() {
               onClick={() => setDraft((d) => ({ ...d, type: opt.key }))}
               className={`flex h-auto w-full cursor-pointer items-center gap-4 rounded-xl p-4 transition-all ${
                 active
-                  ? "border-2 border-transparent bg-purple-100/70 [background-image:linear-gradient(rgb(243_232_255_/_0.7),rgb(243_232_255_/_0.7)),linear-gradient(to_right,var(--color-purple-500),var(--color-blue-500))] [background-clip:padding-box,border-box] bg-origin-border"
-                  : "border-2 border-gray-50 bg-gray-50 hover:border-gray-200"
+                  ? "border-2 border-transparent bg-purple-100/70 dark:bg-purple-900/30 [background-image:linear-gradient(rgb(243_232_255_/_0.7),rgb(243_232_255_/_0.7)),linear-gradient(to_right,var(--color-purple-500),var(--color-blue-500))] dark:[background-image:linear-gradient(rgb(88_28_135_/_0.3),rgb(88_28_135_/_0.3)),linear-gradient(to_right,var(--color-purple-500),var(--color-blue-500))] [background-clip:padding-box,border-box] bg-origin-border"
+                  : "border-2 border-gray-100 bg-gray-100 hover:border-gray-200 dark:border-gray-700 dark:bg-gray-700 dark:hover:border-gray-600"
               }`}
             >
               <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center">
@@ -212,8 +214,8 @@ function WizardStep1() {
                 </span>
               </div>
               <div className="flex flex-1 flex-col items-start gap-1 text-left">
-                <div className="text-base font-semibold text-gray-900">{opt.title}</div>
-                <div className="text-sm font-normal text-slate-500">{opt.desc}</div>
+                <div className="text-base font-semibold text-gray-900 dark:text-gray-100">{opt.title}</div>
+                <div className="text-sm font-normal text-slate-500 dark:text-slate-400">{opt.desc}</div>
               </div>
             </button>
           );

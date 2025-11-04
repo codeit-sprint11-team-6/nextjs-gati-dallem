@@ -46,7 +46,8 @@ function ModalHeader({ children, onClose }: { children?: React.ReactNode; onClos
         {children}
       </h2>
       <button className="cursor-pointer" onClick={onClose ?? close}>
-        <Image src="/icon/delete.svg" width={24} height={24} alt="모달 닫기 버튼 이미지" />
+        <Image className="block dark:hidden" src="/icon/delete.svg" width={24} height={24} alt="모달 닫기 버튼 이미지" />
+        <Image className="hidden dark:block dark:invert" src="/icon/delete.svg" width={24} height={24} alt="모달 닫기 버튼 이미지" />
       </button>
     </div>
   );

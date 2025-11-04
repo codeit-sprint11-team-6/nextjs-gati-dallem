@@ -37,7 +37,7 @@ export default function AuthButton({
           "bg-[color:var(--color-gray-200,#E5E7EB)] text-[color:var(--color-gray-400,#9CA3AF)]", // 비활성 텍스트 연회색
           "disabled:bg-[color:var(--color-gray-200)] disabled:text-[#9CA3AF]", // disabled 시도 동일
           "disabled:opacity-40",
-          "dark:text-gray-400, dark:bg-gray-700",
+          "dark:bg-gray-700 dark:text-gray-400",
           "dark:disabled:opacity-60",
         ],
         isEnabled && [
