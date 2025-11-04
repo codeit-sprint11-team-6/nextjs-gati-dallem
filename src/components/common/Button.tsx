@@ -20,7 +20,7 @@ const buttonVariants = cva(
         outline:
           "bg-transparent border border-[var(--color-purple-500)] text-[var(--color-purple-500)] hover:bg-[var(--color-purple-500)] hover:text-[var(--color-white)] focus-visible:ring-[var(--color-purple-500)]",
         outlineSoft:
-          "bg-[var(--color-gray-50)] text-[var(--color-gray-500)] hover:bg-[var(--color-gray-100)] focus-visible:ring-[var(--color-gray-500)]",
+          "bg-[var(--color-gray-50)] text-[var(--color-gray-500)] hover:bg-[var(--color-gray-100)] focus-visible:ring-[var(--color-gray-500)] dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600",
         outlineWhite:
           "bg-[var(--color-white,#fff)] text-[var(--color-gray-500)] border border-[var(--color-gray-100)] hover:bg-[var(--color-gray-50)] focus-visible:ring-[var(--color-gray-500)]",
         ghost:
