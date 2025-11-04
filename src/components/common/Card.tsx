@@ -208,11 +208,12 @@ function CardLikeButton() {
       animate={{ scale: 1, transition: { duration: 0.2 } }}
       onClick={handleClickLike}
       aria-label={isLiked ? "찜 취소" : "찜하기"}
-      className="flex-center absolute top-4 right-4 h-12 w-12 cursor-pointer rounded-full border bg-white shadow-sm hover:shadow-md dark:bg-gray-800"
+      className="flex-center absolute top-4 right-4 h-12 w-12 cursor-pointer rounded-full border bg-white shadow-sm hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
     >
       <Image
-        src={isLiked ? "/icon/heart_active.svg" : "/icon/heart_inactive.svg"}
+        src={isLiked ? "/icon/heart_active_grad.svg" : "/icon/heart_inactive.svg"}
         alt={isLiked ? "찜한 모임 버튼 이미지" : "모임 찜하기 버튼 이미지"}
+        className={cond(!isLiked, "dark:opacity-60")}
         width={24}
         height={24}
       />

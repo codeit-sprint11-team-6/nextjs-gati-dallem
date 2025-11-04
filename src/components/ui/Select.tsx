@@ -36,17 +36,15 @@ function SelectTrigger({
         // 크기 (height는 data-size로 제어)
         "px-3 py-2 data-[size=default]:h-9 data-[size=sm]:h-8 data-[size=lg]:h-12",
         // 배경 & 테두리 & 라운드
-        "bg-transparent border border-input rounded-lg shadow-xs",
+        "bg-transparent dark:bg-gray-700 border border-input dark:border-gray-600 rounded-lg shadow-xs",
         // 타이포 & 색상
-        "text-sm data-[placeholder]:text-muted-foreground",
+        "text-sm data-[placeholder]:text-muted-foreground dark:text-gray-200",
         // 아이콘 기본 색상
         "[&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         // 아이콘 회전 상태
         "[&_svg]:transition-transform data-[state=open]:[&_svg]:rotate-180",
         // 상태 (aria-invalid 등)
-        "aria-invalid:border-red-500 aria-invalid:ring-red-500/20 dark:aria-invalid:ring-red-500/40",
-        // 다크 모드
-        "dark:bg-input/30 dark:hover:bg-input/50",
+        "aria-invalid:border-red-500 aria-invalid:ring-red-500/20",
         // 포커스 링
         "outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
         // 비활성화
@@ -79,7 +77,7 @@ function SelectContent({
         data-slot="select-content"
         className={cn(
           // 색상 & 타이포
-          "bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100",
+          "bg-white dark:bg-gray-800 text-slate-900 dark:text-gray-200",
           // 애니메이션 상태
           "data-[state=open]:animate-in data-[state=closed]:animate-out",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
@@ -91,7 +89,7 @@ function SelectContent({
           // 스크롤 & 모양
           "overflow-x-hidden overflow-y-auto rounded-lg",
           // 테두리 & 그림자
-          "border border-slate-200 dark:border-slate-700 shadow-lg",
+          "border border-slate-200 dark:border-gray-700 shadow-lg",
           // Popper 위치 보정
           position === "popper" &&
             "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
@@ -146,7 +144,7 @@ function SelectItem({
         // 모양
         "rounded-lg",
         // 포커스 / 활성 스타일 (보라색 계열)
-        "focus:bg-purple-50 focus:text-purple-900 hover:bg-purple-50",
+        "focus:bg-purple-50 focus:text-purple-900 hover:bg-purple-50 dark:focus:bg-gray-700 dark:focus:text-purple-300 dark:hover:bg-gray-700",
         // 아이콘 표준화
         "[&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         // 내부 span 정렬
