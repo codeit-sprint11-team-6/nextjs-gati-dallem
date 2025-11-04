@@ -12,6 +12,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/Calendar";
 import { format } from "date-fns";
+import { ko } from "date-fns/locale/ko";
 import { GatheringMapper } from "@/types/gathering";
 
 export interface MeetingFilters {
@@ -37,10 +38,10 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
   const set = <K extends keyof MeetingFilters>(k: K, v: MeetingFilters[K]) =>
     onChange({ ...value, [k]: v });
 
-  // 대분류 탭 (커뮤니티, 세미나)
+  // 대분류 탭 (네트워킹, 세미나)
   const mainTabs = useMemo(
     () => [
-      { key: "DALLAEMFIT", label: "커뮤니티", emoji: "💻" },
+      { key: "DALLAEMFIT", label: "네트워킹", emoji: "💻" },
       { key: "WORKATION", label: "세미나", emoji: "💼" },
     ],
     [],
@@ -85,9 +86,16 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
   };
 
   return (
-    <div className={cn("space-y-10", className)}>
+    <div
+      className={cn(
+        "z-10 space-y-4 bg-gray-50 dark:bg-gray-800 pb-4 md:space-y-8 md:pb-6",
+        "-mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8",
+        "pt-4 md:-mt-7 md:pt-7 lg:-mt-8 lg:pt-8",
+        className,
+      )}
+    >
       {/* 대분류 탭 */}
-      <div className="flex items-center overflow-x-auto border-b border-gray-200">
+      <div className="flex items-center border-b border-gray-200 dark:border-gray-700">
         {mainTabs.map((t) => {
           const isActive =
             (t.key === "DALLAEMFIT" &&
@@ -103,11 +111,14 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
                 set("category", t.key as MeetingFilters["category"]);
               }}
               className={cn(
-                "relative flex items-center gap-2 px-8 py-4 text-lg font-semibold whitespace-nowrap transition-colors",
-                isActive ? "text-purple-500" : "text-gray-600 hover:text-gray-900",
+                "relative flex flex-1 items-center justify-center gap-1.5 px-4 py-3 text-base font-semibold transition-colors rounded-t-lg",
+                "md:flex-initial md:gap-2 md:px-8 md:py-4 md:text-lg",
+                isActive
+                  ? "text-purple-500 bg-white dark:bg-gray-700"
+                  : "text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700",
               )}
             >
-              <span className="text-2xl">{t.emoji}</span>
+              <span className="text-xl md:text-2xl">{t.emoji}</span>
               <span>{t.label}</span>
               {isActive && <div className="absolute right-0 bottom-0 left-0 h-0.5 bg-purple-500" />}
             </button>
@@ -115,11 +126,11 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
         })}
       </div>
 
-      {/* 소분류 탭 */}
-      <div className="flex items-center justify-between gap-4">
+      {/* 소분류 탭 + 필터 */}
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-6">
         {/* 왼쪽: 소분류 탭 */}
         {subTabs.length > 0 && (
-          <div className="flex items-center gap-2 overflow-x-auto">
+          <div className="scrollbar-hide flex min-w-0 flex-1 items-center gap-2 overflow-x-auto">
             {subTabs.map((tab) => (
               <button
                 key={tab.key}
@@ -128,7 +139,7 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
                   "rounded-xl px-4 py-2 text-sm font-medium whitespace-nowrap transition-all",
                   value.category === tab.key
                     ? "bg-purple-500 text-white shadow-sm"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200",
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600",
                 )}
               >
                 {tab.label}
@@ -138,7 +149,7 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
         )}
 
         {/* 오른쪽: 필터 */}
-        <div className="flex flex-shrink-0 items-center gap-6 text-sm">
+        <div className="flex flex-shrink-0 items-center gap-3 text-sm md:gap-4">
           {/* 지역 필터 */}
           <Select
             value={value.location || "all"}
@@ -161,45 +172,28 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
           <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
             <PopoverTrigger asChild>
               <div>
-                <Select
-                  value={selectedDate ? "selected" : "all"}
-                  onValueChange={(v) => {
-                    if (v === "all") {
-                      set("date", "");
-                      setSelectedDate(undefined);
-                    } else {
-                      setDatePickerOpen(true);
-                    }
-                  }}
-                >
+                <Select value={selectedDate ? "selected" : "all"} open={false}>
                   <SelectTrigger aria-label="날짜" className="w-auto border-none">
-                    <SelectValue>
-                      {selectedDate ? format(selectedDate, "yyyy-MM-dd") : "날짜 전체"}
-                    </SelectValue>
+                    {selectedDate ? format(selectedDate, "yyyy-MM-dd") : "날짜 전체"}
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">날짜 전체</SelectItem>
-                    <SelectItem value="select">날짜 선택</SelectItem>
-                  </SelectContent>
                 </Select>
               </div>
             </PopoverTrigger>
             <PopoverContent className="z-50 w-auto overflow-hidden rounded-xl p-0" align="center">
-              <div className="flex flex-col bg-white">
+              <div className="flex flex-col bg-white dark:bg-gray-900">
                 <Calendar
                   mode="single"
                   selected={selectedDate}
                   onSelect={handleDateSelect}
-                  locale={require("date-fns/locale/ko").ko}
+                  locale={ko}
                   formatters={{
-                    formatWeekdayName: (date: Date) =>
-                      format(date, "EEEEE", { locale: require("date-fns/locale/ko").ko }),
+                    formatWeekdayName: (date: Date) => format(date, "EEEEE", { locale: ko }),
                   }}
                 />
                 <div className="flex gap-2 p-3">
                   <button
                     onClick={handleDateReset}
-                    className="flex-1 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+                    className="flex-1 rounded-lg border border-gray-200 dark:border-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800"
                   >
                     초기화
                   </button>

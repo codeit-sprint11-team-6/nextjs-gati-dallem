@@ -1,7 +1,7 @@
 /* Global CSS - 모든 스타일 파일을 import하는 글로벌 파일 */
 @import "tailwindcss";
-@import './tokens.css';
-@import './base.css';
-@import './components.css';
-@import './utilities.css';
-@import './animations.css';
+@import "./tokens.css";
+@import "./base.css";
+@import "./components.css";
+@import "./utilities.css";
+@import "./animations.css";

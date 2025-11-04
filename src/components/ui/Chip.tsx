@@ -4,19 +4,23 @@ import { HtmlHTMLAttributes } from "react";
 
 const CHIP_VARIANTS = {
   tag: "gap-1 pr-2 pl-1 rounded-xl bg-[rgba(255,133,224,0.2)] text-xs md:text-sm font-semibold text-pink-500",
-  info: "px-2 py-0.5 rounded-xl border-1 border-slate-100 bg-white text-xs md:text-sm font-medium text-slate-500",
-  active: "px-4 py-2 rounded-2xl bg-slate-700 text-base font-medium text-white",
-  default: "px-4 py-2 rounded-2xl bg-slate-100 text-base font-medium text-slate-700",
+  info: "px-2 py-0.5 rounded-xl border-1 border-slate-100 bg-white text-xs md:text-sm font-medium text-slate-500 dark:border-slate-800 dark:bg-gray-900",
+  active:
+    "px-4 py-2 rounded-2xl bg-slate-700 text-base font-medium text-white dark:bg-slate-200 dark:text-gray-900",
+  default:
+    "px-4 py-2 rounded-2xl bg-slate-100 text-base font-medium text-slate-700 dark:bg-slate-700 dark:text-slate-200",
   /** 이용 예정 */
-  brand: "px-3 py-1.5 rounded-3xl bg-purple-100 text-sm font-semibold text-purple-600",
+  brand:
+    "px-3 py-1.5 rounded-3xl bg-purple-100 text-sm font-semibold text-purple-600 dark:bg-purple-800 dark:text-purple-300",
   /** 개설 대기 */
   tertiary:
-    "px-3 py-1.5 rounded-3xl border-1 border-gray-200 bg-white text-sm font-semibold text-gray-500",
+    "px-3 py-1.5 rounded-3xl border-1 border-gray-200 bg-white text-sm font-semibold text-gray-400 dark:border-gray-400 dark:bg-gray-900",
   /** 이용 완료 */
-  disabled: "px-3 py-1.5 rounded-3xl bg-slate-50 text-sm font-semibold text-slate-500",
+  disabled:
+    "px-3 py-1.5 rounded-3xl bg-slate-50 text-sm font-semibold text-slate-500 dark:bg-slate-800 dark:text-slate-400",
   /** 개설 확정 */
   outlined:
-    "gap-0.5 pr-3 pl-2 py-1 rounded-3xl m-[1px] bg-white text-sm font-semibold text-purple-600",
+    "gap-0.5 pr-3 pl-2 py-1 rounded-3xl m-[1px] bg-white text-sm font-semibold text-purple-600 dark:bg-gray-900 dark:text-purple-300",
 };
 interface ChipProps extends HtmlHTMLAttributes<HTMLDivElement> {
   /** 칩 스타일을 지정합니다 */

@@ -1,16 +1,15 @@
 // src/layout/Header.tsx
 "use client";
 
-import { useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
 import Logo from "@/components/header/Logo";
 import Navigation, { type NavigationItem } from "@/components/header/Navigation";
 import type { UserProfile } from "@/components/ui/Avatar";
 import AuthAction from "@/components/header/AuthAction";
-import { useAuthUser } from "@/hooks/auths/useAuthUser";
-import { useSignout } from "@/hooks/auths/useSignout";
+import { useAuthUser, useSignout } from "@/apis/auths/auths.query";
 import { useAuthToken } from "@/hooks/auths/useAuthToken";
-import { authQueryKeys } from "@/utils/auth/authQueryKeys";
+import { meKey } from "@/apis/_react_query/keys";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface HeaderProps {
   favoriteCount?: number;
@@ -25,7 +24,7 @@ interface HeaderProps {
  * - /me를 즉시 재검증하여 프로필/401 상태 반영
  */
 
-export default function Header({ favoriteCount = 0, logoAltText }: HeaderProps) {
+export default function Header({ logoAltText }: HeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -39,7 +38,6 @@ export default function Header({ favoriteCount = 0, logoAltText }: HeaderProps) 
     refetchOnWindowFocus: false, // 포커스 때 깜빡임 원인이면 꺼두기
     refetchOnMount: "always", // 재시작/첫 렌더에서 꼭 새로 가져오게
     staleTime: 0,
-    queryKey: [...authQueryKeys.me(), token ?? "no-token"], // 세션 전환 시 캐시 충돌 방지
   });
 
   const { data: me, isLoading, isFetching, isSuccess, isError, isStale } = q;
@@ -52,23 +50,16 @@ export default function Header({ favoriteCount = 0, logoAltText }: HeaderProps) 
   const { mutateAsync: signout } = useSignout();
   const onLogout = async () => {
     await signout();
-    router.replace("/"); // 또는 "/signin"
+    router.replace("/");
     router.refresh();
   };
-
-  // 최소 필드만 가진 더미 유저
-  // const mockUser: UserProfileType = {
-  //   name: "Anna",
-  //   email: "anna@example.com",
-  //   image: "", // 없으면 예외처리
-  // } as UserProfileType;
 
   const navigationItems: NavigationItem[] = [
     { label: "모임 찾기", href: "/meetings", isActive: pathname === "/meetings" },
     ...(isAuthed
       ? [{ label: "찜한 모임", href: "/favorites", isActive: pathname === "/favorites" }]
       : []),
-    // { label: "모든 리뷰", href: "/reviews", isActive: pathname === "/reviews" },
+    { label: "모든 리뷰", href: "/reviews", isActive: pathname === "/reviews" },
   ];
 
   return (
@@ -78,13 +69,8 @@ export default function Header({ favoriteCount = 0, logoAltText }: HeaderProps) 
         <div className="flex-between h-12 md:h-22 lg:h-22">
           <div className="flex-center h-12 md:h-22 lg:h-22">
             <Logo altText={logoAltText} />
-            <Navigation items={navigationItems} favoriteCount={favoriteCount} />
+            <Navigation items={navigationItems} />
           </div>
-          {/* <UserProfile
-            userProfile={userProfile}
-            isProfileOpen={isProfileOpen}
-            setIsProfileOpen={setIsProfileOpen}
-          /> */}
           {isAuthed && loadingProfile ? (
             <div className="h-10 w-28 animate-pulse rounded-md bg-gray-700" />
           ) : (

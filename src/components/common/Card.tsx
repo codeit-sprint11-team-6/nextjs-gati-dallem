@@ -1,46 +1,104 @@
 "use client";
 
+import { useFavoriteToggle } from "@/apis/favorites/favorites.query";
+import { useFavorites } from "@/hooks/favorites/useFavorites";
 import { useOverlay } from "@/hooks/useOverlay";
-import { cn } from "@/utils/classNames";
+import { useAuthStore } from "@/store/authStore";
+import { Gathering, JoinedGathering } from "@/types";
+import { cn, cond } from "@/utils/classNames";
 import { formatDateAndTime } from "@/utils/datetime";
+import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { createContext, HTMLAttributes, useContext } from "react";
 import ConfirmLeaveModal from "../my/bookings/ConfirmLeaveModal";
 import ReviewCreateModal from "../my/reviews/modal/ReviewCreateModal";
 import Chip, { CompletedChip, ConfirmChip } from "../ui/Chip";
+import { Button } from "./Button";
+import LoginModal from "./LoginModal";
+
+interface CardCtxProps extends Gathering {
+  isCompleted?: boolean;
+  isReviewed?: boolean;
+}
+const CardCtx = createContext<CardCtxProps | null>(null);
+
+export const useCardCtx = () => {
+  const v = useContext(CardCtx);
+  if (!v) throw new Error("Card.Root 내부에서만 사용하세요");
+  return v;
+};
+
+interface CardProps extends HTMLAttributes<HTMLElement> {
+  gathering: Gathering | JoinedGathering;
+  className?: string;
+  children?: React.ReactNode;
+}
 
 /**
  * CCP로 직접 구현하는 모임 카드 컴포넌트
  */
-export function Card({ children, className }: { children?: React.ReactNode; className?: string }) {
+export function Card({ gathering, className, children }: CardProps) {
+  const router = useRouter();
+  const meetingId = gathering?.id;
+
+  function handleClickCard() {
+    if (meetingId) router.push(`/meetings/${meetingId}`);
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent) {
+    if (e.currentTarget !== e.target) return;
+    if (meetingId && (e.key === "Enter" || e.key === " " || e.key === "Spacebar")) {
+      e.preventDefault();
+      router.push(`/meetings/${meetingId}`);
+    }
+  }
   return (
-    <article
-      className={cn(
-        "relative overflow-hidden rounded-3xl bg-white hover:drop-shadow-sm",
-        "md:items-upper md:flex md:min-w-[650px] md:justify-start md:gap-6 md:rounded-4xl md:p-6 md:pr-9",
-        className,
-      )}
-      aria-label="모임 목록 아이템"
-    >
-      {children}
-    </article>
+    <CardCtx.Provider value={gathering}>
+      <section
+        className={cn(
+          "relative overflow-hidden rounded-3xl bg-white hover:drop-shadow-sm dark:bg-gray-900",
+          "md:items-upper md:flex md:justify-start md:gap-6 md:rounded-4xl md:p-6 md:pr-9",
+          cond(!!meetingId, "cursor-pointer"),
+          className,
+        )}
+        aria-label="모임 목록 아이템"
+        onClick={handleClickCard}
+        onKeyDown={handleKeyDown}
+      >
+        {children}
+      </section>
+    </CardCtx.Provider>
   );
 }
 
 /** 모임 이미지 영역 */
-function CardImage({ image }: { image?: string }) {
+function CardImage() {
+  const { image } = useCardCtx();
   return (
-    <div className="border-slate-120 relative aspect-[2.2] overflow-hidden border-1 md:aspect-square md:w-[170px] md:rounded-3xl">
+    <div className="relative aspect-[2.2] shrink-0 overflow-hidden border border-slate-200 md:aspect-square md:w-[170px] md:rounded-3xl dark:border-slate-700">
       {image ? (
         <Image
           className="object-cover"
           src={image}
           alt="모임 이미지 미리보기"
           fill
-          sizes="100vw, (min-width: 768px) 200px"
+          sizes="(min-width: 768px) 200px, 100vw"
+          priority
         />
       ) : (
-        <div className="h-full w-full bg-gray-200" data-testid="no-card-image" />
+        <div
+          className="flex-center h-full w-full bg-gray-100 dark:bg-gray-700"
+          data-testid="no-card-image"
+        >
+          <Image
+            className="dark:opacity-50"
+            src="/image/empty.svg"
+            alt="모임 이미지 썸네일"
+            width={100}
+            height={100}
+          />
+        </div>
       )}
     </div>
   );
@@ -49,22 +107,15 @@ Card.Image = CardImage;
 
 /** 모임 상세 정보 영역 */
 function CardDetail({ children, className }: { children?: React.ReactNode; className?: string }) {
-  return (
-    <div className={cn("flex-2 bg-white p-4 pb-5 md:px-0 md:py-2", className)}>{children}</div>
-  );
+  return <div className={cn("grow p-4 pb-5 md:px-0 md:py-2", className)}>{children}</div>;
 }
 Card.Detail = CardDetail;
 
 /** 모임 상태 칩 모음 (이용상태, 개설상태) */
-function CardTags({
-  isCompleted = false,
-  isConfirmed = false,
-  canceledAt = null,
-}: {
-  isCompleted?: boolean;
-  isConfirmed?: boolean;
-  canceledAt?: string | null;
-}) {
+function CardTags() {
+  const { participantCount, isCompleted, canceledAt } = useCardCtx();
+  const isConfirmed = isCompleted || participantCount >= 5;
+
   return isCompleted || canceledAt === null ? (
     <div className="flex-start gap-2">
       <CompletedChip isCompleted={isCompleted} />
@@ -79,32 +130,38 @@ function CardTags({
 Card.Tags = CardTags;
 
 /** 모임명 영역 */
-function CardTitle({ id, children }: { id: number; children: React.ReactNode }) {
+function CardTitle({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <Link href={`/meetings/${id}`} className="text-xl font-semibold break-all text-ellipsis">
+    <h3
+      className={cn("text-xl font-semibold break-all text-ellipsis dark:text-gray-200", className)}
+    >
       {children}
-    </Link>
+    </h3>
   );
 }
 Card.Title = CardTitle;
 
 /** 모임 상세정보 (인원, 위치, 날짜, 시간) */
-function CardGatheringDetail({
-  participantCount = 0,
-  capacity = 0,
-  location,
-  dateTime,
-}: {
-  participantCount?: number;
-  capacity?: number;
-  location: string;
-  dateTime: string;
-}) {
+function CardGatheringDetail() {
+  const { participantCount, capacity, location, dateTime } = useCardCtx();
   const [date, time] = formatDateAndTime(dateTime);
   return (
     <div className="flex flex-col gap-2.5">
-      <div className="flex-start gap-1 text-sm font-medium">
-        <Image src="/icon/person.svg" width={16} height={16} alt="모임 이용인원 정보 아이콘" />
+      <div className="flex-start gap-1 text-sm font-medium dark:text-gray-200">
+        <Image
+          className="block dark:hidden"
+          src="/icon/person.svg"
+          width={16}
+          height={16}
+          alt="모임 이용인원 정보 아이콘"
+        />
+        <Image
+          className="hidden dark:block"
+          src="/icon/person_white.svg"
+          width={16}
+          height={16}
+          alt="모임 이용인원 정보 아이콘"
+        />
         {participantCount}/{capacity}
       </div>
       <ul className="flex gap-2.5 divide-x divide-slate-200 text-sm font-medium">
@@ -127,71 +184,79 @@ function CardGatheringDetail({
 Card.GatheringDetail = CardGatheringDetail;
 
 /** 모임 찜하기 버튼 */
-function CardLikeButton({ isLiked = false }: { isLiked?: boolean }) {
-  function handleLikeGathering() {
-    // TODO: 찜하기/취소 기능 구현
+function CardLikeButton() {
+  const { user } = useAuthStore();
+  const { overlay } = useOverlay();
+  const { id: gatheringId, canceledAt } = useCardCtx();
+
+  const fav = useFavorites(user?.id);
+  const { mutate } = useFavoriteToggle(user?.id, gatheringId);
+  const handleLoginModal = () => overlay(<LoginModal />);
+
+  const isLiked = user ? !!fav.isLiked?.(gatheringId) : false;
+  const toggleLike = user ? () => mutate() : handleLoginModal;
+  if (canceledAt) return null;
+
+  function handleClickLike(e: React.MouseEvent) {
+    e.stopPropagation();
+    toggleLike();
   }
+
   return (
-    <button
-      className={cn(
-        "border-color-gray-200 md:border-color-slate-100 flex-center h-12 w-12 rounded-full border-1 bg-white",
-        "absolute top-4 right-4 md:top-6 md:right-8",
-      )}
-      onClick={handleLikeGathering}
+    <motion.button
+      whileTap={{ scale: 0.85 }}
+      animate={{ scale: 1, transition: { duration: 0.2 } }}
+      onClick={handleClickLike}
+      aria-label={isLiked ? "찜 취소" : "찜하기"}
+      className="flex-center absolute top-4 right-4 h-12 w-12 cursor-pointer rounded-full border bg-white shadow-sm hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
     >
-      {isLiked ? (
-        <Image src="/icon/heart_active.svg" alt="모임 찜하기 버튼 이미지" width={24} height={24} />
-      ) : (
-        <Image
-          src="/icon/heart_inactive.svg"
-          alt="모임 찜하기 버튼 이미지"
-          width={24}
-          height={24}
-        />
-      )}
-    </button>
+      <Image
+        src={isLiked ? "/icon/heart_active_grad.svg" : "/icon/heart_inactive.svg"}
+        alt={isLiked ? "찜한 모임 버튼 이미지" : "모임 찜하기 버튼 이미지"}
+        className={cond(!isLiked, "dark:opacity-60")}
+        width={24}
+        height={24}
+      />
+    </motion.button>
   );
 }
 Card.LikeButton = CardLikeButton;
 
 /** 나의 모임 카드 버튼 */
-function CardReservedButton({
-  id,
-  isCompleted = false,
-  isReviewed = false,
-}: {
-  id: number;
-  isCompleted?: boolean;
-  isReviewed?: boolean;
-}) {
+function CardReservedButton() {
+  const { id, isCompleted = false, isReviewed = false } = useCardCtx();
   const { overlay } = useOverlay();
 
-  function handleCancel() {
-    overlay(<ConfirmLeaveModal id={id} />);
+  function handleWriteReview(e: React.MouseEvent) {
+    e.stopPropagation();
+    overlay(<ReviewCreateModal id={id} />);
   }
 
-  function handleWriteReview() {
-    overlay(<ReviewCreateModal id={id} />);
+  function handleCancel(e: React.MouseEvent) {
+    e.stopPropagation();
+    overlay(<ConfirmLeaveModal id={id} />);
   }
 
   return isReviewed ? (
     <></>
   ) : (
-    <div className="flex-end w-full md:w-fit">
+    <div className="flex-end w-full md:min-w-fit">
       {isCompleted ? (
-        <button
-          className="btn rounded-2xl bg-purple-100 px-6 py-2.5 text-base font-bold text-purple-500"
+        <Button
+          variant="primary"
+          className="btn rounded-2xl px-6 py-2.5 text-base font-bold"
           onClick={handleWriteReview}
         >
           리뷰 작성하기
-        </button>
+        </Button>
       ) : (
-        <button
-          className="btn rounded-2xl border-1 border-purple-500 px-6 py-2.5 text-base font-semibold text-purple-500"
+        <Button
+          variant="outline"
+          className="btn rounded-2xl px-6 py-2.5 text-base font-semibold hover:bg-purple-300"
           onClick={handleCancel}
         >
           참여 취소하기
-        </button>
+        </Button>
       )}
     </div>
   );
@@ -199,21 +264,24 @@ function CardReservedButton({
 Card.ReservedButton = CardReservedButton;
 
 /** 나의 리뷰 카드 버튼 */
-function CardReviewButton({ id }: { id: number }) {
+function CardReviewButton() {
+  const { id } = useCardCtx();
   const { overlay } = useOverlay();
 
-  function handleWriteReview() {
+  function handleWriteReview(e: React.MouseEvent<HTMLButtonElement>) {
+    e.stopPropagation();
     overlay(<ReviewCreateModal id={id} />);
   }
 
   return (
     <div className="flex-end w-full md:w-fit">
-      <button
-        className="btn rounded-2xl bg-purple-100 px-6 py-2.5 text-base font-bold text-purple-500"
+      <Button
+        variant="primary"
+        className="btn rounded-2xl px-6 py-2.5 text-base font-bold"
         onClick={handleWriteReview}
       >
         리뷰 작성하기
-      </button>
+      </Button>
     </div>
   );
 }

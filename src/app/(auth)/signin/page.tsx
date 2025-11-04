@@ -2,6 +2,7 @@
 
 import LoginForm from "@/components/auth/LoginForm";
 import AuthGrid from "@/components/auth/AuthGrid";
+import AuthIntro from "@/components/auth/AuthIntro";
 
 export const metadata = {
   title: "로그인 | 같이달램",
@@ -12,20 +13,17 @@ type PageProps = {
 };
 
 const LoginPage = async ({ searchParams }: PageProps) => {
-  const sp = await searchParams; // 반드시 await
+  const sp = await searchParams;
   const redirect = typeof sp.redirect === "string" ? sp.redirect : undefined;
   return (
     <AuthGrid
-      // 좌측: 이미지 자리에 임시 텍스트 : 공통 분리 예정
       left={
-        <div className="text-center select-none md:text-left">
-          <div className="mb-4 text-3xl font-semibold text-slate-700">오늘부터 함께 시작해요</div>
-          <div className="text-4xl font-bold tracking-tight text-slate-900">같이달램</div>
-          <p className="mt-4 text-slate-500">로그인 후 바로 모각코 참여!</p>
-          {/* 이미지 필요해지면 여기에만 추가 */}
-        </div>
+        <AuthIntro
+          title="오늘부터 함께 시작해요"
+          subtitle="같이달램"
+          description="로그인 후 바로 모각코 참여!"
+        />
       }
-      // 우측: 로그인 폼
       right={
         <>
           <LoginForm redirect={redirect} />

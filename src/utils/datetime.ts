@@ -6,9 +6,11 @@ import { formatInTimeZone } from "date-fns-tz";
  * @returns [date, time]
  */
 export const formatDateAndTime = (datetime: string | Date) => {
+  // API에서 받은 시간은 이미 한국 시간이므로 Z를 제거하여 naive datetime으로 처리
+  const naive = typeof datetime === "string" ? datetime.replace(/Z$/, "") : datetime;
   const timeZone = "Asia/Seoul";
-  const date = formatInTimeZone(datetime, timeZone, "MM월 dd일");
-  const time = formatInTimeZone(datetime, timeZone, "HH:mm");
+  const date = formatInTimeZone(naive, timeZone, "MM월 dd일");
+  const time = formatInTimeZone(naive, timeZone, "HH:mm");
   return [date, time];
 };
 
@@ -18,12 +20,15 @@ export const formatDateAndTime = (datetime: string | Date) => {
  * @returns yyyy.MM.dd
  */
 export const formatDate = (datetime: string | Date) => {
+  // API에서 받은 시간은 이미 한국 시간이므로 Z를 제거하여 naive datetime으로 처리
+  const naive = typeof datetime === "string" ? datetime.replace(/Z$/, "") : datetime;
   const timeZone = "Asia/Seoul";
-  return formatInTimeZone(datetime, timeZone, "yyyy.MM.dd");
+  return formatInTimeZone(naive, timeZone, "yyyy.MM.dd");
 };
 
 /**
  * registrationEnd까지 남은 시간을 계산하여 텍스트 반환
+ * 마감 7일 이내인 경우만 표시
  * @param registrationEnd ISO 문자열 (optional)
  */
 export const getDeadlineText = (registrationEnd?: string): string | null => {
@@ -39,6 +44,7 @@ export const getDeadlineText = (registrationEnd?: string): string | null => {
   const todayStr = formatInTimeZone(now, timeZone, "yyyy-MM-dd");
   const deadlineStr = formatInTimeZone(naive, timeZone, "yyyy-MM-dd");
 
+  // 당일인 경우 시간까지 표시
   if (todayStr === deadlineStr) {
     const hour = formatInTimeZone(naive, timeZone, "HH");
     return `오늘 ${hour}시 마감`;
@@ -46,6 +52,9 @@ export const getDeadlineText = (registrationEnd?: string): string | null => {
 
   const diffMs = deadline.getTime() - now.getTime();
   const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+  // 마감 7일 이내인 경우만 표시
+  if (diffDays > 7) return null;
 
   return `마감 ${diffDays}일 전`;
 };

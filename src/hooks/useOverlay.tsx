@@ -1,4 +1,5 @@
 import { QueryProvider } from "@/app/providers";
+import { AnimatePresence, motion } from "framer-motion";
 import { createContext, JSX, useContext, useState } from "react";
 
 interface OverlayContextProps {
@@ -18,7 +19,21 @@ export function OverlayProvider({ children }: { children: React.ReactNode }) {
     <OverlayContext value={{ setIsOpen, setOverlay }}>
       <QueryProvider>
         {children}
-        {isOpen && overlay}
+        {
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                key={Number(isOpen)}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {overlay}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        }
       </QueryProvider>
     </OverlayContext>
   );
@@ -26,15 +41,12 @@ export function OverlayProvider({ children }: { children: React.ReactNode }) {
 
 export function useOverlay() {
   const { setIsOpen, setOverlay } = useContext(OverlayContext);
+
   function handleClose() {
-    const dimmedModalBg = document.getElementById("dimmed");
-    dimmedModalBg?.classList.remove("animate-fade-in");
-    dimmedModalBg?.classList.add("animate-fade-out");
-    setTimeout(() => {
-      setIsOpen(false);
-      setOverlay();
-    }, 280);
+    setIsOpen(false);
+    setOverlay();
   }
+
   function handleSetOverlay(modal: JSX.Element) {
     setIsOpen(true);
     setOverlay(modal);

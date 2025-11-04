@@ -1,5 +1,5 @@
 // src/app/layout.tsx
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { pretendard, tenada } from "@/lib/fonts";
 import "../styles/globals.css";
 
@@ -7,6 +7,7 @@ import Providers from "./providers";
 import MainNav from "@/layout/Header";
 import AppInitializer from "./AppInitializer";
 import GlobalAuthHydrator from "./GlobalAuthHydrator";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 export const metadata: Metadata = {
   title: {
@@ -24,10 +25,16 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko" className={`${pretendard.variable} ${tenada.variable}`}>
-      <body className="flex min-h-dvh flex-col bg-gray-50">
+      <body className="flex h-dvh flex-col overflow-hidden bg-gray-50 dark:bg-gray-800 dark:text-gray-100">
         <Providers>
           {/* Authorization 헤더 동기화 (토큰 변경 시 apiClient에 반영)  */}
           <AppInitializer />
@@ -35,8 +42,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <GlobalAuthHydrator />
           <MainNav />
           {/* 메인이 남는 공간만 차지 = 헤더+푸터 있어도 100dvh 초과 안 함 */}
-          <main className="min-h-0 flex-1">{children}</main>
+          <main className="hide-scrollbar scroll-touch min-h-0 flex-1 overflow-y-auto">
+            {children}
+          </main>
         </Providers>
+        <div
+          id="global-loading"
+          className="fixed inset-0 z-[9999] hidden items-center justify-center bg-[var(--color-purple-50)]/40 backdrop-blur-[3px] transition-opacity duration-200"
+          role="status"
+        >
+          <LoadingSpinner />
+        </div>
       </body>
     </html>
   );

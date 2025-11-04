@@ -40,6 +40,9 @@
 
   .bg-gradient-purple-pink-100 {
     background: linear-gradient(90deg, #dee0fc 0%, #ffdbf6 100%);
+    @media (prefers-color-scheme: dark) {
+      background: linear-gradient(90deg, #8d96f6 0%, #ff85e0 100%);
+    }
   }
 
   .bg-gradient-purple-pink-500 {
@@ -94,6 +97,11 @@
 
   .animate-glow {
     animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  /* Scroll behavior on iOS Safari (관성 스크롤) */
+  .scroll-touch {
+    -webkit-overflow-scrolling: touch;
   }
 
   /* Responsive Hide/Show */

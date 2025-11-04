@@ -1,18 +1,25 @@
 import CreatedCardItem from "@/components/my/hosted/CreatedCardItem";
 import { mockMyGathering } from "@/mocks/my/mockMyGathering";
+import { pushSpy } from "@/test/__mocks__/next";
 import { resetOverlaySpy } from "@/test/__mocks__/overlay";
-import { render, screen } from "@testing-library/react";
+import { renderWithQueryClient } from "@/test/renderWithQueryClient";
+import { fireEvent, screen } from "@testing-library/react";
 
 describe("마이페이지 - 내가 만든 모임 - 내가 만든 모임 카드 컴포넌트 (CreatedCardItem)", () => {
   beforeEach(() => {
+    pushSpy.mockClear();
     resetOverlaySpy();
   });
 
   test("기본 렌더링 테스트 (이미지/제목/인원/위치/날짜/시간)", () => {
     const mockData = mockMyGathering[0];
-    render(<CreatedCardItem {...mockData} />);
+    renderWithQueryClient(<CreatedCardItem {...mockData} />);
 
-    expect(screen.getByLabelText("모임 목록 아이템")).toBeInTheDocument();
+    const card = screen.getByLabelText("모임 목록 아이템");
+    expect(card).toBeInTheDocument();
+
+    fireEvent.click(card);
+    expect(pushSpy).toHaveBeenCalledTimes(1);
 
     const img = screen.getByAltText("모임 이미지 미리보기") as HTMLImageElement;
     expect(img).toHaveAttribute("src", mockData.image);
@@ -27,13 +34,12 @@ describe("마이페이지 - 내가 만든 모임 - 내가 만든 모임 카드 �
     expect(screen.getByText("19:00")).toBeInTheDocument();
   });
 
-  test("모임 이름 클릭 시 링크 경로(id 전달) 확인", () => {
+  test("나의 모임 카드 클릭 시 router.push 호출 확인", () => {
     const mockData = mockMyGathering[0];
-    render(<CreatedCardItem {...mockData} />);
+    renderWithQueryClient(<CreatedCardItem {...mockData} />);
 
-    const link = screen.getByTestId("next-link");
-    expect(link).toHaveAttribute("href", `/meetings/${mockData.id}`);
+    const card = screen.getByLabelText("모임 목록 아이템");
+    fireEvent.click(card);
+    expect(pushSpy).toHaveBeenCalledTimes(1);
   });
-
-  // TODO: 찜하기 버튼 렌더링
 });

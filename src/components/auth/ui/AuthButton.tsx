@@ -1,5 +1,4 @@
 // src/components/auth/ui/AuthButton.tsx
-// 공통 스타일(로그인/회원가입 동일)
 "use client";
 
 import { cn } from "@/lib/utils";
@@ -35,9 +34,11 @@ export default function AuthButton({
         fullWidth && "w-full",
         !isEnabled && [
           "pointer-events-none cursor-not-allowed",
-          "bg-[color:var(--color-gray-200)] text-[#9CA3AF]", // 비활성 텍스트 연회색
+          "bg-[color:var(--color-gray-200,#E5E7EB)] text-[color:var(--color-gray-400,#9CA3AF)]", // 비활성 텍스트 연회색
           "disabled:bg-[color:var(--color-gray-200)] disabled:text-[#9CA3AF]", // disabled 시도 동일
           "disabled:opacity-40",
+          "dark:bg-gray-700 dark:text-gray-400",
+          "dark:disabled:opacity-60",
         ],
         isEnabled && [
           "bg-[color:var(--color-purple-500)] text-white",

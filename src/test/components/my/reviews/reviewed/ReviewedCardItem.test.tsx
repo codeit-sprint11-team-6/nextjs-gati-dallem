@@ -1,6 +1,5 @@
 import ReviewedCardItem from "@/components/my/reviews/reviewed/ReviewedCardItem";
 import { mockReviewed } from "@/mocks/my/mockMyReview";
-import { GatheringMapper } from "@/types";
 import { formatDate } from "@/utils/datetime";
 import { render, screen } from "@testing-library/react";
 
@@ -19,13 +18,16 @@ describe("마이페이지 - 나의 리뷰 - 작성한 리뷰 카드 컴포넌트
     const dateStr = formatDate(mockData.createdAt);
     expect(screen.getByText(dateStr)).toBeInTheDocument();
 
-    const meetingImg = screen.getByAltText("모임 이미지") as HTMLImageElement;
-    expect(meetingImg).toHaveAttribute("src", mockData.Gathering.image);
+    const meetingImgs = screen.getAllByAltText("리뷰 작성한 모임 이미지") as HTMLImageElement[];
+    for (const img of meetingImgs) {
+      expect(img).toHaveAttribute("src", mockData.Gathering.image);
+    }
 
-    const link = screen.getByTestId("next-link");
-    expect(link).toHaveAttribute("href", `/meetings/${mockData.Gathering.id}`);
-    expect(link).toHaveTextContent(GatheringMapper[mockData.Gathering.type]);
-    expect(link).toHaveTextContent(mockData.Gathering.name);
+    const links = screen.getAllByTestId("next-link") as HTMLElement[];
+    expect(links.length).toBe(3);
+    for (const link of links) {
+      expect(link).toHaveAttribute("href", `/meetings/${mockData.Gathering.id}`);
+    }
 
     expect(screen.getByText("첫 줄")).toBeInTheDocument();
     expect(screen.getByText("둘째 줄")).toBeInTheDocument();
@@ -43,6 +45,6 @@ describe("마이페이지 - 나의 리뷰 - 작성한 리뷰 카드 컴포넌트
     const props = { ...mockData, Gathering: { ...mockData.Gathering, image: undefined } };
     render(<ReviewedCardItem {...props} />);
 
-    expect(screen.queryByAltText("모임 이미지")).not.toBeInTheDocument();
+    expect(screen.queryByAltText("리뷰 작성한 모임 이미지")).not.toBeInTheDocument();
   });
 });

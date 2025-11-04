@@ -1,0 +1,79 @@
+# .github/workflows/deploy.yml
+
+name: EC2로 자동배포하기
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Github Repository 파일 가져오기
+        uses: actions/checkout@v4
+
+      - name: Node 설치
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: npm 캐시 설정
+        id: npm-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: 캐시 상태 출력
+        run: |
+          if [[ "${{ steps.npm-cache.outputs.cache-hit }}" == 'true' ]]; then
+            echo "npm cache hit"
+          else
+            echo "npm cache miss"
+          fi
+
+      - name: 의존성(라이브러리) 설치
+        run: npm ci --prefer-offline
+
+      - name: .env 파일 생성
+        run: echo "${{ secrets.ENV }}" > .env
+
+      - name: 빌드
+        run: npm run build
+
+      - name: 압축
+        # NODE_MODULES 폴더는 압축하지 않는다.
+        # 커밋 해시를 파일명으로 사용하여 고유한 파일명을 생성한다.
+        run: tar -czvf $GITHUB_SHA.tar.gz appspec.yml public scripts .next/standalone .next/static .env
+
+      - name: AWS 서비스에 접근할 수 있게 AWS credentials 설정
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ap-northeast-2
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: S3에 프로젝트 폴더 업로드하기
+        # aws s3 명령어
+        # cp: 파일 복사
+        # --region: 지역
+        # ./$GITHUB_SHA.tar.gz: github actions에서 복사할 파일 경로
+        # s3://codeit-nextjs-aws-test-storage/$GITHUB_SHA.tar.gz: S3에 복사할 위치
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tar.gz s3://codeit-nextjs-aws-storage/$GITHUB_SHA.tar.gz
+
+      - name: Code Deploy를 활용해 EC2에 프로젝트 코드 배포
+        # aws deploy 명령어
+        # create-deployment: 배포 생성 -> 원래는 codeDeploy의 애플리케이션 -> 배포 그룹 -> 배포 생성을 통해서 할 수 있는 걸 CLI 로 작성하는 것
+        # --application-name: 배포할 애플리케이션 이름
+        # --deployment-config-name: 배포 구성
+        # --deployment-group-name: 배포 그룹
+        # --s3-location: 배포할 파일 위치
+        run: aws deploy create-deployment
+          --application-name nextjs-aws
+          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-group-name Production
+          --s3-location bucket=codeit-nextjs-aws-storage,bundleType=tgz,key=$GITHUB_SHA.tar.gz

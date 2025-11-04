@@ -19,7 +19,13 @@ export default function CreateMeetingPage() {
   return (
     <main className="mx-auto max-w-2xl px-4 py-8">
       <Modal className="gap-6">
-        <CreateMeetingWizard onCancel={handleCancel} onFinished={handleFinish} />
+        <CreateMeetingWizard onCancel={handleCancel} onFinished={handleFinish}>
+          <CreateMeetingWizard.Header />
+          <CreateMeetingWizard.Step1 />
+          <CreateMeetingWizard.Step2 />
+          <CreateMeetingWizard.Step3 />
+          <CreateMeetingWizard.Navigation />
+        </CreateMeetingWizard>
       </Modal>
     </main>
   );

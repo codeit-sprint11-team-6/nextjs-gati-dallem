@@ -2,7 +2,8 @@ import ReviewCardList from "@/components/my/reviews/ReviewCardList";
 import { mockReviewed, mockUnreviewed } from "@/mocks/my/mockMyReview";
 import { mockProfile } from "@/mocks/my/mockProfile";
 import { useAuthStore } from "@/store/authStore";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { renderWithQueryClient } from "@/test/renderWithQueryClient";
+import { fireEvent, screen } from "@testing-library/react";
 
 const pushSpy = jest.fn();
 let mockWritableParam = "true";
@@ -45,7 +46,7 @@ describe("마이페이지 - 나의 리뷰 - 목록 조회 기능", () => {
       mockWritableParam = "true";
       unreviewedQueryFn.mockReturnValue({ isLoading: true, data: undefined });
 
-      render(<ReviewCardList />);
+      renderWithQueryClient(<ReviewCardList />);
 
       fireEvent.click(screen.getByRole("button", { name: "작성한 리뷰" }));
       expect(pushSpy).toHaveBeenCalledWith("/my/reviews?writable=false");
@@ -55,7 +56,7 @@ describe("마이페이지 - 나의 리뷰 - 목록 조회 기능", () => {
       mockWritableParam = "false";
       reviewedQueryFn.mockReturnValue({ isLoading: true, data: { data: [], totalPages: 1 } });
 
-      render(<ReviewCardList />);
+      renderWithQueryClient(<ReviewCardList />);
 
       fireEvent.click(screen.getByRole("button", { name: "작성 가능한 리뷰" }));
       expect(pushSpy).toHaveBeenCalledWith("/my/reviews?writable=true");
@@ -69,7 +70,7 @@ describe("마이페이지 - 나의 리뷰 - 목록 조회 기능", () => {
 
     test("로딩 시 스켈레톤 UI (UnreviewedCardSkeleton)", () => {
       unreviewedQueryFn.mockReturnValue({ isLoading: true, data: undefined });
-      render(<ReviewCardList />);
+      renderWithQueryClient(<ReviewCardList />);
 
       const skeletons = screen.getAllByLabelText("리뷰 작성 가능한 모임 목록 스켈레톤");
       expect(skeletons).toHaveLength(3);
@@ -77,7 +78,7 @@ describe("마이페이지 - 나의 리뷰 - 목록 조회 기능", () => {
 
     test("빈 데이터일 때 EmptyList 렌더링 (작성할 수 있는 리뷰가 없어요)", () => {
       unreviewedQueryFn.mockReturnValue({ isLoading: false, data: [] });
-      render(<ReviewCardList />);
+      renderWithQueryClient(<ReviewCardList />);
 
       expect(screen.getByText("작성할 수 있는 리뷰가 없어요")).toBeInTheDocument();
       expect(screen.getByAltText("빈 페이지 표시 이미지")).toHaveAttribute(
@@ -89,7 +90,7 @@ describe("마이페이지 - 나의 리뷰 - 목록 조회 기능", () => {
     test("데이터가 있을 때 UnreviewedCardItem 렌더", () => {
       const mockList = mockUnreviewed;
       unreviewedQueryFn.mockReturnValue({ isLoading: false, data: mockList });
-      render(<ReviewCardList />);
+      renderWithQueryClient(<ReviewCardList />);
 
       const items = screen.getAllByLabelText("모임 목록 아이템");
       expect(items).toHaveLength(mockList.length);
@@ -107,7 +108,7 @@ describe("마이페이지 - 나의 리뷰 - 목록 조회 기능", () => {
 
     test("로딩 시 스켈레톤 UI (ReviewCardSkeleton)", () => {
       reviewedQueryFn.mockReturnValue({ isLoading: true, data: { data: [], totalPages: 1 } });
-      render(<ReviewCardList />);
+      renderWithQueryClient(<ReviewCardList />);
 
       const skeletons = screen.getAllByLabelText("작성한 리뷰 목록 스켈레톤");
       expect(skeletons).toHaveLength(3);
@@ -115,7 +116,7 @@ describe("마이페이지 - 나의 리뷰 - 목록 조회 기능", () => {
 
     test("빈 데이터일 때 EmptyList 렌더링 (작성한 리뷰가 없어요)", () => {
       reviewedQueryFn.mockReturnValue({ isLoading: false, data: { data: [], totalPages: 1 } });
-      render(<ReviewCardList />);
+      renderWithQueryClient(<ReviewCardList />);
 
       expect(screen.getByText("작성한 리뷰가 없어요")).toBeInTheDocument();
       expect(screen.getByAltText("빈 페이지 표시 이미지")).toHaveAttribute(
@@ -127,9 +128,9 @@ describe("마이페이지 - 나의 리뷰 - 목록 조회 기능", () => {
     test("데이터가 있을 때 ReviewedCardItem 리스트 렌더링 및 Pagination 표시", () => {
       useAuthStore.setState({ user: mockProfile });
       reviewedQueryFn.mockReturnValue({ isLoading: false, data: mockReviewed });
-      render(<ReviewCardList />);
+      renderWithQueryClient(<ReviewCardList />);
 
-      const items = screen.getAllByTestId("reviewed-item");
+      const items = screen.getAllByLabelText("작성한 리뷰 목록 아이템");
       expect(items).toHaveLength(mockReviewed.data.length);
       expect(screen.getByTestId("pagination")).toBeInTheDocument();
       expect(reviewedQueryFn).toHaveBeenCalledWith({ userId: mockProfile.id, offset: 0 });
@@ -138,7 +139,7 @@ describe("마이페이지 - 나의 리뷰 - 목록 조회 기능", () => {
     test("페이지네이션 [go-2] 클릭 시 offset 1로 늘려서 재호출", () => {
       useAuthStore.setState({ user: mockProfile });
       reviewedQueryFn.mockReturnValue({ isLoading: false, data: mockReviewed });
-      render(<ReviewCardList />);
+      renderWithQueryClient(<ReviewCardList />);
 
       fireEvent.click(screen.getByText("go-2"));
 
