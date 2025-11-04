@@ -247,7 +247,11 @@ export default function AllReviewsPageClient() {
       />
 
       {/* Filter Bar */}
-      <FilterBar value={filters} onChange={handleFilterChange} />
+      <FilterBar
+        value={filters}
+        onChange={handleFilterChange}
+        className="dark:[&_.bg-gray-100]:bg-slate-700 dark:[&_.border-b]:border-slate-700 dark:[&_.h-0\.5.bg-purple-500]:bg-purple-400 dark:[&_.hover\:bg-gray-200:hover]:bg-slate-600 dark:[&_.hover\:text-gray-900:hover]:text-slate-200 dark:[&_.text-gray-600]:text-slate-300 dark:[&_.text-gray-700]:text-slate-100 dark:[&_.text-purple-500]:text-purple-400 [&>div:first-child>button]:px-6 [&>div:first-child>button]:py-3 [&>div:first-child>button]:transition-colors dark:[&>div:first-child>button:has(.h-0\.5.bg-purple-500)]:rounded-t-xl dark:[&>div:first-child>button:has(.h-0\.5.bg-purple-500)]:bg-slate-700 dark:[&>div:first-child>button:has(.h-0\.5.bg-purple-500)]:text-purple-400 dark:[&>div:first-child>button:hover]:rounded-t-2xl dark:[&>div:first-child>button:hover]:bg-slate-700/80"
+      />
 
       {/* Rating Summary */}
       <div className="mt-4 md:mt-8">
@@ -258,7 +262,7 @@ export default function AllReviewsPageClient() {
         />
         {isInitialLoading && (
           <div className="mt-2 flex justify-center">
-            <div className="text-sm text-gray-500">평점을 계산하는 중...</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">평점을 계산하는 중...</div>
           </div>
         )}
       </div>
@@ -269,20 +273,26 @@ export default function AllReviewsPageClient() {
           <div className="flex justify-center py-12">
             <div className="flex items-center gap-2">
               <div className="h-4 w-4 animate-spin rounded-full border-2 border-purple-600 border-t-transparent"></div>
-              <span className="text-gray-500">리뷰를 불러오는 중...</span>
+              <span className="text-gray-500 dark:text-gray-400">리뷰를 불러오는 중...</span>
             </div>
           </div>
         ) : reviewsError ? (
           <div className="flex flex-col items-center justify-center py-12">
-            <div className="mb-2 text-lg font-medium text-red-500">
+            <div className="mb-2 text-lg font-medium text-red-500 dark:text-red-400">
               리뷰를 불러오는데 실패했습니다
             </div>
-            <div className="text-sm text-gray-500">잠시 후 다시 시도해주세요</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              잠시 후 다시 시도해주세요
+            </div>
           </div>
         ) : filteredReviews.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12">
-            <div className="mb-2 text-lg font-medium text-gray-400">아직 리뷰가 없습니다</div>
-            <div className="text-sm text-gray-500">첫 번째 리뷰를 작성해보세요!</div>
+            <div className="mb-2 text-lg font-medium text-gray-400 dark:text-gray-300">
+              아직 리뷰가 없습니다
+            </div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              첫 번째 리뷰를 작성해보세요!
+            </div>
           </div>
         ) : (
           <>
@@ -290,9 +300,11 @@ export default function AllReviewsPageClient() {
             {hasNextPage && (
               <div id="load-more-trigger" className="mt-8 flex justify-center">
                 {isFetchingNextPage ? (
-                  <div className="text-gray-500">더 많은 리뷰를 불러오는 중...</div>
+                  <div className="text-gray-500 dark:text-gray-400">
+                    더 많은 리뷰를 불러오는 중...
+                  </div>
                 ) : (
-                  <div className="text-sm text-gray-400">스크롤하여 더 보기</div>
+                  <div className="text-sm text-gray-400 dark:text-gray-500">스크롤하여 더 보기</div>
                 )}
               </div>
             )}
@@ -301,11 +313,11 @@ export default function AllReviewsPageClient() {
 
         {/* 필터 변경 중 오버레이 */}
         {isFilterChanging && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/50 backdrop-blur-sm">
-            <div className="rounded-lg bg-white px-4 py-2 shadow-lg">
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/50 backdrop-blur-sm dark:bg-slate-900/40">
+            <div className="rounded-lg bg-white px-4 py-2 shadow-lg dark:bg-slate-800">
               <div className="flex items-center gap-2">
                 <div className="h-4 w-4 animate-spin rounded-full border-2 border-purple-600 border-t-transparent"></div>
-                <span className="text-sm text-gray-600">필터 적용 중...</span>
+                <span className="text-sm text-gray-600 dark:text-gray-300">필터 적용 중...</span>
               </div>
             </div>
           </div>

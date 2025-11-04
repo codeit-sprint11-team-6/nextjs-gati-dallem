@@ -28,10 +28,10 @@ export default function PageHeader({
         <Image src={imageSrc} alt={imageAlt} fill className="object-contain" />
       </div>
       <div className="flex flex-col gap-2 md:gap-4">
-        <h1 className="text-lg leading-7 font-semibold text-gray-900 md:text-2xl lg:text-[32px] lg:leading-9">
+        <h1 className="text-lg leading-7 font-semibold text-gray-900 md:text-2xl lg:text-[32px] lg:leading-9 dark:text-slate-100">
           {title}
         </h1>
-        <p className="text-base leading-6 font-medium text-slate-400 md:text-lg md:leading-7 lg:text-xl lg:leading-7">
+        <p className="text-base leading-6 font-medium text-slate-400 md:text-lg md:leading-7 lg:text-xl lg:leading-7 dark:text-slate-400/90">
           {description}
         </p>
       </div>
