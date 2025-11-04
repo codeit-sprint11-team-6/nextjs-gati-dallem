@@ -8,7 +8,8 @@ import { GetGatheringsQuery } from "../gatherings/gatherings.schema";
 import { fetchFavoriteGatherings } from "./favorites.service";
 
 export function useFavoriteGatheringsQuery(userId: UserId, query?: Partial<GetGatheringsQuery>) {
-  const enabled = userId > 0;
+  const count = useFavoriteStore((s) => s.favorites[String(userId)]?.count ?? 0);
+  const enabled = userId > 0 && count > 0;
 
   return useQuery<Gathering[]>({
     queryKey: queryKeys.favorites.list(userId, query),
