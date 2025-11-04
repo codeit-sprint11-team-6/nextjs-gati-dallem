@@ -6,9 +6,10 @@ import MeetingDetailCard from "@/components/meeting/MeetingDetailCard";
 import ParticipantList from "@/components/meeting/ParticipantList";
 import ReviewSection from "@/components/meeting/ReviewSection";
 import { selectUser, useAuthStore } from "@/store/authStore";
-import { useState, useEffect } from "react";
-import { Gathering, GatheringParticipant } from "@/types/gathering";
-import { ReviewList } from "@/types/review";
+import { useFavoriteStore } from "@/store/favoriteStore";
+import { useFavoriteToggle } from "@/apis/favorites/favorites.query";
+import { useRequireAuthAction } from "@/hooks/auths/useRequireAuthAction";
+import { useState } from "react";
 import {
   useGatheringDetail,
   useParticipants,
@@ -22,8 +23,16 @@ export default function MeetingDetailPage() {
   const meetingId = parseInt(params.id as string);
 
   const user = useAuthStore(selectUser);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { mutate: toggleFavoriteMutation } = useFavoriteToggle(user?.id, meetingId);
+  const { requireAuthAction } = useRequireAuthAction();
   const [currentPage, setCurrentPage] = useState(1);
+
+  // 찜하기 상태 확인 - favorites 객체를 직접 구독하여 즉시 리렌더링 보장
+  const isFavorite = useFavoriteStore((state) => {
+    if (!user?.id) return false;
+    const uid = String(user.id);
+    return state.favorites[uid]?.ids.includes(meetingId) ?? false;
+  });
 
   // 실제 API 호출
   const { data: gathering, isLoading: gatheringLoading } = useGatheringDetail(meetingId);
@@ -60,10 +69,9 @@ export default function MeetingDetailPage() {
     }
   };
 
-  const handleToggleFavorite = () => {
-    setIsFavorite(!isFavorite);
-    // TODO: API 연동
-  };
+  const handleToggleFavorite = requireAuthAction(() => {
+    toggleFavoriteMutation();
+  });
 
   const handleShare = () => {
     if (navigator.share) {

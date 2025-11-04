@@ -7,7 +7,7 @@ import type { UserProfile } from "@/components/ui/Avatar";
 import AuthAction from "@/components/header/AuthAction";
 import { useAuthUser, useSignout } from "@/apis/auths/auths.query";
 import { useAuthToken } from "@/hooks/auths/useAuthToken";
-import { queryKeys } from "@/apis/_react_query/keys";
+import { meKey } from "@/apis/_react_query/keys";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -38,7 +38,6 @@ export default function Header({ logoAltText }: HeaderProps) {
     refetchOnWindowFocus: false, // 포커스 때 깜빡임 원인이면 꺼두기
     refetchOnMount: "always", // 재시작/첫 렌더에서 꼭 새로 가져오게
     staleTime: 0,
-    queryKey: [...queryKeys.auth.me(), token ?? "no-token"], // 세션 전환 시 캐시 충돌 방지
   });
 
   const { data: me, isLoading, isFetching, isSuccess, isError, isStale } = q;
@@ -51,16 +50,9 @@ export default function Header({ logoAltText }: HeaderProps) {
   const { mutateAsync: signout } = useSignout();
   const onLogout = async () => {
     await signout();
-    router.replace("/"); // 또는 "/signin"
+    router.replace("/");
     router.refresh();
   };
-
-  // 최소 필드만 가진 더미 유저
-  // const mockUser: UserProfileType = {
-  //   name: "Anna",
-  //   email: "anna@example.com",
-  //   image: "", // 없으면 예외처리
-  // } as UserProfileType;
 
   const navigationItems: NavigationItem[] = [
     { label: "모임 찾기", href: "/meetings", isActive: pathname === "/meetings" },
@@ -79,11 +71,6 @@ export default function Header({ logoAltText }: HeaderProps) {
             <Logo altText={logoAltText} />
             <Navigation items={navigationItems} />
           </div>
-          {/* <UserProfile
-            userProfile={userProfile}
-            isProfileOpen={isProfileOpen}
-            setIsProfileOpen={setIsProfileOpen}
-          /> */}
           {isAuthed && loadingProfile ? (
             <div className="h-10 w-28 animate-pulse rounded-md bg-gray-700" />
           ) : (

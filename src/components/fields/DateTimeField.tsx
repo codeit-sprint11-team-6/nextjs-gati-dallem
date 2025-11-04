@@ -76,10 +76,10 @@ export const DateTimeField = React.forwardRef<HTMLDivElement, DateTimeFieldProps
                 withEndIcon
                 className={cn("pr-10 md:pr-12", className)}
               />
-              <CalendarIcon className="absolute top-1/2 right-3 md:right-4 h-4 w-4 -translate-y-1/2 text-slate-500" />
+              <CalendarIcon className="absolute top-1/2 right-3 md:right-4 h-4 w-4 -translate-y-1/2 text-slate-500 dark:text-slate-400" />
             </div>
           </PopoverTrigger>
-          <PopoverContent align="end" className="w-auto rounded-xl border bg-white p-0 shadow-md">
+          <PopoverContent align="end" className="w-auto rounded-xl border bg-white dark:bg-gray-900 dark:border-gray-700 p-0 shadow-md">
             <div className="flex flex-col md:flex-row">
               {/* 캘린더 */}
               <Calendar
@@ -95,7 +95,7 @@ export const DateTimeField = React.forwardRef<HTMLDivElement, DateTimeFieldProps
 
               {/* 구분선 (캘린더 | 시간) */}
               <div className="relative py-0 md:py-8">
-                <div className="h-px w-full md:h-full md:w-px bg-gray-200"></div>
+                <div className="h-px w-full md:h-full md:w-px bg-gray-200 dark:bg-gray-700"></div>
               </div>
 
               {/* 시간 선택 - 세로 3개 컬럼 */}
@@ -112,7 +112,7 @@ export const DateTimeField = React.forwardRef<HTMLDivElement, DateTimeFieldProps
                           "w-full py-2 my-0.5 text-sm transition-colors rounded-md",
                           hours === hour
                             ? "bg-purple-500 text-white font-semibold"
-                            : "hover:bg-purple-500/10 hover:text-purple-500",
+                            : "hover:bg-purple-500/10 hover:text-purple-500 dark:text-gray-300 dark:hover:bg-purple-500/20 dark:hover:text-purple-400",
                         )}
                       >
                         {hour}
@@ -123,7 +123,7 @@ export const DateTimeField = React.forwardRef<HTMLDivElement, DateTimeFieldProps
 
                 {/* 구분선 (시 | 분) */}
                 <div className="relative py-8">
-                  <div className="h-full w-px bg-gray-200"></div>
+                  <div className="h-full w-px bg-gray-200 dark:bg-gray-700"></div>
                 </div>
 
                 {/* 분 */}
@@ -138,7 +138,7 @@ export const DateTimeField = React.forwardRef<HTMLDivElement, DateTimeFieldProps
                           "w-full py-2 my-0.5 text-sm transition-colors rounded-md",
                           minutes === minute
                             ? "bg-purple-500 text-white font-semibold"
-                            : "hover:bg-purple-500/10 hover:text-purple-500",
+                            : "hover:bg-purple-500/10 hover:text-purple-500 dark:text-gray-300 dark:hover:bg-purple-500/20 dark:hover:text-purple-400",
                         )}
                       >
                         {minute}
@@ -149,7 +149,7 @@ export const DateTimeField = React.forwardRef<HTMLDivElement, DateTimeFieldProps
 
                 {/* 구분선 (분 | 오전/오후) */}
                 <div className="relative py-8">
-                  <div className="h-full w-px bg-gray-200"></div>
+                  <div className="h-full w-px bg-gray-200 dark:bg-gray-700"></div>
                 </div>
 
                 {/* 오전/오후 */}
@@ -162,7 +162,7 @@ export const DateTimeField = React.forwardRef<HTMLDivElement, DateTimeFieldProps
                         "w-full py-2 my-0.5 text-sm transition-colors rounded-md",
                         period === "AM"
                           ? "bg-purple-500 text-white font-semibold"
-                          : "hover:bg-purple-500/10 hover:text-purple-500",
+                          : "hover:bg-purple-500/10 hover:text-purple-500 dark:text-gray-300 dark:hover:bg-purple-500/20 dark:hover:text-purple-400",
                       )}
                     >
                       오전
@@ -174,7 +174,7 @@ export const DateTimeField = React.forwardRef<HTMLDivElement, DateTimeFieldProps
                         "w-full py-2 my-0.5 text-sm transition-colors rounded-md",
                         period === "PM"
                           ? "bg-purple-500 text-white font-semibold"
-                          : "hover:bg-purple-500/10 hover:text-purple-500",
+                          : "hover:bg-purple-500/10 hover:text-purple-500 dark:text-gray-300 dark:hover:bg-purple-500/20 dark:hover:text-purple-400",
                       )}
                     >
                       오후

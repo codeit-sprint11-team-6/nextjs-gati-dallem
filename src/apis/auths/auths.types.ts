@@ -1,5 +1,5 @@
 import { AuthUser } from "@/types";
-import { UseQueryOptions } from "@tanstack/react-query";
+import type { QueryKey, UseQueryOptions } from "@tanstack/react-query";
 
 // useAuthUser
 export type GetTokenFn = () => string | undefined | null;
@@ -15,5 +15,5 @@ export type AuthUserQueryOptions<T = AuthUser> = Omit<
   refetchOnReconnect?: boolean;
   initialData?: AuthUser | null | (() => AuthUser | null);
   getToken?: GetTokenFn;
-  queryKey?: any[];
+  queryKey?: QueryKey;
 };
