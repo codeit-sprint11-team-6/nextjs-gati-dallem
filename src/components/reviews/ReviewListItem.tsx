@@ -15,17 +15,11 @@ const formatCreatedAt = (value?: string) => {
   }
 };
 
-export default function ReviewListItem({
-  User,
-  Gathering,
-  score,
-  createdAt,
-  comment,
-}: Review) {
+export default function ReviewListItem({ User, Gathering, score, createdAt, comment }: Review) {
   const formattedCreatedAt = formatCreatedAt(createdAt);
 
   return (
-    <div className="flex flex-col justify-center bg-white md:h-[200px] md:flex-row md:items-center md:gap-8">
+    <div className="flex flex-col justify-center bg-white md:h-[200px] md:flex-row md:items-center md:gap-8 dark:bg-[var(--color-gray-900)]">
       {/* Image Section - Desktop & Tablet */}
       {Gathering.image && (
         <div className="relative hidden aspect-square w-20 shrink-0 overflow-hidden rounded-xl md:block md:h-[200px] md:w-[200px] md:rounded-3xl lg:h-[200px] lg:w-[296px]">
@@ -64,7 +58,9 @@ export default function ReviewListItem({
               type="female"
             />
             <div className="flex flex-col gap-1">
-              <p className="text-sm leading-5 font-medium text-slate-500">{User.name}</p>
+              <p className="text-sm leading-5 font-medium text-slate-500 dark:text-slate-200">
+                {User.name}
+              </p>
               <div className="flex items-center gap-2">
                 {/* Heart Score */}
                 <div className="flex items-center gap-[1px]">
@@ -79,7 +75,7 @@ export default function ReviewListItem({
                     </div>
                   ))}
                 </div>
-                <span className="text-sm leading-5 font-normal text-slate-400">
+                <span className="text-sm leading-5 font-normal text-slate-400 dark:text-slate-400/80">
                   {formattedCreatedAt}
                 </span>
               </div>
@@ -88,8 +84,8 @@ export default function ReviewListItem({
 
           {/* Gathering Info */}
           <div className="flex items-center gap-2 pl-1">
-            <div className="h-4 w-[3px] bg-slate-200" />
-            <p className="text-base leading-6 font-medium text-slate-400">
+            <div className="h-4 w-[3px] bg-slate-200 dark:bg-slate-600" />
+            <p className="text-base leading-6 font-medium text-slate-400 dark:text-slate-300">
               {Gathering.name} · {Gathering.location}
             </p>
           </div>
@@ -108,7 +104,7 @@ export default function ReviewListItem({
               />
             </div>
             <div className="flex-1">
-              <p className="line-clamp-4 text-sm leading-5 font-medium text-gray-700 md:text-base md:leading-6">
+              <p className="line-clamp-4 text-sm leading-5 font-medium text-gray-700 md:text-base md:leading-6 lg:text-base lg:leading-6 dark:text-slate-100">
                 {comment}
               </p>
             </div>
@@ -117,7 +113,7 @@ export default function ReviewListItem({
 
         {/* Comment - Desktop & Tablet */}
         <div className="hidden md:block">
-          <p className="line-clamp-2 text-base leading-6 font-medium text-gray-700 lg:text-base lg:leading-6">
+          <p className="line-clamp-2 text-base leading-6 font-medium text-gray-700 lg:text-base lg:leading-6 dark:text-slate-100">
             {comment}
           </p>
         </div>

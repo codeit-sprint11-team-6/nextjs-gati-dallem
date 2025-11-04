@@ -1,6 +1,7 @@
 "use client";
 import { Plus } from "lucide-react";
 import { useOverlay } from "@/hooks/useOverlay";
+import { useRequireAuthAction } from "@/hooks/auths/useRequireAuthAction";
 import { Button } from "@/components/common/Button";
 import CreateMeetingModal from "./CreateMeetingModal";
 
@@ -9,10 +10,11 @@ interface Props {
 }
 export default function CreateMeetingFAB({ className }: Props) {
   const { overlay } = useOverlay();
+  const { requireAuthAction } = useRequireAuthAction();
 
-  const handleClick = () => {
+  const handleClick = requireAuthAction(() => {
     overlay(<CreateMeetingModal />);
-  };
+  });
 
   return (
     <Button

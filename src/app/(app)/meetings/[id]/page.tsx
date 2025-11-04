@@ -9,6 +9,8 @@ import { selectUser, useAuthStore } from "@/store/authStore";
 import { useFavoriteStore } from "@/store/favoriteStore";
 import { useFavoriteToggle } from "@/apis/favorites/favorites.query";
 import { useRequireAuthAction } from "@/hooks/auths/useRequireAuthAction";
+import { useOverlay } from "@/hooks/useOverlay";
+import LoginModal from "@/components/common/LoginModal";
 import { useState } from "react";
 import {
   useGatheringDetail,
@@ -24,7 +26,13 @@ export default function MeetingDetailPage() {
 
   const user = useAuthStore(selectUser);
   const { mutate: toggleFavoriteMutation } = useFavoriteToggle(user?.id, meetingId);
-  const { requireAuthAction } = useRequireAuthAction();
+  const { overlay } = useOverlay();
+  const { requireAuthAction } = useRequireAuthAction({
+    redirectOnBlocked: false,
+    onBlocked: () => {
+      overlay(<LoginModal />);
+    },
+  });
   const [currentPage, setCurrentPage] = useState(1);
 
   // 찜하기 상태 확인 - favorites 객체를 직접 구독하여 즉시 리렌더링 보장

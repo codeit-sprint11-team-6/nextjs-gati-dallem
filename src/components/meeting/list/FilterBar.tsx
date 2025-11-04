@@ -88,7 +88,7 @@ export default function FilterBar({ value, onChange, className }: FilterBarProps
   return (
     <div
       className={cn(
-        "sticky top-12 md:top-[88px] z-10 space-y-4 bg-gray-50 dark:bg-gray-800 pb-4 md:space-y-8 md:pb-6",
+        "z-10 space-y-4 bg-gray-50 dark:bg-gray-800 pb-4 md:space-y-8 md:pb-6",
         "-mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8",
         "pt-4 md:-mt-7 md:pt-7 lg:-mt-8 lg:pt-8",
         className,
