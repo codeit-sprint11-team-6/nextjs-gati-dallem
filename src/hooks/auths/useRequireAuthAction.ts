@@ -19,14 +19,23 @@ export function useRequireAuthAction(opts?: RequireAuthOptions) {
   const requireAuthAction = useCallback(
     <T extends any[]>(action: (...args: T) => Promise<void> | void) =>
       async (...args: T) => {
-        if (isAuthed) return await action(...args);
+        if (isAuthed) {
+          return await action(...args);
+        }
         opts?.onBlocked?.();
-        if (opts?.redirectOnBlocked ?? true) {
+        const shouldRedirect = opts?.redirectOnBlocked ?? true;
+        if (shouldRedirect) {
           const current = `${pathname}${search?.toString() ? `?${search}` : ""}`;
-          router.push(opts?.redirectTo ?? `/signin?redirect=${encodeURIComponent(current)}`);
+          const redirectUrl = opts?.redirectTo ?? `/signin?redirect=${encodeURIComponent(current)}`;
+          // React 18의 자동 배칭을 피하기 위해 queueMicrotask 사용
+          queueMicrotask(() => {
+            router.push(redirectUrl);
+          });
         }
       },
-    [isAuthed, opts, pathname, search, router],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isAuthed, pathname, router],
+    // opts, search는 의도적으로 제외 (매번 새 객체/값이라 무한 리렌더링 유발)
   );
 
   return { isAuthed, requireAuthAction };
