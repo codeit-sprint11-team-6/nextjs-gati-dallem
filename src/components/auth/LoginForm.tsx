@@ -65,13 +65,18 @@ const LoginForm = ({ redirect = "/" }: Props) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className={`flex w-[680px] max-w-full flex-col gap-2 rounded-2xl bg-white pt-14 pr-11 pb-11 pl-14 shadow-sm [box-shadow:0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(16,24,40,0.08)] max-sm:px-6`}
+      className={`flex w-[680px] max-w-full flex-col gap-2 rounded-2xl bg-white pt-14 pr-11 pb-11 pl-14 shadow-sm [box-shadow:0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(16,24,40,0.08)] max-sm:px-6 dark:bg-gray-900`}
       noValidate // 브라우저 기본 검증 비활성 (커스텀 메시지 사용)
     >
-      <h1 className="mb-6 text-center text-lg font-bold text-slate-900">로그인</h1>
+      <h1 className="mb-6 text-center text-lg font-bold text-slate-900 dark:text-slate-100">
+        로그인
+      </h1>
       {displayError && <FormErrorBanner message={displayError} />}
 
-      <label htmlFor="login-email" className="mb-1 text-[13px] font-medium text-slate-500">
+      <label
+        htmlFor="login-email"
+        className="mb-1 text-[13px] font-medium text-slate-500 dark:text-slate-400"
+      >
         아이디(이메일)
       </label>
       <AuthInput
@@ -88,7 +93,6 @@ const LoginForm = ({ redirect = "/" }: Props) => {
         }}
         invalid={!!emailError}
         errorMessage={emailError}
-        className={`bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]`}
         autoComplete="username"
         name="username"
         inputMode="email"
@@ -97,7 +101,10 @@ const LoginForm = ({ redirect = "/" }: Props) => {
         spellCheck={false}
       />
 
-      <label htmlFor="login-password" className="mt-4 mb-1 text-[13px] font-medium text-slate-500">
+      <label
+        htmlFor="login-password"
+        className="mt-4 mb-1 text-[13px] font-medium text-slate-500 dark:text-slate-400"
+      >
         비밀번호
       </label>
       <AuthPasswordInput
@@ -109,7 +116,6 @@ const LoginForm = ({ redirect = "/" }: Props) => {
           if (serverMsg) setServerMsg("");
           if (error) reset();
         }}
-        className={`bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]`}
         autoComplete="current-password"
         name="password"
       />
@@ -117,9 +123,12 @@ const LoginForm = ({ redirect = "/" }: Props) => {
       <AuthButton type="submit" disabled={!isFormValid} className="mt-6">
         {isPending ? "로그인 중..." : "로그인"}
       </AuthButton>
-      <p className="mt-3 text-center text-xs text-slate-500">
+      <p className="mt-3 text-center text-xs text-slate-500 dark:text-slate-400">
         같이 달램이 처음이신가요?{" "}
-        <Link href="/signup" className="underline underline-offset-2 hover:text-slate-700">
+        <Link
+          href="/signup"
+          className="underline underline-offset-2 hover:text-slate-700 dark:text-slate-300"
+        >
           회원가입
         </Link>
       </p>

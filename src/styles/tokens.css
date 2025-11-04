@@ -65,6 +65,18 @@
   --color-blue-900: oklch(0.379 0.146 265.522);
   --color-blue-950: oklch(0.282 0.091 267.935);
 
+  /* Error (Red) */
+  --color-error-50: oklch(0.955 0.018 25);
+  --color-error-100: oklch(0.875 0.05 25);
+  --color-error-200: oklch(0.79 0.095 25);
+  --color-error-300: oklch(0.7 0.15 25);
+  --color-error-400: oklch(0.63 0.21 25);
+  --color-error-500: oklch(0.65 0.21 25);
+  --color-error-600: oklch(0.52 0.19 25);
+  --color-error-700: oklch(0.45 0.16 25);
+  --color-error-800: oklch(0.38 0.13 25);
+  --color-error-900: oklch(0.3 0.1 25);
+
   /* Font Families */
   --font-sans: var(--font-pretendard), ui-sans-serif, system-ui, sans-serif;
   --font-tenada: var(--font-tenada), ui-sans-serif, system-ui, sans-serif;

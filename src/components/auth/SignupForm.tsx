@@ -186,12 +186,17 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
     <form
       onSubmit={handleSubmit}
       noValidate
-      className="flex w-[680px] max-w-full flex-col gap-2 rounded-2xl bg-white pt-14 pr-11 pb-11 pl-14 shadow-sm [box-shadow:0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(16,24,40,0.08)] max-sm:px-6"
+      className="flex w-[680px] max-w-full flex-col gap-2 rounded-2xl bg-white pt-14 pr-11 pb-11 pl-14 shadow-sm [box-shadow:0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(16,24,40,0.08)] max-sm:px-6 dark:bg-gray-900"
     >
-      <h1 className="mb-6 text-center text-lg font-bold text-slate-900">회원가입</h1>
+      <h1 className="mb-6 text-center text-lg font-bold text-slate-900 dark:text-slate-100">
+        회원가입
+      </h1>
       {errors.global && <FormErrorBanner message={errors.global} />}
       {/* 이름 */}
-      <label htmlFor="signup-name" className="mb-1 text-[13px] font-medium text-slate-500">
+      <label
+        htmlFor="signup-name"
+        className="mb-1 text-[13px] font-medium text-slate-500 dark:text-slate-400"
+      >
         이름
       </label>
       <AuthInput
@@ -201,11 +206,13 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
         onChange={(e) => handleChange("name", e.target.value)}
         invalid={!!errors.name}
         errorMessage={errors.name}
-        className="bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]"
         autoComplete="name"
       />
       {/* 아이디(이메일) */}
-      <label htmlFor="signup-email" className="mt-4 mb-1 text-[13px] font-medium text-slate-500">
+      <label
+        htmlFor="signup-email"
+        className="mt-4 mb-1 text-[13px] font-medium text-slate-500 dark:text-slate-400"
+      >
         아이디(이메일)
       </label>
       <AuthInput
@@ -216,11 +223,13 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
         onChange={(e) => handleChange("email", e.target.value)}
         invalid={!!errors.email}
         errorMessage={errors.email}
-        className="bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]"
         autoComplete="username"
       />
       {/* 회사명 */}
-      <label htmlFor="signup-company" className="mt-4 mb-1 text-[13px] font-medium text-slate-500">
+      <label
+        htmlFor="signup-company"
+        className="mt-4 mb-1 text-[13px] font-medium text-slate-500 dark:text-slate-400"
+      >
         회사명
       </label>
       <AuthInput
@@ -230,11 +239,13 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
         onChange={(e) => handleChange("company", e.target.value)}
         invalid={!!errors.company}
         errorMessage={errors.company}
-        className="bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]"
         autoComplete="organization"
       />
       {/* 비밀번호 */}
-      <label htmlFor="signup-password" className="mt-4 mb-1 text-[13px] font-medium text-slate-500">
+      <label
+        htmlFor="signup-password"
+        className="mt-4 mb-1 text-[13px] font-medium text-slate-500 dark:text-slate-400"
+      >
         비밀번호
       </label>
       <AuthPasswordInput
@@ -244,13 +255,12 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
         onChange={(e) => handleChange("pw", e.target.value)}
         invalid={!!errors.pw}
         errorMessage={errors.pw}
-        className="bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]"
         autoComplete="new-password"
       />
       {/* 비밀번호 확인  */}
       <label
         htmlFor="signup-password-confirm"
-        className="mt-4 mb-1 text-[13px] font-medium text-slate-500"
+        className="mt-4 mb-1 text-[13px] font-medium text-slate-500 dark:text-slate-400"
       >
         비밀번호 확인
       </label>
@@ -261,7 +271,6 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
         onChange={(e) => handleChange("pw2", e.target.value)}
         invalid={!!errors.pw2}
         errorMessage={errors.pw2}
-        className="bg-white ring-1 ring-slate-200 hover:ring-[#5865F2]/40 focus-visible:ring-2 focus-visible:ring-[#5865F2]"
         autoComplete="new-password"
       />
 
@@ -269,9 +278,12 @@ const SignupForm = ({ redirect = "/signin" }: Props) => {
         회원가입
       </AuthButton>
 
-      <p className="mt-3 text-center text-xs text-slate-500">
+      <p className="mt-3 text-center text-xs text-slate-500 dark:text-slate-400">
         이미 회원이신가요?{" "}
-        <Link href="/signin" className="underline underline-offset-2 hover:text-slate-700">
+        <Link
+          href="/signin"
+          className="underline underline-offset-2 hover:text-slate-700 dark:text-slate-300"
+        >
           로그인
         </Link>
       </p>
