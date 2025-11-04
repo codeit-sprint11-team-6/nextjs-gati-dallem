@@ -41,7 +41,7 @@ describe("SignupForm", () => {
     pushMock.mockReset();
   });
 
-  it("비밀번호 확인 불일치 시 버튼 비활성화", async () => {
+  test("비밀번호 확인 불일치 시 버튼 비활성화", async () => {
     render(<SignupForm />);
     await userEvent.type(screen.getByLabelText(/이름/i), "홍길동");
     await userEvent.type(screen.getByLabelText(/아이디\(이메일\)/i), "user@example.com");
@@ -52,7 +52,7 @@ describe("SignupForm", () => {
     expect(screen.getByRole("button", { name: /회원가입/i })).toBeDisabled();
   });
 
-  it("정상 입력 시 mutateAsync 호출 + overlay 호출", async () => {
+  test("정상 입력 시 mutateAsync 호출 + overlay 호출", async () => {
     signupAsyncMock.mockResolvedValueOnce({ ok: true });
 
     render(<SignupForm redirect="/signin" />);
@@ -72,7 +72,7 @@ describe("SignupForm", () => {
     expect(overlaySpy).toHaveBeenCalledTimes(1);
   });
 
-  it("서버가 EMAIL_EXISTS 반환 시 이메일 중복 에러 노출", async () => {
+  test("서버가 EMAIL_EXISTS 반환 시 이메일 중복 에러 노출", async () => {
     signupAsyncMock.mockRejectedValueOnce({ code: "EMAIL_EXISTS", status: 400 });
 
     render(<SignupForm />);
