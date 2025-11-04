@@ -188,7 +188,7 @@ describe("Card 컴포넌트", () => {
         </Card>,
       );
       const img = screen.getByAltText("찜한 모임 버튼 이미지");
-      expect(img).toHaveAttribute("src", "/icon/heart_active.svg");
+      expect(img).toHaveAttribute("src", "/icon/heart_active_grad.svg");
     });
 
     test("찜하기 기능", () => {

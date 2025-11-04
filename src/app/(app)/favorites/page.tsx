@@ -2,7 +2,7 @@
 
 import { useFavoriteGatheringsQuery } from "@/apis/favorites/favorites.query";
 import LoginModal from "@/components/common/LoginModal";
-import FavoriteCardItem from "@/components/favorites/FavoriteCardItem";
+import FavoriteCardItem, { FavoriteCardSkeleton } from "@/components/favorites/FavoriteCardItem";
 import { EmptyFavoriteList } from "@/components/favorites/FavoriteCardList";
 import FilterBar from "@/components/meeting/list/FilterBar";
 import { useUrlFilters } from "@/hooks/meeting/useUrlFilters";
@@ -16,7 +16,7 @@ export default function FavoriteGatheringsPage() {
   const [filters, setFilters] = useUrlFilters();
 
   const userId = user?.id ?? -1;
-  const { data = [] } = useFavoriteGatheringsQuery(userId, {
+  const { data = [], isLoading } = useFavoriteGatheringsQuery(userId, {
     type: filters.category as DefaultGatheringType | undefined,
     location: filters.location as GatheringLocation | undefined,
     date: filters.date,
@@ -54,7 +54,15 @@ export default function FavoriteGatheringsPage() {
       </div>
       <div className="grid justify-stretch gap-4 md:gap-8">
         <FilterBar value={filters} onChange={setFilters} />
-        {data?.length > 0 ? (
+        {isLoading ? (
+          <div className="grid justify-stretch gap-4 lg:grid-cols-2 lg:gap-6">
+            {Array(4)
+              .fill(undefined)
+              .map((_, idx) => (
+                <FavoriteCardSkeleton key={idx} />
+              ))}
+          </div>
+        ) : data?.length > 0 ? (
           <div className="grid justify-stretch gap-4 lg:grid-cols-2 lg:gap-6">
             {data.map((gathering) => (
               <FavoriteCardItem key={gathering.id} {...gathering} />

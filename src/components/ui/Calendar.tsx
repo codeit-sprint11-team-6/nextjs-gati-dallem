@@ -154,9 +154,9 @@ function CalendarDayButton({
         // 레이아웃/크기
         "relative flex aspect-square w-full min-w-(--cell-size) items-center justify-center rounded-md text-sm font-medium transition-colors",
         // 기본 텍스트
-        "text-slate-900 dark:text-slate-100",
+        "text-slate-900 dark:text-gray-200",
         // ✅ 호버: 연한 프라이머리 배경 + 글자색만 살짝 강조
-        "hover:bg-purple-500/10 hover:text-purple-500",
+        "hover:bg-purple-500/10 hover:text-purple-500 dark:hover:bg-purple-500/20 dark:hover:text-purple-400",
         // 포커스
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2",
         // ✅ 선택 상태: 꽉 채움 (선택 상태가 오늘보다 우선)
@@ -164,9 +164,9 @@ function CalendarDayButton({
         "data-[range-start=true]:bg-purple-500 data-[range-start=true]:text-white",
         "data-[range-end=true]:bg-purple-500 data-[range-end=true]:text-white",
         // ✅ 범위 중간: 옅은 배경
-        "data-[range-middle=true]:bg-purple-500/15 dark:data-[range-middle=true]:bg-purple-500/20",
+        "data-[range-middle=true]:bg-purple-500/15 dark:data-[range-middle=true]:bg-purple-500/25",
         // ✅ 오늘 = 선택된 날짜가 없을 때만 텍스트 색깔만 변경
-        "data-[today=true]:text-purple-600 data-[today=true]:font-semibold",
+        "data-[today=true]:text-purple-600 dark:data-[today=true]:text-purple-400 data-[today=true]:font-semibold",
         // 비활성/외부
         "aria-disabled:opacity-40 aria-disabled:cursor-not-allowed",
         defaultClassNames.day,
