@@ -3,7 +3,11 @@
 
 <br/>
 
-![devmeeting_mockup2](https://github.com/user-attachments/assets/6cbd8159-412d-4308-a607-3f6f8f7e0161)
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/ad6cd7a1-f043-445c-8d3c-5d5d5777cafa" width="500" />
+</div>
+
+<br/>
 
 - 배포 URL : [https://devmeet-net.vercel.app/](https://devmeet-net.vercel.app/)
 - Test ID : devmeeting@test.com
@@ -241,7 +245,7 @@ src/
 
 | 로그인                                                                                                                   | 회원가입                                                                                                                   |
 | ------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
-| ![login_web](https://github.com/BeMatthewsong/image-or-video-repository/blob/main/Soothe-WIth-Me/login_web.gif?raw=true) | ![signup_web](https://github.com/BeMatthewsong/image-or-video-repository/blob/main/Soothe-WIth-Me/signup_web.gif?raw=true) |
+| ![login_web](https://github.com/user-attachments/assets/d922c9e4-3f63-4f5e-80b7-56fb8d87f991) | ![signup_web](https://github.com/user-attachments/assets/64d34622-236e-4baa-b7e0-d62004747651)|
 
 ---
 
@@ -280,11 +284,11 @@ src/
 
 | 웹                                                                                                                                         | 모바일                                                                                                                                           |
 | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| ![list_gathering_web](https://github.com/BeMatthewsong/image-or-video-repository/blob/main/Soothe-WIth-Me/list_gathering_web.gif?raw=true) | ![list_gathering_mobile](https://github.com/BeMatthewsong/image-or-video-repository/blob/main/Soothe-WIth-Me/list_gathering_mobile.gif?raw=true) |
+| ![list_gathering_web](https://github.com/user-attachments/assets/9a833ac8-f60a-418d-91ae-b0121df13af0)| ![list_gathering_mobile](https://github.com/user-attachments/assets/8f9282fc-0292-4862-80b7-9951fea2137f)|
 
-| 웹                                                                                                                                         | 모바일                                                                                                                                           |
+| 개발자 분류                                                                                                                                        | 지역 분류                                                                                                                                          |
 | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| ![make_gathering_web](https://github.com/BeMatthewsong/image-or-video-repository/blob/main/Soothe-WIth-Me/make_gathering_web.gif?raw=true) | ![make_gathering_mobile](https://github.com/BeMatthewsong/image-or-video-repository/blob/main/Soothe-WIth-Me/make_gathering_mobile.gif?raw=true) |
+| ![make_gathering_web](https://github.com/user-attachments/assets/26320993-9abc-4537-afef-fb483974ba9a) | ![make_gathering_mobile](https://github.com/user-attachments/assets/40fc7c56-36d2-4b67-92e2-cb08faa10ee3)|
 
 ---
 
@@ -309,7 +313,7 @@ src/
 
 | 웹                                                                                                       | 모바일                                                                                                      |
 | -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| ![gathering_detail_web](https://github.com/user-attachments/assets/e9cd9be6-a04e-4cef-b84b-88fb1edbda0b) | ![gathering_detail_mobile](https://github.com/user-attachments/assets/6cb755fb-9a43-42d4-b984-2fb8c7fc2492) |
+| ![gathering_detail_web](https://github.com/user-attachments/assets/7f7915fa-b73b-4486-a613-d0020afef436)| ![gathering_detail_mobile](https://github.com/user-attachments/assets/6cb755fb-9a43-42d4-b984-2fb8c7fc2492) |
 
 ---
 
@@ -325,7 +329,7 @@ src/
 
 | 웹                                                                                                                                                   | 모바일                                                                                                                                                     |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ![all_saved_gathering_web](https://github.com/BeMatthewsong/image-or-video-repository/blob/main/Soothe-WIth-Me/all_saved_gathering_web.gif?raw=true) | ![all_saved_gathering_mobile](https://github.com/BeMatthewsong/image-or-video-repository/blob/main/Soothe-WIth-Me/all_saved_gathering_mobile.gif?raw=true) |
+| ![all_saved_gathering_web](https://github.com/user-attachments/assets/5047370a-437b-4bc5-ba73-6268139e19f1) | ![all_saved_gathering_mobile](https://github.com/user-attachments/assets/e24390c6-0af7-424c-82c3-edc6d004d08f)|
 
 ---
 
@@ -362,7 +366,7 @@ src/
 
 | 웹                                                                                                                                 | 모바일                                                                                                                                     |
 | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| ![all_review_web](https://github.com/BeMatthewsong/image-or-video-repository/blob/main/Soothe-WIth-Me/all_review_web.gif?raw=true) | ![all_reviews_mobile](https://github.com/BeMatthewsong/image-or-video-repository/blob/main/Soothe-WIth-Me/all_reviews_mobile.gif?raw=true) |
+| ![all_review_web](https://github.com/user-attachments/assets/49502f4d-addf-42ad-8d0a-b15192b80fa8)| ![all_reviews_mobile](https://github.com/user-attachments/assets/5a313f60-398b-4480-9380-311ea4ae4653)|
 
 ---
 
@@ -373,7 +377,7 @@ src/
 
 | 웹                                                                                                                                   | 모바일                                                                                                                                      |
 | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| ![make_review_web](https://github.com/BeMatthewsong/image-or-video-repository/blob/main/Soothe-WIth-Me/make_review_web.gif?raw=true) | ![make_review_mobile](https://github.com/BeMatthewsong/image-or-video-repository/blob/main/Soothe-WIth-Me/make_review_mobille.gif?raw=true) |
+| ![make_review_web](https://github.com/user-attachments/assets/c5f2ab9d-0522-4705-a5b1-3c83209f57de) | ![make_review_mobile](https://github.com/user-attachments/assets/8306e9d6-2346-4a73-b57e-db83f938bba7) |
 
 ---
 
@@ -384,7 +388,7 @@ src/
 
 | 웹                                                                                                                             | 모바일                                                                                                                               |
 | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-| ![darkmode_web](https://github.com/BeMatthewsong/image-or-video-repository/blob/main/Soothe-WIth-Me/darkmode_web.gif?raw=true) | ![darkmode_mobile](https://github.com/BeMatthewsong/image-or-video-repository/blob/main/Soothe-WIth-Me/darkmode_mobile.gif?raw=true) |
+| ![darkmode_web](https://github.com/user-attachments/assets/b1f0a9bb-1a8e-4bb5-87bc-8414fc9a6cbc)| ![darkmode_mobile](https://github.com/user-attachments/assets/b521b1d4-34a8-4480-9d6a-118357099aab)|
 
 ---
 
